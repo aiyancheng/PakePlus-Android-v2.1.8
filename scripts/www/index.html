@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>瞳距瞳高综合测量工具</title>
     <style>
         :root {
@@ -281,6 +280,20 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            box-shadow: var(--shadow);
+        }
+        
+        .zoom-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 5px;
+            border-radius: var(--radius);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
             box-shadow: var(--shadow);
         }
         
@@ -573,17 +586,6 @@
                 
                 <div class="panel-item">
                     <div class="panel-content">
-                        <div class="zoom-section">
-                            <button class="zoom-btn" id="zoomOut" title="缩小">-</button>
-                            <div class="zoom-display" id="zoomLevel">100%</div>
-                            <button class="zoom-btn" id="zoomIn" title="放大">+</button>
-                            <button class="zoom-btn" id="resetZoom" title="重置缩放">↺</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="panel-item">
-                    <div class="panel-content">
                         <button id="undoButton" class="warning-btn" disabled title="撤销上一步操作">撤销一步</button>
                     </div>
                 </div>
@@ -608,6 +610,12 @@
                     <button id="reuploadButton" class="danger-btn">
                         🔄 重新上传
                     </button>
+                </div>
+                <div class="zoom-controls" id="zoomControls" style="display: none;">
+                    <button class="zoom-btn" id="zoomOutBtn" title="缩小">-</button>
+                    <div class="zoom-display" id="zoomDisplay">100%</div>
+                    <button class="zoom-btn" id="zoomInBtn" title="放大">+</button>
+                    <button class="zoom-btn" id="resetZoomBtn" title="重置缩放">↺</button>
                 </div>
             </div>
         </div>
@@ -667,13 +675,14 @@
             scaleResult: document.getElementById('scaleResult'),
             singleValue: document.getElementById('singleValue'),
             finalResult: document.getElementById('finalResult'),
-            zoomIn: document.getElementById('zoomIn'),
-            zoomOut: document.getElementById('zoomOut'),
-            resetZoom: document.getElementById('resetZoom'),
-            zoomLevel: document.getElementById('zoomLevel'),
+            zoomInBtn: document.getElementById('zoomInBtn'),
+            zoomOutBtn: document.getElementById('zoomOutBtn'),
+            resetZoomBtn: document.getElementById('resetZoomBtn'),
+            zoomDisplay: document.getElementById('zoomDisplay'),
             dragHint: document.getElementById('dragHint'),
             precisionHint: document.getElementById('precisionHint'),
             canvasOverlay: document.getElementById('canvasOverlay'),
+            zoomControls: document.getElementById('zoomControls'),
             measurementSection: document.getElementById('measurementSection'),
             patientName: document.getElementById('patientName'),
             patientAge: document.getElementById('patientAge'),
@@ -697,6 +706,8 @@
 
         // 缩放相关变量
         let zoom = 1.0;
+        let minZoom = 1.0;
+        let maxZoom = 5.0;
         let offsetX = 0;
         let offsetY = 0;
         let isDragging = false;
@@ -705,6 +716,12 @@
         let canvasRect = { left: 0, top: 0, width: 0, height: 0 };
         let canvasScaleX = 1;
         let canvasScaleY = 1;
+
+        // 触摸缩放相关变量
+        let initialDistance = 0;
+        let initialZoom = 1.0;
+        let touchStartX = 0;
+        let touchStartY = 0;
 
         // 初始化状态管理
         const StateManager = {
@@ -762,7 +779,7 @@
         // 缩放管理器
         const ZoomManager = {
             setZoom: (newZoom, centerX = null, centerY = null) => {
-                newZoom = Math.max(0.1, Math.min(5, newZoom));
+                newZoom = Math.max(minZoom, Math.min(maxZoom, newZoom));
                 
                 if (centerX !== null && centerY !== null) {
                     const worldX = (centerX - offsetX) / zoom;
@@ -773,10 +790,10 @@
                 }
                 
                 zoom = newZoom;
-                Elements.zoomLevel.textContent = Math.round(zoom * 100) + '%';
+                Elements.zoomDisplay.textContent = Math.round(zoom * 100) + '%';
                 
                 Elements.dragHint.style.display = zoom > 1 ? 'block' : 'none';
-                Elements.precisionHint.style.display = zoom > 1 ? 'block' : 'none';
+                Elements.precisionHint.style.display = zoom > 1 ? 'none' : 'none'; // 移动端不需要此提示
                 
                 Marker.drawAll();
             },
@@ -790,10 +807,10 @@
             },
             
             reset: () => {
-                zoom = 1.0;
+                zoom = minZoom;
                 offsetX = 0;
                 offsetY = 0;
-                Elements.zoomLevel.textContent = '100%';
+                Elements.zoomDisplay.textContent = '100%';
                 Elements.dragHint.style.display = 'none';
                 Elements.precisionHint.style.display = 'none';
                 Marker.drawAll();
@@ -1063,6 +1080,7 @@
                         Elements.uploadArea.style.display = 'none';
                         Elements.canvas.style.display = 'block';
                         Elements.canvasOverlay.style.display = 'flex';
+                        Elements.zoomControls.style.display = 'flex';
                         
                         Marker.drawAll();
                         StateManager.resetState();
@@ -1212,10 +1230,150 @@
                 ZoomManager.setZoom(zoom * delta, canvasCoords.x, canvasCoords.y);
             },
             
+            handleTouchStart: (e) => {
+                updateCanvasRect();
+                
+                if (e.touches.length === 1) {
+                    // 单指触摸：开始拖拽
+                    const touch = e.touches[0];
+                    const canvasCoords = eventToCanvasCoordinates(touch.clientX, touch.clientY);
+                    
+                    const clickedMarker = Marker.getMarkerAtPosition(canvasCoords.x, canvasCoords.y);
+                    if (clickedMarker) {
+                        currentState.selectedMarker = clickedMarker;
+                        StateManager.saveState();
+                        // 设置拖拽时的初始偏移量
+                        const worldPos = ZoomManager.screenToWorld(canvasCoords.x, canvasCoords.y);
+                        const marker = clickedMarker;
+                        if (marker.type === 'calibration') {
+                            const markerPoint = currentState.calibrationPoints[marker.side];
+                            clickedMarker.offsetX = worldPos.x - markerPoint.x;
+                            clickedMarker.offsetY = worldPos.y - markerPoint.y;
+                        } else if (marker.type === 'measurement') {
+                            const markerPoint = currentState.measurementPoints[marker.eye][marker.part];
+                            clickedMarker.offsetX = worldPos.x - markerPoint.x;
+                            clickedMarker.offsetY = worldPos.y - markerPoint.y;
+                        }
+                    } else {
+                        isDragging = true;
+                        lastX = touch.clientX;
+                        lastY = touch.clientY;
+                        Elements.canvas.style.cursor = 'grabbing';
+                        
+                        // 记录触摸开始的位置
+                        touchStartX = touch.clientX;
+                        touchStartY = touch.clientY;
+                    }
+                } else if (e.touches.length === 2) {
+                    // 双指触摸：准备缩放
+                    const touch1 = e.touches[0];
+                    const touch2 = e.touches[1];
+                    
+                    initialDistance = Math.hypot(
+                        touch2.clientX - touch1.clientX,
+                        touch2.clientY - touch1.clientY
+                    );
+                    initialZoom = zoom;
+                    
+                    // 计算两指中心点作为缩放中心
+                    const centerX = (touch1.clientX + touch2.clientX) / 2;
+                    const canvasCoords = eventToCanvasCoordinates(centerX, (touch1.clientY + touch2.clientY) / 2);
+                    const worldPos = ZoomManager.screenToWorld(canvasCoords.x, canvasCoords.y);
+                    
+                    // 保存缩放中心的世界坐标
+                    touchStartX = worldPos.x;
+                    touchStartY = worldPos.y;
+                }
+            },
+            
+            handleTouchMove: (e) => {
+                e.preventDefault();
+                
+                if (e.touches.length === 1) {
+                    // 单指移动：拖拽或移动标记点
+                    const touch = e.touches[0];
+                    
+                    if (currentState.selectedMarker) {
+                        updateCanvasRect();
+                        const canvasCoords = eventToCanvasCoordinates(touch.clientX, touch.clientY);
+                        const worldPos = ZoomManager.screenToWorld(canvasCoords.x, canvasCoords.y);
+                        
+                        const marker = currentState.selectedMarker;
+                        if (marker.type === 'calibration') {
+                            // 调整标记点位置，减去初始偏移量以确保触摸点与标记点精准对应
+                            currentState.calibrationPoints[marker.side] = { 
+                                x: worldPos.x - marker.offsetX, 
+                                y: worldPos.y - marker.offsetY 
+                            };
+                            
+                            // 如果两个校准点都存在，且已输入实际宽度，则自动计算比例
+                            if (currentState.calibrationPoints.left && currentState.calibrationPoints.right && Elements.actualWidth.value) {
+                                Calculator.calculateScale();
+                            }
+                        } else if (marker.type === 'measurement') {
+                            // 调整标记点位置，减去初始偏移量以确保触摸点与标记点精准对应
+                            currentState.measurementPoints[marker.eye][marker.part] = { 
+                                x: worldPos.x - marker.offsetX, 
+                                y: worldPos.y - marker.offsetY 
+                            };
+                            // 如果是瞳孔或框架底部点，则重新计算结果
+                            if ((marker.part === 'pupil' || marker.part === 'frameBottom') && currentState.currentStep === 'completed') {
+                                Calculator.calculateMeasurements();
+                            }
+                        }
+                        
+                        Marker.drawAll();
+                    } else if (isDragging) {
+                        // 拖拽图片
+                        const deltaX = touch.clientX - lastX;
+                        const deltaY = touch.clientY - lastY;
+                        
+                        offsetX += deltaX;
+                        offsetY += deltaY;
+                        
+                        lastX = touch.clientX;
+                        lastY = touch.clientY;
+                        
+                        Marker.drawAll();
+                    }
+                } else if (e.touches.length === 2) {
+                    // 双指移动：缩放
+                    const touch1 = e.touches[0];
+                    const touch2 = e.touches[1];
+                    
+                    const currentDistance = Math.hypot(
+                        touch2.clientX - touch1.clientX,
+                        touch2.clientY - touch1.clientY
+                    );
+                    
+                    // 计算新的缩放级别
+                    const newZoom = initialZoom * (currentDistance / initialDistance);
+                    
+                    // 应用缩放，以触摸中心点为缩放中心
+                    ZoomManager.setZoom(newZoom, 
+                        eventToCanvasCoordinates((touch1.clientX + touch2.clientX) / 2, 
+                                                (touch1.clientY + touch2.clientY) / 2).x,
+                        eventToCanvasCoordinates((touch1.clientX + touch2.clientX) / 2, 
+                                                (touch1.clientY + touch2.clientY) / 2).y);
+                }
+            },
+            
+            handleTouchEnd: () => {
+                currentState.selectedMarker = null;
+                isDragging = false;
+                Elements.canvas.style.cursor = 'crosshair';
+                
+                // 重置触摸状态
+                if (initialDistance !== 0) {
+                    initialDistance = 0;
+                }
+            },
+            
             handleReupload: () => {
                 Elements.uploadArea.style.display = 'flex';
                 Elements.canvas.style.display = 'none';
                 Elements.canvasOverlay.style.display = 'none';
+                Elements.zoomControls.style.display = 'none';
                 Elements.measurementSection.style.display = 'none';
                 Elements.actualWidth.value = '';
                 StateManager.resetState();
@@ -1251,9 +1409,9 @@
         Elements.reuploadButton.addEventListener('click', EventHandlers.handleReupload);
 
         // 缩放按钮事件
-        Elements.zoomIn.addEventListener('click', ZoomManager.zoomIn);
-        Elements.zoomOut.addEventListener('click', ZoomManager.zoomOut);
-        Elements.resetZoom.addEventListener('click', ZoomManager.reset);
+        Elements.zoomInBtn.addEventListener('click', ZoomManager.zoomIn);
+        Elements.zoomOutBtn.addEventListener('click', ZoomManager.zoomOut);
+        Elements.resetZoomBtn.addEventListener('click', ZoomManager.reset);
 
         // 画布事件
         Elements.canvas.addEventListener('click', EventHandlers.handleCanvasClick);
@@ -1264,6 +1422,11 @@
         Elements.canvas.addEventListener('mousemove', EventHandlers.handleDragMove);
         Elements.canvas.addEventListener('mouseup', EventHandlers.handleDragEnd);
         Elements.canvas.addEventListener('mouseleave', EventHandlers.handleDragEnd);
+
+        // 触摸事件（用于移动端）
+        Elements.canvas.addEventListener('touchstart', EventHandlers.handleTouchStart);
+        Elements.canvas.addEventListener('touchmove', EventHandlers.handleTouchMove);
+        Elements.canvas.addEventListener('touchend', EventHandlers.handleTouchEnd);
 
         // 窗口大小变化时更新画布位置
         window.addEventListener('resize', () => {
@@ -1300,3 +1463,6 @@
     </script>
 </body>
 </html>
+
+
+
