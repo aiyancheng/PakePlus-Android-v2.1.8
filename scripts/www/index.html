@@ -595,14 +595,8 @@
         <!-- 上传区域 -->
         <div id="uploadArea" class="upload-area">
             <div class="upload-icon">📷</div>
-            <div style="margin-bottom: 15px;">点击或拖拽上传照片</div>
-            <div class="action-buttons">
-                <input type="file" id="cameraInput" accept="image/*" capture="environment" class="upload-hidden" style="display: none;">
-                <button id="cameraButton" class="primary-btn">📸 启动相机</button>
-                
-                <input type="file" id="albumInput" accept="image/*" class="upload-hidden" style="display: none;">
-                <button id="albumButton" class="primary-btn">🖼️ 从相册选择</button>
-            </div>
+            <div style="margin-bottom: 15px;">点击拍照</div>
+            <input type="file" id="imageUpload" accept="image/*" capture="environment" class="upload-hidden">
             <div class="upload-text">支持 JPG、PNG 格式，推荐分辨率 1920x1080 或更高</div>
         </div>
         
@@ -651,7 +645,7 @@
             <h4>📋 使用说明</h4>
             <ol>
                 <li><strong>填写信息：</strong>在上方填写客户姓名和年龄</li>
-                <li><strong>上传照片：</strong>点击"启动相机"拍摄照片或"从相册选择"上传一张清晰的正面眼镜佩戴照片</li>
+                <li><strong>上传照片：</strong>点击上传区域，上传一张清晰的正面眼镜佩戴照片</li>
                 <li><strong>标定比例：</strong>先点击镜框左边缘，再点击镜框右边缘，然后输入镜框实际宽度（毫米）</li>
                 <li><strong>测量瞳距：</strong>依次点击右眼瞳孔中心、左眼瞳孔中心</li>
                 <li><strong>测量瞳高：</strong>依次点击右眼镜框下缘、左眼镜框下缘</li>
@@ -664,7 +658,7 @@
 
     <!-- 版本信息 -->
     <div style="text-align: center; margin-top: 20px; padding: 10px; color: #666; font-size: 0.9rem; border-top: 1px solid var(--border-color);">
-        软件版本号：V1.0.2 &nbsp;&nbsp;&nbsp; 技术支持：高级验光技师闫胜君工作室 13574610303
+        软件版本号：V1.0.1 &nbsp;&nbsp;&nbsp; 技术支持：高级验光技师闫胜君工作室 13574610303
     </div>
 
     <script>
@@ -673,10 +667,8 @@
             canvas: document.getElementById('canvas'),
             status: document.getElementById('status'),
             undoButton: document.getElementById('undoButton'),
-            cameraInput: document.getElementById('cameraInput'),
-            albumInput: document.getElementById('albumInput'),
-            cameraButton: document.getElementById('cameraButton'),
-            albumButton: document.getElementById('albumButton'),
+            imageUpload: document.getElementById('imageUpload'),
+            uploadButton: document.getElementById('uploadButton'),
             uploadArea: document.getElementById('uploadArea'),
             reuploadButton: document.getElementById('reuploadButton'),
             actualWidth: document.getElementById('actualWidth'),
@@ -862,7 +854,7 @@
                     } else if (!currentState.calibrationPoints.right) {
                         status = ' 2：点击镜框右边缘进行标定';
                     } else {
-                        status = ' 3：输入实际镜框宽度并自动计算比例';
+                        status = ' 3：输入实际镜框宽度';
                     }
                 } else {
                     // 根据当前步骤显示状态
@@ -1412,14 +1404,8 @@
 
         // 初始化事件监听
         Elements.undoButton.addEventListener('click', StateManager.restorePreviousState);
-        Elements.cameraButton.addEventListener('click', () => {
-            // 修复相机调用逻辑，确保在pakeplus环境中也能正常工作
-            Elements.cameraInput.click();
-        });
-        Elements.albumButton.addEventListener('click', () => Elements.albumInput.click());
-        Elements.cameraInput.addEventListener('change', EventHandlers.handleImageUpload);
-        Elements.albumInput.addEventListener('change', EventHandlers.handleImageUpload);
-        Elements.uploadArea.addEventListener('click', () => Elements.albumInput.click());
+        Elements.imageUpload.addEventListener('change', EventHandlers.handleImageUpload);
+        Elements.uploadArea.addEventListener('click', () => Elements.imageUpload.click());
         Elements.reuploadButton.addEventListener('click', EventHandlers.handleReupload);
 
         // 缩放按钮事件
@@ -1467,7 +1453,7 @@
             
             const file = e.dataTransfer.files[0];
             if (file && file.type.startsWith('image/')) {
-                Elements.albumInput.files = e.dataTransfer.files;
+                Elements.imageUpload.files = e.dataTransfer.files;
                 EventHandlers.handleImageUpload({target: {files: [file]}});
             }
         });
