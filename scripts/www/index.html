@@ -664,7 +664,7 @@
 
     <!-- 版本信息 -->
     <div style="text-align: center; margin-top: 20px; padding: 10px; color: #666; font-size: 0.9rem; border-top: 1px solid var(--border-color);">
-        软件版本号：V1.0.1 &nbsp;&nbsp;&nbsp; 技术支持：高级验光技师闫胜君工作室 13574610303
+        软件版本号：V1.0.2 &nbsp;&nbsp;&nbsp; 技术支持：高级验光技师闫胜君工作室 13574610303
     </div>
 
     <script>
@@ -1412,7 +1412,10 @@
 
         // 初始化事件监听
         Elements.undoButton.addEventListener('click', StateManager.restorePreviousState);
-        Elements.cameraButton.addEventListener('click', () => Elements.cameraInput.click());
+        Elements.cameraButton.addEventListener('click', () => {
+            // 修复相机调用逻辑，确保在pakeplus环境中也能正常工作
+            Elements.cameraInput.click();
+        });
         Elements.albumButton.addEventListener('click', () => Elements.albumInput.click());
         Elements.cameraInput.addEventListener('change', EventHandlers.handleImageUpload);
         Elements.albumInput.addEventListener('change', EventHandlers.handleImageUpload);
