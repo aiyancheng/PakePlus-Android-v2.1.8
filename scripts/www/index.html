@@ -690,7 +690,7 @@
             <h4>📋 使用说明</h4>
             <ol>
                 <li><strong>填写信息：</strong>在上方填写客户姓名和年龄</li>
-                <li><strong>上传照片：</strong>点击上传区域，上传一张清晰的正面眼镜佩戴照片</li>
+                <li><strong>上传照片：</strong>点击上传区域，进行拍照</li>
                 <li><strong>标定比例：</strong>先点击镜框左边缘，再点击镜框右边缘，然后输入镜框实际宽度（毫米）</li>
                 <li><strong>测量瞳距：</strong>依次点击右眼瞳孔中心、左眼瞳孔中心</li>
                 <li><strong>测量瞳高：</strong>依次点击右眼镜框下缘、左眼镜框下缘</li>
@@ -756,8 +756,8 @@
 
         // 摄像头相关变量
         let currentStream = null;
-        let facingMode = 'user'; // 默认前置摄像头
-        let cameraFacingMode = 'user'; // 当前摄像头模式
+        let facingMode = 'environment'; // 默认后置摄像头
+        let cameraFacingMode = 'environment'; // 当前摄像头模式
 
         // 缩放相关变量
         let zoom = 1.0;
@@ -833,7 +833,7 @@
 
         // 摄像头管理器
         const CameraManager = {
-            startCamera: async (facing = 'user') => {
+            startCamera: async (facing = 'environment') => {
                 try {
                     // 停止当前摄像头流
                     if (currentStream) {
@@ -1648,3 +1648,6 @@
     </script>
 </body>
 </html>
+
+
+
