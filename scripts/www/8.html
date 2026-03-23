@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视疲劳综合指南</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        h1 {
+            color: #1565c0;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #5d99c6;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .highlight-box {
+            background-color: #f0f7ff;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: #1976d2;
+            border-left: 5px solid #42a5f5;
+            padding-left: 15px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        h3 {
+            color: #2e7d32;
+            margin: 15px 0 10px;
+            font-size: 1.3rem;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 15px;
+        }
+        
+        .card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            color: #42a5f5;
+            margin-bottom: 15px;
+        }
+        
+        .symptom-card {
+            background-color: #fff8e1;
+        }
+        
+        .cause-card {
+            background-color: #f1f8e9;
+        }
+        
+        .prevention-card {
+            background-color: #e8eaf6;
+        }
+        
+        .treatment-card {
+            background-color: #e3f2fd;
+        }
+        
+        .stat-box {
+            background: linear-gradient(to right, #e0f7fa, #bbdefb);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            color: #0288d1;
+        }
+        
+        .stat-content h4 {
+            color: #01579b;
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        
+        .tip-box {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 5px solid #4caf50;
+        }
+        
+        .warning-box {
+            background-color: #ffecb3;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 5px solid #ff9800;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .definition {
+            background: linear-gradient(to right, #f3e5f5, #e1bee7);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+            margin-bottom: 20px;
+        }
+        
+        .definition h2 {
+            color: #7b1fa2;
+            border-left-color: #ab47bc;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .back-to-top {
+            display: inline-block;
+            background-color: #42a5f5;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .back-to-top:hover {
+            background-color: #1e88e5;
+        }
+        
+        @media (max-width: 768px) {
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        .section-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .nav-btn {
+            background-color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: #1565c0;
+            font-weight: 500;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background-color: #e3f2fd;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>视疲劳综合指南</h1>
+            <p class="subtitle">了解、预防和缓解数字时代的眼部不适</p>
+            <p>视疲劳（asthenopia）是一种由于长时间近距离用眼导致的眼部不适症状，在数字设备普及的今天越来越常见。</p>
+        </header>
+        
+        <div class="section-nav">
+            <a href="#definition" class="nav-btn">定义</a>
+            <a href="#symptoms" class="nav-btn">症状</a>
+            <a href="#causes" class="nav-btn">原因</a>
+            <a href="#statistics" class="nav-btn">统计数据</a>
+            <a href="#prevention" class="nav-btn">预防措施</a>
+            <a href="#treatment" class="nav-btn">治疗方法</a>
+        </div>
+        
+        <div class="definition" id="definition">
+            <h2>什么是视疲劳？</h2>
+            <p>视疲劳，也称为眼疲劳，是指眼睛在持续进行近距离工作后出现的一系列视觉功能下降和眼部不适症状的综合症。它不是一种独立的眼病，而是由于各种原因引起的一组疲劳综合征。</p>
+            <p>视疲劳通常发生在长时间进行需要眼睛精细调节的活动后，如阅读、写作、使用电脑、手机等电子设备，或在光线不足的环境下用眼。</p>
+            <div class="tip-box">
+                <p><strong>关键点：</strong>视疲劳通常是暂时性的，通过适当休息可以缓解，但如果长期忽视，可能导致视力下降或其他眼部问题。</p>
+            </div>
+        </div>
+        
+        <div class="highlight-box" id="symptoms">
+            <h2><i class="fas fa-exclamation-circle"></i> 视疲劳的主要症状</h2>
+            <p>视疲劳的症状多种多样，可能单独出现，也可能多种症状同时出现：</p>
+            
+            <div class="card-container">
+                <div class="card symptom-card">
+                    <div class="card-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>视觉症状</h3>
+                    <ul>
+                        <li>视力模糊或重影</li>
+                        <li>对光敏感</li>
+                        <li>暂时性近视</li>
+                        <li>眼睛干涩或烧灼感</li>
+                        <li>流泪或分泌物增多</li>
+                    </ul>
+                </div>
+                
+                <div class="card symptom-card">
+                    <div class="card-icon">
+                        <i class="fas fa-head-side-virus"></i>
+                    </div>
+                    <h3>身体症状</h3>
+                    <ul>
+                        <li>头痛或偏头痛</li>
+                        <li>颈部、肩部或背部酸痛</li>
+                        <li>全身乏力</li>
+                        <li>注意力难以集中</li>
+                        <li>嗜睡或失眠</li>
+                    </ul>
+                </div>
+                
+                <div class="card symptom-card">
+                    <div class="card-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>神经症状</h3>
+                    <ul>
+                        <li>头晕或眩晕</li>
+                        <li>恶心感</li>
+                        <li>烦躁易怒</li>
+                        <li>阅读时字迹跳动</li>
+                        <li>复视现象</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="highlight-box" id="causes">
+            <h2><i class="fas fa-search"></i> 视疲劳的主要原因</h2>
+            <p>了解视疲劳的原因有助于采取针对性的预防措施：</p>
+            
+            <div class="card-container">
+                <div class="card cause-card">
+                    <div class="card-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>环境因素</h3>
+                    <ul>
+                        <li>屏幕使用时间过长</li>
+                        <li>照明不足或过强</li>
+                        <li>屏幕眩光或反射</li>
+                        <li>空气干燥（空调/暖气环境）</li>
+                        <li>不良的阅读姿势</li>
+                    </ul>
+                </div>
+                
+                <div class="card cause-card">
+                    <div class="card-icon">
+                        <i class="fas fa-user-injured"></i>
+                    </div>
+                    <h3>视觉因素</h3>
+                    <ul>
+                        <li>未矫正的屈光不正</li>
+                        <li>双眼协调问题</li>
+                        <li>老视（老花眼）</li>
+                        <li>干眼症</li>
+                        <li>眼肌调节能力下降</li>
+                    </ul>
+                </div>
+                
+                <div class="card cause-card">
+                    <div class="card-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>健康与习惯因素</h3>
+                    <ul>
+                        <li>睡眠不足</li>
+                        <li>压力与焦虑</li>
+                        <li>某些药物副作用</li>
+                        <li>营养不良</li>
+                        <li>缺乏眼部休息</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stat-box" id="statistics">
+            <div class="stat-icon">
+                <i class="fas fa-chart-bar"></i>
+            </div>
+            <div class="stat-content">
+                <h4>视疲劳的普遍性</h4>
+                <p>据研究显示，在长期使用电脑的办公人群中，有50%-90%的人经历过视疲劳症状。随着数字设备使用时间的增加，视疲劳已成为现代社会最常见的健康问题之一。</p>
+                <p>儿童和青少年由于在线学习增加，视疲劳发病率也在显著上升。</p>
+            </div>
+        </div>
+        
+        <div class="highlight-box" id="prevention">
+            <h2><i class="fas fa-shield-alt"></i> 预防视疲劳的措施</h2>
+            <p>采取以下措施可以有效预防或减轻视疲劳：</p>
+            
+            <div class="card-container">
+                <div class="card prevention-card">
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>遵循20-20-20规则</h3>
+                    <p>每使用屏幕20分钟，就看向20英尺（约6米）远的地方，持续20秒。</p>
+                    <p>这有助于放松眼部调节肌肉，缓解视疲劳。</p>
+                </div>
+                
+                <div class="card prevention-card">
+                    <div class="card-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <h3>优化用眼环境</h3>
+                    <ul>
+                        <li>确保充足且均匀的照明</li>
+                        <li>减少屏幕眩光</li>
+                        <li>保持适当的屏幕距离（50-70厘米）</li>
+                        <li>调整屏幕亮度和对比度</li>
+                        <li>使用加湿器保持空气湿度</li>
+                    </ul>
+                </div>
+                
+                <div class="card prevention-card">
+                    <div class="card-icon">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <h3>养成良好的用眼习惯</h3>
+                    <ul>
+                        <li>保持正确的坐姿</li>
+                        <li>有意识地多眨眼</li>
+                        <li>定期进行眼部放松练习</li>
+                        <li>保证充足的睡眠</li>
+                        <li>均衡饮食，多摄入富含维生素A的食物</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="warning-box">
+                <p><strong>重要提示：</strong>如果已佩戴眼镜，请定期检查度数是否合适。不合适的眼镜会加剧视疲劳。</p>
+            </div>
+        </div>
+        
+        <div class="highlight-box" id="treatment">
+            <h2><i class="fas fa-stethoscope"></i> 视疲劳的治疗方法</h2>
+            <p>当视疲劳症状出现时，可以采取以下方法缓解：</p>
+            
+            <div class="card-container">
+                <div class="card treatment-card">
+                    <div class="card-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3>人工泪液</h3>
+                    <p>使用不含防腐剂的人工泪液可以缓解眼睛干涩症状。</p>
+                    <p>建议选择适合自己的产品，每天使用3-4次。</p>
+                </div>
+                
+                <div class="card treatment-card">
+                    <div class="card-icon">
+                        <i class="fas fa-temperature-low"></i>
+                    </div>
+                    <h3>冷敷或热敷</h3>
+                    <p>冷敷可以缓解眼部充血和肿胀；热敷可以促进血液循环，缓解眼肌疲劳。</p>
+                    <p>每次敷10-15分钟，每天1-2次。</p>
+                </div>
+                
+                <div class="card treatment-card">
+                    <div class="card-icon">
+                        <i class="fas fa-eye-dropper"></i>
+                    </div>
+                    <h3>专业治疗</h3>
+                    <ul>
+                        <li>验光检查，配戴合适的眼镜</li>
+                        <li>视觉训练治疗</li>
+                        <li>干眼症专业治疗</li>
+                        <li>必要时使用处方眼药水</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 30px;">眼部放松练习</h3>
+            <ol>
+                <li><strong>远近聚焦练习：</strong>将食指放在眼前约15厘米处，注视指尖5秒，然后看远处物体5秒，重复10次。</li>
+                <li><strong>眼球转动练习：</strong>缓慢地将眼球向上、下、左、右各方向转动，每个方向保持2秒，重复5次。</li>
+                <li><strong>掌心温热法：</strong>搓热双手，轻轻覆盖在闭着的眼睛上，保持30秒，重复3次。</li>
+                <li><strong>眨眼练习：</strong>有意识地快速眨眼10次，然后闭上眼睛休息20秒，重复5次。</li>
+            </ol>
+            
+            <div class="tip-box">
+                <p><strong>建议：</strong>如果视疲劳症状持续不缓解，或伴有视力下降、眼痛、头痛加剧等症状，应及时就医检查，排除其他眼部疾病。</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>本指南旨在提供视疲劳的基本知识，不能替代专业医疗建议。如有需要，请咨询专业视光师。</p>
+            <a href="#" class="back-to-top">返回顶部</a>
+        </footer>
+    </div>
+
+    <script>
+        // 平滑滚动到锚点
+        document.querySelectorAll('.nav-btn, .back-to-top').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if(this.getAttribute('href') === '#') {
+                    // 返回顶部
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 20,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // 卡片悬停效果增强
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
