@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 11 | 镜片基础知识（二）：功能性镜片</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}
+  .header{background:linear-gradient(135deg,#e3f2fd,#bbdefb);padding:40px 30px;border-bottom:3px solid #2196F3;}
+  .day-tag{background:#2196F3;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}
+  .header h1{font-size:2em;color:#1565c0;margin-bottom:8px;}
+  .header .subtitle{color:#555;}
+  .container{max-width:900px;margin:30px auto;padding:0 20px;}
+  .objective-box{background:#e3f2fd;border-left:5px solid #2196F3;border-radius:8px;padding:20px 24px;margin-bottom:30px;}
+  .objective-box h3{color:#1565c0;margin-bottom:10px;}
+  .objective-box li{margin-bottom:6px;font-size:0.95em;}
+  .section{background:white;border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+  .section h2{font-size:1.3em;color:#1565c0;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #e3f2fd;}
+  .section h3{font-size:1.05em;color:#333;margin:18px 0 10px;}
+  .section p{line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em;}
+  .section ul,.section ol{padding-left:20px;margin-bottom:14px;}
+  .section li{line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px;}
+  .lens-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:16px 0;}
+  .lens-card{border-radius:12px;padding:20px;border-top:4px solid;}
+  .lens-photo{border-color:#FF9800;background:#fff8e1;}
+  .lens-prog{border-color:#9C27B0;background:#f3e5f5;}
+  .lens-sun{border-color:#FF5722;background:#fbe9e7;}
+  .lens-myop{border-color:#4CAF50;background:#e8f5e9;}
+  .lens-card h4{margin-bottom:10px;font-size:1em;}
+  .lens-photo h4{color:#e65100;}
+  .lens-prog h4{color:#6a1b9a;}
+  .lens-sun h4{color:#bf360c;}
+  .lens-myop h4{color:#2e7d32;}
+  .lens-card .who{font-size:0.82em;color:#1565c0;font-weight:600;margin-bottom:8px;}
+  .lens-card .desc{font-size:0.88em;color:#555;line-height:1.6;}
+  .lens-card .tip{font-size:0.82em;color:#888;margin-top:8px;font-style:italic;}
+  .comparison-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .comparison-table th{background:#2196F3;color:white;padding:10px 14px;text-align:left;font-size:0.9em;}
+  .comparison-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .comparison-table tr:nth-child(even) td{background:#f9f9f9;}
+  .highlight-box{background:#fff8e1;border:1px solid #FFD54F;border-radius:8px;padding:16px 20px;margin:16px 0;}
+  .highlight-box .label{color:#F57F17;font-weight:700;font-size:0.85em;margin-bottom:6px;}
+  .summary-box{background:linear-gradient(135deg,#e3f2fd,#e8f5ff);border-radius:12px;padding:24px;margin-top:30px;}
+  .summary-box h3{color:#1565c0;margin-bottom:14px;}
+  .summary-box li{margin-bottom:8px;font-size:0.95em;}
+  .nav-footer{display:flex;justify-content:space-between;margin:30px 0 40px;}
+  .nav-btn{background:#2196F3;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}
+  .nav-btn.outline{background:white;color:#2196F3;border:2px solid #2196F3;}
+  @media(max-width:600px){.lens-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="day-tag">📅 第2周 · Day 11</span>
+  <h1>⚡ 功能性镜片专题</h1>
+  <div class="subtitle">模块：知识 Knowledge | 今日主题：变色片 · 渐进片 · 太阳片 · 近视防控镜片</div>
+</div>
+<div class="container">
+  <div class="objective-box">
+    <h3>🎯 今日学习目标</h3>
+    <ul>
+      <li>能说出4种功能性镜片的特点和适用人群</li>
+      <li>理解渐进镜片的工作原理及注意事项</li>
+      <li>掌握如何在合适的时机向顾客介绍功能性镜片</li>
+      <li>了解近视防控镜片的基本概念</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🌈 第一部分：四大功能性镜片详解</h2>
+    <div class="lens-grid">
+      <div class="lens-card lens-photo">
+        <h4>🌤️ 变色镜片（感光变色）</h4>
+        <div class="who">适用人群：户外活动频繁者、室内外频繁切换者</div>
+        <div class="desc">
+          <strong>原理：</strong>镜片内含感光因子，遇紫外线变深（深色），进入室内回复透明<br>
+          <strong>优点：</strong>一副眼镜兼顾室内外，无需频繁换镜<br>
+          <strong>局限：</strong>车内变色效果弱（汽车玻璃阻隔紫外线）；变深速度快，回透速度较慢
+        </div>
+        <div class="tip">💬 话术："您经常在室内外走动，变色片特别方便，不需要再带两副眼镜……"</div>
+      </div>
+      <div class="lens-card lens-prog">
+        <h4>🔮 渐进多焦点镜片</h4>
+        <div class="who">适用人群：40岁以上老花人群、希望一副眼镜看远近的顾客</div>
+        <div class="desc">
+          <strong>原理：</strong>镜片从上到下度数渐进变化，上方看远，下方看近，中间过渡<br>
+          <strong>优点：</strong>外观与普通镜片相同，无明显"双光线"<br>
+          <strong>适应期：</strong>需要1~2周适应期，走楼梯初期需注意
+        </div>
+        <div class="tip">💬 话术："渐进片外观和普通眼镜一样，又能看远又能看近，不用来回换镜……"</div>
+      </div>
+      <div class="lens-card lens-sun">
+        <h4>☀️ 太阳镜片（有色/偏光）</h4>
+        <div class="who">适用人群：驾驶者、户外运动、强光敏感者</div>
+        <div class="desc">
+          <strong>固定有色片：</strong>颜色固定，时尚美观，遮阳效果好<br>
+          <strong>偏光片：</strong>通过偏振原理消除眩光（水面、路面反射光），驾驶者首选<br>
+          <strong>可配近视度数：</strong>高度近视顾客可配带度数的太阳镜
+        </div>
+        <div class="tip">💬 话术："您开车的话，偏光片能消除路面反光，视野更清晰……"</div>
+      </div>
+      <div class="lens-card lens-myop">
+        <h4>🧒 近视防控镜片</h4>
+        <div class="who">适用人群：8~18岁近视发展期青少年</div>
+        <div class="desc">
+          <strong>常见类型：</strong>渐进青少年片、离焦镜片（如星趣控、豪雅MiYOSMART等）<br>
+          <strong>原理：</strong>通过特殊光学设计减缓眼轴增长速度，延缓近视加深<br>
+          <strong>效果：</strong>临床研究显示可减缓近视进展约50%（各品牌数据不同）
+        </div>
+        <div class="tip">💬 话术："您的孩子正在发育期，这类镜片有助于减缓近视加深速度……"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🔮 第二部分：渐进镜片重点详解</h2>
+    <p>渐进镜片是门店的重要产品，需要重点掌握。</p>
+    <table class="comparison-table">
+      <thead><tr><th>对比项</th><th>普通单光镜片</th><th>渐进多焦点镜片</th></tr></thead>
+      <tbody>
+        <tr><td>度数</td><td>全片统一度数</td><td>从上到下度数渐变</td></tr>
+        <tr><td>视野</td><td>全区域均清晰</td><td>中央看远，周边有变形区</td></tr>
+        <tr><td>适用年龄</td><td>所有年龄</td><td>主要是40岁以上老花人群</td></tr>
+        <tr><td>外观</td><td>无特殊标记</td><td>与普通镜片相同（无明显双光线）</td></tr>
+        <tr><td>适应难度</td><td>无需适应</td><td>需1~2周适应期</td></tr>
+        <tr><td>价格</td><td>低至中等</td><td>中高至高端</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight-box">
+      <div class="label">⚠️ 销售渐进片的注意事项</div>
+      <ul style="padding-left:18px;margin:8px 0;">
+        <li>必须告知顾客有适应期，初戴时走楼梯要小心</li>
+        <li>需要精准测量瞳距和瞳高，测量不准会影响使用效果</li>
+        <li>第一次戴渐进片的顾客，需给予充分使用指导</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>📝 今日要点总结</h3>
+    <ul>
+      <li>✅ 变色片：感光变色，户外活动/室内外切换适用，车内效果弱</li>
+      <li>✅ 渐进片：度数渐变，适合老花人群，需适应期</li>
+      <li>✅ 偏光太阳镜：消除眩光，驾驶首选</li>
+      <li>✅ 近视防控镜片：延缓青少年近视加深</li>
+    </ul>
+    <p style="margin-top:14px; color:#1565c0; font-weight:600;">🎯 今日任务：向师傅解释渐进镜片的工作原理，说出至少2点使用注意事项</p>
+  </div>
+
+    <div class="section">
+    <h2>🔬 补充内容：验配流程全貌预览</h2>
+        <p>在学习具体的技术细节之前，先了解完整的验配流程，有助于建立全局观：</p>
+    <table class="rule-table">
+      <thead><tr><th>步骤</th><th>内容</th><th>负责人</th></tr></thead>
+      <tbody>
+        <tr><td>① 接待问诊</td><td>了解客户需求、旧镜情况、用眼习惯</td><td>销售员工</td></tr>
+        <tr><td>② 视力检查</td><td>裸眼视力+旧镜矫正视力</td><td>验光员</td></tr>
+        <tr><td>③ 电脑验光</td><td>仪器初步测量屈光度</td><td>验光员</td></tr>
+        <tr><td>④ 主觉验光</td><td>综合验光仪精确确认处方</td><td>验光员</td></tr>
+        <tr><td>⑤ 镜片推荐</td><td>根据处方和需求推荐镜片类型</td><td>销售员工</td></tr>
+        <tr><td>⑥ 镜框选型</td><td>帮助客户选择合适镜框</td><td>销售员工</td></tr>
+        <tr><td>⑦ 开单制镜</td><td>确认参数，填写工单，送加工</td><td>验光员/员工</td></tr>
+        <tr><td>⑧ 取镜验收</td><td>核对度数、瞳距，试戴确认</td><td>验光员/员工</td></tr>
+        <tr><td>⑨ 售后跟进</td><td>适应期回访，保养服务</td><td>销售员工</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box"><div class="label">💡 全流程意识</div><p>了解整个流程，你才能在接待时知道下一步是什么，而不是每次都要问同事，让客户感到专业。</p></div>
+  </div>
+
+
+    <div class="section">
+    <h2>🔧 仪器设备日常维护</h2>
+    <p>验光仪器是门店的核心资产，正确维护能延长使用寿命并保证测量精度：</p>
+    <table class="rule-table">
+      <thead><tr><th>设备</th><th>日常维护要点</th><th>注意事项</th></tr></thead>
+      <tbody>
+        <tr><td>电脑验光仪</td><td>每日开机校准，镜头用专用棉签清洁</td><td>不可用手触摸镜头</td></tr>
+        <tr><td>综合验光仪</td><td>使用后将度数归零，镜片清洁保护</td><td>移动时小心轻放</td></tr>
+        <tr><td>裂隙灯</td><td>灯泡定期更换，镜头防尘</td><td>不可直视光源</td></tr>
+        <tr><td>视力表</td><td>灯管定期更换，亮度均匀</td><td>检查视力表距离是否准确（5米）</td></tr>
+      </tbody>
+    </table>
+    <p>发现仪器异常，立即报告，不自行拆卸修理。</p>
+  </div>
+
+
+
+    <div class="summary-box" style="background:linear-gradient(135deg,#e3f2fd,#e8f5ff)">
+    <h3 style="color:#1565c0">📝 今日要点总结</h3>
+    <ul>
+      <li>✅ 验配流程9步骤要熟悉，每步都有其关键意义</li>
+      <li>✅ 仪器维护是日常工作的一部分，不可忽视</li>
+      <li>✅ 遇到复杂案例及时请教，不轻易自行判断</li>
+      <li>✅ 记录规范是保障服务质量和处理纠纷的基础</li>
+    </ul>
+    <p style="margin-top:14px;color:#1565c0;font-weight:600">
+      今日任务：跟随师傅完整观察一次验配流程，记录你注意到的细节。
+    </p>
+  </div>
+
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_10_学习内容.html">← Day 10</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_11_练习题.html">今日练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
