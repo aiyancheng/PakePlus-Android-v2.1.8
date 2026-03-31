@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 30 - 主动问询：需求挖掘实战练习</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 15px; }
+  .meta-bar { background: white; padding: 15px 40px; display: flex; gap: 30px; border-bottom: 1px solid #e8ecf0; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+  .meta-item span.dot { width: 8px; height: 8px; border-radius: 50%; background: #11998e; display: inline-block; }
+  .container { max-width: 960px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 20px; color: #333; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #11998e; }
+  .card h3 { font-size: 16px; color: #444; margin: 18px 0 10px; }
+  .card p { line-height: 1.8; color: #555; margin-bottom: 12px; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { line-height: 1.9; color: #555; margin-bottom: 6px; }
+  .highlight-box { background: #f0fdf9; border-left: 4px solid #11998e; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .highlight-box.blue { background: #f0f4ff; border-color: #667eea; }
+  .highlight-box.yellow { background: #fffbf0; border-color: #f59e0b; }
+  .highlight-box.red { background: #fff5f5; border-color: #ef4444; }
+  .question-type { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .q-type-card { border-radius: 10px; padding: 20px; border: 1px solid #e8ecf0; }
+  .q-type-card.open { background: #f0fdf9; border-color: #6ee7b7; }
+  .q-type-card.close { background: #f0f4ff; border-color: #a5b4fc; }
+  .q-type-card .type-title { font-weight: bold; font-size: 15px; margin-bottom: 10px; }
+  .q-type-card.open .type-title { color: #065f46; }
+  .q-type-card.close .type-title { color: #3730a3; }
+  .q-type-card .example { font-size: 13px; color: #666; margin-top: 8px; font-style: italic; }
+  .dialogue-box { border: 1px solid #e8ecf0; border-radius: 10px; overflow: hidden; margin: 16px 0; }
+  .dialogue-row { display: flex; }
+  .dialogue-row .role { padding: 12px 16px; min-width: 80px; text-align: center; font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .dialogue-row .role.staff { background: #11998e; color: white; }
+  .dialogue-row .role.customer { background: #f5f5f5; color: #666; }
+  .dialogue-row .content { padding: 12px 16px; font-size: 14px; color: #444; line-height: 1.7; flex: 1; border-bottom: 1px solid #f0f0f0; }
+  .dialogue-row:last-child .content { border-bottom: none; }
+  .funnel-diagram { text-align: center; margin: 20px 0; }
+  .funnel-level { margin: 4px auto; color: white; padding: 12px 20px; border-radius: 6px; font-size: 14px; font-weight: bold; }
+  .summary-box { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border-radius: 12px; padding: 24px; margin-top: 8px; }
+  .summary-box h3 { font-size: 18px; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 20px; }
+  .summary-box li { line-height: 2; opacity: 0.95; }
+  .nav-bar { background: white; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e8ecf0; margin-top: 30px; }
+  .nav-btn { display: inline-block; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; }
+  .nav-btn.prev { background: #f0fdf9; color: #11998e; border: 1px solid #a7f3d0; }
+  .nav-btn.next { background: #11998e; color: white; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="week-badge">📍 第5周 · 实战跟岗训练</div>
+  <h1>Day 30 · 主动问询：需求挖掘实战练习</h1>
+  <div class="subtitle">从"问问题"到"挖需求"——学会聆听顾客真正的声音</div>
+</div>
+
+<div class="meta-bar">
+  <div class="meta-item"><span class="dot"></span>学习时长：3-4小时</div>
+  <div class="meta-item"><span class="dot"></span>学习方式：理论学习 + 角色扮演演练</div>
+  <div class="meta-item"><span class="dot"></span>重点能力：问询技巧 · 需求分析</div>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2>🎯 今日目标</h2>
+    <p>昨天的观摩中，你一定注意到带教老师会用不同的方式向顾客"提问"。今天我们系统学习需求挖掘的提问技术，并通过角色扮演演练，让你在今天的跟岗中能够尝试独立进行简单的需求问询。</p>
+    <div class="highlight-box">
+      <strong>今日任务：</strong>掌握开放式问题与封闭式问题的使用时机，学习"漏斗式提问法"，并能在带教老师允许时，独立完成至少 <strong>1-2 次</strong>基本的需求问询。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>❓ 两种提问方式</h2>
+    <div class="question-type">
+      <div class="q-type-card open">
+        <div class="type-title">🔓 开放式问题</div>
+        <p style="font-size:14px; color:#444; line-height:1.7;">答案不受限制，让顾客自由表达，用于获取广泛信息、建立对话气氛。</p>
+        <div class="example">
+          例句：<br>
+          "您今天是想为自己配镜，还是给家人？"<br>
+          "您平时主要在什么场合戴眼镜？"<br>
+          "上一副眼镜有什么地方不太满意吗？"
+        </div>
+      </div>
+      <div class="q-type-card close">
+        <div class="type-title">🔒 封闭式问题</div>
+        <p style="font-size:14px; color:#444; line-height:1.7;">答案限定为"是/否"或具体选项，用于确认信息、缩小范围、推进决策。</p>
+        <div class="example">
+          例句：<br>
+          "您是第一次配镜吗？"<br>
+          "您对镜架有金属和板材的偏好吗？"<br>
+          "您的预算大概在500元以内对吗？"
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box yellow">
+      <strong>使用原则：</strong>接待初期多用开放式问题，让顾客多说话；需要确认关键信息或推进成交时，转换为封闭式问题。两种问题要<strong>灵活搭配</strong>，而不是只用一种。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔻 漏斗式提问法</h2>
+    <p>专业的需求挖掘遵循"从宽到窄"的漏斗形逻辑，由大到小、由表及里地探询顾客真实需求：</p>
+
+    <div class="funnel-diagram">
+      <div class="funnel-level" style="background:#11998e; width:80%;">第一层：了解来意（谁来的？为什么来？）</div>
+      <div class="funnel-level" style="background:#1ab394; width:68%;">第二层：了解使用场景（什么时候戴？在哪里戴？）</div>
+      <div class="funnel-level" style="background:#28c8a8; width:55%;">第三层：了解使用习惯（有没有之前的用眼习惯和问题？）</div>
+      <div class="funnel-level" style="background:#38ef7d; color:#333; width:40%;">第四层：确认关键需求（最重要的是哪几点？）</div>
+    </div>
+
+    <h3>实战示例：漏斗式问询一位配镜顾客</h3>
+    <div class="dialogue-box">
+      <div class="dialogue-row">
+        <div class="role staff">员工</div>
+        <div class="content">您好！请问今天是想配近视镜，还是有其他需求呢？<span style="color:#999; font-size:12px;">（第一层：了解来意）</span></div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role customer">顾客</div>
+        <div class="content">我想配个新的近视镜，之前那副用了两年了。</div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role staff">员工</div>
+        <div class="content">好的，那您平时主要在哪些场合戴眼镜？比如上班、开车，还是户外活动比较多？<span style="color:#999; font-size:12px;">（第二层：了解使用场景）</span></div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role customer">顾客</div>
+        <div class="content">主要是上班用电脑，偶尔开车，周末喜欢打球。</div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role staff">员工</div>
+        <div class="content">明白了，用眼挺丰富的！那之前那副镜片用下来，有什么感觉不太好的地方吗？比如看电脑时间长了眼睛累，或者运动时容易滑落？<span style="color:#999; font-size:12px;">（第三层：了解使用问题）</span></div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role customer">顾客</div>
+        <div class="content">对！就是看电脑久了眼睛特别容易酸，而且运动的时候确实不稳。</div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role staff">员工</div>
+        <div class="content">好，我明白您的核心需求了——您需要一副<strong>缓解视疲劳</strong>同时<strong>运动时佩戴稳固</strong>的眼镜，对吗？<span style="color:#999; font-size:12px;">（第四层：确认关键需求）</span></div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role customer">顾客</div>
+        <div class="content">对对对，就是这两个！</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>关键技巧：</strong>在第四层，<strong>主动总结顾客需求</strong>，让顾客确认。这一步有三个重要作用：① 证明你在认真聆听 ② 让顾客感受到被理解 ③ 为后续推荐锁定方向。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎭 今日实战任务</h2>
+    <p>在带教老师允许的情况下，今天尝试独立完成 1-2 次需求问询，目标是：</p>
+    <ul>
+      <li>完成完整的漏斗式四层问询</li>
+      <li>最后能准确总结出顾客的核心需求</li>
+      <li>顾客认可你的总结（说"对""是的"等）</li>
+    </ul>
+
+    <div class="highlight-box blue">
+      <strong>💡 实战提示：</strong>问询结束后立即记录：你问了哪些问题、顾客的回答、你最后的需求总结是否准确。如果总结不准确，分析原因——是哪个环节的问题没问到位？
+    </div>
+
+    <h3>常见情况应对</h3>
+    <ul>
+      <li><strong>顾客很少说话：</strong>改用更具体的选择题，如"您是倾向于A还是B？"帮助顾客开口。</li>
+      <li><strong>顾客说"随便看看"：</strong>不要强行问询，先陪同浏览，等顾客停留在某产品区时，再自然切入"这款您感兴趣吗？"</li>
+      <li><strong>顾客一来就要某款产品：</strong>先满足直接需求，再追问"您主要在什么场合用？"扩展需求深度。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="summary-box">
+      <h3>📌 今日核心要点</h3>
+      <ul>
+        <li>开放式问题用于"打开话匣子"，封闭式问题用于"锁定关键"</li>
+        <li>漏斗式提问：来意→场景→习惯/问题→确认核心需求</li>
+        <li>最后主动总结顾客需求，获得确认，是问询环节的终点</li>
+        <li>今日目标：独立完成 1-2 次完整的需求问询</li>
+        <li>遇到不配合的顾客，换策略而不是放弃</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div class="nav-bar">
+  <a href="Day_29_练习题.html" class="nav-btn prev">← Day 29 练习题</a>
+    <a href="../index.html" class="nav-btn" style="background:#f0fdf9;color:#11998e;border:1px solid #a7f3d0;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:14px;">🏠 首页</a>
+    
+  <span style="color:#999;font-size:13px;">第5周 Day 30 / 35</span>
+  <a href="Day_30_练习题.html" class="nav-btn next">去做练习题 →</a>
+</div>
+
+</body>
+</html>
