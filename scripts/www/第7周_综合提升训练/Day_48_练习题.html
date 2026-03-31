@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 48 练习题：门店营销活动策划</title>
+<style>
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #fff5f0; margin: 0; padding: 20px; }
+  .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  h1 { color: #2c3e50; border-bottom: 3px solid #e74c3c; padding-bottom: 12px; }
+  .info-bar { background: #fff0ec; border-radius: 8px; padding: 12px 20px; margin: 16px 0; display: flex; gap: 30px; font-size: 14px; color: #c0392b; flex-wrap: wrap; }
+  h2 { color: #e74c3c; margin-top: 30px; }
+  .question { background: #fff9f8; border: 1px solid #fcd6d0; border-radius: 8px; padding: 20px; margin: 16px 0; }
+  .question-num { font-weight: bold; color: #e74c3c; font-size: 15px; }
+  .option { padding: 8px 12px; margin: 6px 0; background: #fff0ec; border-radius: 6px; cursor: pointer; border: 1px solid #f5b7b1; }
+  .option:hover { background: #fcd6d0; }
+  .fill-input { width: 100%; padding: 10px; border: 1px solid #f5b7b1; border-radius: 6px; font-size: 14px; margin-top: 8px; box-sizing: border-box; }
+  .answer-box { background: #eafaf1; border: 1px dashed #27ae60; border-radius: 8px; padding: 14px 18px; margin-top: 10px; display: none; color: #1a5c38; }
+  .btn { background: #e74c3c; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; margin: 4px; }
+  .btn:hover { background: #c0392b; }
+  .btn-show { background: #27ae60; }
+  .btn-show:hover { background: #1e8449; }
+  .section-tag { background: #e74c3c; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-right: 8px; }
+  .plan-template { background: #f8fbff; border: 2px dashed #3498db; border-radius: 10px; padding: 18px; margin: 12px 0; }
+  .plan-row { margin: 10px 0; }
+  .plan-label { font-weight: bold; color: #2980b9; display: inline-block; width: 100px; }
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#8e44ad,#6c3483);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#8e44ad;border:2px solid #8e44ad}
+
+  /* interactive-options-type-d */
+  .option { cursor: pointer; transition: all 0.2s; }
+  .option.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .option.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .option.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .option.answered    { pointer-events: none !important; cursor: default !important; }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 48 练习题：门店营销活动策划</h1>
+  <div class="info-bar">
+    <span>📅 第7周 第6天</span>
+    <span>⏱ 建议用时：35分钟</span>
+    <span>🎪 主题：营销策划实战</span>
+    <span>💯 总分：100分</span>
+  </div>
+
+  <h2><span class="section-tag">A</span>单选题（每题8分，共40分）</h2>
+
+  <div class="question">
+    <div class="question-num">1. 门店策划"老带新推荐活动"最主要的目的是？</div>
+    <div class="option">A. 提升客单价</div>
+    <div class="option">B. 通过现有顾客的社交圈获取新顾客，实现裂变引流</div>
+    <div class="option">C. 清理库存积压</div>
+    <div class="option">D. 增加员工的销售提成</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a1')">查看答案</button>
+    <div class="answer-box" id="a1">✅ <strong>答案：B</strong><br>老带新活动本质是利用现有顾客的信任背书，通过他们的推荐把门店的影响力延伸到新顾客群体，实现低成本获客。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">2. 一场活动策划时，以下哪个步骤应该优先完成？</div>
+    <div class="option">A. 设计海报和物料</div>
+    <div class="option">B. 明确活动目标（引流/成交/提客单）</div>
+    <div class="option">C. 制定优惠折扣</div>
+    <div class="option">D. 通知员工参与</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a2')">查看答案</button>
+    <div class="answer-box" id="a2">✅ <strong>答案：B</strong><br>活动策划的第一步永远是"明确目标"，因为目标决定了活动的形式、利益点设计和衡量标准。没有清晰目标，后续所有工作都可能偏离方向。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">3. 活动规则"消费满500享8折，满1000享7折，购买指定镜架再享满300减50，会员额外9折"——这个规则有什么主要问题？</div>
+    <div class="option">A. 折扣力度不够</div>
+    <div class="option">B. 规则太复杂，顾客和员工都难以理解，容易引发纠纷</div>
+    <div class="option">C. 没有设定活动时间</div>
+    <div class="option">D. 没有强调品牌背景</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a3')">查看答案</button>
+    <div class="answer-box" id="a3">✅ <strong>答案：B</strong><br>规则越复杂，执行出错率越高，顾客也越难理解利益点。好的活动规则应该能用一句话说清楚，让顾客瞬间明白自己能得到什么。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">4. 开展"免费全面验光日"活动，最核心的执行重点是？</div>
+    <div class="option">A. 当场努力向验光顾客推销</div>
+    <div class="option">B. 留下顾客的联系方式和验光数据，后续跟进</div>
+    <div class="option">C. 争取一天内验光尽量多的人</div>
+    <div class="option">D. 不给顾客看验光结果，以便制造神秘感</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a4')">查看答案</button>
+    <div class="answer-box" id="a4">✅ <strong>答案：B</strong><br>体验型活动的核心价值是"建立信任、留住潜在客户"。留下联系方式和验光数据，才能在后续有配镜需求时进行精准跟进，实现从"免费体验"到"付费购买"的转化。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">5. 活动结束后最不应该忽视的步骤是？</div>
+    <div class="option">A. 庆祝活动成功</div>
+    <div class="option">B. 把赠品分给员工</div>
+    <div class="option">C. 数据复盘：统计客流/成交/客单价，对比目标，总结经验</div>
+    <div class="option">D. 立刻开始策划下一次活动</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a5')">查看答案</button>
+    <div class="answer-box" id="a5">✅ <strong>答案：C</strong><br>复盘是提升能力的关键环节。没有复盘的活动只是一次性投入，有了复盘才能持续积累经验，让每次活动都比上次更好。</div>
+  </div>
+
+  <h2><span class="section-tag">B</span>活动方案设计题（60分）</h2>
+
+  <div class="question">
+    <div class="question-num">6. 【综合设计题】请为以下场景设计一份完整的活动方案：</div>
+    <p><strong>背景：</strong>你所在的眼镜门店位于居民小区附近，本月业绩完成率只有70%，还有10天到月底。门店周边有大量退休老人，且临近重阳节（10月初）。请设计一个1周的"重阳节关爱视力"活动方案。</p>
+
+    <div class="plan-template">
+      <p style="color:#2980b9; font-weight:bold; margin:0 0 12px 0;">📋 活动方案模板（请按以下格式填写）</p>
+      <div class="plan-row"><span class="plan-label">活动名称：</span><input type="text" style="width:70%; padding:6px; border:1px solid #ccc; border-radius:4px;" placeholder="起一个有吸引力的名字..."></div>
+      <div class="plan-row"><span class="plan-label">活动时间：</span><input type="text" style="width:70%; padding:6px; border:1px solid #ccc; border-radius:4px;" placeholder="具体日期..."></div>
+      <div class="plan-row"><span class="plan-label">目标人群：</span><input type="text" style="width:70%; padding:6px; border:1px solid #ccc; border-radius:4px;" placeholder="谁是主要目标？"></div>
+      <div class="plan-row"><span class="plan-label">活动目标：</span><input type="text" style="width:70%; padding:6px; border:1px solid #ccc; border-radius:4px;" placeholder="量化目标（客流/成交/客单价）..."></div>
+    </div>
+
+    <textarea class="fill-input" rows="12" placeholder="请继续写出：
+【活动内容/利益点】顾客参与能得到什么好处？
+【推广方式】怎么让老人们知道这个活动？
+【执行要点】活动期间员工需要特别注意什么？
+【预期效果】预计能带来多少业绩增量？"></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a6')">查看参考方案</button>
+    <div class="answer-box" id="a6">
+      ✅ <strong>参考方案：</strong><br><br>
+      <strong>活动名称：</strong>"重阳护眼，关爱长辈视界" 老年视力关爱周<br>
+      <strong>活动时间：</strong>重阳节前后7天（10月1-7日或具体日期）<br>
+      <strong>目标人群：</strong>50岁以上中老年顾客（含老花眼、白内障初期、视力下降人群）及其子女（代父母来配镜）<br>
+      <strong>活动目标：</strong>7天内进店老年顾客不少于40人次，成交老年单不少于20单，老视/渐进镜成交客单价不低于600元<br><br>
+      <strong>活动内容：</strong><br>
+      ① 免费老年视力筛查：包含视力检测+眼压测量+简单眼健康评估（价值68元）<br>
+      ② 老年配镜专享价：老视镜架+防蓝光镜片套餐立减100元<br>
+      ③ 重阳关爱礼：成交顾客送老年护眼礼包（护眼贴+眼镜清洁套装+健康手册）<br>
+      ④ 子女陪同优惠：子女陪同父母一起来，子女配镜可享9折<br><br>
+      <strong>推广方式：</strong><br>
+      ① 在周边小区电梯间/公告栏张贴活动海报<br>
+      ② 让老客户帮忙转发朋友圈和老年人微信群<br>
+      ③ 让员工在周边广场/公园发传单（选择老年人聚集时段，早上7-8点）<br>
+      ④ 门店外增加"重阳护眼"主题横幅<br><br>
+      <strong>执行要点：</strong><br>
+      ① 接待老年顾客时音量适当提高，语速放慢，耐心解释<br>
+      ② 准备老花镜体验区，让老人直接试戴感受效果<br>
+      ③ 筛查结果出具书面报告，老人可拍照带回<br>
+      ④ 备好紧急联系方式，以防老人有突发状况<br><br>
+      <strong>预期效果：</strong>预计可在现有70%基础上额外增加15-20%业绩，月度目标达成率提升至85-90%。
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <button class="btn" onclick="showAllAnswers()">📖 展示全部答案</button>
+    <button class="btn" style="background:#e74c3c;" onclick="resetAll()">🔄 重置练习</button>
+  </div>
+</div>
+
+<script>
+function toggleAnswer(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+function showAllAnswers() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'block');
+}
+function resetAll() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('textarea').forEach(el => el.value = '');
+  document.querySelectorAll('input[type="text"]').forEach(el => el.value = '');
+}
+</script>
+
+<div class="nav-footer" style="max-width:960px;margin:0 auto 20px;padding:0 30px;display:flex;justify-content:space-between;gap:12px">
+  <a href="Day_48_学习内容.html" style="background:#fff;color:#8e44ad;border:2px solid #8e44ad;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+  <a href="Day_49_学习内容.html" style="background:linear-gradient(135deg,#8e44ad,#6c3483);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600">Day 49 学习内容 →</a>
+</div>
+
+
+<script>
+/* interactive-options-type-d-js */
+(function(){
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    // 收集该题所有 .option
+    var opts = Array.from(qBlock.querySelectorAll(':scope > .option, :scope > .options > .option'));
+    if(opts.length === 0) return;
+
+    // 找答案框：answer-box
+    var ansBox = qBlock.querySelector('.answer-box');
+    if(!ansBox) return;
+
+    // 从 answer-box 提取答案字母，支持多种格式：
+    // ✅ 正确答案：B / ✅ 答案：B / ✅ <strong>答案：B</strong>
+    var txt = ansBox.textContent || '';
+    var m = txt.match(/(?:\u6b63\u786e)?\u7b54\u6848[:\uff1a]\s*([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    opts.forEach(function(opt){
+      var letter = (opt.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      opt.classList.add('opt-clickable');
+      opt.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        opts.forEach(function(o){ o.classList.add('answered'); });
+        if(letter === correct){
+          opt.classList.add('opt-correct');
+          opt.textContent = '\u2705 ' + opt.textContent;
+        } else {
+          opt.classList.add('opt-wrong');
+          opt.textContent = '\u274c ' + opt.textContent;
+          opts.forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ o.classList.add('opt-reveal'); o.textContent = '\ud83d\udc49 ' + o.textContent; }
+          });
+        }
+        ansBox.style.display = 'block';
+        var btn = qBlock.querySelector('.btn-show, .show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
