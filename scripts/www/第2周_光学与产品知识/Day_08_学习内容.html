@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 08 | 眼睛的结构与视觉原理</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}
+  .header{background:linear-gradient(135deg,#e3f2fd,#bbdefb);padding:40px 30px;border-bottom:3px solid #2196F3;}
+  .day-tag{background:#2196F3;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}
+  .header h1{font-size:2em;color:#1565c0;margin-bottom:8px;}
+  .header .subtitle{color:#555;}
+  .container{max-width:900px;margin:30px auto;padding:0 20px;}
+  .objective-box{background:#e3f2fd;border-left:5px solid #2196F3;border-radius:8px;padding:20px 24px;margin-bottom:30px;}
+  .objective-box h3{color:#1565c0;margin-bottom:10px;}
+  .objective-box li{margin-bottom:6px;font-size:0.95em;}
+  .section{background:white;border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+  .section h2{font-size:1.3em;color:#1565c0;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #e3f2fd;}
+  .section h3{font-size:1.05em;color:#333;margin:18px 0 10px;}
+  .section p{line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em;}
+  .section ul,.section ol{padding-left:20px;margin-bottom:14px;}
+  .section li{line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px;}
+  .eye-structure{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0;}
+  .eye-part{background:#f5f5f5;border-radius:10px;padding:16px;border-left:4px solid #2196F3;}
+  .eye-part .name{font-weight:700;color:#1565c0;margin-bottom:6px;}
+  .eye-part .func{font-size:0.88em;color:#555;line-height:1.6;}
+  .refraction-box{background:#fff8e1;border:1px solid #FFD54F;border-radius:8px;padding:18px;margin:16px 0;}
+  .refraction-box .label{color:#F57F17;font-weight:700;margin-bottom:8px;}
+  .vision-types{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0;}
+  .vision-card{border-radius:10px;padding:16px;text-align:center;}
+  .v-myopia{background:#ffebee;border-top:3px solid #f44336;}
+  .v-hyper{background:#e8f5e9;border-top:3px solid #4CAF50;}
+  .v-astig{background:#fff3e0;border-top:3px solid #FF9800;}
+  .vision-card .icon{font-size:1.8em;margin-bottom:8px;}
+  .vision-card .name{font-weight:700;margin-bottom:8px;}
+  .vision-card .desc{font-size:0.82em;color:#555;line-height:1.5;}
+  .analogy-box{background:#f3e5f5;border-radius:10px;padding:18px;border-left:4px solid #9C27B0;margin:16px 0;}
+  .analogy-box .title{color:#6a1b9a;font-weight:700;margin-bottom:8px;}
+  .summary-box{background:linear-gradient(135deg,#e3f2fd,#e8f5ff);border-radius:12px;padding:24px;margin-top:30px;}
+  .summary-box h3{color:#1565c0;margin-bottom:14px;}
+  .summary-box li{margin-bottom:8px;font-size:0.95em;}
+  .nav-footer{display:flex;justify-content:space-between;margin:30px 0 40px;}
+  .nav-btn{background:#2196F3;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}
+  .nav-btn.outline{background:white;color:#2196F3;border:2px solid #2196F3;}
+  @media(max-width:600px){.eye-structure,.vision-types{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="day-tag">📅 第2周 · Day 08</span>
+  <h1>👁️ 眼睛的结构与视觉原理</h1>
+  <div class="subtitle">模块：知识 Knowledge | 今日主题：眼睛解剖 · 屈光原理 · 常见屈光不正</div>
+</div>
+<div class="container">
+  <div class="objective-box">
+    <h3>🎯 今日学习目标</h3>
+    <ul>
+      <li>能说出眼睛5个主要结构及其功能</li>
+      <li>理解屈光原理（眼睛如何看清东西）</li>
+      <li>能向顾客解释近视、远视、散光的形成原因</li>
+      <li>了解老花眼的特点和与近视的区别</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>👁️ 第一部分：眼睛的主要结构</h2>
+    <p>要向顾客解释视力问题，首先要了解眼睛本身。眼睛就像一台精密的照相机——有镜头（角膜+晶状体）、光圈（瞳孔）、感光胶片（视网膜）。</p>
+    <div class="eye-structure">
+      <div class="eye-part">
+        <div class="name">🔵 角膜（Cornea）</div>
+        <div class="func">眼睛最前方的透明薄膜，负责主要的屈光折射（占总屈光度的约70%）。是激光手术改变的主要结构。</div>
+      </div>
+      <div class="eye-part">
+        <div class="name">⚫ 瞳孔（Pupil）</div>
+        <div class="func">控制进入眼睛的光线量，类似相机的光圈。强光下缩小，弱光下放大。</div>
+      </div>
+      <div class="eye-part">
+        <div class="name">🔷 晶状体（Lens）</div>
+        <div class="func">眼内的"调焦镜头"，通过睫状肌的收缩/舒张改变形状，实现远近调节。老花眼即因晶状体弹性减退而导致。</div>
+      </div>
+      <div class="eye-part">
+        <div class="name">🌐 玻璃体（Vitreous）</div>
+        <div class="func">充填眼球内腔的透明凝胶状物质，维持眼球形状。"飞蚊症"多与玻璃体变性有关。</div>
+      </div>
+      <div class="eye-part">
+        <div class="name">📸 视网膜（Retina）</div>
+        <div class="func">眼底的感光层，相当于相机的"感光胶片"。接收光信号并转化为神经信号传送至大脑，形成视觉。</div>
+      </div>
+      <div class="eye-part">
+        <div class="name">🔴 视神经（Optic Nerve）</div>
+        <div class="func">将视网膜的信号传导至大脑视觉中枢。是视觉信息的"信号线"。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🔍 第二部分：屈光原理 — 眼睛怎么看清东西</h2>
+    <div class="analogy-box">
+      <div class="title">💡 类比理解</div>
+      <p>把眼睛想象成相机：光线进入眼睛 → 经角膜+晶状体折射 → 聚焦在视网膜上 → 视网膜传信号到大脑 → 你看到了清晰的图像。</p>
+      <p style="margin-top:8px;">如果光线聚焦<strong>不在视网膜上</strong>，图像就会模糊——这就是屈光不正（近视/远视/散光）的本质。</p>
+    </div>
+
+    <h3>📌 正视眼（正常视力）</h3>
+    <p>平行光线经过眼球折射后，<strong>恰好聚焦在视网膜上</strong>，看远看近（调节范围内）都清晰。</p>
+
+    <div class="refraction-box">
+      <div class="label">📏 度数的含义</div>
+      <p>配镜处方中的度数（D，屈光度）是衡量眼睛屈光能力偏差的单位。<strong>"-"号（负号）= 近视，"+"号（正号）= 远视</strong>。例如：-3.00D = 近视300度。</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🔬 第三部分：常见屈光不正</h2>
+    <div class="vision-types">
+      <div class="vision-card v-myopia">
+        <div class="icon">🔴</div>
+        <div class="name">近视（Myopia）</div>
+        <div class="desc"><strong>原因</strong>：眼轴过长或角膜曲率过大，平行光线聚焦在视网膜<em>前方</em><br><strong>表现</strong>：看远模糊，看近清晰<br><strong>矫正</strong>：凹透镜（负镜片）</div>
+      </div>
+      <div class="vision-card v-hyper">
+        <div class="icon">🟢</div>
+        <div class="name">远视（Hyperopia）</div>
+        <div class="desc"><strong>原因</strong>：眼轴过短或角膜曲率过小，平行光线聚焦在视网膜<em>后方</em><br><strong>表现</strong>：看近模糊，轻度远视看远也清晰<br><strong>矫正</strong>：凸透镜（正镜片）</div>
+      </div>
+      <div class="vision-card v-astig">
+        <div class="icon">🟠</div>
+        <div class="name">散光（Astigmatism）</div>
+        <div class="desc"><strong>原因</strong>：角膜或晶状体各方向曲率不一致，光线无法聚焦于一点<br><strong>表现</strong>：看远近均模糊，图像有重影<br><strong>矫正</strong>：柱镜（散光镜片）</div>
+      </div>
+    </div>
+
+    <h3>👴 老花眼（Presbyopia）</h3>
+    <p>老花眼<strong>不是屈光不正，而是调节力下降</strong>。随年龄增长，晶状体弹性减退，睫状肌调节能力下降，导致看近困难（通常40岁后开始出现）。</p>
+    <div class="refraction-box">
+      <div class="label">💡 销售场景常见问题</div>
+      <p>顾客："我近视的，为什么还需要配老花镜？"<br>
+      答："近视和老花是两回事。近视是因为眼轴长，光线聚焦偏前；老花是晶状体老化，调节力变弱。有近视的人老了一样会老花，只是度数表现不同，有时需要配双光/渐进镜片来同时解决两个问题。"</p>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>📝 今日要点总结</h3>
+    <ul>
+      <li>✅ 眼睛主要结构：角膜（主要折射）、晶状体（调节）、视网膜（感光）</li>
+      <li>✅ 屈光原理：光线需精确聚焦在视网膜上才能看清</li>
+      <li>✅ 近视：光聚焦在视网膜前，用凹透镜矫正</li>
+      <li>✅ 远视：光聚焦在视网膜后，用凸透镜矫正</li>
+      <li>✅ 散光：角膜曲率不均，各方向焦点不同，用柱镜矫正</li>
+      <li>✅ 老花眼：晶状体弹性下降，与近视是不同的问题</li>
+    </ul>
+    <p style="margin-top:14px; color:#1565c0; font-weight:600;">🎯 今日任务：用自己的话向师傅解释近视形成的原因，并说出矫正近视使用什么类型的镜片</p>
+  </div>
+
+    <div class="section">
+    <h2>🌟 第四部分：用简单语言向客户解释眼睛问题</h2>
+        <p>专业知识要能"翻译"成客户能听懂的话，才有价值。以下是几个常见问题的通俗解释模板：</p>
+    
+    <h3>近视解释模板</h3>
+    <div class="analogy-box"><div class="title">👁️ 向客户说明</div>
+    <p>"您的眼睛就像一台相机，近视是因为相机的'焦距'太长了，光线聚焦在感光片前面而不是上面，所以远处的东西看起来就模糊了。近视眼镜相当于给这台相机加了一块调整焦距的滤镜，把光线拉回到合适的位置。"</p></div>
+
+    <h3>散光解释模板</h3>
+    <div class="analogy-box"><div class="title">👁️ 向客户说明</div>
+    <p>"散光是因为您眼睛角膜的弯曲度不均匀——就像一个鸡蛋的侧面，水平和垂直方向的弯曲程度不一样。光线进来后没法聚成一个点，所以看东西会有重影或模糊。散光镜片专门针对这个不均匀进行补偿。"</p></div>
+
+    <h3>老花解释模板</h3>
+    <div class="analogy-box"><div class="title">👁️ 向客户说明</div>
+    <p>"老花不是近视，它是眼睛里的'调焦弹簧'（晶状体）随年龄变硬了，弹性不够，很难聚焦在近处。就像橡皮筋用久了会失去弹力。老花镜就是帮您的眼睛'借一份力'，补偿这个失去的弹力。"</p></div>
+    <div class="tip-box"><div class="label">💡 沟通秘诀</div><p>解释时配合手势（如用两手比喻焦点的位置），效果会更好。不要直接背定义，要让客户真正理解。</p></div>
+  </div>
+
+
+    <div class="section">
+    <h2>🎯 本日实践任务</h2>
+    <p>今天，请做以下两件事来巩固所学：</p>
+    <ol style="padding-left:20px;margin-bottom:14px;">
+      <li style="margin-bottom:8px;">找一面镜子，闭上一只眼看不同距离的物体（先看近处，再看远处），感受眼睛调节时的细微变化——这就是晶状体在工作</li>
+      <li style="margin-bottom:8px;">用自己的话，向一位家人或朋友解释"近视是怎么形成的"，看对方能否听懂。如果对方有疑问，思考如何优化你的解释方式</li>
+    </ol>
+    <div class="analogy-box"><div class="title">🎯 记忆口诀</div>
+    <p>近视眼轴长，光聚网膜前，凹镜来矫正；<br>
+远视眼轴短，光聚网膜后，凸镜来矫正；<br>
+散光曲率差，光无法聚点，柱镜来矫正；<br>
+老花弹力减，近处看不清，正镜来补偿。</p></div>
+  </div>
+
+
+
+    <div class="summary-box">
+    <h3>📝 今日要点回顾（完整版）</h3>
+    <ul>
+      <li>✅ 眼睛=精密相机：角膜+晶状体是镜头，视网膜是感光片</li>
+      <li>✅ 近视：眼轴长，光聚前，凹镜矫正；远视：眼轴短，光聚后，凸镜矫正</li>
+      <li>✅ 散光：角膜曲率不均，用柱镜矫正；老花：晶状体弹性减退，用正镜补偿</li>
+      <li>✅ 能用通俗语言向客户解释视力问题，是专业服务的关键能力</li>
+    </ul>
+    <p style="margin-top:14px;color:#1565c0;font-weight:600">
+      今日任务：用自己的话向师傅讲述一遍"近视是如何形成的"，听取反馈。
+    </p>
+  </div>
+
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="../第1周_文化与制度启蒙/Day_07_学习内容.html">← Day 07</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_08_练习题.html">今日练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
