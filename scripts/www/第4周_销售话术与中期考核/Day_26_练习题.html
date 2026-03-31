@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 26 练习题 | 连带销售与会员维护</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 28px 40px; }
+  .header .badge { background: rgba(0,0,0,0.12); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; margin-bottom: 6px; }
+  .header p { font-size: 14px; opacity: 0.9; }
+  .container { max-width: 860px; margin: 30px auto; padding: 0 20px; }
+  .section { background: white; border-radius: 12px; padding: 28px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .section h2 { font-size: 18px; color: #333; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #11998e; }
+  .question { margin-bottom: 22px; }
+  .q-text { font-size: 15px; line-height: 1.7; color: #333; font-weight: 500; display: flex; align-items: flex-start; gap: 10px; }
+  .q-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #11998e; color: white; border-radius: 50%; font-size: 13px; font-weight: bold; flex-shrink: 0; }
+  .options { margin: 12px 0 0 38px; }
+  
+  .option:hover { background: #f0fdf8; border-color: #11998e; }
+  .option input { margin-top: 2px; accent-color: #11998e; }
+  .option label { cursor: pointer; font-size: 14px; color: #555; }
+  .judge-options { margin: 10px 0 0 38px; display: flex; gap: 20px; }
+  .judge-btn { display: flex; align-items: center; gap: 8px; padding: 8px 20px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+  .judge-btn:hover { border-color: #11998e; background: #f0fdf8; }
+  .judge-btn input { accent-color: #11998e; }
+  .scenario { background: #f0fdf8; border-left: 4px solid #11998e; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 10px 0 0 38px; font-size: 14px; color: #444; line-height: 1.7; }
+  .answer-area { margin: 12px 0 0 38px; }
+  .answer-area textarea { width: 100%; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; font-size: 14px; resize: vertical; min-height: 120px; font-family: 'Microsoft YaHei', sans-serif; }
+  .answer-area textarea:focus { outline: none; border-color: #11998e; }
+  .show-answer-btn { display: block; margin: 8px 0 4px 38px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .show-answer-btn:hover { border-color: #11998e; color: #11998e; background: #f0fdf8; }
+  .answer-hint { display: none; margin: 4px 0 8px 38px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #166534; line-height: 1.7; }
+  .scene-answer-btn { display: block; margin: 8px 0 4px 38px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .scene-answer-btn:hover { border-color: #11998e; color: #11998e; background: #f0fdf8; }
+  .scene-answer { display: none; margin: 4px 0 8px 38px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #166534; line-height: 1.8; }
+  .nav-footer { display: flex; justify-content: space-between; align-items: center; padding: 20px 0 30px; gap: 12px; }
+  .nav-btn { display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.25s; color: white; background: linear-gradient(135deg, #11998e, #38ef7d); }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #11998e; border: 2px solid #11998e; }
+  .nav-btn.outline:hover { background: #f0fdf8; }
+
+  
+
+
+  /* ── 交互式选项（Day01标准） ── */
+  .options { list-style: none; padding: 0; margin: 12px 0 0 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-size: 0.93em; transition: all 0.2s; line-height: 1.6; }
+  .options li:hover:not(.answered) { border-color: var(--accent, #4CAF50); background: #f1f8e9; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events: none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events: none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
+  .options li.answered    { pointer-events: none !important; cursor: default !important; }
+
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="badge">Day 26 · 练习题</div>
+  <h1>连带销售与会员维护 · 技能检测</h1>
+  <p>第4周 · 销售话术与中期考核</p>
+</div>
+<div class="container">
+
+  <!-- 单选题 -->
+  <div class="section">
+    <h2>📝 单选题</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">1</span><span>连带销售的最佳时机是：</span></div>
+          <ul class="options">
+      <li>A. 顾客刚进门时立刻推荐</li>
+      <li>B. 顾客对主商品满意、成交意向明确时顺势推荐</li>
+      <li>C. 顾客拒绝主商品时转推配件</li>
+      <li>D. 顾客付完款后强制推荐</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：B</strong><br>解析：连带销售应在顾客对主商品已有购买意向、情绪高涨时进行，此时顾客接受度最高。进门就推销会让人反感；主商品被拒绝后推配件更是本末倒置；成交后强推同样影响顾客满意度。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">2</span><span>顾客取镜后跟进的"黄金时间窗口"是：</span></div>
+          <ul class="options">
+      <li>A. 取镜后1个月</li>
+      <li>B. 取镜后1周</li>
+      <li>C. 取镜后48小时内</li>
+      <li>D. 取镜后3天</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：C（取镜后48小时内）</strong><br>解析：新配眼镜通常有1-3天适应期，48小时内是顾客最关注适应情况的时候。此时主动询问适应情况，既体现关怀，也能及时解决问题（如有不适可约来调整），大大提升顾客满意度和复购概率。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">3</span><span>以下哪项属于"连带销售三不原则"？</span></div>
+          <ul class="options">
+      <li>A. 不让顾客拒绝</li>
+      <li>B. 不夸大商品效果</li>
+      <li>C. 不降价销售</li>
+      <li>D. 不介绍配件</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：B</strong><br>解析：连带销售三不原则通常包括：不强迫顾客、不夸大效果、不一次推荐过多。"不夸大商品效果"是诚信销售的基本原则，夸大效果一旦顾客发现，将严重损害门店信誉。A说法本身不正确；C、D都不是原则内容。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">4</span><span>会员档案中最重要的必填信息是：</span></div>
+          <ul class="options">
+      <li>A. 顾客的兴趣爱好</li>
+      <li>B. 姓名+手机号+验光度数档案</li>
+      <li>C. 顾客的收入情况</li>
+      <li>D. 社交媒体账号</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：B</strong><br>解析：眼镜门店会员档案的核心价值在于留存验配数据。姓名和手机号便于联系和识别身份；验光度数档案是下次配镜的重要参考，也体现了专业服务。兴趣爱好和收入情况不实用，索取社媒账号更可能让顾客反感。</div>
+    </div>
+  </div>
+
+  <!-- 判断题 -->
+  <div class="section">
+    <h2>✅ 判断题</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">5</span><span>每次连带销售被拒绝后应持续追问，直到顾客同意。</span></div>
+          <ul class="options">
+      <li>A. ✔ 正确</li>
+      <li>B. ✘ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：B（错误）</strong><br>解析：连带销售被拒绝后应礼貌接受，说一句"好的，如果您需要随时告诉我"即可。持续追问不仅不会促成销售，还会让顾客产生厌烦感甚至直接离店。尊重顾客的决定是专业销售员的基本素养。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">6</span><span>向顾客发送跟进微信的频率应控制，每月不超过2次主动联系为宜。</span></div>
+          <ul class="options">
+      <li>A. ✔ 正确</li>
+      <li>B. ✘ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：A（正确）</strong><br>解析：维护顾客关系需要适度。频繁发送微信会让顾客感到被骚扰，容易被拉黑。每月1-2次主动联系（如节日问候、活动通知）是比较合理的频率，且内容应以关怀为主，避免硬广告感。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">7</span><span>转介绍话术中，给推荐人和被推荐人都设置奖励，可以增强传播动力。</span></div>
+          <ul class="options">
+      <li>A. ✔ 正确</li>
+      <li>B. ✘ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：A（正确）</strong><br>解析：双向激励的转介绍机制效果最好。推荐人获得积分或优惠券，被推荐人享有首次优惠，双方都有实质利益，顾客传播的意愿会大大增强。这是眼镜门店常用的低成本获客方式。</div>
+    </div>
+  </div>
+
+  <!-- 情景模拟 -->
+  <div class="section">
+    <h2>🎭 情景模拟题</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">8</span><span>请写出针对这位顾客的连带销售话术（至少推荐一件配件，包含价值说明）：</span></div>
+      <div class="scenario">
+        <strong>情景：</strong>顾客刚选好一副1500元的镜架和镜片，正在等你开单。旁边货架上有清洁套装（38元）和太阳夹片（199元）。
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="写出完整的连带销售话术，体现'需求导向'而非'硬推销'"></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        <strong>✅ 参考答案要点：</strong><br><br>
+        ① <strong>自然衔接：</strong>"您今天选的这套搭配非常完美！镜架和镜片都很适合您。"<br><br>
+        ② <strong>推荐清洁套装（小件先推）：</strong>"对了，您知道镀膜镜片最忌讳用普通纸巾擦吗？普通纸巾有纤维会划伤膜层，导致镜片越来越花。我们这款无醇清洁液+超细镜布套装，每次清洁既彻底又护膜，才38元，帮您的镜片多用两年。"<br><br>
+        ③ <strong>自然询问等待：</strong>"要不要搭一套？我帮您一起开单。"（等待顾客回应，被拒绝不追问）<br><br>
+        <strong>加分点：</strong>可以同时提及太阳夹片："另外，您配的是光学镜，如果夏天需要防晒，这款同色系的夹片199元，比另配太阳镜划算很多，有兴趣了解一下吗？"
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">9</span><span>请写出这条跟进微信的完整内容（控制在100字以内，体现关怀而非广告）：</span></div>
+      <div class="scenario">
+        <strong>情景：</strong>顾客2天前取镜，你准备发送第一条跟进微信。
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="写出跟进微信内容，语气要自然亲切"></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        <strong>✅ 参考答案：</strong><br><br>
+        "王姐您好！前天帮您配的眼镜，戴着适应吗？新镜片一般需要1-3天适应期，如果有头晕或视物不清的情况，欢迎随时回来让我帮您检查调整，完全免费的～ 😊"<br><br>
+        <strong>评分要点：</strong><br>
+        ✅ 称呼对方姓名（体现记得顾客）<br>
+        ✅ 关心适应情况（不是直接推销）<br>
+        ✅ 告知可免费调整（消除顾虑）<br>
+        ✅ 语气亲切不像广告<br>
+        ✅ 字数控制在100字以内
+      </div>
+    </div>
+  </div>
+
+  <!-- 综合应用 -->
+  <div class="section">
+    <h2>🌟 综合应用题</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">10</span><span>请设计一套完整的"会员邀请+转介绍"话术流程，覆盖：①邀请入会 ②积分说明 ③转介绍奖励</span></div>
+      <div class="answer-area">
+        <textarea style="min-height:130px" placeholder="①邀请入会话术：……&#10;②积分说明：……&#10;③转介绍奖励说明：……"></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        <strong>✅ 参考答案：</strong><br><br>
+        <strong>① 邀请入会：</strong><br>
+        "您今天消费满100元，可以免费注册成我们的会员，只需要您的手机号，一分钟搞定，要帮您开通吗？"<br><br>
+        <strong>② 积分说明：</strong><br>
+        "今天消费1500元，可以获得1500积分，积分可以1:1抵现，下次消费直接少付钱，相当于打折了！而且积分永久有效，不用担心过期。"<br><br>
+        <strong>③ 转介绍奖励：</strong><br>
+        "另外，如果您把我们门店介绍给朋友，朋友来消费时报您的名字，他享受9.5折优惠，您也会获得200积分奖励——多介绍一个朋友，就多一次实实在在的优惠，非常划算～"
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部导航 -->
+  <div class="nav-footer">
+    <a href="Day_26_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_27_学习内容.html" class="nav-btn">Day 27 学习内容 →</a>
+  </div>
+</div>
+
+
+
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card, .question, .q-block').forEach(function(card){
+    var hint = card.querySelector('.answer-hint, .answer-box');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<[^>]+>)?([A-Da-d正确错误])/i);
+    if(!m) return;
+    var correctRaw = m[1];
+    // 支持汉字"正确"/"错误"和字母A/B/C/D
+    var correct = correctRaw.toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var txt = li.textContent.trim();
+      var letter = (txt.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
