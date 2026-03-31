@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 28 | 第4周综合复习与中期考核</title>
+<style>
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;margin:0;padding:0}
+  .header{background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;padding:30px 40px;text-align:center}
+  .header h1{margin:0;font-size:28px}
+  .header p{margin:8px 0 0;opacity:.85;font-size:14px}
+  .container{max-width:920px;margin:30px auto;padding:0 20px 40px}
+  .card{background:#fff;border-radius:12px;padding:28px 32px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+  .card h2{color:#f5576c;font-size:20px;border-left:4px solid #f5576c;padding-left:12px;margin-top:0}
+  .card h3{color:#444;font-size:16px;margin:20px 0 10px}
+  .review-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+  .review-item{background:#fff5f5;border:1px solid #ffcdd2;border-radius:8px;padding:14px 18px}
+  .review-item h4{color:#f5576c;margin:0 0 8px;font-size:14px}
+  .review-item ul{margin:0;padding-left:16px;font-size:13px;line-height:1.8}
+  .exam-banner{background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;border-radius:10px;padding:20px 28px;text-align:center;margin:20px 0}
+  .exam-banner h3{margin:0 0 8px;font-size:20px}
+  .exam-banner p{margin:0;opacity:.9;font-size:14px}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+  th{background:#f5576c;color:#fff;padding:10px 14px;text-align:left}
+  td{padding:9px 14px;border-bottom:1px solid #eee}
+  tr:hover td{background:#fff5f5}
+  .tip{background:#f3f0ff;border-left:4px solid #764ba2;border-radius:6px;padding:12px 16px;margin:12px 0;font-size:14px;line-height:1.8}
+  ul{padding-left:20px;line-height:1.9;font-size:14px}
+  li{margin-bottom:4px}
+  .question{margin-bottom:22px}
+  .question p{font-weight:600;margin-bottom:10px;line-height:1.7}
+  .options label{display:block;padding:8px 14px;margin:5px 0;border-radius:6px;border:1px solid #ddd;cursor:pointer;transition:.2s}
+  .options label:hover{background:#fff5f5;border-color:#f5576c}
+  textarea{width:100%;box-sizing:border-box;border:1px solid #ddd;border-radius:6px;padding:10px;font-size:14px;resize:vertical;min-height:100px;font-family:inherit}
+  .btn{background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;border:none;padding:14px 40px;border-radius:8px;font-size:16px;cursor:pointer;display:block;margin:20px auto 0;font-weight:700}
+  .btn:hover{opacity:.9}
+  .score-box{display:none;background:#fff5f5;border:2px solid #f5576c;border-radius:10px;padding:24px;text-align:center;margin-top:20px}
+  .score-box h3{color:#f5576c;margin:0 0 8px;font-size:24px}
+  .answer-key{display:none;background:#f9f9f9;border-left:4px solid #52c41a;padding:14px 18px;border-radius:6px;margin-top:14px;font-size:14px;line-height:1.8}
+  .grade-table{margin:16px 0}
+  .scenario-box{background:#fff8e1;border:1px solid #ffe58f;border-radius:8px;padding:14px 18px;margin-bottom:14px;font-size:14px;line-height:1.8}
+  .badge{display:inline-block;font-size:12px;padding:2px 8px;border-radius:10px;margin-right:4px;color:#fff}
+  .badge-red{background:#f5576c}
+  .badge-purple{background:#764ba2}
+  .badge-green{background:#52c41a}
+  .nav-footer{display:flex;justify-content:space-between;align-items:center;padding:20px 0 30px;gap:12px}
+  .nav-btn{display:inline-flex;align-items:center;padding:12px 24px;border-radius:30px;font-size:14px;font-weight:600;text-decoration:none;transition:all 0.25s;color:white;background:linear-gradient(135deg,#f093fb,#f5576c)}
+  .nav-btn:hover{opacity:0.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+  .nav-btn.outline{background:white;color:#f5576c;border:2px solid #f5576c}
+  .nav-btn.outline:hover{background:#fff5f5}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Day 28 · 第4周综合复习 & 中期考核</h1>
+  <p>第4周 · 销售话术与中期考核 | 4周学习成果综合检测</p>
+</div>
+<div class="container">
+
+  <!-- 综合复习 -->
+  <div class="card">
+    <h2>📚 第1-4周知识体系回顾</h2>
+    <div class="review-grid">
+      <div class="review-item">
+        <h4>🏬 第1周：文化与制度</h4>
+        <ul>
+          <li>门店文化与价值观</li>
+          <li>规章制度与行为规范</li>
+          <li>仪容仪表与服务礼仪</li>
+          <li>团队协作与沟通技巧</li>
+        </ul>
+      </div>
+      <div class="review-item">
+        <h4>🔬 第2周：光学与产品</h4>
+        <ul>
+          <li>眼睛结构与近视原理</li>
+          <li>镜片材质与膜层知识</li>
+          <li>镜架材质与工艺</li>
+          <li>品牌与产品定位</li>
+        </ul>
+      </div>
+      <div class="review-item">
+        <h4>⚙️ 第3周：专业技能</h4>
+        <ul>
+          <li>验光辅助流程</li>
+          <li>商品陈列与货区管理</li>
+          <li>收银与库存管理</li>
+          <li>调框与售后维修</li>
+        </ul>
+      </div>
+      <div class="review-item">
+        <h4>💬 第4周：销售话术</h4>
+        <ul>
+          <li>顾客接待与需求挖掘</li>
+          <li>FABE产品介绍法</li>
+          <li>价格异议处理</li>
+          <li>促成成交与连带销售</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tip">💡 <strong>中期考核说明：</strong>本次考核覆盖第1-4周所有学习内容，包括客观题（单选+判断）和主观题（情景模拟+综合分析），总分100分，70分及格，85分以上优秀。</div>
+  </div>
+
+  <!-- 中期考核 -->
+  <div class="exam-banner">
+    <h3>🎓 中期考核开始</h3>
+    <p>总分100分 | 建议完成时间：45分钟 | 独立完成，如实作答</p>
+  </div>
+
+  <div class="card">
+    <h2>一、单选题（每题5分，共40分）</h2>
+
+    <div class="question" id="q1">
+      <p>1. <span class="badge badge-purple">第1周</span>员工在门店遇到同事之间发生矛盾，正确的处理方式是：</p>
+      <div class="options">
+        <label><input type="radio" name="q1" value="A"> A. 在顾客面前当场争论解决</label>
+        <label><input type="radio" name="q1" value="B"> B. 私下沟通，必要时请店长协调</label>
+        <label><input type="radio" name="q1" value="C"> C. 忍着不说，积累到爆发</label>
+        <label><input type="radio" name="q1" value="D"> D. 在员工群里公开发泄</label>
+      </div>
+    </div>
+
+    <div class="question" id="q2">
+      <p>2. <span class="badge badge-red">第2周</span>以下哪种镜片材质折射率最高，最适合高度近视？</p>
+      <div class="options">
+        <label><input type="radio" name="q2" value="A"> A. 普通CR-39（折射率1.50）</label>
+        <label><input type="radio" name="q2" value="B"> B. 聚碳酸酯（PC）镜片</label>
+        <label><input type="radio" name="q2" value="C"> C. 超薄镜片（折射率1.74）</label>
+        <label><input type="radio" name="q2" value="D"> D. 玻璃镜片</label>
+      </div>
+    </div>
+
+    <div class="question" id="q3">
+      <p>3. <span class="badge badge-red">第2周</span>防蓝光镜片最主要的功能是：</p>
+      <div class="options">
+        <label><input type="radio" name="q3" value="A"> A. 防止紫外线照射</label>
+        <label><input type="radio" name="q3" value="B"> B. 过滤有害蓝光，减少长时间用眼疲劳</label>
+        <label><input type="radio" name="q3" value="C"> C. 增加镜片硬度</label>
+        <label><input type="radio" name="q3" value="D"> D. 让镜片颜色更好看</label>
+      </div>
+    </div>
+
+    <div class="question" id="q4">
+      <p>4. <span class="badge badge-green">第3周</span>验光结束后，店员应向顾客说明：</p>
+      <div class="options">
+        <label><input type="radio" name="q4" value="A"> A. 验光结果是最终配镜度数，不用再确认</label>
+        <label><input type="radio" name="q4" value="B"> B. 验光结果仅供参考，最终由医生决定</label>
+        <label><input type="radio" name="q4" value="C"> C. 验光结果、建议度数，并确认顾客理解和认可</label>
+        <label><input type="radio" name="q4" value="D"> D. 不需要说明，直接开始选框</label>
+      </div>
+    </div>
+
+    <div class="question" id="q5">
+      <p>5. <span class="badge badge-green">第3周</span>镜架鼻托调整时，若顾客反映眼镜总往下滑，应：</p>
+      <div class="options">
+        <label><input type="radio" name="q5" value="A"> A. 收紧鼻托角度，增大与鼻梁的接触面</label>
+        <label><input type="radio" name="q5" value="B"> B. 扩大鼻托距离</label>
+        <label><input type="radio" name="q5" value="C"> C. 换一副镜架</label>
+        <label><input type="radio" name="q5" value="D"> D. 告诉顾客这是正常现象</label>
+      </div>
+    </div>
+
+    <div class="question" id="q6">
+      <p>6. <span class="badge badge-purple">第4周</span>FABE产品介绍法中，"B"代表：</p>
+      <div class="options">
+        <label><input type="radio" name="q6" value="A"> A. Brand（品牌）</label>
+        <label><input type="radio" name="q6" value="B"> B. Benefit（顾客利益）</label>
+        <label><input type="radio" name="q6" value="C"> C. Buy（购买）</label>
+        <label><input type="radio" name="q6" value="D"> D. Better（更好）</label>
+      </div>
+    </div>
+
+    <div class="question" id="q7">
+      <p>7. <span class="badge badge-purple">第4周</span>顾客说"我再考虑考虑"时，最有效的回应是：</p>
+      <div class="options">
+        <label><input type="radio" name="q7" value="A"> A. "好的，想好了来找我"</label>
+        <label><input type="radio" name="q7" value="B"> B. 询问顾虑所在，针对性解决后再次促成</label>
+        <label><input type="radio" name="q7" value="C"> C. 立刻降价吸引顾客</label>
+        <label><input type="radio" name="q7" value="D"> D. 告诉顾客这款快卖完了制造紧迫感</label>
+      </div>
+    </div>
+
+    <div class="question" id="q8">
+      <p>8. <span class="badge badge-red">综合</span>处理顾客投诉时，HEARD模型的正确顺序是：</p>
+      <div class="options">
+        <label><input type="radio" name="q8" value="A"> A. 道歉→倾听→共情→解决→复盘</label>
+        <label><input type="radio" name="q8" value="B"> B. 倾听→共情→道歉→解决→复盘</label>
+        <label><input type="radio" name="q8" value="C"> C. 解决→道歉→倾听→共情→复盘</label>
+        <label><input type="radio" name="q8" value="D"> D. 共情→倾听→道歉→复盘→解决</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>二、判断题（每题4分，共20分）</h2>
+
+    <div class="question" id="q9">
+      <p>9. 渐进多焦点镜片适合40岁以上老花眼患者，可同时看远和看近。 <span class="badge badge-red">判断</span></p>
+      <div class="options">
+        <label><input type="radio" name="q9" value="A"> ✔ 正确</label>
+        <label><input type="radio" name="q9" value="B"> ✘ 错误</label>
+      </div>
+    </div>
+
+    <div class="question" id="q10">
+      <p>10. 连带销售时，顾客第一次拒绝后应继续反复推荐，直到顾客接受。 <span class="badge badge-purple">判断</span></p>
+      <div class="options">
+        <label><input type="radio" name="q10" value="A"> ✔ 正确</label>
+        <label><input type="radio" name="q10" value="B"> ✘ 错误</label>
+      </div>
+    </div>
+
+    <div class="question" id="q11">
+      <p>11. 员工需要保持每天整洁的仪容仪表，这是对顾客基本的尊重。 <span class="badge badge-purple">判断</span></p>
+      <div class="options">
+        <label><input type="radio" name="q11" value="A"> ✔ 正确</label>
+        <label><input type="radio" name="q11" value="B"> ✘ 错误</label>
+      </div>
+    </div>
+
+    <div class="question" id="q12">
+      <p>12. 商品陈列时，价格较高的商品应放在顾客视线平行区域（黄金区）。 <span class="badge badge-green">判断</span></p>
+      <div class="options">
+        <label><input type="radio" name="q12" value="A"> ✔ 正确</label>
+        <label><input type="radio" name="q12" value="B"> ✘ 错误</label>
+      </div>
+    </div>
+
+    <div class="question" id="q13">
+      <p>13. 收银时，应在完成找零后再感谢顾客，防止出现差错。 <span class="badge badge-green">判断</span></p>
+      <div class="options">
+        <label><input type="radio" name="q13" value="A"> ✔ 正确</label>
+        <label><input type="radio" name="q13" value="B"> ✘ 错误</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>三、情景模拟题（每题15分，共30分）</h2>
+
+    <div class="question">
+      <div class="scenario-box">
+        <strong>情景A：</strong>一位35岁女性顾客进店，自述长时间使用手机和电脑，眼睛经常疲劳，想配一副功能性眼镜，预算在1000-1500元左右。
+      </div>
+      <p>14. 请写出完整的销售服务流程，包含：需求确认→产品推荐（镜片+镜架）→价值说明→价格确认→促成：</p>
+      <textarea style="min-height:140px" placeholder="从接待开始，写出完整的一次服务流程话术，体现专业度和服务温度"></textarea>
+      <div class="answer-key" id="ans14">
+        <strong>参考答案要点：</strong><br>
+        <b>①需求确认：</b>"您好！请问您主要是用眼疲劳为主，还是视力已经下降了呢？方便先帮您做个视力检查吗？"<br>
+        <b>②产品推荐：</b>镜片推荐防蓝光+1.60折射率；镜架推荐轻量TR-90材质<br>
+        <b>③价值说明（FABE）：</b>"防蓝光镜片可以过滤手机屏幕的有害蓝光，直接减少眼睛疲劳感，特别适合您这种高强度用眼的情况……"<br>
+        <b>④价格确认：</b>镜片+镜架在1200-1400元区间，符合预算<br>
+        <b>⑤促成：</b>"您觉得这款如何？要不要试戴感受一下？"
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="scenario-box">
+        <strong>情景B：</strong>一位顾客配镜2天后回来投诉，说新眼镜佩戴时头晕、看东西变形，怀疑度数做错了，情绪比较激动。
+      </div>
+      <p>15. 请用HEARD模型写出完整的处理流程与话术：</p>
+      <textarea style="min-height:140px" placeholder="按照HEARD五步写出处理过程，包含话术和具体动作"></textarea>
+      <div class="answer-key" id="ans15">
+        <strong>参考答案要点：</strong><br>
+        <b>H倾听：</b>请顾客坐下，让他说完症状，全程不打断<br>
+        <b>E共情：</b>"我非常理解，新眼镜戴着难受真的很影响生活，换我也会着急的。"<br>
+        <b>A道歉：</b>"非常抱歉让您有这样的体验，我们一定认真处理。"<br>
+        <b>R解决：</b>"我现在就帮您重新验光，和原来的处方对比一下。如果是我们的问题，立即免费重做；如果度数正确，我来帮您分析是否是适应期反应，给出具体建议。"<br>
+        <b>D复盘：</b>记录投诉详情，向店长汇报，追踪处理结果。
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>四、综合分析题（10分）</h2>
+    <div class="question">
+      <p>16. 请总结你在过去4周中学到的最重要的3个知识点或技能，并说明它们在实际工作中如何应用：</p>
+      <textarea style="min-height:140px" placeholder="知识点1：……  如何应用：……&#10;知识点2：……  如何应用：……&#10;知识点3：……  如何应用：……"></textarea>
+    </div>
+  </div>
+
+  <div class="nav-footer">
+    <a href="Day_27_练习题.html" class="nav-btn outline">← 返回Day27练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="../第5周_实战跟岗训练/Day_29_学习内容.html" class="nav-btn">第5周 Day 29 →</a>
+  </div>
+
+  <button class="btn" onclick="submitExam()">📋 提交中期考核</button>
+  <div class="score-box" id="scoreBox">
+    <h3 id="scoreText"></h3>
+    <p id="gradeText" style="font-size:18px;font-weight:bold;margin:8px 0"></p>
+    <p id="scoreComment"></p>
+    <button class="btn" style="margin-top:12px;font-size:14px" onclick="showAnswers()">📖 查看参考答案</button>
+  </div>
+</div>
+
+<script>
+const answers={q1:'B',q2:'C',q3:'B',q4:'C',q5:'A',q6:'B',q7:'B',q8:'B',q9:'A',q10:'B',q11:'A',q12:'A',q13:'A'};
+const scores={q1:5,q2:5,q3:5,q4:5,q5:5,q6:5,q7:5,q8:5,q9:4,q10:4,q11:4,q12:4,q13:4};
+function submitExam(){
+  let total=0,max=60;
+  for(let k in answers){
+    const sel=document.querySelector(`input[name="${k}"]:checked`);
+    if(sel&&sel.value===answers[k]) total+=scores[k];
+  }
+  const box=document.getElementById('scoreBox');
+  box.style.display='block';
+  document.getElementById('scoreText').textContent=`客观题得分：${total} / ${max} 分`;
+  let grade='',comment='';
+  const pct=total/max*100;
+  if(pct>=90){grade='🏆 优秀 (A)';comment='太棒了！4周知识掌握非常扎实，继续保持！';}
+  else if(pct>=80){grade='🎉 良好 (B)';comment='学得很好！部分细节可再复习，即将进入实战阶段！';}
+  else if(pct>=70){grade='👍 及格 (C)';comment='通过考核！建议重点复习错题，第5周实战中多加练习！';}
+  else{grade='📚 需补考 (D)';comment='暂未达到及格线，请重新复习第1-4周内容，一周内参加补考。';}
+  document.getElementById('gradeText').textContent=grade;
+  document.getElementById('scoreComment').textContent=comment;
+  box.scrollIntoView({behavior:'smooth'});
+}
+function showAnswers(){
+  document.querySelectorAll('.answer-key').forEach(el=>el.style.display='block');
+}
+</script>
+
+<style id="d28-interactive-style">
+/* 隐藏原始 radio，选项 label 改为 li 风格 */
+.options input[type=radio]{display:none!important;}
+.options label{
+  display:block;
+  padding:9px 16px;
+  margin:6px 0;
+  border:2px solid #ddd;
+  border-radius:8px;
+  font-size:14px;
+  cursor:pointer;
+  transition:background 0.2s,border-color 0.2s;
+  user-select:none;
+}
+.options label:hover{background:#fff5f5;border-color:#f5576c;}
+.options label.correct{background:#e8f5e9!important;border-color:#4caf50!important;color:#2e7d32;font-weight:600;cursor:default;}
+.options label.wrong{background:#ffebee!important;border-color:#ef9a9a!important;color:#b71c1c;cursor:default;}
+.options label.highlight{background:#fff9c4!important;border-color:#f9a825!important;cursor:default;}
+.options label.done{cursor:default;}
+.answer-key{background:#f9f9f9;border-left:4px solid #52c41a;padding:14px 18px;border-radius:6px;margin-top:14px;font-size:14px;line-height:1.8;display:none;}
+</style>
+<script id="d28-interactive-js">
+(function(){
+  // 等页面原始 answers 对象加载完后执行
+  window.addEventListener('DOMContentLoaded', function(){
+    // answers 已在页面原有 <script> 中定义
+    if(typeof answers === 'undefined') return;
+
+    document.querySelectorAll('.question[id]').forEach(function(qDiv){
+      var qId = qDiv.id; // 如 "q1"
+      var correctLetter = answers[qId];
+      if(!correctLetter) return; // 情景题、主观题不处理
+
+      var optionsDiv = qDiv.querySelector('.options');
+      if(!optionsDiv) return;
+      var labels = optionsDiv.querySelectorAll('label');
+      if(!labels.length) return;
+
+      var answered = false;
+
+      labels.forEach(function(label){
+        var input = label.querySelector('input[type=radio]');
+        var chosenVal = input ? input.value : '';
+
+        label.addEventListener('click', function(e){
+          e.preventDefault(); // 阻止 radio 默认选中
+          if(answered) return;
+          answered = true;
+
+          labels.forEach(function(l){ l.classList.add('done'); });
+
+          if(chosenVal.toUpperCase() === correctLetter.toUpperCase()){
+            label.classList.add('correct');
+            label.textContent = '✅ ' + label.textContent.trim();
+          } else {
+            label.classList.add('wrong');
+            label.textContent = '❌ ' + label.textContent.trim();
+            // 高亮正确答案
+            labels.forEach(function(l){
+              var inp = l.querySelector('input[type=radio]');
+              if(inp && inp.value.toUpperCase() === correctLetter.toUpperCase()){
+                l.classList.add('highlight');
+                l.textContent = '👉 ' + l.textContent.trim();
+              }
+            });
+          }
+
+          // 展开对应的 answer-key（如果有）
+          var ak = qDiv.querySelector('.answer-key');
+          if(ak) ak.style.display = 'block';
+        });
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
