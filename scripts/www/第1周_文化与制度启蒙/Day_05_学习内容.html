@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 05 | 奖惩制度与安全规定</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}
+  .header{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);padding:40px 30px;border-bottom:3px solid #4CAF50;}
+  .day-tag{background:#4CAF50;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}
+  .header h1{font-size:2em;color:#2e7d32;margin-bottom:8px;}
+  .header .subtitle{color:#555;}
+  .container{max-width:900px;margin:30px auto;padding:0 20px;}
+  .objective-box{background:#e8f5e9;border-left:5px solid #4CAF50;border-radius:8px;padding:20px 24px;margin-bottom:30px;}
+  .objective-box h3{color:#2e7d32;margin-bottom:10px;}
+  .objective-box li{margin-bottom:6px;font-size:0.95em;}
+  .section{background:white;border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+  .section h2{font-size:1.3em;color:#2e7d32;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #e8f5e9;}
+  .section h3{font-size:1.05em;color:#333;margin:18px 0 10px;}
+  .section p{line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em;}
+  .section ul,.section ol{padding-left:20px;margin-bottom:14px;}
+  .section li{line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px;}
+  .reward-table,.penalty-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .reward-table th{background:#4CAF50;color:white;padding:10px 14px;text-align:left;font-size:0.9em;}
+  .penalty-table th{background:#f44336;color:white;padding:10px 14px;text-align:left;font-size:0.9em;}
+  .reward-table td,.penalty-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .reward-table tr:nth-child(even) td,.penalty-table tr:nth-child(even) td{background:#f9f9f9;}
+  .safety-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0;}
+  .safety-card{background:#fff8e1;border-radius:10px;padding:16px;border-top:3px solid #FF9800;}
+  .safety-card .icon{font-size:1.8em;margin-bottom:8px;}
+  .safety-card .name{font-weight:700;font-size:0.9em;margin-bottom:6px;}
+  .safety-card .desc{font-size:0.82em;color:#666;line-height:1.5;}
+  .emergency-box{background:#ffebee;border-radius:10px;padding:18px;border-left:4px solid #f44336;margin:14px 0;}
+  .emergency-box h4{color:#c62828;margin-bottom:10px;}
+  .summary-box{background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border-radius:12px;padding:24px;margin-top:30px;}
+  .summary-box h3{color:#2e7d32;margin-bottom:14px;}
+  .summary-box li{margin-bottom:8px;font-size:0.95em;}
+  .nav-footer{display:flex;justify-content:space-between;margin:30px 0 40px;}
+  .nav-btn{background:#4CAF50;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}
+  .nav-btn.outline{background:white;color:#4CAF50;border:2px solid #4CAF50;}
+  @media(max-width:600px){.safety-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="day-tag">📅 第1周 · Day 05</span>
+  <h1>🏆 奖惩制度与安全规定</h1>
+  <div class="subtitle">模块：制度 Policies | 今日主题：激励机制 · 纪律处罚 · 安全守则</div>
+</div>
+<div class="container">
+  <div class="objective-box">
+    <h3>🎯 今日学习目标</h3>
+    <ul>
+      <li>了解门店的奖励机制，明确努力的方向</li>
+      <li>清楚违规处罚标准，主动避免踩雷</li>
+      <li>掌握门店基本安全规定（防火、防盗、设备安全）</li>
+      <li>知道紧急情况下的处置步骤</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🏆 第一部分：奖励机制</h2>
+    <p>好的工作值得被认可。门店建立了以下激励机制，鼓励每位员工积极进步：</p>
+    <table class="reward-table">
+      <thead><tr><th>奖励类型</th><th>触发条件</th><th>奖励内容</th></tr></thead>
+      <tbody>
+        <tr><td>月度优秀员工</td><td>服务评分高、销售达标、出勤完整、无投诉</td><td>奖状 + 奖金 + 表彰公告</td></tr>
+        <tr><td>销售冠军</td><td>当月个人销售额第一</td><td>奖金 + 优先排班权</td></tr>
+        <tr><td>服务之星</td><td>顾客主动表扬或好评截图</td><td>积分奖励，积累兑换礼品</td></tr>
+        <tr><td>学习达人</td><td>培训考核全部优秀，主动学习</td><td>晋升优先考虑</td></tr>
+        <tr><td>创新建议奖</td><td>提出被采纳的改善建议</td><td>奖金 + 通报表扬</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>⚠️ 第二部分：纪律处罚标准</h2>
+    <p>纪律不是为了惩罚，而是为了保护每一位员工和顾客。以下是主要违规处理标准：</p>
+    <table class="penalty-table">
+      <thead><tr><th>违规行为</th><th>轻度处理</th><th>严重处理</th></tr></thead>
+      <tbody>
+        <tr><td>迟到/早退（当月累计3次）</td><td>书面警告，扣绩效</td><td>连续违规降级</td></tr>
+        <tr><td>在服务区使用私人手机</td><td>口头提醒</td><td>累计3次书面警告</td></tr>
+        <tr><td>泄露顾客信息</td><td>书面警告，道歉</td><td>即时解除劳动合同</td></tr>
+        <tr><td>私自修改价签/挪用货款</td><td>—</td><td>即时解除，追究责任</td></tr>
+        <tr><td>与顾客发生争吵/冲突</td><td>道歉，书面反省</td><td>停职处理</td></tr>
+        <tr><td>代人打卡</td><td>双方均罚款</td><td>累计两次解除合同</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>🛡️ 第三部分：门店安全规定</h2>
+    <div class="safety-grid">
+      <div class="safety-card">
+        <div class="icon">🔥</div>
+        <div class="name">消防安全</div>
+        <div class="desc">了解灭火器位置和使用方法；禁止在非指定区域使用明火；下班前检查电器是否关闭</div>
+      </div>
+      <div class="safety-card">
+        <div class="icon">🔐</div>
+        <div class="name">防盗安全</div>
+        <div class="desc">留意可疑行为，高价商品须锁回陈列柜；顾客试戴须全程关注；下班锁门双人确认</div>
+      </div>
+      <div class="safety-card">
+        <div class="icon">⚡</div>
+        <div class="name">设备安全</div>
+        <div class="desc">不随意拆卸设备；发现设备故障立即上报；不用湿手操作电器；验光仪使用须培训后操作</div>
+      </div>
+    </div>
+
+    <div class="emergency-box">
+      <h4>🚨 紧急情况处置（必须牢记）</h4>
+      <ol style="padding-left:18px;">
+        <li style="margin-bottom:8px;"><strong>火警</strong>：立即启动烟雾报警器，疏散顾客从安全出口撤离，不乘电梯，拨打119</li>
+        <li style="margin-bottom:8px;"><strong>盗窃</strong>：不正面对抗，记住特征，在安全情况下立即报警（110），通知店长</li>
+        <li style="margin-bottom:8px;"><strong>顾客受伤</strong>：立即通知店长，协助处理，记录事件经过，根据情况拨打120</li>
+        <li style="margin-bottom:8px;"><strong>设备故障</strong>：立即停止使用，粘贴"故障"标识，通知店长联系维修</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>📝 今日要点总结</h3>
+    <ul>
+      <li>✅ 月度优秀员工、服务之星等多种奖励，积极努力才有回报</li>
+      <li>✅ 泄露顾客信息、挪用货款等严重违规直接解除合同</li>
+      <li>✅ 了解灭火器、安全出口位置，知道紧急情况处置步骤</li>
+      <li>✅ 安全规定是保护大家的底线，不是束缚</li>
+    </ul>
+    <p style="margin-top:14px; color:#2e7d32; font-weight:600;">🎯 今日任务：找到门店灭火器和安全出口的位置，告诉师傅</p>
+  </div>
+
+    <div class="section">
+    <h2>🔒 第三部分：门店安全管理</h2>
+        <h3>📌 财务安全</h3>
+    <ul>
+      <li>收款后立即进行POS机确认，不接受私下转账（除非门店有明文规定）</li>
+      <li>发现收银差额，及时上报，不自行处理</li>
+      <li>每日收款登记，与系统记录核对</li>
+      <li>不得将顾客资料（手机号、购买记录）用于私人用途</li>
+    </ul>
+
+    <h3>📌 商品安全</h3>
+    <table class="rule-table">
+      <thead><tr><th>场景</th><th>安全要求</th></tr></thead>
+      <tbody>
+        <tr><td>高价值陈列品</td><td>试戴时全程陪同，不离视线</td></tr>
+        <tr><td>库存领取</td><td>按需领取，做好出库记录</td></tr>
+        <tr><td>配镜工单</td><td>核对无误再制作，避免废镜纠纷</td></tr>
+        <tr><td>成品镜存储</td><td>分类摆放，配件齐全，避免混淆</td></tr>
+      </tbody>
+    </table>
+
+    <h3>📌 消防与应急</h3>
+    <ul>
+      <li>了解门店消防设备位置（灭火器、应急出口）</li>
+      <li>熟悉紧急疏散路线，不堵塞通道</li>
+      <li>遇到可疑人员或紧急状况，立即报告店长</li>
+    </ul>
+
+  </div>
+  <div class="section">
+    <h2>🏆 第四部分：奖励制度的积极运用</h2>
+        <p>了解奖励制度的目的，不只是为了"拿奖金"，而是用它指导自己每天的工作重点：</p>
+    <div class="tip-box"><div class="label">💡 利用制度提升自我</div>
+    <ul style="margin-top:8px;">
+      <li>每月初查看门店本月的重点KPI（销售额目标、服务评分等）</li>
+      <li>把KPI分解到每天：每天至少完成多少才能达到月目标？</li>
+      <li>找到与自己差距最大的指标，重点改进</li>
+      <li>主动向优秀同事请教，而不是等待培训</li>
+    </ul>
+    </div>
+    <p style="margin-top:14px;">优秀员工和普通员工的差距，往往不在于能力，而在于是否<strong>主动把握每一次成长机会</strong>。</p>
+
+  </div>
+
+
+    <div class="section">
+    <h2>💼 实际操作：安全风险自查清单</h2>
+    <p>每日开店前，进行以下安全自查：</p>
+    <table class="rule-table">
+      <thead><tr><th>检查项目</th><th>正常状态</th><th>发现问题时</th></tr></thead>
+      <tbody>
+        <tr><td>展示柜锁闭状态</td><td>全部上锁，无异常</td><td>立即告知店长，不私自处理</td></tr>
+        <tr><td>收银机备用金</td><td>与前日记录一致</td><td>立即上报，等待核查</td></tr>
+        <tr><td>消防通道</td><td>无遮挡，通畅</td><td>清理遮挡物，告知店长</td></tr>
+        <tr><td>设备运行状态</td><td>验光仪器正常开机</td><td>联系技术维修，勿自行拆装</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_04_学习内容.html">← Day 04</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_05_练习题.html">今日练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
