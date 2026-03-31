@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 12 | 验光处方解读与产品搭配</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}
+  .header{background:linear-gradient(135deg,#e3f2fd,#bbdefb);padding:40px 30px;border-bottom:3px solid #2196F3;}
+  .day-tag{background:#2196F3;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}
+  .header h1{font-size:2em;color:#1565c0;margin-bottom:8px;}
+  .container{max-width:900px;margin:30px auto;padding:0 20px;}
+  .objective-box{background:#e3f2fd;border-left:5px solid #2196F3;border-radius:8px;padding:20px 24px;margin-bottom:30px;}
+  .objective-box h3{color:#1565c0;margin-bottom:10px;}
+  .objective-box li{margin-bottom:6px;font-size:0.95em;}
+  .section{background:white;border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+  .section h2{font-size:1.3em;color:#1565c0;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #e3f2fd;}
+  .section h3{font-size:1.05em;color:#333;margin:18px 0 10px;}
+  .section p{line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em;}
+  .section ul,.section ol{padding-left:20px;margin-bottom:14px;}
+  .section li{line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px;}
+  .prescription-box{background:#f5f5f5;border-radius:12px;padding:20px;margin:16px 0;font-family:monospace;}
+  .rx-table{width:100%;border-collapse:collapse;margin:10px 0;}
+  .rx-table th{background:#1565c0;color:white;padding:10px 14px;font-size:0.88em;}
+  .rx-table td{padding:10px 14px;border:1px solid #e0e0e0;font-size:0.9em;text-align:center;}
+  .rx-table .odd{background:#f9f9f9;}
+  .term-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0;}
+  .term-card{background:#e3f2fd;border-radius:10px;padding:14px;text-align:center;}
+  .term-card .abbr{font-size:1.4em;font-weight:700;color:#1565c0;margin-bottom:4px;}
+  .term-card .full{font-size:0.78em;color:#555;margin-bottom:6px;}
+  .term-card .meaning{font-size:0.82em;color:#333;line-height:1.5;}
+  .match-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .match-table th{background:#2196F3;color:white;padding:10px 14px;text-align:left;font-size:0.9em;}
+  .match-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .match-table tr:nth-child(even) td{background:#f9f9f9;}
+  .highlight-box{background:#fff8e1;border:1px solid #FFD54F;border-radius:8px;padding:16px 20px;margin:16px 0;}
+  .highlight-box .label{color:#F57F17;font-weight:700;font-size:0.85em;margin-bottom:6px;}
+  .summary-box{background:linear-gradient(135deg,#e3f2fd,#e8f5ff);border-radius:12px;padding:24px;margin-top:30px;}
+  .summary-box h3{color:#1565c0;margin-bottom:14px;}
+  .summary-box li{margin-bottom:8px;font-size:0.95em;}
+  .nav-footer{display:flex;justify-content:space-between;margin:30px 0 40px;}
+  .nav-btn{background:#2196F3;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}
+  .nav-btn.outline{background:white;color:#2196F3;border:2px solid #2196F3;}
+  @media(max-width:600px){.term-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="day-tag">📅 第2周 · Day 12</span>
+  <h1>📋 验光处方解读与产品搭配</h1>
+  <div class="subtitle">模块：知识 Knowledge | 今日主题：处方单解读 · 度数判断 · 镜框镜片搭配原则</div>
+</div>
+<div class="container">
+  <div class="objective-box">
+    <h3>🎯 今日学习目标</h3>
+    <ul>
+      <li>能看懂验光处方单的各项数据（S、C、A、ADD、PD）</li>
+      <li>能根据处方单判断顾客的视力情况</li>
+      <li>掌握根据处方推荐合适镜片折射率的方法</li>
+      <li>了解镜框与镜片搭配的基本原则</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>📋 第一部分：验光处方单解读</h2>
+    <p>验光师出具的处方单是配镜的核心依据，作为销售顾问需要能读懂它。</p>
+    <div class="term-grid">
+      <div class="term-card"><div class="abbr">S（SPH）</div><div class="full">球镜度数 Sphere</div><div class="meaning">近视（-号）或远视（+号）的度数，如-3.00表示近视300度</div></div>
+      <div class="term-card"><div class="abbr">C（CYL）</div><div class="full">柱镜度数 Cylinder</div><div class="meaning">散光度数，通常为负号。如-0.75表示75度散光</div></div>
+      <div class="term-card"><div class="abbr">A（AXIS）</div><div class="full">散光轴向 Axis</div><div class="meaning">散光的方向，0°~180°之间的数值，需精确加工</div></div>
+      <div class="term-card"><div class="abbr">ADD</div><div class="full">近用附加度数</div><div class="meaning">渐进或老花眼镜的看近附加度，表示老花度数</div></div>
+      <div class="term-card"><div class="abbr">PD</div><div class="full">瞳距 Pupillary Distance</div><div class="meaning">两瞳孔之间的距离（毫米），是镜片加工的关键数据</div></div>
+      <div class="term-card"><div class="abbr">R/L</div><div class="full">右眼/左眼</div><div class="meaning">OD=右眼，OS=左眼。两眼度数通常有差异</div></div>
+    </div>
+
+    <h3>📌 示例处方单解读</h3>
+    <div class="prescription-box">
+      <table class="rx-table">
+        <thead><tr><th>眼别</th><th>S（球镜）</th><th>C（柱镜）</th><th>A（轴向）</th><th>ADD</th></tr></thead>
+        <tbody>
+          <tr><td>R（右眼）</td><td>-3.50</td><td>-0.75</td><td>180</td><td>-</td></tr>
+          <tr class="odd"><td>L（左眼）</td><td>-4.00</td><td>-1.00</td><td>175</td><td>-</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.85em;color:#888;margin-top:8px;">PD: 63mm</p>
+    </div>
+    <p><strong>解读这张处方：</strong></p>
+    <ul>
+      <li>右眼：近视350度，散光75度，轴向180°</li>
+      <li>左眼：近视400度，散光100度，轴向175°</li>
+      <li>瞳距63mm（接近平均值）</li>
+      <li>无老花（无ADD）→ 推荐单光镜片</li>
+      <li>左眼度数较高（400度），建议至少选1.60折射率</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🎯 第二部分：根据处方推荐方案</h2>
+    <table class="match-table">
+      <thead><tr><th>处方情况</th><th>推荐折射率</th><th>推荐镜框注意</th></tr></thead>
+      <tbody>
+        <tr><td>球镜在300度以内，无散光</td><td>1.56即可</td><td>各类镜框均适合</td></tr>
+        <tr><td>球镜300~500度</td><td>建议1.60</td><td>避免超小框（边缘会厚）</td></tr>
+        <tr><td>球镜500~700度</td><td>建议1.67</td><td>全框优于半框，避免超大框</td></tr>
+        <tr><td>球镜700度以上</td><td>建议1.74</td><td>全框，尺寸不宜过大</td></tr>
+        <tr><td>高度散光（150度以上）</td><td>建议1.60以上</td><td>圆形镜框可能效果不佳</td></tr>
+        <tr><td>有ADD（老花/渐进）</td><td>渐进片需1.60以上</td><td>镜框高度建议≥28mm</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight-box">
+      <div class="label">⚠️ 镜框选择禁区</div>
+      <ul style="padding-left:18px;margin:8px 0;">
+        <li>高度近视（600度以上）不建议选无框（镜片边缘打孔承重差）</li>
+        <li>高度散光不建议选圆框（散光轴向在圆框内不均匀，影响视觉）</li>
+        <li>渐进片不建议选镜框高度小于28mm的框（看近区域不足）</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>📝 今日要点总结</h3>
+    <ul>
+      <li>✅ S=球镜度数（-近视/+远视），C=散光度，A=散光轴向，ADD=老花度，PD=瞳距</li>
+      <li>✅ 度数越高 → 需要更高折射率，镜片才够薄</li>
+      <li>✅ 高度近视/高度散光对镜框选择有限制，需提前告知顾客</li>
+      <li>✅ 渐进片对镜框高度有要求（≥28mm）</li>
+    </ul>
+    <p style="margin-top:14px; color:#1565c0; font-weight:600;">🎯 今日任务：找一张实际处方单，向师傅完整解读各项数据，并给出镜片和镜框的推荐意见</p>
+  </div>
+
+    <div class="section">
+    <h2>🔬 补充：渐进镜与功能镜详解</h2>
+        <h3>渐进多焦点镜片</h3>
+    <p>渐进镜是目前最先进的老视解决方案，镜片从上到下：</p>
+    <ul>
+      <li>上方区域：用于看远（开车、行走）</li>
+      <li>中间区域：用于看中距离（电脑屏幕）</li>
+      <li>下方区域：用于看近（阅读、手机）</li>
+    </ul>
+    <p>外观与普通眼镜相同，无明显分界线，兼顾美观和实用。</p>
+    <div class="tip-box"><div class="label">⚠️ 适应期说明</div><p>渐进镜初次佩戴通常需要1-2周适应期，下楼梯时需低头习惯，转头而非转眼看侧方。告知客户坚持佩戴，一般1-2周后即可自然使用。</p></div>
+    
+    <h3>防蓝光镜片销售技巧</h3>
+    <p>根据客户职业和用眼场景精准推荐：</p>
+    <table class="rule-table">
+      <thead><tr><th>客户类型</th><th>推荐理由</th><th>话术关键词</th></tr></thead>
+      <tbody>
+        <tr><td>上班族</td><td>8小时电脑工作</td><td>"保护眼睛，减少视疲劳"</td></tr>
+        <tr><td>学生</td><td>网课/学习用电子设备</td><td>"保护发育中的眼睛"</td></tr>
+        <tr><td>老年人</td><td>预防黄斑变性风险</td><td>"长远保护视力健康"</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box"><div class="label">💡 关键数据</div><p>成年人平均每天看屏幕7-9小时，学生平均6小时以上。这个数据在推荐防蓝光时非常有说服力。</p></div>
+  </div>
+
+
+    <div class="section">
+    <h2>📊 镜片推荐决策树</h2>
+    <p>面对客户时，用以下逻辑快速确定推荐方向：</p>
+    <table class="rule-table">
+      <thead><tr><th>客户情况</th><th>关键问题</th><th>推荐方向</th></tr></thead>
+      <tbody>
+        <tr><td>普通近视（-6以内）</td><td>预算+用眼场景</td><td>根据度数选折射率，按需加防蓝光/防污</td></tr>
+        <tr><td>高度近视（-6以上）</td><td>厚度要求</td><td>1.74超薄镜片，非球面设计</td></tr>
+        <tr><td>40岁以上+看近困难</td><td>是否同时需要看远？</td><td>单光老花镜或渐进多焦点镜片</td></tr>
+        <tr><td>儿童配镜</td><td>是否已散瞳验光？度数稳定吗？</td><td>建议防控镜片，不建议超高折射率（影响通透性）</td></tr>
+        <tr><td>驾驶员</td><td>开车频率如何？</td><td>偏光太阳镜或变色近视镜</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box"><div class="label">💡 不确定时怎么办</div><p>遇到复杂情况（高度散光、特殊处方、眼病史），不要贸然推荐，诚实说"我帮您请验光师看一下"，再由专业人员判断。谦虚求助远好于专业错误。</p></div>
+  </div>
+
+
+
+    <div class="summary-box" style="background:linear-gradient(135deg,#e3f2fd,#e8f5ff)">
+    <h3 style="color:#1565c0">📝 今日要点总结</h3>
+    <ul>
+      <li>✅ 镜片推荐的核心：了解客户需求+度数，给出针对性方案</li>
+      <li>✅ 渐进镜适合老视，重点是测量瞳高和适应期指导</li>
+      <li>✅ 防蓝光针对特定人群，用数据说话更有说服力</li>
+      <li>✅ 不确定时求助专业人员，而不是猜测</li>
+    </ul>
+    <p style="margin-top:14px;color:#1565c0;font-weight:600">
+      今日任务：找出门店内销量最好的3款镜片，记录它们各自的核心卖点。
+    </p>
+  </div>
+
+
+
+    <p style="text-align:center;color:#2196F3;font-weight:600;margin:12px 0">第2周知识积累：镜片是帮助客户看清世界的工具，选对镜片就是给客户最大的服务。</p>
+  <p style="text-align:center;color:#aaa;font-size:.85rem;margin-bottom:12px">— Day 12 · 镜片知识深化 · 完成 —</p>
+
+<div class="nav-footer">
+    <a class="nav-btn outline" href="Day_11_学习内容.html">← Day 11</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_12_练习题.html">今日练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
