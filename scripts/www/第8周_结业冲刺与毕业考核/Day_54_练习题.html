@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 54 练习题：销售综合强化测验</title>
+<style>
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f0f5f0; margin: 0; padding: 20px; }
+  .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  h1 { color: #2c3e50; border-bottom: 3px solid #27ae60; padding-bottom: 12px; }
+  .info-bar { background: #eafaf1; border-radius: 8px; padding: 12px 20px; margin: 16px 0; display: flex; gap: 24px; font-size: 14px; color: #1e8449; flex-wrap: wrap; }
+  h2 { color: #27ae60; margin-top: 30px; }
+  .question { background: #f8fff8; border: 1px solid #a9dfbf; border-radius: 8px; padding: 20px; margin: 16px 0; }
+  .question-num { font-weight: bold; color: #27ae60; font-size: 15px; }
+  .option { padding: 8px 12px; margin: 6px 0; background: #eafaf1; border-radius: 6px; cursor: pointer; border: 1px solid #82e0aa; }
+  .option:hover { background: #c8f7d4; }
+  .fill-input { width: 100%; padding: 10px; border: 1px solid #82e0aa; border-radius: 6px; font-size: 14px; margin-top: 8px; box-sizing: border-box; }
+  .answer-box { background: #eafaf1; border: 1px dashed #27ae60; border-radius: 8px; padding: 14px 18px; margin-top: 10px; display: none; color: #1a5c38; }
+  .btn { background: #27ae60; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; margin: 4px; }
+  .btn:hover { background: #1e8449; }
+  .btn-show { background: #2980b9; }
+  .btn-show:hover { background: #1f6fa8; }
+  .section-tag { background: #27ae60; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-right: 8px; }
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#2c3e50,#1a252f);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#2c3e50;border:2px solid #2c3e50}
+
+  /* interactive-options-type-d */
+  .option { cursor: pointer; transition: all 0.2s; }
+  .option.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .option.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .option.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .option.answered    { pointer-events: none !important; cursor: default !important; }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 54 练习题：销售综合强化测验（结业前最后冲刺）</h1>
+  <div class="info-bar">
+    <span>📅 第8周 第5天</span>
+    <span>⏱ 建议用时：35分钟</span>
+    <span>✅ 主题：综合能力终极测验</span>
+    <span>💯 总分：100分</span>
+  </div>
+
+  <h2><span class="section-tag">A</span>快速应答单选题（每题6分，共36分）</h2>
+
+  <div class="question">
+    <div class="question-num">1. 顾客问"戴眼镜会让近视越来越深吗？"，最专业的回答是？</div>
+    <div class="option">A. "是的，所以要尽量少戴。"</div>
+    <div class="option">B. "近视加深主要与眼轴增长相关，与戴不戴眼镜关系不大；不戴眼镜的话反而会因眯眼造成眼部疲劳。"</div>
+    <div class="option">C. "我也不太确定，您去问医生吧。"</div>
+    <div class="option">D. "每个人情况不同，说不准。"</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a1')">查看答案</button>
+    <div class="answer-box" id="a1">✅ <strong>答案：B</strong> — 这是常见误解，专业解释能增强顾客信任。近视发展的主要因素是眼轴增长（与遗传和用眼习惯有关），配镜是为了清晰视力，不会加深近视。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">2. FABE介绍法中，最终对顾客产生购买驱动的核心是？</div>
+    <div class="option">A. Feature（产品特点）</div>
+    <div class="option">B. Advantage（产品优势）</div>
+    <div class="option">C. Benefit（顾客获得的利益/好处）</div>
+    <div class="option">D. Evidence（案例证据）</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a2')">查看答案</button>
+    <div class="answer-box" id="a2">✅ <strong>答案：C</strong> — 顾客购买的动机是"对我有什么好处"（Benefit），而不是产品本身有多好。一切介绍都要最终落脚到对顾客的具体利益上。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">3. 以下哪种行为最能体现一名眼镜门店员工的专业度？</div>
+    <div class="option">A. 熟记所有产品价格</div>
+    <div class="option">B. 能用专业术语与顾客交流</div>
+    <div class="option">C. 能将专业知识转化为顾客能理解的语言，解决顾客实际问题</div>
+    <div class="option">D. 每天完成最多的成交单数</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a3')">查看答案</button>
+    <div class="answer-box" id="a3">✅ <strong>答案：C</strong> — 真正的专业度不是"懂得多"，而是"能把懂的东西转化为对顾客有价值的帮助"。能让外行听懂并受益，才是顶尖专业度的体现。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">4. 一位顾客要求把发票抬头写"办公用品"，你应该？</div>
+    <div class="option">A. 同意，只要顾客开心就好</div>
+    <div class="option">B. 礼貌但坚决拒绝，解释这是违规行为，并提供正规发票</div>
+    <div class="option">C. 让店长来决定</div>
+    <div class="option">D. 告诉顾客明天再来</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a4')">查看答案</button>
+    <div class="answer-box" id="a4">✅ <strong>答案：B</strong> — 开具虚假发票是违法行为，任何情况下都不能妥协。应礼貌解释并提供正规发票，保护自己和门店的合法权益。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">5. 顾客说"这款我很喜欢，但价格还是偏高"，最好的回应是？</div>
+    <div class="option">A. 立即打折</div>
+    <div class="option">B. 先确认顾客的主要顾虑是"价格"还是"价值感"，用价值分解法讲清楚值不值</div>
+    <div class="option">C. 推荐更便宜的替代品</div>
+    <div class="option">D. 告诉顾客这个价格已经很便宜了</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a5')">查看答案</button>
+    <div class="answer-box" id="a5">✅ <strong>答案：B</strong> — 顾客说"偏高"不一定真的是嫌贵，可能是还没感受到足够的价值。用价值分解法（每天成本+长期使用价值+眼部健康价值）帮助顾客重新衡量，比直接降价更有效。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">6. 门店成交率长期低于35%，最可能需要重点改善的是？</div>
+    <div class="option">A. 进一步降价</div>
+    <div class="option">B. 需求挖掘能力和异议处理能力</div>
+    <div class="option">C. 增加产品种类</div>
+    <div class="option">D. 更换店面装修</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a6')">查看答案</button>
+    <div class="answer-box" id="a6">✅ <strong>答案：B</strong> — 成交率低通常指的是进店顾客无法转化，核心原因往往是接待话术不到位、需求没挖清楚导致推荐不准，或者顾客有顾虑但没被有效解决。</div>
+  </div>
+
+  <h2><span class="section-tag">B</span>综合情景应用题（每题32分，共64分）</h2>
+
+  <div class="question">
+    <div class="question-num">7. 请为以下情景设计完整的销售流程（包含话术）：</div>
+    <p><strong>场景：</strong>一位30岁的年轻女性，职业是UI设计师，每天对着电脑10小时。进门说想配一副"每天用电脑用的眼镜"，预算在1000-1500元。</p>
+    <textarea class="fill-input" rows="14" placeholder="写出：
+①你如何进一步挖掘她的需求？
+②基于她的职业和需求，你推荐什么产品组合？为什么？
+③用FABE法介绍你推荐的镜片
+④如果她说'网上同款镜片400元，你们为什么卖1200元'，你怎么回应？
+⑤成交话术怎么说？"></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a7')">查看参考答案</button>
+    <div class="answer-box" id="a7">
+      ✅ <strong>参考答案：</strong><br><br>
+      <strong>①需求挖掘：</strong>"您每天对着电脑10小时，想了解一下——主要是视觉疲劳（眼酸/干涩）还是近视本身的清晰度问题？您现在有没有在戴眼镜？有没有出现头晕或视物重影的情况？"<br><br>
+      <strong>②产品推荐：</strong>镜架：轻量钛金属或TR90材质（长时间戴不累）+ 镜片：防蓝光+非球面（减蓝光负担，减轻视疲劳）+ 增透膜（提高透光率），预算1200-1400元可以实现。<br><br>
+      <strong>③FABE介绍：</strong>"这款豪雅锐翔防蓝光镜片（F）是专为长时间数字屏幕用眼设计的，通过优化近视区的屈光度，减少眼睛对焦时需要的调节量（A），对您这样每天10小时盯屏幕的设计师来说，下班后眼睛不那么酸、疲劳感会明显减轻（B）。我们店里很多互联网行业的顾客换了这款后都反馈效果很好（E）。"<br><br>
+      <strong>④价格异议：</strong>"网上确实有400元的防蓝光镜片，但价格差异主要在于：①品牌技术背书（豪雅/蔡司经过严格检测，光学性能稳定）②专业加工（我们有专业设备和技师，保证光心距、轴向精度）③售后保障（2年质保+免费调整）。买了不合适我们可以调整，网上买了有问题找不到人。您作为设计师，对视觉精度要求高，这个差异对您尤其重要。"<br><br>
+      <strong>⑤成交话术：</strong>"我看您对防蓝光的需求很明确，我推荐豪雅锐翔+这款钛合金细框的组合，总价是1380元，在您的预算范围内。您是今天配，还是先做个验光参考一下度数？"
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">8. 自我综合评估：在结业考核前，诚实回答以下3个问题</div>
+    <p>①你8周学习中，最让你有成就感的一次进步是什么？</p>
+    <p>②如果明天就是正式考核，你最担心哪个环节？你打算怎么应对？</p>
+    <p>③完成这8周培训，你对"眼镜顾问"这个职业有了什么新的认识？</p>
+    <textarea class="fill-input" rows="10" placeholder="请认真思考并回答这3个问题，这是你对8周学习的最后一次自我梳理..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a8')">查看答案</button>
+    <div class="answer-box" id="a8">✅ <strong>这是开放性自我反思题，没有标准答案。以下是示例仅供参考：</strong><br><br>
+    ①"最有成就感：第一次独立完成一位顾客的完整接待，从验光到选镜到成交，顾客最后满意地离开，那一刻的成就感是最真实的。"<br><br>
+    ②"最担心：极端投诉情境的应对，怕自己慌乱。打算：今晚再把HEAT法的话术背一遍，对着镜子演练一次保持冷静的状态。"<br><br>
+    ③"对这个职业的新认识：眼镜顾问不只是卖眼镜，而是一位帮助顾客改善视觉质量和生活体验的专业顾问。当你真的帮到了顾客，那个满意不只是商业交换，是真实的价值创造。"</div>
+  </div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <button class="btn" onclick="showAllAnswers()">📖 展示全部答案</button>
+    <button class="btn" style="background:#e74c3c;" onclick="resetAll()">🔄 重置练习</button>
+    <p style="margin-top:16px; color:#27ae60; font-weight:bold; font-size:16px;">🌟 加油！明天结业模拟考，后天正式考核！你已经准备好了！</p>
+  </div>
+</div>
+
+<script>
+function toggleAnswer(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+function showAllAnswers() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'block');
+}
+function resetAll() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.fill-input').forEach(el => el.value = '');
+}
+</script>
+<div class="nav-footer" style="max-width:960px;margin:28px auto 10px;padding:0 20px">
+  <a href="Day_54_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+  <a href="Day_55_学习内容.html" class="nav-btn">Day 55 学习内容 →</a>
+</div>
+
+<script>
+/* interactive-options-type-d-js */
+(function(){
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    // 收集该题所有 .option
+    var opts = Array.from(qBlock.querySelectorAll(':scope > .option, :scope > .options > .option'));
+    if(opts.length === 0) return;
+
+    // 找答案框：answer-box
+    var ansBox = qBlock.querySelector('.answer-box');
+    if(!ansBox) return;
+
+    // 从 answer-box 提取答案字母，支持多种格式：
+    // ✅ 正确答案：B / ✅ 答案：B / ✅ <strong>答案：B</strong>
+    var txt = ansBox.textContent || '';
+    var m = txt.match(/(?:\u6b63\u786e)?\u7b54\u6848[:\uff1a]\s*([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    opts.forEach(function(opt){
+      var letter = (opt.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      opt.classList.add('opt-clickable');
+      opt.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        opts.forEach(function(o){ o.classList.add('answered'); });
+        if(letter === correct){
+          opt.classList.add('opt-correct');
+          opt.textContent = '\u2705 ' + opt.textContent;
+        } else {
+          opt.classList.add('opt-wrong');
+          opt.textContent = '\u274c ' + opt.textContent;
+          opts.forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ o.classList.add('opt-reveal'); o.textContent = '\ud83d\udc49 ' + o.textContent; }
+          });
+        }
+        ansBox.style.display = 'block';
+        var btn = qBlock.querySelector('.btn-show, .show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
