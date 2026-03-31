@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 23 - 产品介绍话术</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(0,0,0,0.12); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 15px; }
+  .meta-bar { background: white; padding: 15px 40px; display: flex; gap: 30px; border-bottom: 1px solid #e8ecf0; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+  .meta-item span.dot { width: 8px; height: 8px; border-radius: 50%; background: #43e97b; display: inline-block; }
+  .container { max-width: 960px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 20px; color: #333; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #43e97b; display: flex; align-items: center; gap: 10px; }
+  .card h3 { font-size: 16px; color: #444; margin: 18px 0 10px; }
+  .card p { line-height: 1.8; color: #555; margin-bottom: 12px; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { line-height: 1.9; color: #555; margin-bottom: 4px; }
+  .highlight-box { background: #f0fdf7; border-left: 4px solid #43e97b; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .highlight-box.yellow { background: #fffbf0; border-color: #f59e0b; }
+  .highlight-box.blue { background: #f0f4ff; border-color: #667eea; }
+  .fabe-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0; }
+  .fabe-item { text-align: center; padding: 16px 12px; background: #f8f9fc; border-radius: 10px; border-top: 3px solid #43e97b; }
+  .fabe-item .letter { font-size: 28px; font-weight: bold; color: #43e97b; }
+  .fabe-item .name { font-size: 14px; font-weight: bold; margin: 6px 0 4px; color: #333; }
+  .fabe-item .desc { font-size: 12px; color: #777; line-height: 1.5; }
+  .script-box { background: #f0fdf7; border: 2px dashed #43e97b; border-radius: 10px; padding: 20px; margin: 16px 0; }
+  .script-box .script-label { color: #059669; font-weight: bold; font-size: 13px; margin-bottom: 10px; }
+  .script-box p { color: #333; font-size: 14px; line-height: 1.9; margin: 0; }
+  .product-case { background: #f8f9fc; border-radius: 10px; padding: 20px; margin: 16px 0; }
+  .product-case h4 { color: #333; margin-bottom: 12px; font-size: 15px; }
+  .product-case .feature { margin-bottom: 8px; font-size: 14px; color: #555; }
+  .product-case .feature strong { color: #43e97b; }
+  .summary-box { background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; border-radius: 12px; padding: 24px; margin-top: 8px; }
+  .summary-box h3 { font-size: 18px; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 20px; }
+  .summary-box li { line-height: 2; }
+  .footer { text-align: center; padding: 30px; color: #aaa; font-size: 13px; }
+  .nav-footer { display: flex; justify-content: space-between; margin: 20px 0 40px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #fa709a, #fee140); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #fa709a; border: 2px solid #fa709a; }
+  .nav-btn.outline:hover { background: #fff5f8; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="week-badge">第4周 · 销售话术与中期考核</div>
+  <h1>Day 23 — 产品介绍话术</h1>
+  <div class="subtitle">话术模块 · 用FABE法则让产品介绍有说服力，让顾客主动爱上你的推荐</div>
+</div>
+<div class="meta-bar">
+  <div class="meta-item"><span class="dot"></span>学习时长：约3.5小时</div>
+  <div class="meta-item"><span class="dot"></span>模块：话术（Scripts）</div>
+  <div class="meta-item"><span class="dot"></span>重要性：⭐⭐⭐⭐⭐</div>
+  <div class="meta-item"><span class="dot"></span>核心方法：FABE法则</div>
+</div>
+<div class="container">
+
+  <div class="card">
+    <h2><span>🎯</span>今日学习目标</h2>
+    <ol>
+      <li>掌握FABE产品介绍法则的原理与应用</li>
+      <li>能够用FABE法则介绍至少3款主要产品</li>
+      <li>学会根据顾客需求选择"主打卖点"</li>
+      <li>掌握镜架和镜片分别的介绍话术框架</li>
+      <li>能够流畅进行3分钟产品介绍演示</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2><span>🧩</span>一、FABE法则：最有说服力的产品介绍框架</h2>
+    <p>FABE是产品介绍的黄金法则，让你的每一句话都有逻辑、有价值感、能触动顾客：</p>
+    <div class="fabe-grid">
+      <div class="fabe-item">
+        <div class="letter">F</div>
+        <div class="name">Feature 特征</div>
+        <div class="desc">产品的客观特点（材质、工艺、数据）</div>
+      </div>
+      <div class="fabe-item">
+        <div class="letter">A</div>
+        <div class="name">Advantage 优势</div>
+        <div class="desc">这个特征带来的优点（比其他产品好在哪）</div>
+      </div>
+      <div class="fabe-item">
+        <div class="letter">B</div>
+        <div class="name">Benefit 利益</div>
+        <div class="desc">顾客得到的实际好处（与顾客需求挂钩）</div>
+      </div>
+      <div class="fabe-item">
+        <div class="letter">E</div>
+        <div class="name">Evidence 证据</div>
+        <div class="desc">用事实/案例/数据佐证（增加可信度）</div>
+      </div>
+    </div>
+    <div class="highlight-box yellow">
+      <strong>核心原则：</strong>顾客不关心你的产品有多好，他们只关心"这对我有什么用"。FABE法则确保你的每句介绍都落脚在顾客利益上（B），而不只是列功能参数（F）。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span>👓</span>二、FABE法则实战案例</h2>
+
+    <h3>案例1：超薄高折射率镜片（折射率1.74）</h3>
+    <div class="product-case">
+      <div class="feature"><strong>F（特征）：</strong>这片镜片使用折射率1.74的超薄非球面设计。</div>
+      <div class="feature"><strong>A（优势）：</strong>比普通1.56折射率镜片薄40%，同样度数厚度大幅降低。</div>
+      <div class="feature"><strong>B（利益）：</strong>您戴上后镜片很薄，看起来非常美观，不会有那种"瓶底"的厚重感，特别适合您这样度数比较深的情况。</div>
+      <div class="feature"><strong>E（证据）：</strong>您可以看一下这里的镜片对比样品，这是1.56的，这是1.74的，厚度差别很明显。我们很多高度近视的顾客换用1.74后都说满意多了。</div>
+    </div>
+
+    <div class="script-box">
+      <div class="script-label">💬 完整话术示例</div>
+      <p>"您度数比较深，我推荐您试试我们这款1.74超薄镜片。它的折射率比普通镜片高很多，同样的度数磨出来的镜片会薄40%左右，戴上去完全没有瓶底感，而且因为是非球面设计，边缘清晰度也更高。您可以看一下这个对比样品，差别一目了然。很多跟您度数差不多的顾客换了这款之后都觉得特别自然好看。"</p>
+    </div>
+
+    <h3>案例2：钛合金镜架</h3>
+    <div class="product-case">
+      <div class="feature"><strong>F（特征）：</strong>β钛合金材质，重量约3-5克。</div>
+      <div class="feature"><strong>A（优势）：</strong>比普通金属架轻60%，弹性好，不易变形，耐腐蚀。</div>
+      <div class="feature"><strong>B（利益）：</strong>戴一整天也不会有压迫感，特别适合长时间在办公室工作的您，再也不用担心鼻梁被压红了。</div>
+      <div class="feature"><strong>E（证据）：</strong>您可以亲手掂量一下这副架子，非常轻，您再对比一下旁边这副普通金属架，重量差别立刻就能感受到。</div>
+    </div>
+
+    <h3>案例3：防蓝光镜片</h3>
+    <div class="product-case">
+      <div class="feature"><strong>F（特征）：</strong>镜片镀有防蓝光膜层，能过滤有害蓝光（380-450nm波段）。</div>
+      <div class="feature"><strong>A（优势）：</strong>减少屏幕产生的短波蓝光对视网膜的刺激。</div>
+      <div class="feature"><strong>B（利益）：</strong>您每天用电脑、手机时间比较长，这款镜片能让您眼睛不那么容易疲劳，下班后不会那么酸涩，也能改善睡眠质量。</div>
+      <div class="feature"><strong>E（证据）：</strong>很多上班族换了防蓝光镜片之后都反映用眼疲劳减轻了很多。我们也可以在收银台给您做一个蓝光测试，让您直观看到效果。</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span>🎯</span>三、根据顾客需求选择主打卖点</h2>
+    <p>同一款产品，面对不同顾客时，应该强调不同的卖点：</p>
+    <div style="overflow-x:auto; margin:16px 0;">
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><th style="background:#43e97b;color:white;padding:10px 14px;text-align:left;">顾客类型</th><th style="background:#43e97b;color:white;padding:10px 14px;text-align:left;">最关心的是</th><th style="background:#43e97b;color:white;padding:10px 14px;text-align:left;">主打卖点</th></tr>
+        <tr style="background:#f8f9fc;"><td style="padding:10px 14px;border-bottom:1px solid #e8ecf0;">高度近视</td><td style="padding:10px 14px;border-bottom:1px solid #e8ecf0;">镜片不要太厚</td><td style="padding:10px 14px;border-bottom:1px solid #e8ecf0;">高折射率超薄镜片</td></tr>
+        <tr><td style="padding:10px 14px;border-bottom:1px solid #e8ecf0;">长时间用眼</td><td style="padding:10px 14px;border-bottom:1px solid #e8ecf0;">减少眼疲劳</td><td style="padding:10px 14px;border-bottom:1px solid #e8ecf0;">防蓝光、渐进多焦</td></tr>
+        <tr style="background:#f8f9fc;"><td style="padding:10px 14px;border-bottom:1px solid #e8ecf0;">运动爱好者</td><td style="padding:10px 14px;border-bottom:1px solid #e8ecf0;">不易损坏、安全</td><td style="padding:10px 14px;border-bottom:1px solid #e8ecf0;">TR-90、防冲击镜片</td></tr>
+        <tr><td style="padding:10px 14px;border-bottom:1px solid #e8ecf0;">注重外观</td><td style="padding:10px 14px;border-bottom:1px solid #e8ecf0;">好看、时尚</td><td style="padding:10px 14px;border-bottom:1px solid #e8ecf0;">款式设计、脸型搭配</td></tr>
+        <tr style="background:#f8f9fc;"><td style="padding:10px 14px;">价格敏感型</td><td style="padding:10px 14px;">性价比</td><td style="padding:10px 14px;">品质与价格的平衡，活动优惠</td></tr>
+      </table>
+    </div>
+    <div class="highlight-box blue">
+      <strong>实战技巧：</strong>介绍产品前先"探需求"，了解顾客最担心的是什么，然后重点攻克他的核心顾虑。不要对每位顾客都说同样的话。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span>📖</span>四、今日必背话术框架</h2>
+    <p>将FABE框架内化为一个流畅的介绍模板：</p>
+    <div class="script-box">
+      <div class="script-label">💬 FABE话术万能模板</div>
+      <p>"这款[产品名]使用了[特征]，[优势描述]，所以对您来说[顾客利益]。您可以[证据/体验方式]，感受一下。"</p>
+    </div>
+    <p>练习方法：选3款门店产品，各写一段FABE介绍词，背诵并演练给师傅听。</p>
+  </div>
+
+  <div class="summary-box">
+    <h3>📋 今日知识小结</h3>
+    <ul>
+      <li>FABE = 特征(F) + 优势(A) + 顾客利益(B) + 证据(E)，B是核心</li>
+      <li>不要只说参数，要把每个特征转化成顾客能感受到的实际好处</li>
+      <li>同款产品面对不同顾客需求，要强调不同卖点</li>
+      <li>先探需求，再精准推荐，事半功倍</li>
+    </ul>
+  </div>
+
+  <div class="footer">Day 23 · 眼镜门店新员工8周成才培训计划 · 第4周 销售话术与中期考核</div>
+
+    <div class="card">
+    <h2>🎭 FAB话术练习场景</h2>
+    <p>FAB是产品介绍的黄金公式：<strong>Feature（特性）→ Advantage（优势）→ Benefit（利益）</strong></p>
+    <h3>练习案例1：1.67超薄镜片</h3>
+    <ul>
+      <li><strong>F</strong>：折射率1.67，比普通1.56高出很多</li>
+      <li><strong>A</strong>：同等度数下，镜片厚度减少约30-40%</li>
+      <li><strong>B</strong>：您戴起来镜片更薄更美观，旁人看不出度数，整体颜值大幅提升</li>
+    </ul>
+    <h3>练习案例2：渐进多焦点镜片</h3>
+    <ul>
+      <li><strong>F</strong>：一片镜片包含远中近三个视区</li>
+      <li><strong>A</strong>：不需要摘镜换镜，一副搞定所有距离的视力需求</li>
+      <li><strong>B</strong>：您开车、用电脑、看手机都不需要换眼镜，出门也不用带两副，非常方便</li>
+    </ul>
+    <h3>练习案例3：防蓝光镜片</h3>
+    <ul>
+      <li><strong>F</strong>：镜片含特殊涂层，过滤380-440nm有害蓝光</li>
+      <li><strong>A</strong>：长时间看屏幕不容易疲劳，睡前接触蓝光减少，睡眠质量改善</li>
+      <li><strong>B</strong>：您每天用电脑这么多小时，下班后眼睛不酸涩，回家还有精神陪家人</li>
+    </ul>
+  </div>
+
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_22_练习题.html">← Day 22 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_23_练习题.html">Day 23 练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
