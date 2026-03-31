@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 44 练习题：高端产品知识与品牌销售</title>
+<style>
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+  .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  h1 { color: #2c3e50; border-bottom: 3px solid #9b59b6; padding-bottom: 12px; }
+  .info-bar { background: #f8ecff; border-radius: 8px; padding: 12px 20px; margin: 16px 0; display: flex; gap: 30px; font-size: 14px; color: #7d3c98; }
+  h2 { color: #7d3c98; margin-top: 30px; }
+  .question { background: #fdfbff; border: 1px solid #e8d5f5; border-radius: 8px; padding: 20px; margin: 16px 0; }
+  .question-num { font-weight: bold; color: #9b59b6; font-size: 15px; }
+  .options { margin-top: 10px; }
+  .option { padding: 8px 12px; margin: 6px 0; background: #f9f0ff; border-radius: 6px; cursor: pointer; border: 1px solid #e0c8f5; transition: 0.2s; }
+  .option:hover { background: #edd9ff; }
+  .fill-input { width: 100%; padding: 10px; border: 1px solid #d7b8f3; border-radius: 6px; font-size: 14px; margin-top: 8px; box-sizing: border-box; }
+  .scenario { background: #fff8f0; border-left: 4px solid #e67e22; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 10px 0; font-style: italic; color: #6c4a2a; }
+  .answer-box { background: #eafaf1; border: 1px dashed #27ae60; border-radius: 8px; padding: 14px 18px; margin-top: 10px; display: none; color: #1a5c38; }
+  .btn { background: #9b59b6; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; margin: 4px; }
+  .btn:hover { background: #7d3c98; }
+  .btn-show { background: #27ae60; }
+  .btn-show:hover { background: #1e8449; }
+  .score-box { background: #f8ecff; border-radius: 10px; padding: 20px; text-align: center; margin-top: 24px; display: none; }
+  .section-tag { background: #9b59b6; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-right: 8px; }
+  .tips { background: #fffce6; border: 1px solid #f1c40f; border-radius: 8px; padding: 12px 18px; margin: 16px 0; font-size: 13px; color: #7d6608; }
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#8e44ad,#6c3483);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#8e44ad;border:2px solid #8e44ad}
+
+  /* interactive-options-type-d */
+  .option { cursor: pointer; transition: all 0.2s; }
+  .option.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .option.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .option.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .option.answered    { pointer-events: none !important; cursor: default !important; }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 44 练习题：高端产品知识与品牌销售</h1>
+  <div class="info-bar">
+    <span>📅 第7周 第2天</span>
+    <span>⏱ 建议用时：25分钟</span>
+    <span>💎 主题：高端产品与品牌营销</span>
+    <span>📊 总分：100分</span>
+  </div>
+
+  <div class="tips">
+    💡 <strong>考核提示：</strong>高端产品销售考验专业度与服务温度，记住：顾客买的不只是产品，更是信任与体验！
+  </div>
+
+  <!-- 第一部分：单选题 -->
+  <h2><span class="section-tag">A</span>单选题（每题8分，共40分）</h2>
+
+  <div class="question">
+    <div class="question-num">1. 渐进多焦点镜片相比单焦点镜片最大的优势是？</div>
+    <div class="options">
+      <div class="option">A. 价格更便宜</div>
+      <div class="option">B. 一副眼镜兼顾远中近不同距离视力，无需频繁换镜</div>
+      <div class="option">C. 镜片更轻更薄</div>
+      <div class="option">D. 防蓝光效果更好</div>
+    </div>
+    <button class="btn btn-show" onclick="toggleAnswer('a1')">查看答案</button>
+    <div class="answer-box" id="a1">✅ <strong>答案：B</strong><br>渐进多焦点镜片最大优势是一副眼镜可以看清远、中、近不同距离，特别适合老花眼群体，避免频繁换镜的麻烦。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">2. 向顾客介绍蔡司镜片时，以下哪种说法最专业？</div>
+    <div class="options">
+      <div class="option">A. "蔡司镜片就是贵，但质量肯定好"</div>
+      <div class="option">B. "蔡司是德国百年品牌，采用精密光学技术，镜片成像更清晰、色彩还原更真实"</div>
+      <div class="option">C. "这是我们卖得最好的镜片"</div>
+      <div class="option">D. "买这个你不会后悔的"</div>
+    </div>
+    <button class="btn btn-show" onclick="toggleAnswer('a2')">查看答案</button>
+    <div class="answer-box" id="a2">✅ <strong>答案：B</strong><br>专业介绍应包含品牌背景（德国百年品牌）、核心技术（精密光学）和顾客利益（成像清晰、色彩真实），而非空洞的赞美或个人感受。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">3. 顾客说"高端镜片和普通镜片看起来没什么区别，不值这个价"，最佳应对策略是？</div>
+    <div class="options">
+      <div class="option">A. 承认顾客说得有道理，推荐普通镜片</div>
+      <div class="option">B. 用数据和体验来展示差异，如"镜片透光率相差15%，长时间用眼疲劳度明显不同"</div>
+      <div class="option">C. 告诉顾客高端镜片就是贵，品质保证</div>
+      <div class="option">D. 沉默，等顾客自己决定</div>
+    </div>
+    <button class="btn btn-show" onclick="toggleAnswer('a3')">查看答案</button>
+    <div class="answer-box" id="a3">✅ <strong>答案：B</strong><br>用具体数据和可感知的体验差异来解释价值，比泛泛而谈"品质好"更有说服力。透光率、用眼舒适度、使用寿命等都是有效的价值论据。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">4. 豪雅镜片的"锐翔"系列主要针对哪类人群？</div>
+    <div class="options">
+      <div class="option">A. 运动爱好者</div>
+      <div class="option">B. 长时间使用电子屏幕、有视觉疲劳问题的用户</div>
+      <div class="option">C. 儿童近视防控</div>
+      <div class="option">D. 老年人老花眼</div>
+    </div>
+    <button class="btn btn-show" onclick="toggleAnswer('a4')">查看答案</button>
+    <div class="answer-box" id="a4">✅ <strong>答案：B</strong><br>豪雅锐翔（Sync III）系列专为长时间使用数字设备的年轻人设计，通过减轻调节负担，缓解视觉疲劳。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">5. 在高端镜架销售中，最能体现专业度的服务环节是？</div>
+    <div class="options">
+      <div class="option">A. 让顾客自己挑选，不打扰</div>
+      <div class="option">B. 根据顾客脸型、肤色、职业场合，主动提供个性化搭配建议</div>
+      <div class="option">C. 只介绍最贵的产品</div>
+      <div class="option">D. 强调所有产品都在打折</div>
+    </div>
+    <button class="btn btn-show" onclick="toggleAnswer('a5')">查看答案</button>
+    <div class="answer-box" id="a5">✅ <strong>答案：B</strong><br>高端服务的核心是个性化。根据脸型（方脸/圆脸/瓜子脸）、肤色（冷暖调）、使用场景提供专业搭配建议，是差异化服务的体现。</div>
+  </div>
+
+  <!-- 第二部分：情景模拟 -->
+  <h2><span class="section-tag">B</span>情景模拟（每题15分，共30分）</h2>
+
+  <div class="question">
+    <div class="question-num">6. 请模拟以下销售场景，写出你的完整应答：</div>
+    <div class="scenario">
+      顾客（40岁，金融行业高管）：我平时参加很多商务会议，也经常用电脑。我想配一副既能体现身份，又实用的眼镜，预算在3000元左右，你帮我推荐一下？
+    </div>
+    <textarea class="fill-input" rows="6" placeholder="请在此写出你的推荐话术，包括：需求确认→产品推荐→价值讲解→试戴邀请..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a6')">查看参考答案</button>
+    <div class="answer-box" id="a6">
+      ✅ <strong>参考应答：</strong><br><br>
+      "好的！您的需求很明确——商务场合的形象感和日常用眼的舒适性都要兼顾，预算也很充裕，我来为您精选。<br><br>
+      <strong>镜架推荐：</strong>我建议您看看蔡司或博士伦的钛金属商务款，细边设计，显得干练专业，不抢戏但很有质感，很受高管群体青睐。<br><br>
+      <strong>镜片推荐：</strong>您经常用电脑又要参加会议，建议配蔡司数码全优防蓝光增透膜镜片——它既能减少屏幕蓝光对眼睛的刺激，镜片透光率高达99.7%，成像特别通透，戴着就算开一天的会也不容易累眼睛。<br><br>
+      <strong>价值点：</strong>镜架加镜片组合在3000元左右，蔡司提供2年质保，我们店还有免费调校服务，是长期的眼镜伙伴。<br><br>
+      您现在方便试戴感受一下吗？实际上脸的效果会更直观！"
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">7. 价值异议处理：如何让顾客感受到高端产品的"性价比"？</div>
+    <div class="scenario">
+      顾客看了你推荐的1800元镜片，说："哇，好贵！普通镜片就几百块，差这么多，真的值吗？"
+    </div>
+    <textarea class="fill-input" rows="6" placeholder="请写出你的应对话术，重点在于建立价值感，而不是简单打折或道歉..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a7')">查看参考答案</button>
+    <div class="answer-box" id="a7">
+      ✅ <strong>参考应答（价值分解法）：</strong><br><br>
+      "您说得很在理，差价是有的，我来帮您分析一下值不值：<br><br>
+      普通镜片确实只要几百块，但它的使用寿命通常是1-2年，膜层容易脱落，清晰度下降后就要换。而这款镜片使用寿命可以到3-5年，单算到每天，价差其实不到1块钱。<br><br>
+      更重要的是：您的眼睛每天工作8-10小时，镜片光学质量直接影响您的用眼舒适度和效率。高端镜片的像差控制精度是普通镜片的3-5倍，长期用下来，眼睛不容易疲劳，对视力保护也更好。<br><br>
+      当然最终还是您来决定，我只是想让您在选择时更清楚您花的钱去哪里了。如果您想体验一下清晰度的差异，我们可以做个现场对比展示！"
+    </div>
+  </div>
+
+  <!-- 第三部分：简答题 -->
+  <h2><span class="section-tag">C</span>简答题（每题15分，共30分）</h2>
+
+  <div class="question">
+    <div class="question-num">8. 请列举3个在高端产品销售中建立顾客信任感的有效方法？</div>
+    <textarea class="fill-input" rows="5" placeholder="从专业知识、服务态度、沟通技巧等维度思考..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a8')">查看参考答案</button>
+    <div class="answer-box" id="a8">
+      ✅ <strong>参考答案：</strong><br><br>
+      <strong>① 专业讲解有依据：</strong>不说"质量好"，而是用数据和技术背景说话，如"镜片阿贝数47，色散小，看文字更清晰"，体现专业度。<br><br>
+      <strong>② 需求优先，不强推：</strong>先了解顾客的真实需求和预算，在合适的产品中推荐，而非一开口就推最贵的，让顾客感受到被尊重而非被套路。<br><br>
+      <strong>③ 提供真实体验：</strong>让顾客试戴、现场对比、看实际验配案例，用真实体验代替口头承诺，增加说服力和可信度。
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">9. 门店里有几个不同价位的主流镜片品牌（如蔡司、豪雅、依视路），你如何根据顾客特征进行精准推荐？</div>
+    <textarea class="fill-input" rows="5" placeholder="从顾客的职业、度数、预算、使用场景等维度制定推荐策略..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a9')">查看参考答案</button>
+    <div class="answer-box" id="a9">
+      ✅ <strong>参考答案：</strong><br><br>
+      <strong>推荐框架——4维匹配法：</strong><br><br>
+      <strong>① 依据预算：</strong>依视路锐美/豪雅MiYO SMART等入门/中端适合预算300-800元；蔡司清锐/豪雅微晶透适合800-1500元；蔡司成就/豪雅锐翔适合1500元以上。<br><br>
+      <strong>② 依据用眼需求：</strong>长时间用电脑→防蓝光+数字设计（豪雅锐翔）；高度数→非球面/双非球面（蔡司Individual）；老花眼→渐进多焦（依视路星锐锋）。<br><br>
+      <strong>③ 依据职业场合：</strong>商务人士→蔡司/豪雅高端系列，体现品质；普通职员→依视路中端系列，实用性强；学生→防蓝光+离焦防控系列。<br><br>
+      <strong>④ 依据品牌偏好：</strong>有品牌认知的顾客按品牌需求对接；无偏好者重点展示性价比最高的选项。
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <button class="btn" onclick="showAllAnswers()">📖 展示全部答案</button>
+    <button class="btn" style="background:#e74c3c;" onclick="resetAll()">🔄 重置练习</button>
+  </div>
+
+  <div class="score-box" id="scoreBox">
+    <h3 style="color:#7d3c98;">🎯 练习完成！</h3>
+    <p>本次练习涵盖：高端产品知识 · 品牌介绍话术 · 价值异议处理 · 精准推荐策略</p>
+    <p style="color:#27ae60; font-weight:bold;">Day 44 综合能力提升 ✔</p>
+  </div>
+
+  <div class="nav-footer">
+    <a href="Day_44_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_45_学习内容.html" class="nav-btn">Day 45 学习内容 →</a>
+  </div>
+</div>
+
+<script>
+function toggleAnswer(id) {
+  const box = document.getElementById(id);
+  box.style.display = box.style.display === 'block' ? 'none' : 'block';
+}
+function showAllAnswers() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'block');
+  document.getElementById('scoreBox').style.display = 'block';
+}
+function resetAll() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.fill-input').forEach(el => el.value = '');
+  document.getElementById('scoreBox').style.display = 'none';
+}
+</script>
+
+<script>
+/* interactive-options-type-d-js */
+(function(){
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    // 收集该题所有 .option
+    var opts = Array.from(qBlock.querySelectorAll(':scope > .option, :scope > .options > .option'));
+    if(opts.length === 0) return;
+
+    // 找答案框：answer-box
+    var ansBox = qBlock.querySelector('.answer-box');
+    if(!ansBox) return;
+
+    // 从 answer-box 提取答案字母，支持多种格式：
+    // ✅ 正确答案：B / ✅ 答案：B / ✅ <strong>答案：B</strong>
+    var txt = ansBox.textContent || '';
+    var m = txt.match(/(?:\u6b63\u786e)?\u7b54\u6848[:\uff1a]\s*([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    opts.forEach(function(opt){
+      var letter = (opt.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      opt.classList.add('opt-clickable');
+      opt.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        opts.forEach(function(o){ o.classList.add('answered'); });
+        if(letter === correct){
+          opt.classList.add('opt-correct');
+          opt.textContent = '\u2705 ' + opt.textContent;
+        } else {
+          opt.classList.add('opt-wrong');
+          opt.textContent = '\u274c ' + opt.textContent;
+          opts.forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ o.classList.add('opt-reveal'); o.textContent = '\ud83d\udc49 ' + o.textContent; }
+          });
+        }
+        ansBox.style.display = 'block';
+        var btn = qBlock.querySelector('.btn-show, .show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
