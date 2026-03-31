@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 32 练习题 - 验光流程与数据解读</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; margin-bottom: 8px; }
+  .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 18px; color: #333; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #11998e; }
+  .q-block { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px dashed #e8ecf0; }
+  .q-block:last-child { border-bottom: none; }
+  .q-num { display: inline-block; background: #11998e; color: white; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-size: 13px; margin-right: 8px; }
+  .q-title { font-size: 15px; color: #333; margin-bottom: 16px; line-height: 1.7; display: flex; align-items: flex-start; gap: 8px; }
+  .options { padding-left: 36px; }
+  
+  .option:hover { border-color: #11998e; background: #f0fdf9; }
+  .option input { margin-top: 2px; accent-color: #11998e; }
+  .option label { font-size: 14px; color: #555; cursor: pointer; line-height: 1.6; }
+  .answer-box { background: #f0fdf9; border: 1px solid #a7f3d0; border-radius: 8px; padding: 14px 18px; margin-top: 12px; display: none; }
+  .answer-box .label { color: #065f46; font-weight: bold; font-size: 13px; margin-bottom: 6px; }
+  .answer-box p { font-size: 14px; color: #444; line-height: 1.7; }
+  .show-answer-btn { background: none; border: 1px solid #11998e; color: #11998e; padding: 6px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; margin-top: 10px; }
+  .textarea-box { width: 100%; margin-top: 8px; padding: 12px 16px; border: 1px solid #e8ecf0; border-radius: 8px; font-size: 14px; font-family: 'Microsoft YaHei', sans-serif; resize: vertical; min-height: 100px; color: #444; line-height: 1.7; }
+  .submit-btn { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border: none; padding: 14px 48px; border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; }
+  .nav-bar { background: white; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e8ecf0; margin-top: 30px; }
+  .nav-btn { display: inline-block; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; }
+  .nav-btn.prev { background: #f0fdf9; color: #11998e; border: 1px solid #a7f3d0; }
+  .nav-btn.next { background: #11998e; color: white; }
+  .optometry-card { background: #f8fffe; border: 1px solid #c7f0e8; border-radius: 10px; padding: 20px; margin: 16px 0; font-family: 'Courier New', monospace; font-size: 14px; }
+  .optometry-card .title { font-family: 'Microsoft YaHei', sans-serif; font-weight: bold; color: #065f46; margin-bottom: 12px; font-size: 15px; }
+  .optometry-row { display: grid; grid-template-columns: 40px 80px 80px 60px 60px 60px; gap: 8px; padding: 6px 0; border-bottom: 1px dashed #e8ecf0; font-size: 13px; }
+  .optometry-header { font-weight: bold; color: #333; }
+
+  
+
+
+  /* ── 交互式选项（Day01标准） ── */
+  .options { list-style: none; padding: 0; margin: 12px 0 0 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-size: 0.93em; transition: all 0.2s; line-height: 1.6; }
+  .options li:hover:not(.answered) { border-color: var(--accent, #4CAF50); background: #f1f8e9; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events: none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events: none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
+  .options li.answered    { pointer-events: none !important; cursor: default !important; }
+
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="week-badge">📝 第5周 · 练习题</div>
+  <h1>Day 32 练习题 · 验光流程与数据解读</h1>
+</div>
+<div class="container">
+  <div class="card">
+    <h2>🧠 单选题</h2>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">1</span>验光单中"SPH -4.00"表示什么意思？</div>
+          <ul class="options">
+      <li>A. 400度远视</li>
+      <li>B. 400度近视</li>
+      <li>C. 400度散光</li>
+      <li>D. 瞳距40毫米</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a1')">查看答案</button>
+      <div class="answer-hint" id="a1"><div class="label">✅ 正确答案：B</div><p>SPH是球镜度数。负数（-）表示近视，正数（+）表示远视。-4.00表示400度近视。注意区分：CYL才是散光，PD是瞳距。</p></div>
+    </div>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">2</span>综合验光（主觉验光）与电脑验光的主要区别是？</div>
+          <ul class="options">
+      <li>A. 前者是机器自动测量，后者是顾客反馈</li>
+      <li>B. 前者依靠顾客主观反馈精准确认度数，后者是机器客观初测</li>
+      <li>C. 两者完全一样，只是叫法不同</li>
+      <li>D. 电脑验光更准确，综合验光只是复核</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a2')">查看答案</button>
+      <div class="answer-hint" id="a2"><div class="label">✅ 正确答案：B</div><p>电脑验光（客观）是仪器自动测量，得到的是初始参考数据；综合验光（主觉）是验光师根据顾客"哪个更清楚"的主观反馈，逐步调整确认精准度数。最终配镜度数以综合验光为准。</p></div>
+    </div>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">3</span>顾客试戴验光度数后说"走路有点头晕"，你应该怎么做？</div>
+          <ul class="options">
+      <li>A. 告诉他这是正常的，适应一下就好</li>
+      <li>B. 立刻取下试戴架，换一副度数更低的</li>
+      <li>C. 记录反馈，及时告知验光师，让验光师判断是否需要调整</li>
+      <li>D. 继续陪顾客走动，忽略这个反馈</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a3')">查看答案</button>
+      <div class="answer-hint" id="a3"><div class="label">✅ 正确答案：C</div><p>头晕可能是度数偏高、散光轴位不准或其他原因，需要验光师判断是否需要调整度数或降低处方。销售人员不应自行判断"正常不正常"，更不应擅自换度数，应第一时间反馈给专业验光师处理。</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📊 验光单解读练习</h2>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">4</span>根据下面的验光单，回答问题：</div>
+      <div class="optometry-card">
+        <div class="title">验光处方单</div>
+        <div class="optometry-row optometry-header">
+          <span>眼别</span><span>SPH</span><span>CYL</span><span>AXIS</span><span>VA</span><span>PD</span>
+        </div>
+        <div class="optometry-row"><span>R</span><span>-5.50</span><span>-0.75</span><span>180°</span><span>1.0</span><span rowspan="2">64mm</span></div>
+        <div class="optometry-row"><span>L</span><span>-6.00</span><span>-1.00</span><span>175°</span><span>1.0</span><span></span></div>
+      </div>
+      <p style="font-size:14px; color:#555; margin-top:8px;">① 该顾客左眼近视多少度？有没有散光？</p>
+      <p style="font-size:14px; color:#555; margin-top:4px;">② 根据该顾客的度数，你建议推荐什么折射率的镜片？理由是什么？</p>
+      <p style="font-size:14px; color:#555; margin-top:4px;">③ 请写出你向该顾客解读验光单的完整话术。</p>
+      <textarea class="textarea-box" placeholder="请分别回答三个小问..."></textarea>
+      <button class="show-answer-btn" onclick="toggleAnswer('a4')">查看参考答案</button>
+      <div class="answer-hint" id="a4">
+        <div class="label">📌 参考答案</div>
+        <p>① 左眼近视600度（SPH -6.00），有散光100度（CYL -1.00），轴位175°。</p>
+        <p style="margin-top:6px;">② 建议推荐1.74折射率镜片。理由：双眼度数均超过500度，属于高度近视，1.74折射率镜片最薄，可以有效减少镜片厚度和重量，佩戴更舒适美观。</p>
+        <p style="margin-top:6px;">③ 话术参考："您的验光单我来解释一下，您右眼近视550度，有75度的散光；左眼近视600度，有100度的散光，瞳距是64毫米。您的度数属于高度近视，我建议您选1.74折射率的镜片，这是目前最薄的镜片，配出来的眼镜边缘会非常薄，外观好看，重量也轻。"</p>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">5</span>今天你协助了几次验光接待？写下其中印象最深的一次，描述你承担的具体职责和遇到的挑战。</div>
+      <textarea class="textarea-box" placeholder="描述你今天在验光环节的实际表现，遇到了什么困难，是如何应对的..."></textarea>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin: 20px 0 30px;">
+    <button class="submit-btn">提交练习</button>
+  </div>
+</div>
+<div class="nav-bar">
+  <a href="Day_32_学习内容.html" class="nav-btn prev">← 返回学习内容</a>
+    <a href="../index.html" class="nav-btn" style="background:#f0fdf9;color:#11998e;border:1px solid #a7f3d0;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:14px;">🏠 首页</a>
+    
+  <span style="color:#999;font-size:13px;">Day 32 练习题</span>
+  <a href="Day_33_学习内容.html" class="nav-btn next">Day 33 →</a>
+</div>
+<script>
+function toggleAnswer(id) {
+  const box = document.getElementById(id);
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+</script>
+
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card, .question, .q-block').forEach(function(card){
+    var hint = card.querySelector('.answer-hint, .answer-box');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<[^>]+>)?([A-Da-d正确错误])/i);
+    if(!m) return;
+    var correctRaw = m[1];
+    // 支持汉字"正确"/"错误"和字母A/B/C/D
+    var correct = correctRaw.toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var txt = li.textContent.trim();
+      var letter = (txt.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
