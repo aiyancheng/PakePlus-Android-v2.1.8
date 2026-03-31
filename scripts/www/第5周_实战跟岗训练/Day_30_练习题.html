@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 30 练习题 - 需求挖掘提问训练</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; margin-bottom: 8px; }
+  .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 18px; color: #333; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #11998e; }
+  .q-block { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px dashed #e8ecf0; }
+  .q-block:last-child { border-bottom: none; }
+  .q-num { display: inline-block; background: #11998e; color: white; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-size: 13px; margin-right: 8px; }
+  .q-title { font-size: 15px; color: #333; margin-bottom: 16px; line-height: 1.7; display: flex; align-items: flex-start; gap: 8px; }
+  .options { padding-left: 36px; }
+  
+  .option:hover { border-color: #11998e; background: #f0fdf9; }
+  .option input { margin-top: 2px; accent-color: #11998e; }
+  .option label { font-size: 14px; color: #555; cursor: pointer; line-height: 1.6; }
+  .answer-box { background: #f0fdf9; border: 1px solid #a7f3d0; border-radius: 8px; padding: 14px 18px; margin-top: 12px; display: none; }
+  .answer-box .label { color: #065f46; font-weight: bold; font-size: 13px; margin-bottom: 6px; }
+  .answer-box p { font-size: 14px; color: #444; line-height: 1.7; }
+  .show-answer-btn { background: none; border: 1px solid #11998e; color: #11998e; padding: 6px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; margin-top: 10px; }
+  .textarea-box { width: 100%; margin-top: 8px; padding: 12px 16px; border: 1px solid #e8ecf0; border-radius: 8px; font-size: 14px; font-family: 'Microsoft YaHei', sans-serif; resize: vertical; min-height: 100px; color: #444; line-height: 1.7; }
+  .textarea-box:focus { outline: none; border-color: #11998e; }
+  .submit-btn { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border: none; padding: 14px 48px; border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; }
+  .nav-bar { background: white; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e8ecf0; margin-top: 30px; }
+  .nav-btn { display: inline-block; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; }
+  .nav-btn.prev { background: #f0fdf9; color: #11998e; border: 1px solid #a7f3d0; }
+  .nav-btn.next { background: #11998e; color: white; }
+
+  
+
+
+  /* ── 交互式选项（Day01标准） ── */
+  .options { list-style: none; padding: 0; margin: 12px 0 0 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-size: 0.93em; transition: all 0.2s; line-height: 1.6; }
+  .options li:hover:not(.answered) { border-color: var(--accent, #4CAF50); background: #f1f8e9; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events: none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events: none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
+  .options li.answered    { pointer-events: none !important; cursor: default !important; }
+
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="week-badge">📝 第5周 · 练习题</div>
+  <h1>Day 30 练习题 · 需求挖掘提问训练</h1>
+</div>
+<div class="container">
+  <div class="card">
+    <h2>🧠 单选题</h2>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">1</span>"请问您今天是第一次配镜吗？"这是哪种类型的问题？</div>
+          <ul class="options">
+      <li>A. 开放式问题</li>
+      <li>B. 封闭式问题</li>
+      <li>C. 诱导式问题</li>
+      <li>D. 反问式问题</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a1')">查看答案</button>
+      <div class="answer-hint" id="a1"><div class="label">✅ 正确答案：B</div><p>这道题只能回答"是"或"否"，是典型的封闭式问题。封闭式问题用于确认具体信息，答案被限定在有限范围内。</p></div>
+    </div>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">2</span>漏斗式提问法中，正确的问询顺序是？</div>
+          <ul class="options">
+      <li>A. 确认需求→了解场景→了解来意→了解问题</li>
+      <li>B. 了解来意→了解场景→了解习惯/问题→确认核心需求</li>
+      <li>C. 了解习惯→了解来意→了解场景→确认需求</li>
+      <li>D. 直接询问预算，再确认其他需求</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a2')">查看答案</button>
+      <div class="answer-hint" id="a2"><div class="label">✅ 正确答案：B</div><p>漏斗式问询遵循"从大到小、从宽到窄"的逻辑：先了解来意（宏观），再了解使用场景（中观），再挖掘具体问题（细节），最后确认并总结核心需求（锁定）。</p></div>
+    </div>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">3</span>顾客说"随便看看"时，最恰当的应对方式是？</div>
+          <ul class="options">
+      <li>A. 立刻开始详细介绍所有产品</li>
+      <li>B. 走开，等顾客主动叫你</li>
+      <li>C. 先陪同浏览，等顾客在某产品区停留时自然切入</li>
+      <li>D. 继续追问"那您有什么预算？"</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a3')">查看答案</button>
+      <div class="answer-hint" id="a3"><div class="label">✅ 正确答案：C</div><p>"随便看看"说明顾客还没做好被"销售"的准备，强行问询只会让他们想走。最好的策略是保持适当距离陪同，等顾客自己流露出兴趣信号（停留、触摸产品、眼神关注），再自然切入话题。</p></div>
+    </div>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">4</span>需求问询的最后一步——总结顾客需求并获得确认，主要有哪些好处？</div>
+          <ul class="options">
+      <li>A. 只是为了礼貌，没有实际作用</li>
+      <li>B. 证明你在聆听、让顾客感受理解、为推荐锁定方向</li>
+      <li>C. 主要是为了让顾客没法反悔</li>
+      <li>D. 帮助自己记住顾客的名字</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a4')">查看答案</button>
+      <div class="answer-hint" id="a4"><div class="label">✅ 正确答案：B</div><p>主动总结顾客需求有三重价值：① 让顾客感受到被认真倾听 ② 让顾客感受到被深度理解（信任感建立的关键时刻）③ 为后续产品推荐提供精准方向，避免盲目推荐导致的顾客流失。</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>✍️ 实践题</h2>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">5</span>针对以下顾客情况，设计一套完整的漏斗式问询对话（至少4个问题，涵盖4个层次）：<br><br><em>情景：一位30多岁的女性顾客走进门店，环顾了一下镜架展示区，手里拿着当前戴着的一副金属全框眼镜。</em></div>
+      <textarea class="textarea-box" placeholder="请设计完整的问询对话，格式：&#10;员工：...&#10;（预期顾客回答）顾客：...&#10;员工：...&#10;...&#10;（最终总结）员工：所以您最主要的需求是……对吗？"></textarea>
+    </div>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">6</span>今天实战中，你独立完成了几次需求问询？写下其中一次的详细过程，并进行自我评价：哪里做得好？哪里还不够？下次怎么改进？</div>
+      <textarea class="textarea-box" placeholder="如果今天没有机会独立问询，请写出如果遇到这个机会，你会如何开口……"></textarea>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin: 20px 0 30px;">
+    <button class="submit-btn">提交练习</button>
+  </div>
+</div>
+
+<div class="nav-bar">
+  <a href="Day_30_学习内容.html" class="nav-btn prev">← 返回学习内容</a>
+    <a href="../index.html" class="nav-btn" style="background:#f0fdf9;color:#11998e;border:1px solid #a7f3d0;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:14px;">🏠 首页</a>
+    
+  <span style="color:#999;font-size:13px;">Day 30 练习题</span>
+  <a href="Day_31_学习内容.html" class="nav-btn next">Day 31 →</a>
+</div>
+
+<script>
+function toggleAnswer(id) {
+  const box = document.getElementById(id);
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+</script>
+
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card, .question, .q-block').forEach(function(card){
+    var hint = card.querySelector('.answer-hint, .answer-box');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<[^>]+>)?([A-Da-d正确错误])/i);
+    if(!m) return;
+    var correctRaw = m[1];
+    // 支持汉字"正确"/"错误"和字母A/B/C/D
+    var correct = correctRaw.toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var txt = li.textContent.trim();
+      var letter = (txt.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
