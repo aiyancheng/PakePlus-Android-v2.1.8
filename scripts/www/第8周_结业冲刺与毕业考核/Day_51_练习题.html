@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 51 练习题：全流程综合演练</title>
+<style>
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f8f4e8; margin: 0; padding: 20px; }
+  .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  h1 { color: #2c3e50; border-bottom: 3px solid #d4a017; padding-bottom: 12px; }
+  .info-bar { background: #fffaed; border-radius: 8px; padding: 12px 20px; margin: 16px 0; display: flex; gap: 24px; font-size: 14px; color: #7d6608; flex-wrap: wrap; }
+  h2 { color: #c49a10; margin-top: 30px; }
+  .question { background: #fffdf5; border: 1px solid #f0d080; border-radius: 8px; padding: 20px; margin: 16px 0; }
+  .question-num { font-weight: bold; color: #c49a10; font-size: 15px; }
+  .option { padding: 8px 12px; margin: 6px 0; background: #fffaed; border-radius: 6px; cursor: pointer; border: 1px solid #f0d080; }
+  .option:hover { background: #fff0b3; }
+  .fill-input { width: 100%; padding: 10px; border: 1px solid #f0d080; border-radius: 6px; font-size: 14px; margin-top: 8px; box-sizing: border-box; }
+  .answer-box { background: #eafaf1; border: 1px dashed #27ae60; border-radius: 8px; padding: 14px 18px; margin-top: 10px; display: none; color: #1a5c38; }
+  .btn { background: #d4a017; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; margin: 4px; }
+  .btn:hover { background: #a07d0c; }
+  .btn-show { background: #27ae60; }
+  .btn-show:hover { background: #1e8449; }
+  .section-tag { background: #d4a017; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-right: 8px; }
+  .scenario { background: #f0f8ff; border-left: 4px solid #3498db; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 10px 0; color: #1a3c5a; font-size: 14px; }
+  .eval-row { display: grid; grid-template-columns: 3fr 1fr 2fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f0d080; }
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#2c3e50,#1a252f);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#2c3e50;border:2px solid #2c3e50}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 51 练习题：全流程综合演练</h1>
+  <div class="info-bar">
+    <span>📅 第8周 第2天</span>
+    <span>⏱ 建议用时：40分钟</span>
+    <span>🎭 主题：流程演练与话术训练</span>
+    <span>💯 总分：100分</span>
+  </div>
+
+  <h2><span class="section-tag">A</span>流程排序题（20分）</h2>
+
+  <div class="question">
+    <div class="question-num">1. 请将以下配镜服务步骤按正确顺序排列（标注1-8）：</div>
+    <p>（ ）验光结果解读，向顾客解释度数含义</p>
+    <p>（ ）开单收款，告知取镜时间</p>
+    <p>（ ）取镜检查与调试，教授佩戴方法</p>
+    <p>（ ）迎客接待，开放式问候</p>
+    <p>（ ）需求挖掘，了解用眼场景和现有问题</p>
+    <p>（ ）引导进入验光室，进行全面验光</p>
+    <p>（ ）处理价格/款式异议，成交引导</p>
+    <p>（ ）结合需求精准推荐镜架和镜片方案</p>
+    <button class="btn btn-show" onclick="toggleAnswer('a1')">查看答案</button>
+    <div class="answer-box" id="a1">✅ <strong>正确顺序：</strong><br>①迎客接待 → ②需求挖掘 → ③引导验光 → ④验光结果解读 → ⑤产品推荐 → ⑥异议处理与成交引导 → ⑦开单收款 → ⑧取镜服务</div>
+  </div>
+
+  <h2><span class="section-tag">B</span>话术纠错题（每题10分，共30分）</h2>
+
+  <div class="question">
+    <div class="question-num">2. 以下接待话术有什么问题？请改写正确版本：</div>
+    <div class="scenario">
+      员工对进门顾客说："你好，我们最近有打折活动，这款镜架只要XX元，你看看要不要？"
+    </div>
+    <textarea class="fill-input" rows="4" placeholder="问题在哪里？正确版本是：..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a2')">查看答案</button>
+    <div class="answer-box" id="a2">✅ <strong>问题：</strong>开场就推销特定产品，没有给顾客表达需求的机会，过于急功近利，让顾客有压迫感，容易引起反感。<br><br><strong>正确版本：</strong>"您好，欢迎光临！请问有什么我可以帮到您的？是来配镜还是取镜，或者就看看？"——开放式问候，先了解再推荐。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">3. 以下向顾客介绍验光结果的话术有什么问题？请改写：</div>
+    <div class="scenario">
+      员工说："您的验光结果：OD DS -3.75 DC -0.50 AX 180，OS DS -3.50，好了，您选什么镜片？"
+    </div>
+    <textarea class="fill-input" rows="4" placeholder="问题在哪里？正确版本是：..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a3')">查看答案</button>
+    <div class="answer-box" id="a3">✅ <strong>问题：</strong>直接说专业符号，顾客完全听不懂，而且没有解释就直接问选镜片，顾客会感到茫然和被忽视。<br><br><strong>正确版本：</strong>"好，验光结果出来了。您右眼近视375度，有50度散光；左眼近视350度，度数差不多。散光就是眼角膜有一点点不规则，用眼镜加一个修正，戴上之后会比没散光之前看得更清晰，这很常见的。您有什么想先问我的吗？"</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">4. 以下成交话术有什么问题？请改写：</div>
+    <div class="scenario">
+      员工在顾客犹豫时说："您到底买不买？再不买今天的优惠就没了！"
+    </div>
+    <textarea class="fill-input" rows="4" placeholder="问题在哪里？正确版本是：..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a4')">查看答案</button>
+    <div class="answer-box" id="a4">✅ <strong>问题：</strong>催促感过强，制造虚假紧迫感，会让顾客感到被套路，产生逆反心理，可能本来要买也不买了。<br><br><strong>正确版本：</strong>"您是更偏向这款黑色框还是银色框呢？我帮您这两款都试戴一下感受一下。"（用二选一推进，而非逼迫）或者"您主要还有什么顾虑？我来帮您解答。"（找出真实阻碍）</div>
+  </div>
+
+  <h2><span class="section-tag">C</span>综合情景演练题（50分）</h2>
+
+  <div class="question">
+    <div class="question-num">5. 【完整流程演练，50分】请针对以下场景，写出全流程接待的完整应答（涵盖所有8个环节的关键内容）：</div>
+    <div class="scenario">
+      <strong>场景设定：</strong><br>
+      顾客：王女士，48岁，中学语文老师，进门说"我眼睛最近老是觉得看近处模糊，看手机要拿远一点才看得清，我妈以前老花，我是不是也老花了？"<br>
+      补充信息：王女士是第一次到你们店里，本身有100度的近视（以前配过近视眼镜），对眼镜价格不太了解，显得有些茫然。
+    </div>
+    <textarea class="fill-input" rows="20" placeholder="请按以下结构完整写出：
+【1.迎客接待】话术：...
+【2.需求挖掘】追问哪些问题？话术：...
+【3.验光引导】话术：...
+【4.验光结果解读】如何解释老花+近视并存的情况？话术：...
+【5.产品推荐】推荐什么方案？为什么？话术：...
+【6.价格异议处理】（若顾客说'渐进镜好贵'）话术：...
+【7.成交开单】话术：...
+【8.取镜送别】关键提示和话术：..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a5')">查看参考答案</button>
+    <div class="answer-box" id="a5">
+      ✅ <strong>参考完整流程：</strong><br><br>
+      <strong>【1.迎客接待】</strong>"王女士您好，欢迎光临！您提到看近处模糊、手机要拿远——这个情况很常见，我帮您好好查一查，先请坐。"<br><br>
+      <strong>【2.需求挖掘】</strong>"请问您这个情况是从什么时候开始的？大概多长时间了？主要是看书和手机的时候不清楚，还是看远处也有问题？您现在戴的是什么眼镜？日常用眼主要在哪些场景？"<br><br>
+      <strong>【3.验光引导】</strong>"根据您说的情况，您可能确实出现了老花，但也需要考虑和您原来的近视一起处理。我建议做一个全面验光，这样方案才最准确，大概10分钟，您这边请……"<br><br>
+      <strong>【4.验光结果解读】</strong>"验光结果出来了，我来解释一下。您的近视度数还在，左右眼大概各100度，没有太大变化。加上来，您有了+1.50的老花度数，这就是为什么看近处费力了——老花不是病，就是晶状体随年龄慢慢变硬，调节能力下降了，很正常的生理现象，您妈妈有，您出现也很正常。"<br><br>
+      <strong>【5.产品推荐】</strong>"您近视+老花，有两个主要方案：第一，两副眼镜——一副近视镜、一副老花镜，各自清晰，价格比较实惠；第二，渐进多焦点镜——一副眼镜搞定远和近，不用来回换，特别适合老师这种要经常看黑板和讲义来回切换的工作。很多老师用了都说方便。我建议您考虑渐进镜，一步到位。"<br><br>
+      <strong>【6.价格异议处理】</strong>"渐进镜确实比单焦点贵一些，我帮您分析一下值不值——这款渐进镜1500元，可以用3年，相当于每天约1.4元。而且作为老师，您需要经常在板书和讲义之间来回看，如果每天要换2副眼镜，既麻烦又影响您的精力，这个不便利的成本其实很高的。"<br><br>
+      <strong>【7.成交开单】</strong>"好，那我帮您下单渐进镜套装，让我来确认一下单据上的度数……您的眼镜大约3个工作日完成，到时候发短信通知您来取。请收好这张凭单。"<br><br>
+      <strong>【8.取镜送别】</strong>"王女士，您的眼镜做好了！先戴上感受一下……有个小提示：渐进镜刚开始戴，上半区看远、下半区看近，这是新的用眼习惯，通常1-2周就完全适应了。如果有眩晕感是正常的，坚持戴，很快就好。有任何不舒服来找我们，免费调整。谢谢您光临，下次来记得找我哦！"
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <button class="btn" onclick="showAllAnswers()">📖 展示全部答案</button>
+    <button class="btn" style="background:#e74c3c;" onclick="resetAll()">🔄 重置练习</button>
+  </div>
+</div>
+
+<script>
+function toggleAnswer(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+function showAllAnswers() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'block');
+}
+function resetAll() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.fill-input').forEach(el => el.value = '');
+}
+</script>
+<div class="nav-footer" style="max-width:960px;margin:28px auto 10px;padding:0 20px">
+  <a href="Day_51_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+  <a href="Day_52_学习内容.html" class="nav-btn">Day 52 学习内容 →</a>
+</div>
+</body>
+</html>
