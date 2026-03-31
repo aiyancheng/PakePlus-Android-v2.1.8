@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 01 练习题 | 企业文化与使命愿景</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', Arial, sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); padding: 36px 30px; border-bottom: 3px solid #4CAF50; }
+  .header .day-tag { background: #4CAF50; color: white; display: inline-block; padding: 4px 16px; border-radius: 20px; font-size: 0.85em; margin-bottom: 12px; }
+  .header h1 { font-size: 1.8em; color: #2e7d32; margin-bottom: 8px; }
+  .header .subtitle { color: #555; font-size: 0.95em; }
+  .container { max-width: 860px; margin: 30px auto; padding: 0 20px; }
+  .intro-box { background: #fff3e0; border-left: 5px solid #FF9800; border-radius: 8px; padding: 18px 22px; margin-bottom: 28px; font-size: 0.95em; line-height: 1.7; }
+  .question-card { background: white; border-radius: 12px; padding: 26px; margin-bottom: 22px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+  .question-card .q-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .q-num { background: #4CAF50; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9em; flex-shrink: 0; }
+  .q-type { background: #e8f5e9; color: #2e7d32; padding: 3px 12px; border-radius: 12px; font-size: 0.8em; font-weight: 600; }
+  .q-score { color: #999; font-size: 0.82em; }
+  .question-text { font-size: 1em; color: #333; font-weight: 600; line-height: 1.6; margin-bottom: 16px; }
+  .options { list-style: none; padding: 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-size: 0.93em; transition: all 0.2s; }
+  .options li:hover { border-color: #4CAF50; background: #f1f8e9; }
+  .answer-area { width: 100%; min-height: 90px; border: 2px solid #e0e0e0; border-radius: 8px; padding: 12px; font-family: inherit; font-size: 0.93em; resize: vertical; outline: none; }
+  .answer-area:focus { border-color: #4CAF50; }
+  .answer-hint { background: #f9f9f9; border-left: 3px solid #9E9E9E; padding: 10px 14px; margin-top: 12px; font-size: 0.85em; color: #666; border-radius: 0 6px 6px 0; display: none; }
+  .show-answer-btn { background: none; border: 1px solid #9E9E9E; color: #666; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82em; margin-top: 10px; }
+  .show-answer-btn:hover { background: #f5f5f5; }
+  .scenario-box { background: #e3f2fd; border-radius: 8px; padding: 16px; margin-bottom: 14px; font-size: 0.93em; line-height: 1.7; border-left: 4px solid #2196F3; }
+  .scenario-box .scene-label { color: #1565c0; font-weight: 700; margin-bottom: 6px; }
+  .task-card { background: #fff8e1; border: 1px solid #FFD54F; border-radius: 8px; padding: 18px; margin-top: 10px; }
+  .task-card .task-title { color: #F57F17; font-weight: 700; margin-bottom: 8px; }
+  .score-hint { color: #888; font-size: 0.82em; font-style: italic; margin-top: 6px; }
+  .section-title { font-size: 1.15em; color: #2e7d32; font-weight: 700; margin: 32px 0 14px; padding-left: 12px; border-left: 4px solid #4CAF50; }
+  .nav-footer { display: flex; justify-content: space-between; margin: 30px 0 50px; }
+  .nav-btn { background: #4CAF50; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 0.9em; }
+  .nav-btn.outline { background: white; color: #4CAF50; border: 2px solid #4CAF50; }
+
+  /* ── 交互式选项 ── */
+  .options li { cursor: pointer; transition: all 0.2s; }
+  .options li:hover:not(.answered) { border-color: #4CAF50; background: #f1f8e9; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; }
+  .options li.answered    { cursor: default; pointer-events: none; }
+  .answer-hint { display: none; }
+
+
+  /* interactive-options-type-a */
+  .options li { cursor: pointer; transition: all 0.2s; }
+  .options li:hover { border-color: #4CAF50 !important; background: #f1f8e9 !important; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .options li.answered    { pointer-events: none !important; }
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="day-tag">📝 第1周 · Day 01 练习题</span>
+  <h1>企业文化与使命愿景 — 巩固测评</h1>
+  <div class="subtitle">总分：100分 | 建议完成时间：30分钟 | 及格线：70分</div>
+</div>
+
+<div class="container">
+
+  <div class="intro-box">
+    💡 <strong>做题提示：</strong>本练习不计入正式成绩，目的是帮助你检验今天的学习效果。遇到不确定的题目，先尝试作答，再查看参考答案。做完后请与带教师傅一起回顾。
+  </div>
+
+  <!-- 第一部分：选择题 -->
+  <div class="section-title">第一部分：单选题（每题 10 分，共 30 分）</div>
+
+  <div class="question-card">
+    <div class="q-header">
+      <div class="q-num">1</div>
+      <span class="q-type">单选题</span>
+      <span class="q-score">10分</span>
+    </div>
+    <div class="question-text">我们门店的使命是以下哪一项？</div>
+    <ul class="options">
+      <li>A. 卖出最多的眼镜，实现最大利润</li>
+      <li>B. 用专业守护视觉健康，用真诚服务每一双眼睛</li>
+      <li>C. 提供最便宜的眼镜产品</li>
+      <li>D. 打造全国连锁第一品牌</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block'; this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：门店使命是"用专业守护视觉健康，用真诚服务每一双眼睛"，体现了专业服务与真诚态度两个核心。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header">
+      <div class="q-num">2</div>
+      <span class="q-type">单选题</span>
+      <span class="q-score">10分</span>
+    </div>
+    <div class="question-text">下列哪一项不属于我们门店的核心价值观？</div>
+    <ul class="options">
+      <li>A. 专业精准</li>
+      <li>B. 真诚用心</li>
+      <li>C. 低价竞争</li>
+      <li>D. 团队协作</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block'; this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：门店六大核心价值观是：专业精准、真诚用心、持续成长、团队协作、追求卓越、诚信守正。"低价竞争"不在其中，且与价值观理念相悖。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header">
+      <div class="q-num">3</div>
+      <span class="q-type">单选题</span>
+      <span class="q-score">10分</span>
+    </div>
+    <div class="question-text">作为一名新员工，8周培训的最终目标是？</div>
+    <ul class="options">
+      <li>A. 记住所有产品的价格</li>
+      <li>B. 成为能独立完成工作、符合门店标准的合格员工</li>
+      <li>C. 背会所有话术脚本</li>
+      <li>D. 通过验光师资格认证考试</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block'; this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：8周培训的目标是培养能独立上岗、符合门店服务标准的合格员工，涵盖知识、技能、话术、流程等全方位能力。</div>
+  </div>
+
+  <!-- 第二部分：判断题 -->
+  <div class="section-title">第二部分：判断题（每题 10 分，共 30 分）</div>
+
+  <div class="question-card">
+    <div class="q-header">
+      <div class="q-num">4</div>
+      <span class="q-type">判断题</span>
+      <span class="q-score">10分</span>
+    </div>
+    <div class="question-text">我们的工作只是卖眼镜，完成销售指标才是最重要的事情。（ ）</div>
+    <ul class="options">
+      <li>A. 正确</li>
+      <li>B. 错误</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block'; this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B（错误）</strong><br>解析：我们的工作是守护顾客的视觉健康。专业和真诚才是根本，单纯追求销售指标可能会损害顾客利益，违背门店使命和价值观。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header">
+      <div class="q-num">5</div>
+      <span class="q-type">判断题</span>
+      <span class="q-score">10分</span>
+    </div>
+    <div class="question-text">"诚信守正"这一价值观要求我们对顾客诚实，不夸大产品效果，不欺骗顾客。（ ）</div>
+    <ul class="options">
+      <li>A. 正确</li>
+      <li>B. 错误</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block'; this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：诚信守正就是说到做到，对顾客诚实，不夸大、不欺骗。这是建立长期信任关系的基础。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header">
+      <div class="q-num">6</div>
+      <span class="q-type">判断题</span>
+      <span class="q-score">10分</span>
+    </div>
+    <div class="question-text">门店愿景是成为行业规模最大的眼镜连锁品牌。（ ）</div>
+    <ul class="options">
+      <li>A. 正确</li>
+      <li>B. 错误</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block'; this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B（错误）</strong><br>解析：门店愿景是"成为顾客首选的专业视光服务品牌"，强调专业与信任，而非规模最大。</div>
+  </div>
+
+  <!-- 第三部分：简答题 -->
+  <div class="section-title">第三部分：简答题（共 20 分）</div>
+
+  <div class="question-card">
+    <div class="q-header">
+      <div class="q-num">7</div>
+      <span class="q-type">简答题</span>
+      <span class="q-score">20分</span>
+    </div>
+    <div class="question-text">请用自己的话写出：<br>① 门店使命是什么？（5分）<br>② 你对哪一条核心价值观印象最深？为什么？（10分）<br>③ 你觉得这份工作对顾客的意义是什么？（5分）</div>
+    <textarea class="answer-area" placeholder="请在这里写下你的答案……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block'; this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">
+      ✅ 参考答案要点：<br>
+      ① 使命：用专业守护视觉健康，用真诚服务每一双眼睛（要点完整，5分）<br>
+      ② 价值观任选一条（专业精准/真诚用心/持续成长/团队协作/追求卓越/诚信守正），需结合自己的理解和实际工作场景说明，言之成理即可（10分）<br>
+      ③ 意义：帮助顾客获得更清晰的视觉，改善生活品质，守护眼睛健康（言之成理即可，5分）
+    </div>
+  </div>
+
+  <!-- 第四部分：情景模拟 -->
+  <div class="section-title">第四部分：情景模拟题（共 20 分）</div>
+
+  <div class="question-card">
+    <div class="q-header">
+      <div class="q-num">8</div>
+      <span class="q-type">情景模拟</span>
+      <span class="q-score">20分</span>
+    </div>
+    <div class="scenario-box">
+      <div class="scene-label">📍 场景描述</div>
+      <p>今天是你上班第一天，你的同学小李也在另一家眼镜店工作。小李告诉你："眼镜店其实很简单，顾客来了就推销贵的给他，完成业绩就行。"</p>
+    </div>
+    <div class="question-text">如果你认同我们门店的价值观，你会怎么回应小李的话？请写出你的想法（至少3句话）。</div>
+    <textarea class="answer-area" placeholder="请在这里写下你的回应……"></textarea>
+    <div class="task-card">
+      <div class="task-title">🎭 实操任务（由带教师傅评分）</div>
+      <p>请向带教师傅口头复述门店使命和至少3条核心价值观，并说明你对其中一条的理解。</p>
+      <p class="score-hint">带教师傅评分要点：语言流畅（5分）+ 内容准确（10分）+ 有自己的理解（5分）= 20分</p>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block'; this.style.display='none'">查看参考思路</button>
+    <div class="answer-hint">
+      ✅ 参考思路（言之成理即可）：<br>
+      • 我们门店的理念不是"推销贵的"，而是根据顾客真实需求推荐合适的产品<br>
+      • 顾客视觉健康才是最重要的，诚信服务才能建立长期信任和口碑<br>
+      • 短期可能成交一单，但如果产品不合适，顾客不会再来，也不会推荐朋友<br>
+      • 我们追求的是顾客对我们的信任和认可，而不只是完成当下的业绩数字
+    </div>
+  </div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_01_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_02_学习内容.html">Day 02 学习内容 →</a>
+  </div>
+
+</div>
+
+
+
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card').forEach(function(card){
+    var hint = card.querySelector('.answer-hint');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    // 兼容两种格式：
+    // 1. 正确答案：<strong>B</strong>
+    // 2. 正确答案：B。或 正确答案：B（错误）
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<strong>)?([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var letter = (li.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
