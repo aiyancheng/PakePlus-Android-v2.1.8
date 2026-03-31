@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 43 练习题 — 主觉验光技能</title>
+<style>
+  body{font-family:'Microsoft YaHei',sans-serif;background:#f5f7fa;margin:0;padding:20px;color:#333}
+  .container{max-width:860px;margin:0 auto;background:#fff;border-radius:12px;padding:36px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+  h1{color:#8e44ad;font-size:1.5rem;border-bottom:3px solid #8e44ad;padding-bottom:10px}
+  h2{color:#6c3483;font-size:1.1rem;margin-top:28px}
+  .question{background:#f5eef8;border-left:4px solid #8e44ad;padding:14px 18px;margin:14px 0;border-radius:0 8px 8px 0}
+  .question p{margin:6px 0;font-weight:600}
+  .options label{display:block;padding:6px 10px;margin:4px 0;background:#ede0f5;border-radius:6px;cursor:pointer}
+  .options label:hover{background:#d7bde2}
+  textarea{width:100%;box-sizing:border-box;padding:10px;border:2px solid #8e44ad;border-radius:8px;font-size:.95rem;font-family:inherit;min-height:80px;resize:vertical}
+  .show-answer-btn{background:linear-gradient(135deg,#8e44ad,#6c3483);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-size:.9rem;cursor:pointer;margin-top:10px;transition:all .2s}
+  .show-answer-btn:hover{opacity:.85}
+  .answer-hint{display:none;background:#e8f5e9;border-left:4px solid #27ae60;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:8px;color:#1a5276;font-size:.95rem}
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#8e44ad,#6c3483);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#8e44ad;border:2px solid #8e44ad}
+
+  /* interactive-options-type-e */
+  .options label { cursor: pointer; transition: all 0.2s; }
+  .options label.opt-correct { background: #d4edda !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options label.opt-wrong   { background: #f8d7da !important; color: #721c24 !important; pointer-events:none; }
+  .options label.opt-reveal  { background: #fff3cd !important; color: #856404 !important; pointer-events:none; }
+  .options label.answered    { pointer-events: none !important; cursor: default !important; }
+  .options input[type=radio] { display: none; }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 43 练习题 — 主觉验光技能</h1>
+
+  <h2>一、单选题</h2>
+
+  <div class="question">
+    <p>1. 主觉验光中"最大正镜/最小负镜"原则的含义是：</p>
+    <div class="options" id="q1">
+      <label><input type="radio" name="q1" value="A"> A. 给客户尽量多的负度数让视力更好</label>
+      <label><input type="radio" name="q1" value="B"> B. 在保证最佳视力的前提下，给予最少负度数（或最多正度数）</label>
+      <label><input type="radio" name="q1" value="C"> C. 正负度数一样多，保持平衡</label>
+      <label><input type="radio" name="q1" value="D"> D. 以电脑验光数据为准，不做调整</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析："最大正镜/最小负镜"原则是为了防止过矫。在主觉验光中，应在客户能达到最佳矫正视力（如1.0）的情况下，给予尽量少的负度数。因为过多负度数会刺激调节，导致度数越配越深，同时容易造成眼疲劳。</div>
+  </div>
+
+  <div class="question">
+    <p>2. 验光中"雾视"步骤的目的是：</p>
+    <div class="options" id="q2">
+      <label><input type="radio" name="q2" value="A"> A. 让客户视力下降，便于对比</label>
+      <label><input type="radio" name="q2" value="B"> B. 消除眼睛调节紧张，确保结果准确</label>
+      <label><input type="radio" name="q2" value="C"> C. 检测客户的最大视力</label>
+      <label><input type="radio" name="q2" value="D"> D. 帮助客户放松精神</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：雾视是在验光开始时加入适量正度数，让客户视力故意下降到0.1-0.3，迫使眼睛调节完全放松（因为加了正度数，调节反而看不清了）。调节松弛后，再逐步减正度数（加负度数），这样得到的度数才是真实的客观度数，避免了调节紧张导致的过矫。</div>
+  </div>
+
+  <div class="question">
+    <p>3. 处方"S-3.00 C-0.75 A180"表示：</p>
+    <div class="options" id="q3">
+      <label><input type="radio" name="q3" value="A"> A. 近视300度，远视75度，轴向180</label>
+      <label><input type="radio" name="q3" value="B"> B. 近视300度，散光75度，散光轴向180度</label>
+      <label><input type="radio" name="q3" value="C"> C. 近视375度，轴向180度</label>
+      <label><input type="radio" name="q3" value="D"> D. 远视300度，散光75度</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：处方解读：S（球镜）-3.00D = 近视300度；C（柱镜/散光）-0.75D = 散光75度；A（轴向）180 = 散光轴向在180度方向（水平轴）。这是配镜单上最常见的格式，必须熟练掌握才能正确与客户沟通。</div>
+  </div>
+
+  <div class="question">
+    <p>4. 客户配镜后反映"头晕、看近不舒服"，最可能的原因是：</p>
+    <div class="options" id="q4">
+      <label><input type="radio" name="q4" value="A"> A. 镜框太重</label>
+      <label><input type="radio" name="q4" value="B"> B. 度数过矫（负度数给多了）</label>
+      <label><input type="radio" name="q4" value="C"> C. 镜片颜色太深</label>
+      <label><input type="radio" name="q4" value="D"> D. 客户不适应新眼镜样式</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：配镜后头晕、看近不舒服，典型原因是度数过矫（负度数给多了）。过矫会导致眼睛需要用更多调节力来看近处，长时间下来导致眼疲劳、头晕。应检查验光记录，考虑降低0.25-0.50D重配。</div>
+  </div>
+
+  <div class="question">
+    <p>5. JCC（杰克逊交叉柱镜）主要用于确认：</p>
+    <div class="options" id="q5">
+      <label><input type="radio" name="q5" value="A"> A. 球镜度数</label>
+      <label><input type="radio" name="q5" value="B"> B. 瞳距</label>
+      <label><input type="radio" name="q5" value="C"> C. 散光轴向和散光度数</label>
+      <label><input type="radio" name="q5" value="D"> D. 调节幅度</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：JCC（Jackson Cross Cylinder）是一个+0.25D/-0.25D的复合柱镜，通过翻转对比，让客户比较两个位置哪个更清晰，用于精确确认散光轴向和散光度数。球镜度数用红绿平衡测试确认，不用JCC。</div>
+  </div>
+
+  <h2>二、处方解读题</h2>
+
+  <div class="question">
+    <p>6. 请解读以下处方，并说明该客户的视力情况：<br>
+    <strong>RE: S-5.50 C-1.25 A90 &nbsp;&nbsp; LE: S-4.75 C-0.75 A175 &nbsp;&nbsp; PD: 63mm ADD: +1.50D</strong></p>
+    <textarea id="q6" placeholder="右眼：……&#10;左眼：……&#10;瞳距：……&#10;ADD说明：……&#10;该客户大致年龄推断：……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 参考答案：<br>
+    <strong>右眼（RE）</strong>：近视550度（S-5.50D）+ 散光125度（C-1.25D），散光轴向90°（垂直轴，顺规散光）；<br>
+    <strong>左眼（LE）</strong>：近视475度（S-4.75D）+ 散光75度（C-0.75D），散光轴向175°（接近水平轴）；<br>
+    <strong>瞳距</strong>：63mm（双眼瞳距，单眼约31.5/31.5mm）；<br>
+    <strong>ADD +1.50D</strong>：近附加+1.50D，表示该客户有老视，需要在远用度数基础上，近用区加+1.50D来看近处；<br>
+    <strong>年龄推断</strong>：ADD约+1.50D通常对应45-50岁，属于初中期老视，高度近视合并老视，推荐渐进多焦点镜片。</div>
+  </div>
+
+  <div class="nav-footer">
+    <a href="Day_43_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_44_学习内容.html" class="nav-btn">Day 44 学习内容 →</a>
+  </div>
+</div>
+
+<script>
+/* interactive-options-type-e-js */
+(function(){
+  // 找所有 .question div（每道题一个）
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    var optionsDiv = qBlock.querySelector('.options');
+    if(!optionsDiv) return;
+    var labels = optionsDiv.querySelectorAll('label');
+    if(labels.length === 0) return;
+    var hint = qBlock.querySelector('.answer-hint');
+    if(!hint) return;
+    var m = hint.innerHTML.match(/\u6b63\u786e\u7b54\u6848[:\uff1a]\s*<strong>([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+    labels.forEach(function(label){
+      // 提取 value 或文本里的字母
+      var inp = label.querySelector('input');
+      var letter = inp ? inp.value.toUpperCase() : (label.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      label.addEventListener('click', function(e){
+        e.preventDefault();
+        if(answered) return;
+        answered = true;
+        labels.forEach(function(l){ l.classList.add('answered'); });
+        if(letter === correct){
+          label.classList.add('opt-correct');
+          label.textContent = '\u2705 ' + label.textContent;
+        } else {
+          label.classList.add('opt-wrong');
+          label.textContent = '\u274c ' + label.textContent;
+          labels.forEach(function(l){
+            var raw = l.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var il = l.querySelector('input');
+            var oL = il ? il.value.toUpperCase() : (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ l.classList.add('opt-reveal'); l.textContent = '\ud83d\udc49 ' + l.textContent; }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = qBlock.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
