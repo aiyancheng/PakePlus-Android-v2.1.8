@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 09 | 镜架基础知识</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}
+  .header{background:linear-gradient(135deg,#e3f2fd,#bbdefb);padding:40px 30px;border-bottom:3px solid #2196F3;}
+  .day-tag{background:#2196F3;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}
+  .header h1{font-size:2em;color:#1565c0;margin-bottom:8px;}
+  .header .subtitle{color:#555;}
+  .container{max-width:900px;margin:30px auto;padding:0 20px;}
+  .objective-box{background:#e3f2fd;border-left:5px solid #2196F3;border-radius:8px;padding:20px 24px;margin-bottom:30px;}
+  .objective-box h3{color:#1565c0;margin-bottom:10px;}
+  .objective-box li{margin-bottom:6px;font-size:0.95em;}
+  .section{background:white;border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+  .section h2{font-size:1.3em;color:#1565c0;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #e3f2fd;}
+  .section h3{font-size:1.05em;color:#333;margin:18px 0 10px;}
+  .section p{line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em;}
+  .section ul,.section ol{padding-left:20px;margin-bottom:14px;}
+  .section li{line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px;}
+  .material-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0;}
+  .material-card{background:#f5f5f5;border-radius:10px;padding:16px;border-top:3px solid #2196F3;}
+  .material-card .name{font-weight:700;color:#1565c0;margin-bottom:8px;}
+  .material-card .pros{color:#2e7d32;font-size:0.82em;margin-bottom:4px;}
+  .material-card .cons{color:#c62828;font-size:0.82em;}
+  .structure-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th{background:#2196F3;color:white;padding:10px 14px;text-align:left;font-size:0.9em;}
+  .structure-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td{background:#f9f9f9;}
+  .face-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0;}
+  .face-card{background:#fff8e1;border-radius:10px;padding:16px;border-left:4px solid #FF9800;}
+  .face-card h4{color:#e65100;margin-bottom:8px;}
+  .face-card p{font-size:0.88em;color:#555;line-height:1.6;}
+  .highlight-box{background:#fff8e1;border:1px solid #FFD54F;border-radius:8px;padding:16px 20px;margin:16px 0;}
+  .highlight-box .label{color:#F57F17;font-weight:700;font-size:0.85em;margin-bottom:6px;}
+  .summary-box{background:linear-gradient(135deg,#e3f2fd,#e8f5ff);border-radius:12px;padding:24px;margin-top:30px;}
+  .summary-box h3{color:#1565c0;margin-bottom:14px;}
+  .summary-box li{margin-bottom:8px;font-size:0.95em;}
+  .nav-footer{display:flex;justify-content:space-between;margin:30px 0 40px;}
+  .nav-btn{background:#2196F3;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}
+  .nav-btn.outline{background:white;color:#2196F3;border:2px solid #2196F3;}
+  @media(max-width:600px){.material-grid,.face-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="day-tag">📅 第2周 · Day 09</span>
+  <h1>🕶️ 镜架基础知识</h1>
+  <div class="subtitle">模块：知识 Knowledge | 今日主题：镜架材质 · 结构部件 · 脸型匹配</div>
+</div>
+<div class="container">
+  <div class="objective-box">
+    <h3>🎯 今日学习目标</h3>
+    <ul>
+      <li>能说出镜架的主要材质及各自优缺点（至少5种）</li>
+      <li>掌握镜架的结构部件名称和功能</li>
+      <li>能根据顾客脸型推荐适合的镜架款式</li>
+      <li>了解镜架尺寸标注的含义</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🔧 第一部分：镜架材质大全</h2>
+    <p>材质决定了镜架的重量、强度、皮肤适应性和价格区间，是推荐时的重要依据。</p>
+    <div class="material-grid">
+      <div class="material-card">
+        <div class="name">钛合金（Titanium）</div>
+        <div class="pros">✅ 极轻、耐腐蚀、强度高、抗过敏</div>
+        <div class="cons">⚠️ 价格较高，焊接工艺要求高</div>
+      </div>
+      <div class="material-card">
+        <div class="name">板材（Acetate）</div>
+        <div class="pros">✅ 色彩丰富、质感强、可调整性好</div>
+        <div class="cons">⚠️ 较重，受热易变形</div>
+      </div>
+      <div class="material-card">
+        <div class="name">TR-90（记忆板材）</div>
+        <div class="pros">✅ 极轻、弹性好、抗摔、价格亲民</div>
+        <div class="cons">⚠️ 色彩相对单调，高档感不足</div>
+      </div>
+      <div class="material-card">
+        <div class="name">不锈钢（Stainless）</div>
+        <div class="pros">✅ 耐用、价格实惠、款式多</div>
+        <div class="cons">⚠️ 重量稍重，部分人群可能过敏</div>
+      </div>
+      <div class="material-card">
+        <div class="name">β钛（Beta Titanium）</div>
+        <div class="pros">✅ 弹性极佳、超轻、不易变形</div>
+        <div class="cons">⚠️ 价格高，修理成本高</div>
+      </div>
+      <div class="material-card">
+        <div class="name">纯钛（Pure Titanium）</div>
+        <div class="pros">✅ 最轻的金属材质、低过敏风险</div>
+        <div class="cons">⚠️ 价格最高，焊接较难</div>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <div class="label">💡 销售场景提示</div>
+      <p>顾客问"有没有轻一点的框？" → 推荐钛合金/纯钛/TR-90<br>
+      顾客问"有没有皮肤不过敏的？" → 推荐钛合金/板材/TR-90<br>
+      顾客预算有限 → TR-90、不锈钢是高性价比选择</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🔩 第二部分：镜架结构与部件</h2>
+    <table class="structure-table">
+      <thead><tr><th>部件名称</th><th>位置</th><th>功能说明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>镜圈（框）</strong></td><td>正面，包围镜片的环形结构</td><td>固定和保护镜片，决定镜架外观</td></tr>
+        <tr><td><strong>鼻梁（桥）</strong></td><td>连接两个镜圈的中间部分</td><td>支撑镜架在鼻子上的重量和位置</td></tr>
+        <tr><td><strong>鼻托（托叶）</strong></td><td>鼻梁两侧，直接接触鼻翼</td><td>调节镜架高低位置，减少鼻部压力</td></tr>
+        <tr><td><strong>铰链（合页）</strong></td><td>连接镜框与镜腿的活动部件</td><td>实现镜腿开合，是最易损坏的部件</td></tr>
+        <tr><td><strong>镜腿</strong></td><td>从铰链延伸至耳后</td><td>支撑整副眼镜，耳后弯曲部分叫"腿弯"</td></tr>
+        <tr><td><strong>腿弯（弯头）</strong></td><td>镜腿末端弯曲部分</td><td>勾住耳朵，防止眼镜滑落</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.88em;color:#888;">📌 带教师傅请结合实物镜架，逐个指认部件，加深印象。</p>
+  </div>
+
+  <div class="section">
+    <h2>📐 第三部分：镜架尺寸标注</h2>
+    <p>镜架内侧或镜腿上通常印有类似 <strong>54□18-140</strong> 的数字，含义如下：</p>
+    <ul>
+      <li><strong>54</strong>：镜片直径（毫米），即镜圈内径</li>
+      <li><strong>18</strong>：鼻梁宽度（毫米），两镜圈之间的距离</li>
+      <li><strong>140</strong>：镜腿长度（毫米）</li>
+    </ul>
+    <p>数字越大表示对应部位越宽/越长。推荐时参考顾客脸宽和鼻梁高低来选择合适尺寸。</p>
+  </div>
+
+  <div class="section">
+    <h2>😊 第四部分：脸型与镜架匹配</h2>
+    <div class="face-grid">
+      <div class="face-card">
+        <h4>🥚 椭圆形脸（鹅蛋脸）</h4>
+        <p>几乎适合所有款式。方框、圆框均可。推荐任何时髦款式，是最好搭配的脸型。</p>
+      </div>
+      <div class="face-card">
+        <h4>🔷 方形脸</h4>
+        <p>适合圆框、椭圆框、猫眼框。圆润形状可以柔化脸部线条，避免选方框加重方感。</p>
+      </div>
+      <div class="face-card">
+        <h4>❤️ 心形脸（宽额窄下颌）</h4>
+        <p>适合下半部分较宽的镜框，如飞行员款、底边较重的款式，平衡上宽下窄感。</p>
+      </div>
+      <div class="face-card">
+        <h4>🔺 三角形脸（窄额宽颌）</h4>
+        <p>适合上半部分较宽或有装饰的镜框，如猫眼框、眉框，增加额部视觉重量。</p>
+      </div>
+      <div class="face-card">
+        <h4>🔵 圆形脸</h4>
+        <p>适合有棱角的方形或长方形框，增加脸部线条感，拉长脸型视觉效果。避免选圆框。</p>
+      </div>
+      <div class="face-card">
+        <h4>🟤 长形脸</h4>
+        <p>适合高度较高、宽度较宽的镜框，视觉上"填充"脸部，减少长度感。避免选窄框。</p>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <div class="label">💡 销售实战技巧</div>
+      <p>不要直接说顾客"脸圆"或"脸方"，可以说："您的脸型很有特点，这种款式特别适合您……"<br>让顾客多试戴，试出感觉比推荐理论更有说服力。</p>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>📝 今日要点总结</h3>
+    <ul>
+      <li>✅ 常见材质：钛合金（轻/抗敏）、板材（美观）、TR-90（弹性轻便）、不锈钢（实惠）</li>
+      <li>✅ 六大部件：镜圈、鼻梁、鼻托、铰链、镜腿、腿弯</li>
+      <li>✅ 尺寸标注：镜片直径□鼻梁宽-腿长（如54□18-140）</li>
+      <li>✅ 脸型匹配：圆脸配方框、方脸配圆框、椭圆脸百搭</li>
+    </ul>
+    <p style="margin-top:14px; color:#1565c0; font-weight:600;">🎯 今日任务：拿起3副不同材质的镜架，对照部件表逐一指认，并向师傅说明各部件功能</p>
+  </div>
+
+    <div class="section">
+    <h2>🛒 第四部分：镜片选购实战指南</h2>
+        <h3>📌 根据度数推荐折射率</h3>
+    <table class="rule-table">
+      <thead><tr><th>度数范围</th><th>推荐折射率</th><th>理由</th></tr></thead>
+      <tbody>
+        <tr><td>-2.00以内</td><td>1.56~1.60</td><td>度数低，镜片不厚，性价比最高</td></tr>
+        <tr><td>-2.00 ~ -4.00</td><td>1.60~1.67</td><td>平衡厚度和价格的最佳区间</td></tr>
+        <tr><td>-4.00 ~ -6.00</td><td>1.67~1.71</td><td>防止镜片过厚影响美观</td></tr>
+        <tr><td>-6.00以上</td><td>1.71~1.74</td><td>高度近视必须用超高折射率，否则镜片很厚</td></tr>
+      </tbody>
+    </table>
+    
+    <h3>📌 镀膜选择建议</h3>
+    <ul>
+      <li><strong>防反射膜</strong>：所有人都建议加，减少视觉疲劳</li>
+      <li><strong>防蓝光</strong>：长时间用电脑/手机的人强烈推荐</li>
+      <li><strong>防污膜</strong>：孩子或容易沾指纹的人推荐</li>
+      <li><strong>高硬度膜</strong>：树脂镜片必备，防划伤</li>
+    </ul>
+    <div class="tip-box"><div class="label">💡 销售关键</div><p>推荐镜片时，先问客户日常用眼场景（主要是看远/看近？用电脑多？开车多？），再针对性推荐，避免'一刀切'。</p></div>
+  </div>
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_08_学习内容.html">← Day 08</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_09_练习题.html">今日练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
