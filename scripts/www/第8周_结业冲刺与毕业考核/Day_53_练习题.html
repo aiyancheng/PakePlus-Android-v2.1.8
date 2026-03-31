@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 53-54 综合练习题：结业冲刺强化训练</title>
+<style>
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f0f5ff; margin: 0; padding: 20px; }
+  .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  h1 { color: #2c3e50; border-bottom: 3px solid #2980b9; padding-bottom: 12px; }
+  .info-bar { background: #eaf4ff; border-radius: 8px; padding: 12px 20px; margin: 16px 0; display: flex; gap: 24px; font-size: 14px; color: #1a5c98; flex-wrap: wrap; }
+  h2 { color: #2980b9; margin-top: 30px; }
+  .question { background: #f0f7ff; border: 1px solid #d6eaf8; border-radius: 8px; padding: 20px; margin: 16px 0; }
+  .question-num { font-weight: bold; color: #2980b9; font-size: 15px; }
+  .option { padding: 8px 12px; margin: 6px 0; background: #eaf4ff; border-radius: 6px; cursor: pointer; border: 1px solid #aed6f1; }
+  .option:hover { background: #c8e0f5; }
+  .fill-input { width: 100%; padding: 10px; border: 1px solid #aed6f1; border-radius: 6px; font-size: 14px; margin-top: 8px; box-sizing: border-box; }
+  .answer-box { background: #eafaf1; border: 1px dashed #27ae60; border-radius: 8px; padding: 14px 18px; margin-top: 10px; display: none; color: #1a5c38; }
+  .btn { background: #2980b9; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; margin: 4px; }
+  .btn:hover { background: #1f6fa8; }
+  .btn-show { background: #27ae60; }
+  .btn-show:hover { background: #1e8449; }
+  .section-tag { background: #2980b9; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-right: 8px; }
+  .day-tag { background: #8e44ad; color: #fff; padding: 2px 10px; border-radius: 10px; font-size: 12px; margin-right: 6px; }
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#2c3e50,#1a252f);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#2c3e50;border:2px solid #2c3e50}
+
+  /* interactive-options-type-d */
+  .option { cursor: pointer; transition: all 0.2s; }
+  .option.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .option.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .option.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .option.answered    { pointer-events: none !important; cursor: default !important; }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 53-54 综合练习：结业冲刺强化训练</h1>
+  <div class="info-bar">
+    <span>📅 第8周 第4-5天</span>
+    <span>⏱ 建议用时：40分钟</span>
+    <span>📚 范围：视光学+销售综合</span>
+    <span>💯 总分：100分</span>
+  </div>
+
+  <h2><span class="section-tag">A</span>视光学单选题（每题7分，共35分）</h2>
+
+  <div class="question">
+    <div class="question-num">1. <span class="day-tag">D53</span>电脑验光仪（自动验光仪）的主要作用是？</div>
+    <div class="option">A. 最终确认处方，可直接配镜</div>
+    <div class="option">B. 提供客观屈光参考数据，需结合主觉验光才能确认处方</div>
+    <div class="option">C. 检测眼压</div>
+    <div class="option">D. 测量瞳距</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a1')">查看答案</button>
+    <div class="answer-box" id="a1">✅ <strong>答案：B</strong> — 电脑验光只是初步参考，因为存在调节干扰、角膜形状等变量，必须结合主觉验光（顾客主观感受）才能确定最终处方。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">2. <span class="day-tag">D53</span>顾客看散光表时，说"12点方向那条线最清楚"，散光轴向大约是？</div>
+    <div class="option">A. 12点方向（90°）</div>
+    <div class="option">B. 3点方向（180°）</div>
+    <div class="option">C. 最清晰线方向+90° = 90° + 90° = 180°</div>
+    <div class="option">D. 6点方向（90°）</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a2')">查看答案</button>
+    <div class="answer-box" id="a2">✅ <strong>答案：C</strong> — 散光轴向 = 最清晰线方向 + 90°。12点方向对应90°，90°+90°=180°，所以散光轴向约为180°（水平轴散光，即顺规散光）。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">3. <span class="day-tag">D53</span>顾客度数700度，应推荐哪个折射率的镜片？</div>
+    <div class="option">A. 1.50（标准）</div>
+    <div class="option">B. 1.56（经济）</div>
+    <div class="option">C. 1.67或1.74（超薄）</div>
+    <div class="option">D. 任意折射率都可以</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a3')">查看答案</button>
+    <div class="answer-box" id="a3">✅ <strong>答案：C</strong> — 700度属于高度近视，建议1.67或1.74折射率，可以将镜片做得更薄，外观更好看，减少"厚镜片"的尴尬。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">4. <span class="day-tag">D53</span>关于老花眼，以下哪种说法正确？</div>
+    <div class="option">A. 老花是疾病，需要手术治疗</div>
+    <div class="option">B. 有近视的人不会得老花</div>
+    <div class="option">C. 老花是正常生理现象，晶状体老化调节力下降，用凸透镜矫正</div>
+    <div class="option">D. 老花眼配了眼镜就会越来越严重</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a4')">查看答案</button>
+    <div class="answer-box" id="a4">✅ <strong>答案：C</strong> — 老花是正常生理老化，不是疾病。有近视的人同样会老花（近视+老花并存是常见情况）。配眼镜不会加重老花，只是帮助矫正视力。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">5. <span class="day-tag">D53</span>验光时"雾视法"的目的是？</div>
+    <div class="option">A. 让顾客放松心情</div>
+    <div class="option">B. 通过加正镜片使视力降低，松弛眼睛调节肌，消除假性近视影响</div>
+    <div class="option">C. 测试顾客是否有老花</div>
+    <div class="option">D. 检测最大视力</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a5')">查看答案</button>
+    <div class="answer-box" id="a5">✅ <strong>答案：B</strong> — 雾视法通过加适量正镜片（通常+1.00到+1.50），使视力下降到0.1-0.3，强迫调节肌放松，从而消除调节性近视的干扰，得到更准确的屈光度数。</div>
+  </div>
+
+  <h2><span class="section-tag">B</span>销售应用题（每题13分，共65分）</h2>
+
+  <div class="question">
+    <div class="question-num">6. <span class="day-tag">D54</span>用FABE法介绍"非球面镜片"：请写出Feature/Advantage/Benefit/Evidence各一句话</div>
+    <textarea class="fill-input" rows="6" placeholder="F（特点）：...
+A（优势）：...
+B（顾客利益）：...
+E（证据/案例）：..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a6')">查看答案</button>
+    <div class="answer-box" id="a6">✅ <strong>参考答案：</strong><br>
+    F（特点）："这款是非球面设计的镜片，镜片表面曲率从中心到边缘是渐变的，不像普通球面镜片那样均匀弧面。"<br>
+    A（优势）："这种设计可以显著减少镜片周边的像差（视物变形），视野更宽广，尤其是往侧面看的时候也很清晰。"<br>
+    B（顾客利益）："对您这样需要经常移动视线（开车/长时间用电脑/运动）的人来说，戴着更舒适，眼睛不容易疲劳。"<br>
+    E（证据）："我们店里很多顾客换了非球面镜片后都说，眼睛明显没以前累了，特别是长时间驾驶的顾客反馈最明显。"</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">7. <span class="day-tag">D54</span>请将以下"普通话术"升级为"专业高效话术"：</div>
+    <p>原版A："这款镜片比那款清晰。"</p>
+    <p>原版B："这个价格比较划算。"</p>
+    <p>原版C："我觉得这款适合你。"</p>
+    <textarea class="fill-input" rows="7" placeholder="请改写A、B、C，加入具体数据/依据/顾客视角..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a7')">查看答案</button>
+    <div class="answer-box" id="a7">✅ <strong>参考升级版：</strong><br>
+    A升级版："这款蔡司镜片的透光率达到99.7%，阿贝数47，比普通镜片减少了约30%的色散，成像对比度更高，您看文字会更清晰锐利。"<br>
+    B升级版："这款镜片1200元，加上镜架总计1580元，用3年的话每天只需要1.4元——比您每天的早餐还便宜，享受的是清晰视界。"<br>
+    C升级版："根据您刚才说的——经常用电脑、坐办公室、偶尔开车，这款防蓝光+非球面的组合特别针对长时间屏幕用眼设计，更适合您的生活方式。"</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">8. <span class="day-tag">D54</span>顾客在你推荐后犹豫，说"我再想想，先不急"。用3种不同策略应对，分别适用于什么情况？</div>
+    <textarea class="fill-input" rows="8" placeholder="策略1（适用于：____）话术：...
+策略2（适用于：____）话术：...
+策略3（适用于：____）话术：..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a8')">查看答案</button>
+    <div class="answer-box" id="a8">✅ <strong>三种策略：</strong><br><br>
+    <strong>策略1——找出顾虑（适用于：顾客有具体顾虑但没说出来）</strong><br>
+    话术："当然，您慢慢考虑。我想了解一下，主要是价格方面的考量，还是觉得款式还没找到合适的？帮我了解一下，我看看有没有更合适的方向。"<br><br>
+    <strong>策略2——创造合理紧迫感（适用于：库存/活动真的有时效性）</strong><br>
+    话术："您可以多考虑一下。不过我提醒您一下，这款镜架颜色只剩这一副了，我帮您备注一下，但不能保证明天还在。"（仅当真实情况时使用）<br><br>
+    <strong>策略3——礼貌放人+留后路（适用于：顾客确实需要时间，不想被催）</strong><br>
+    话术："好的，您慢慢考虑。我把今天的推荐方案给您写下来，包括镜片型号和价格，您回去对比一下，有问题随时联系我，我也会在这儿等您。"（加微信或留名片）</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">9. <span class="day-tag">D53-54</span>综合案例：顾客带着处方来配镜（OD -1.50 DS -0.75 DC AX 90°，OS -2.00 DS）。请：①解读处方 ②用通俗语言向顾客解释 ③推荐合适镜片方案</div>
+    <textarea class="fill-input" rows="8" placeholder="①处方解读：...
+②向顾客解释：...
+③推荐镜片方案及理由：..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a9')">查看答案</button>
+    <div class="answer-box" id="a9">✅ <strong>参考答案：</strong><br><br>
+    <strong>①处方解读：</strong>右眼(OD)：近视150度+75度散光，散光轴向90°（顺规散光）；左眼(OS)：近视200度，无散光。<br><br>
+    <strong>②向顾客解释：</strong>"您的右眼有150度的近视，另外还有75度散光——散光就是眼角膜有一点点不规则，镜片里需要加一个修正，这是很常见的。您的左眼只有200度近视，很简单。整体度数都不高，属于轻度近视。"<br><br>
+    <strong>③镜片推荐：</strong>度数较低（最高度数-2.00），建议选折射率1.56-1.60的非球面镜片即可（1.74超薄对低度数意义不大，性价比不高）。如经常用电脑可加防蓝光膜。参考价格区间400-800元中端镜片已满足需求。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">10. <span class="day-tag">D54</span>为结业考核准备——写下你认为自己最需要加强的3个知识点，并各写一条记忆口诀：</div>
+    <textarea class="fill-input" rows="8" placeholder="需要加强点1：...  记忆口诀：...
+需要加强点2：...  记忆口诀：...
+需要加强点3：...  记忆口诀：..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a10')">查看答案</button>
+    <div class="answer-box" id="a10">✅ <strong>这是个人反思题，没有标准答案。</strong><br><br>示例参考：<br>需要加强：散光轴向计算 → 口诀："清晰线加九十，轴向定了去！"<br>需要加强：渐进镜适应指导 → 口诀："抬头远，低头近，侧看走路要小心！"<br>需要加强：价值分解法话术 → 口诀："总价÷天数，每天比奶茶还便宜！"</div>
+  </div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <button class="btn" onclick="showAllAnswers()">📖 展示全部答案</button>
+    <button class="btn" style="background:#e74c3c;" onclick="resetAll()">🔄 重置练习</button>
+  </div>
+</div>
+
+<script>
+function toggleAnswer(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+function showAllAnswers() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'block');
+}
+function resetAll() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.fill-input').forEach(el => el.value = '');
+}
+</script>
+<div class="nav-footer" style="max-width:960px;margin:28px auto 10px;padding:0 20px">
+  <a href="Day_53_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+  <a href="Day_54_学习内容.html" class="nav-btn">Day 54 学习内容 →</a>
+</div>
+
+<script>
+/* interactive-options-type-d-js */
+(function(){
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    // 收集该题所有 .option
+    var opts = Array.from(qBlock.querySelectorAll(':scope > .option, :scope > .options > .option'));
+    if(opts.length === 0) return;
+
+    // 找答案框：answer-box
+    var ansBox = qBlock.querySelector('.answer-box');
+    if(!ansBox) return;
+
+    // 从 answer-box 提取答案字母，支持多种格式：
+    // ✅ 正确答案：B / ✅ 答案：B / ✅ <strong>答案：B</strong>
+    var txt = ansBox.textContent || '';
+    var m = txt.match(/(?:\u6b63\u786e)?\u7b54\u6848[:\uff1a]\s*([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    opts.forEach(function(opt){
+      var letter = (opt.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      opt.classList.add('opt-clickable');
+      opt.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        opts.forEach(function(o){ o.classList.add('answered'); });
+        if(letter === correct){
+          opt.classList.add('opt-correct');
+          opt.textContent = '\u2705 ' + opt.textContent;
+        } else {
+          opt.classList.add('opt-wrong');
+          opt.textContent = '\u274c ' + opt.textContent;
+          opts.forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ o.classList.add('opt-reveal'); o.textContent = '\ud83d\udc49 ' + o.textContent; }
+          });
+        }
+        ansBox.style.display = 'block';
+        var btn = qBlock.querySelector('.btn-show, .show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
