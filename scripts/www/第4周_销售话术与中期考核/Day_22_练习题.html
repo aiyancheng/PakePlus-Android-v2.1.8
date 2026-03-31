@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 22 练习题 - 顾客接待与开场话术</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; padding: 28px 40px; }
+  .header .badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; margin-bottom: 6px; }
+  .container { max-width: 860px; margin: 30px auto; padding: 0 20px; }
+  .section { background: white; border-radius: 12px; padding: 28px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .section h2 { font-size: 18px; color: #333; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #fa709a; }
+  .question { margin-bottom: 22px; }
+  .q-text { font-size: 15px; line-height: 1.7; color: #333; font-weight: 500; display: flex; align-items: flex-start; gap: 10px; }
+  .q-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #fa709a; color: white; border-radius: 50%; font-size: 13px; font-weight: bold; flex-shrink: 0; }
+  .options { margin: 12px 0 0 38px; }
+  
+  .option:hover { background: #fff5f8; border-color: #fa709a; }
+  .option input { margin-top: 2px; accent-color: #fa709a; }
+  .option label { cursor: pointer; font-size: 14px; color: #555; }
+  .judge-options { margin: 10px 0 0 38px; display: flex; gap: 20px; }
+  .judge-btn { display: flex; align-items: center; gap: 8px; padding: 8px 20px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+  .judge-btn:hover { border-color: #fa709a; background: #fff5f8; }
+  .judge-btn input { accent-color: #fa709a; }
+  .scenario { background: #fff5f8; border-left: 4px solid #fa709a; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 10px 0 0 38px; font-size: 14px; color: #444; line-height: 1.7; }
+  .answer-area { margin: 12px 0 0 38px; }
+  .answer-area textarea { width: 100%; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; font-size: 14px; resize: vertical; min-height: 100px; font-family: 'Microsoft YaHei', sans-serif; }
+  .answer-area textarea:focus { outline: none; border-color: #fa709a; }
+  .submit-area { text-align: center; padding: 20px 0; }
+  .submit-btn { background: linear-gradient(135deg, #fa709a, #fee140); color: white; border: none; padding: 14px 50px; border-radius: 30px; font-size: 16px; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; }
+  .answer-ref { background: #f8f9fc; border-radius: 10px; padding: 20px; margin-bottom: 24px; font-size: 14px; line-height: 1.8; }
+  /* 每题答案按钮 */
+  .show-answer-btn { display: block; margin: 8px 0 4px 38px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .show-answer-btn:hover { border-color: #fa709a; color: #fa709a; background: #fff5f8; }
+  .answer-hint { display: none; margin: 4px 0 8px 38px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #166534; line-height: 1.7; }
+  .scene-answer-btn { display: block; margin: 8px 0 4px 38px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .scene-answer-btn:hover { border-color: #fa709a; color: #fa709a; background: #fff5f8; }
+  .scene-answer { display: none; margin: 4px 0 8px 38px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #166534; line-height: 1.8; }
+  /* 底部导航 */
+  .nav-footer { display: flex; justify-content: space-between; align-items: center; padding: 20px 0 30px; gap: 12px; }
+  .nav-btn { display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.25s; color: white; background: linear-gradient(135deg, #fa709a, #fee140); }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #fa709a; border: 2px solid #fa709a; }
+  .nav-btn.outline:hover { background: #fff5f8; }
+
+  
+
+
+  /* ── 交互式选项（Day01标准） ── */
+  .options { list-style: none; padding: 0; margin: 12px 0 0 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-size: 0.93em; transition: all 0.2s; line-height: 1.6; }
+  .options li:hover:not(.answered) { border-color: var(--accent, #4CAF50); background: #f1f8e9; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events: none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events: none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
+  .options li.answered    { pointer-events: none !important; cursor: default !important; }
+
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="badge">Day 22 · 练习题</div>
+  <h1>📝 顾客接待与开场话术 — 巩固测评</h1>
+  <p>共20题 · 建议完成时间25分钟</p>
+</div>
+<div class="container">
+
+  <div class="section">
+    <h2>📌 一、单选题（每题4分，共40分）</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">1</span>根据7秒定律，顾客第一印象中肢体语言（表情/姿势/距离）占多少比例？</div>
+          <ul class="options">
+      <li>A. 7%</li>
+      <li>B. 38%</li>
+      <li>C. 55%</li>
+      <li>D. 80%</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>C（55%）</strong><br>解析：根据麦拉宾法则，第一印象中肢体语言占55%，声音语调占38%，语言内容仅占7%。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">2</span>面对随意浏览型顾客，正确的接待策略是？</div>
+          <ul class="options">
+      <li>A. 立即追上去推荐产品</li>
+      <li>B. 给顾客空间，等顾客在某处停留再主动搭话</li>
+      <li>C. 完全不理，等顾客来找你</li>
+      <li>D. 立即介绍今日特价产品</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：随意浏览型顾客需要空间和时间自主决定，过早推销会引起反感；在顾客对某产品表现出兴趣时才是最佳搭话时机。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">3</span>SPIN提问模型中，"P"代表的是？</div>
+          <ul class="options">
+      <li>A. 状况（Situation）</li>
+      <li>B. 问题（Problem）</li>
+      <li>C. 价格（Price）</li>
+      <li>D. 产品（Product）</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B（Problem 问题）</strong><br>解析：SPIN是：S-Situation状况，P-Problem问题（痛点），I-Implication影响，N-Need-Payoff需求价值，用于深挖顾客需求。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">4</span>顾客进店后直接询问"验光多少钱"，你应该怎么回答？</div>
+          <ul class="options">
+      <li>A. "50元一次。"</li>
+      <li>B. "我们验光完全免费，需要我帮您预约吗？"</li>
+      <li>C. "验光要排队，你等一下。"</li>
+      <li>D. "你有没有其他需要？"</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：回答问题的同时立即引导下一步行动（预约），将顾客的询问转化为服务机会，体现主动服务意识。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">5</span>以下哪句话是接待话术中的"禁忌"？</div>
+          <ul class="options">
+      <li>A. "您好，欢迎光临！"</li>
+      <li>B. "您的预算是多少？"（开口就问钱）</li>
+      <li>C. "这款镜架您可以试试"</li>
+      <li>D. "我帮您介绍几个系列"</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：开口就问预算会给顾客带来压力，容易引起防备心理。正确做法是先了解需求，自然引出价格区间。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">6</span>顾客在某处镜架前停留了约5秒，员工应该怎么做？</div>
+          <ul class="options">
+      <li>A. 继续在原地等待</li>
+      <li>B. 主动靠近，提供试戴邀请</li>
+      <li>C. 大声介绍这款产品的价格</li>
+      <li>D. 先让顾客自己决定</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：顾客在某处停留是兴趣信号，此时主动靠近是最佳时机。话术示例："这款您喜欢吗？可以拿起来试试看效果。"</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">7</span>"您好，欢迎光临！您随便看，有需要随时找我，我叫小李。"这句话的优点是？</div>
+          <ul class="options">
+      <li>A. 减少了与顾客沟通的机会</li>
+      <li>B. 亲切、给顾客空间、留下联系锚点</li>
+      <li>C. 告诉顾客不用理他</li>
+      <li>D. 这句话没有任何价值</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：这句话三个优点：①热情问候；②"随便看"给顾客心理空间，减少压迫感；③留下姓名锚点，方便顾客主动寻求帮助。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">8</span>了解顾客需求时，最重要的三个信息是？</div>
+          <ul class="options">
+      <li>A. 年龄、职业、收入</li>
+      <li>B. 当前情况、痛点、最看重什么</li>
+      <li>C. 是否来过门店、是否有会员卡</li>
+      <li>D. 住址、手机号、消费历史</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：了解需求的核心：当前情况（现有眼镜度数/使用多久）、痛点（什么问题想解决）、最看重什么（舒适/美观/价格）。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">9</span>邀请顾客试戴时，以下哪种说法最有效？</div>
+          <ul class="options">
+      <li>A. "要不要试试？"</li>
+      <li>B. "这款我们卖得很好。"</li>
+      <li>C. "这款是新款，您可以拿起来试试，我帮您看效果。"</li>
+      <li>D. "这个价格实惠，很多人买。"</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：C选项给出行动指引（"拿起来试"）并提供服务承诺（"我帮您看效果"），比单纯介绍产品更能引导顾客行动。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">10</span>顾客进店时步伐较快、目光有方向，说明顾客属于哪种类型？</div>
+          <ul class="options">
+      <li>A. 随意浏览型</li>
+      <li>B. 主动进店型（目的明确）</li>
+      <li>C. 寻求帮助型</li>
+      <li>D. 不确定型</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：步伐快、目光有方向是目的明确的特征，应快速靠近直接问"您好，是要验光还是选镜架？"直接对接需求。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>✅ 二、判断题（每题4分，共20分）</h2>
+    <div class="question">
+      <div class="q-text"><span class="q-num">11</span>第一印象中，语言内容（说什么）是最重要的因素，占比最大。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">❌ 正确答案：<strong>B（错误）</strong><br>解析：语言内容仅占7%，肢体语言占55%最重要，声音语调占38%居中。所以服务仪态和语气比说什么更关键。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">12</span>对主动进店型顾客，应该在顾客刚进门的瞬间立即上前推荐产品。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">❌ 正确答案：<strong>B（错误）</strong><br>解析：即便是主动进店型，也应先问清楚需求（验光/选镜架/售后），再针对性引导，而不是立刻推荐产品。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">13</span>用"我这里有几个不同价位的系列"来引出价格话题，比直接问"你预算多少"更合适。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：用"不同价位系列"引出价格话题，让顾客自然透露预期价位，比直接问预算更自然，减少心理压迫感。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">14</span>背诵话术的文字内容是话术学习的全部，只要背下来就够了。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">❌ 正确答案：<strong>B（错误）</strong><br>解析：话术学习需要三步：理解逻辑→反复演练→灵活变通。只背文字不够，还要注重语气、表情、时机的配合。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">15</span>了解顾客需求越详细，推荐产品时的精准度就越高。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：充分了解需求是精准推荐的前提，避免盲目推荐，减少顾客的选择困难，提高成交率。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🎭 三、话术演练题（共40分）</h2>
+    <div class="question">
+      <div class="q-text"><span class="q-num">16</span>话术改写（20分）：</div>
+      <div class="scenario">
+        以下是一段错误的接待话术，请找出问题并改写成正确版本：<br>
+        员工：（顾客刚进门）"买眼镜吗？这个款式很好，才300块，很多人买。你预算多少？"
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="请写出：①找到几个问题 ②改写后的正确话术"></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        ✅ <strong>问题分析：</strong><br>
+        ①"买眼镜吗"——废话，顾客进眼镜店显然是来看眼镜的，提问无意义；<br>
+        ②上来直接推荐产品——没有了解需求，顾客没有信任基础；<br>
+        ③直接报低价"300块"——暗示产品廉价，可能引起顾客质疑品质；<br>
+        ④"你预算多少"——开口就问钱，让顾客产生防备心。<br><br>
+        ✅ <strong>正确改写：</strong><br>
+        "您好，欢迎光临！您随便看，有需要随时叫我，我叫小李。"（等顾客进来后自然跟随）<br>
+        待顾客在某处停留后："您好，您是来验光还是看镜架？" 或 "这款您感兴趣吗，可以拿起来试试。"
+      </div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">17</span>场景演练（20分）：</div>
+      <div class="scenario">
+        一位20多岁的年轻男士进店，戴着一副很旧的眼镜，走到板材镜架区停留了约8秒，拿起一副黑框试了一下又放下，然后继续浏览。请写出你从"观察到他停留"到"引导试戴并了解需求"的完整话术过程。
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="请写出从靠近到引导试戴、了解需求的完整话术..."></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        ✅ <strong>参考话术流程：</strong><br>
+        ①<strong>观察时机：</strong>顾客拿起又放下，说明有兴趣但有顾虑，此时靠近最佳。<br>
+        ②<strong>靠近搭话：</strong>"这款您刚才看了一下，挺适合您的感觉，您戴的是什么材质的框？"（顺着他的行为展开对话）<br>
+        ③<strong>了解现状：</strong>"看您现在这副戴了挺久了，是度数变了准备换一副，还是框架想换个风格？"<br>
+        ④<strong>挖掘痛点：</strong>"现在这副戴起来有什么不舒服的地方吗？"<br>
+        ⑤<strong>引导试戴：</strong>"这款板材轻巧，黑色框设计感强，您刚才那副也是黑框，看来您喜欢这个风格，要不重新试一下，我帮您看看上脸效果？"<br>
+        ⑥<strong>肯定引导：</strong>顾客试戴后，"挺适合您的，鼻梁我帮您调一调，感受一下舒不舒服。"
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-area">
+    <button class="submit-btn" onclick="alert('已提交！请找师傅进行话术演练复盘。')">提交练习题 ✓</button>
+  </div>
+
+  <div class="answer-ref">
+    <strong>📋 参考答案（师傅用）：</strong><br>
+    单选题：1-C &nbsp; 2-B &nbsp; 3-B &nbsp; 4-B &nbsp; 5-B &nbsp; 6-B &nbsp; 7-B &nbsp; 8-B &nbsp; 9-C &nbsp; 10-B<br>
+    判断题：11-错误 &nbsp; 12-错误 &nbsp; 13-正确 &nbsp; 14-错误 &nbsp; 15-正确
+  </div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_22_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_23_学习内容.html">Day 23 学习内容 →</a>
+  </div>
+</div>
+
+
+
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card, .question, .q-block').forEach(function(card){
+    var hint = card.querySelector('.answer-hint, .answer-box');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<[^>]+>)?([A-Da-d正确错误])/i);
+    if(!m) return;
+    var correctRaw = m[1];
+    // 支持汉字"正确"/"错误"和字母A/B/C/D
+    var correct = correctRaw.toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var txt = li.textContent.trim();
+      var letter = (txt.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
