@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Day 11 练习题</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}.header{background:linear-gradient(135deg,#e3f2fd,#bbdefb);padding:36px 30px;border-bottom:3px solid #2196F3;}.day-tag{background:#2196F3;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}.header h1{font-size:1.8em;color:#1565c0;margin-bottom:8px;}.container{max-width:860px;margin:30px auto;padding:0 20px;}.section-title{font-size:1.15em;color:#1565c0;font-weight:700;margin:32px 0 14px;padding-left:12px;border-left:4px solid #2196F3;}.question-card{background:white;border-radius:12px;padding:26px;margin-bottom:22px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}.q-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}.q-num{background:#2196F3;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9em;flex-shrink:0;}.q-type{background:#e3f2fd;color:#1565c0;padding:3px 12px;border-radius:12px;font-size:0.8em;font-weight:600;}.q-score{color:#999;font-size:0.82em;}.question-text{font-size:1em;color:#333;font-weight:600;line-height:1.6;margin-bottom:16px;}.options li{padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;margin-bottom:8px;font-size:0.93em;list-style:none;}.answer-area{width:100%;min-height:80px;border:2px solid #e0e0e0;border-radius:8px;padding:12px;font-family:inherit;font-size:0.93em;resize:vertical;}.answer-hint{background:#f9f9f9;border-left:3px solid #9E9E9E;padding:10px 14px;margin-top:12px;font-size:0.85em;color:#666;display:none;}.show-answer-btn{background:none;border:1px solid #9E9E9E;color:#666;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.82em;margin-top:10px;}.scenario-box{background:#e3f2fd;border-radius:8px;padding:14px;margin-bottom:12px;border-left:4px solid #2196F3;font-size:0.92em;line-height:1.7;}.nav-footer{display:flex;justify-content:space-between;margin:30px 0 50px;}.nav-btn{background:#2196F3;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}.nav-btn.outline{background:white;color:#2196F3;border:2px solid #2196F3;}
+  /* interactive-options-type-a */
+  .options li { cursor: pointer; transition: all 0.2s; }
+  .options li:hover { border-color: #4CAF50 !important; background: #f1f8e9 !important; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .options li.answered    { pointer-events: none !important; }
+
+</style>
+</head>
+<body>
+<div class="header"><span class="day-tag">📝 第2周 · Day 11 练习题</span><h1>功能性镜片 — 巩固测评</h1><div style="color:#555;">总分：100分</div></div>
+<div class="container">
+  <div class="section-title">选择题（每题10分，共40分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">1</div><span class="q-type">单选题</span><span class="q-score">10分</span></div><div class="question-text">变色镜片在车内效果弱的原因是？</div><ul class="options"><li>A. 车内光线太弱</li><li>B. 汽车玻璃阻隔了紫外线，触发变色的条件不足</li><li>C. 变色片本身质量问题</li><li>D. 车内温度影响变色</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：B。变色片通过紫外线触发，汽车玻璃过滤紫外线，所以车内变色效果差。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">2</div><span class="q-type">单选题</span><span class="q-score">10分</span></div><div class="question-text">渐进多焦点镜片最适合的使用人群是？</div><ul class="options"><li>A. 10岁近视儿童</li><li>B. 高度近视成年人</li><li>C. 40岁以上有老花症状的顾客</li><li>D. 散光严重的顾客</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：C。渐进片解决了老花问题，用一副眼镜看远近，适合40岁以上老花人群。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">3</div><span class="q-type">单选题</span><span class="q-score">10分</span></div><div class="question-text">驾驶者选购太阳镜，最推荐哪种类型？</div><ul class="options"><li>A. 深色固定有色镜片</li><li>B. 变色镜片</li><li>C. 偏光镜片</li><li>D. 防蓝光镜片</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：C。偏光镜片能消除路面、水面等反射光造成的眩光，驾驶安全性更高。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">4</div><span class="q-type">单选题</span><span class="q-score">10分</span></div><div class="question-text">关于近视防控镜片，以下说法正确的是？</div><ul class="options"><li>A. 近视防控镜片能治愈近视</li><li>B. 近视防控镜片主要适用于40岁以上人群</li><li>C. 近视防控镜片通过特殊光学设计减缓眼轴增长，延缓近视加深</li><li>D. 近视防控镜片与普通镜片完全相同</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：C。近视防控镜片通过离焦等设计减缓眼轴增长，延缓近视加深，但不能治愈，适合8~18岁青少年。</div></div>
+
+  <div class="section-title">情景模拟（60分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">5</div><span class="q-type">情景模拟</span><span class="q-score">30分</span></div>
+  <div class="scenario-box">📍 一位45岁的女性顾客，原来只有近视，但最近发现看手机越来越模糊。她想配一副日常使用的眼镜，不想带两副来回换。</div>
+  <div class="question-text">请向这位顾客推荐最合适的镜片类型，并给出完整的解释和说明（包括注意事项）。</div>
+  <textarea class="answer-area" style="min-height:100px;" placeholder="请写出推荐方案……"></textarea>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 参考：推荐渐进多焦点镜片。理由：顾客45岁出现看近模糊是典型老花症状；渐进片上方看远、下方看近，无需换镜。注意事项：需告知有1~2周适应期；初戴走楼梯注意安全；需精准测量瞳距和瞳高；建议配合门店验光师重新验光确定处方。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">6</div><span class="q-type">情景模拟</span><span class="q-score">30分</span></div>
+  <div class="scenario-box">📍 一位家长带着12岁的孩子来配镜，孩子近视200度，家长很担心近视发展太快。</div>
+  <div class="question-text">请向家长介绍近视防控镜片，包括：原理、效果预期、适用性。</div>
+  <textarea class="answer-area" style="min-height:100px;" placeholder="请写出介绍内容……"></textarea>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 参考：近视防控镜片通过特殊光学设计（如离焦技术），在矫正近视的同时，减少周边视网膜的离焦刺激，从而减缓眼轴增长、延缓近视加深。临床研究显示可减缓近视进展约50%（各品牌有差异）。孩子正处于12岁发育期，是近视快速增长阶段，非常适合使用。同时建议：控制用眼时间、多户外活动，综合防控效果更好。</div></div>
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_11_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_12_学习内容.html">Day 12 →</a>
+  </div>
+</div>
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card').forEach(function(card){
+    var hint = card.querySelector('.answer-hint');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    // 兼容两种格式：
+    // 1. 正确答案：<strong>B</strong>
+    // 2. 正确答案：B。或 正确答案：B（错误）
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<strong>)?([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var letter = (li.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
