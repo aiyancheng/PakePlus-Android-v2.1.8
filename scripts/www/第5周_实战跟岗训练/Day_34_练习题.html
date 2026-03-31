@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 34 练习题 — 客诉处理实战</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', Arial, sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 30px 40px; }
+  .header .day-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 16px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 1.7em; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 14px; }
+  .container { max-width: 860px; margin: 30px auto; padding: 0 20px; }
+  .intro-box { background: #e0f7fa; border-left: 5px solid #00acc1; border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; font-size: 0.93em; line-height: 1.7; }
+  .section-title { font-size: 1.1em; color: #0277bd; font-weight: 700; margin: 28px 0 12px; padding-left: 12px; border-left: 4px solid #4facfe; }
+  .question-card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+  .q-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .q-num { background: #4facfe; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9em; flex-shrink: 0; }
+  .q-type { background: #e0f7fa; color: #006064; padding: 3px 12px; border-radius: 12px; font-size: 0.8em; font-weight: 600; }
+  .question-text { font-size: 1em; color: #333; font-weight: 600; line-height: 1.6; margin-bottom: 14px; }
+  .options { list-style: none; padding: 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; font-size: 0.93em; }
+  .answer-area { width: 100%; min-height: 90px; border: 2px solid #e0e0e0; border-radius: 8px; padding: 12px; font-family: inherit; font-size: 0.93em; resize: vertical; outline: none; }
+  .answer-area:focus { border-color: #4facfe; }
+  .show-answer-btn { background: none; border: 1px solid #9E9E9E; color: #666; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82em; margin-top: 10px; }
+  .show-answer-btn:hover { background: #f5f5f5; }
+  .answer-hint { background: #f0f9ff; border-left: 3px solid #4facfe; padding: 12px 16px; margin-top: 12px; font-size: 0.88em; color: #444; border-radius: 0 6px 6px 0; display: none; line-height: 1.7; }
+  .scenario-box { background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 14px 18px; margin-bottom: 14px; font-size: 0.93em; line-height: 1.8; border-left: 4px solid #ffb300; }
+  .scenario-box .scene-label { color: #e65100; font-weight: 700; margin-bottom: 6px; }
+  .nav-footer { display: flex; justify-content: space-between; margin: 30px 0 50px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #4facfe; border: 2px solid #4facfe; }
+  .nav-btn.outline:hover { background: #f0f9ff; }
+
+  /* interactive-options-type-a */
+  .options li { cursor: pointer; transition: all 0.2s; }
+  .options li:hover { border-color: #4CAF50 !important; background: #f1f8e9 !important; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .options li.answered    { pointer-events: none !important; }
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="day-tag">📝 第5周 · Day 34 练习题</span>
+  <h1>客诉处理实战 — 巩固测评</h1>
+  <div class="subtitle">总分：100分 | 建议完成时间：25分钟 | 及格线：70分</div>
+</div>
+
+<div class="container">
+  <div class="intro-box">
+    💡 <strong>做题提示：</strong>先独立作答，再点击"查看参考答案"核对。客诉处理是高频实战场景，请认真思考每道题背后的逻辑。
+  </div>
+
+  <!-- 第一部分：单选题 -->
+  <div class="section-title">第一部分：单选题（每题 10 分，共 50 分）</div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">1</div><span class="q-type">单选题</span></div>
+    <div class="question-text">客户进门第一句就抱怨"你们做的眼镜根本不清楚"，你的第一反应应该是？</div>
+    <ul class="options">
+      <li>A. 立刻解释原因，告知可能是客户用眼习惯问题</li>
+      <li>B. 先共情致歉，再了解具体情况</li>
+      <li>C. 询问订单号，直接查记录</li>
+      <li>D. 请客户稍等，叫店长过来处理</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：处理客诉的第一步永远是"先处理情绪"。客户情绪激动时首先需要被听见和被理解，直接解释原因会让客户感到被推卸责任；叫店长是绕过责任的逃避做法，不利于建立信任。正确做法是先共情致歉，再有条不紊地了解情况。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">2</div><span class="q-type">单选题</span></div>
+    <div class="question-text">处理客诉的"HEART"模型中，"E"代表的是？</div>
+    <ul class="options">
+      <li>A. Explain（解释）</li>
+      <li>B. Empathy（共情）</li>
+      <li>C. Elevate（升级处理）</li>
+      <li>D. Evaluate（评估）</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：HEART模型五步：H-Hear（倾听）、E-Empathy（共情）、A-Apologize（道歉）、R-Resolve（解决）、T-Thanks（感谢）。共情是建立情感连接的关键步骤，让客户感到"你真正理解我的感受"，为后续解决问题打下基础。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">3</div><span class="q-type">单选题</span></div>
+    <div class="question-text">客户要求退款，但按门店政策只能重配，此时正确做法是？</div>
+    <ul class="options">
+      <li>A. 直接告知"我们不退款"</li>
+      <li>B. 承诺退款，再汇报店长</li>
+      <li>C. 先说"我理解您的想法"，再解释政策并提供替代方案</li>
+      <li>D. 让客户等待，查阅合同再回复</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：A选项太生硬，会激化矛盾；B选项超出权限做出承诺，会造成更大麻烦；D选项让客户等太久会积累负面情绪。C选项先共情表示理解，再清晰解释政策，同时提供替代解决方案（如免费重验、免费调整），体现专业与诚意。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">4</div><span class="q-type">单选题</span></div>
+    <div class="question-text">以下哪种语言表达最不适合用于客诉处理？</div>
+    <ul class="options">
+      <li>A. "非常抱歉给您带来不便，我们马上处理。"</li>
+      <li>B. "您的感受我完全理解，让我们一起找到解决方案。"</li>
+      <li>C. "这肯定是您自己用眼不当造成的。"</li>
+      <li>D. "请问您具体哪方面觉得不清楚，方便告诉我吗？"</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：C选项直接将问题归咎于客户，是典型的推卸责任话术，会让客户感到被指责和不被尊重，极易激化矛盾。在未查清原因之前，任何定性表述都是危险的。A和B都体现了共情和积极解决的态度；D是专业的信息收集提问。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">5</div><span class="q-type">单选题</span></div>
+    <div class="question-text">客户情绪激动大声争吵时，最有效的降温技巧是？</div>
+    <ul class="options">
+      <li>A. 提高音量与客户对话，显示自信</li>
+      <li>B. 请客户坐下来，轻声细语地沟通</li>
+      <li>C. 沉默等待客户发泄完再说话</li>
+      <li>D. 立刻让店长出面替换人员</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：情绪管理的核心原则——用低音量、慢语速对抗对方的激动情绪，形成"情绪对比"，有助于降温。同时，邀请客户坐下来能改变对峙的站立姿态，降低敌对感。C选项完全沉默会让客户感到被无视，D选项频繁换人会让客户觉得被"踢皮球"。</div>
+  </div>
+
+  <!-- 第二部分：情景分析题 -->
+  <div class="section-title">第二部分：情景分析题（每题 15 分，共 30 分）</div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">6</div><span class="q-type">情景分析</span></div>
+    <div class="scenario-box">
+      <div class="scene-label">📍 情景一：渐进镜不适投诉</div>
+      <p>客户李先生配了一副渐进多焦点镜片，取镜后第3天反馈"戴上头晕，视线模糊"，要求换镜或退款。他情绪比较激动。</p>
+    </div>
+    <div class="question-text">请写出你的完整处理话术（不少于4个步骤）：</div>
+    <textarea class="answer-area" placeholder="步骤1：共情致歉……&#10;步骤2：了解情况……&#10;步骤3：……&#10;步骤4：……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">
+      ✅ 参考答案要点：<br>
+      <strong>步骤1（共情致歉）</strong>：李先生，真的非常抱歉您戴镜后有不舒服的感觉，这让您很担心，我完全理解。<br>
+      <strong>步骤2（了解情况）</strong>：请您告诉我，主要是哪种不适——是头晕还是看近处/看远处模糊？什么场合感觉最明显？<br>
+      <strong>步骤3（专业解释）</strong>：渐进多焦点镜片通常需要3-7天、部分人甚至需要2-4周的适应期，因为大脑需要重新学习如何在不同区域切换焦距，您才戴了3天，属于正常适应阶段。<br>
+      <strong>步骤4（提供方案）</strong>：我们可以为您先做一次免费复验，确认处方数据无误；同时教您正确的渐进镜使用方法。如果适应两周后仍不舒适，我们会为您重新评估解决方案。<br>
+      <strong>关键点</strong>：全程保持柔和语气，不争辩，让客户感到被重视。
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">7</div><span class="q-type">情景分析</span></div>
+    <div class="scenario-box">
+      <div class="scene-label">📍 情景二：眼镜变形投诉</div>
+      <p>客户王女士取镜2周后来店，反映"眼镜腿弯了，戴着不舒服"，情绪平稳，只是想解决问题。</p>
+    </div>
+    <div class="question-text">你应如何快速判断并处理这一情况？请写出完整处理思路：</div>
+    <textarea class="answer-area" placeholder="判断原因……&#10;处理方案……&#10;后续跟进……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">
+      ✅ 参考答案要点：<br>
+      <strong>判断原因</strong>：先检查变形程度，询问是否有磕碰摔落经历 → 区分"正常使用变形"还是"产品质量问题"。<br>
+      <strong>处理方案</strong>：<br>
+      • 若属于正常使用变形 → 当场提供免费校正整形服务，说明正确存放方法（用镜盒，双手摘戴）<br>
+      • 若属于质量问题（焊接断裂/铰链松动）→ 拍照记录，按质量问题走售后流程<br>
+      <strong>后续跟进</strong>：校正完成后让客户试戴确认舒适度，并告知免费保养政策（建议每季度来店检查一次）。<br>
+      <strong>加分点</strong>：顺势介绍镜框保养知识，转危机为服务加分的机会。
+    </div>
+  </div>
+
+  <!-- 第三部分：判断题 -->
+  <div class="section-title">第三部分：判断题（每题 5 分，共 20 分）</div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">8</div><span class="q-type">判断题</span></div>
+    <div class="question-text">处理客诉时，先让客户把话说完，不打断，是正确的做法。（&nbsp;&nbsp;）</div>
+    <ul class="options"><li>A. 正确</li><li>B. 错误</li></ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：倾听是处理客诉的基本功。客户需要感到被充分倾听，打断会让其感到不被尊重，加剧不满情绪。等对方说完后，你才能全面了解问题所在。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">9</div><span class="q-type">判断题</span></div>
+    <div class="question-text">超出自己权限的客诉，可以直接承诺客户后再汇报店长。（&nbsp;&nbsp;）</div>
+    <ul class="options"><li>A. 正确</li><li>B. 错误</li></ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B（错误）</strong><br>解析：超出权限的承诺非常危险——一旦店长无法兑现，你的公信力和门店信誉都会受损，客户会觉得被欺骗。正确做法：告知客户"这件事我需要请示我们店长，5分钟内给您答复"，先汇报获得授权后再作承诺。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">10</div><span class="q-type">判断题</span></div>
+    <div class="question-text">客诉处理完毕后，应对客户进行回访，确认满意度。（&nbsp;&nbsp;）</div>
+    <ul class="options"><li>A. 正确</li><li>B. 错误</li></ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：回访是客诉闭环的最后一步，也是最容易被忽略的一步。一个真诚的电话或短信回访，不仅能确认问题已彻底解决，还能让客户感受到被持续关注，甚至将一次投诉转化为忠实顾客。建议客诉处理后24-48小时内回访。</div>
+  </div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_34_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_35_学习内容.html">Day 35 学习内容 →</a>
+  </div>
+</div>
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card').forEach(function(card){
+    var hint = card.querySelector('.answer-hint');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    // 兼容两种格式：
+    // 1. 正确答案：<strong>B</strong>
+    // 2. 正确答案：B。或 正确答案：B（错误）
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<strong>)?([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var letter = (li.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
