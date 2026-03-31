@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 22 - 顾客接待与开场话术</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 15px; }
+  .meta-bar { background: white; padding: 15px 40px; display: flex; gap: 30px; border-bottom: 1px solid #e8ecf0; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+  .meta-item span.dot { width: 8px; height: 8px; border-radius: 50%; background: #fa709a; display: inline-block; }
+  .container { max-width: 960px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 20px; color: #333; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #fa709a; display: flex; align-items: center; gap: 10px; }
+  .card h3 { font-size: 16px; color: #444; margin: 18px 0 10px; }
+  .card p { line-height: 1.8; color: #555; margin-bottom: 12px; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { line-height: 1.9; color: #555; margin-bottom: 4px; }
+  .highlight-box { background: #fff5f8; border-left: 4px solid #fa709a; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .highlight-box.green { background: #f0fdf4; border-color: #22c55e; }
+  .highlight-box.blue { background: #f0f4ff; border-color: #667eea; }
+  .highlight-box.yellow { background: #fffbf0; border-color: #f59e0b; }
+  .dialogue-box { border: 1px solid #e8ecf0; border-radius: 10px; overflow: hidden; margin: 16px 0; }
+  .dialogue-row { display: flex; }
+  .dialogue-row .role { padding: 12px 16px; min-width: 80px; text-align: center; font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .dialogue-row .role.staff { background: #fa709a; color: white; }
+  .dialogue-row .role.customer { background: #f5f5f5; color: #666; }
+  .dialogue-row .content { padding: 12px 16px; font-size: 14px; color: #444; line-height: 1.7; flex: 1; border-bottom: 1px solid #f0f0f0; }
+  .dialogue-row:last-child .content { border-bottom: none; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .tag { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 13px; }
+  .tag.good { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+  .tag.bad { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .compare-card { border-radius: 10px; padding: 16px; }
+  .compare-card.good-way { background: #f0fdf4; border: 2px solid #22c55e; }
+  .compare-card.bad-way { background: #fff5f5; border: 2px solid #ef4444; }
+  .compare-card .title { font-weight: bold; font-size: 14px; margin-bottom: 10px; }
+  .compare-card.good-way .title { color: #166534; }
+  .compare-card.bad-way .title { color: #991b1b; }
+  .compare-card p { font-size: 14px; color: #555; font-style: italic; margin: 0; line-height: 1.6; }
+  .summary-box { background: linear-gradient(135deg, #fa709a, #fee140); color: white; border-radius: 12px; padding: 24px; margin-top: 8px; }
+  .summary-box h3 { font-size: 18px; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 20px; }
+  .summary-box li { line-height: 2; opacity: 0.95; }
+  .footer { text-align: center; padding: 30px; color: #aaa; font-size: 13px; }
+  .nav-footer { display: flex; justify-content: space-between; margin: 20px 0 40px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #fa709a, #fee140); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #fa709a; border: 2px solid #fa709a; }
+  .nav-btn.outline:hover { background: #fff5f8; }
+  .script-box { background: #fff5f8; border: 2px dashed #fa709a; border-radius: 10px; padding: 20px; margin: 16px 0; }
+  .script-box .script-label { color: #fa709a; font-weight: bold; font-size: 13px; margin-bottom: 10px; }
+  .script-box p { color: #333; font-size: 15px; line-height: 1.8; margin: 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="week-badge">第4周 · 销售话术与中期考核</div>
+  <h1>Day 22 — 顾客接待与开场话术</h1>
+  <div class="subtitle">话术模块 · 掌握不同场景下的开场接待技巧，给顾客留下完美的第一印象</div>
+</div>
+
+<div class="meta-bar">
+  <div class="meta-item"><span class="dot"></span>学习时长：约3.5小时</div>
+  <div class="meta-item"><span class="dot"></span>模块：话术（Scripts）</div>
+  <div class="meta-item"><span class="dot"></span>重要性：⭐⭐⭐⭐⭐</div>
+  <div class="meta-item"><span class="dot"></span>要求：背诵5条核心话术</div>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2><span>🎯</span>今日学习目标</h2>
+    <ol>
+      <li>理解"开场话术"在销售中的重要地位</li>
+      <li>掌握3种不同进店场景的接待方式</li>
+      <li>学会判断顾客的进店意图，采用对应话术</li>
+      <li>了解7秒定律与第一印象管理</li>
+      <li>能够流畅背诵并演练5条核心接待话术</li>
+    </ol>
+  </div>
+
+  <!-- 一、7秒定律 -->
+  <div class="card">
+    <h2><span>⚡</span>一、7秒定律：第一印象的决定性力量</h2>
+    <p>研究表明，顾客进入门店的<strong>前7秒</strong>，就会对门店和服务人员形成初步印象。这个印象一旦形成，很难在短时间内改变。</p>
+    <div class="highlight-box yellow">
+      <strong>第一印象由三个要素构成（各占比例）：</strong><br>
+      语言内容（说什么） — 占 <strong>7%</strong><br>
+      声音（语气/语调/节奏）— 占 <strong>38%</strong><br>
+      肢体语言（表情/姿势/距离）— 占 <strong>55%</strong>
+    </div>
+    <p>这意味着：<strong>你怎么说，比你说什么更重要！</strong>接待顾客时，要注意自己的微笑、眼神、站姿，而不只是背诵话术的文字。</p>
+  </div>
+
+  <!-- 二、三种进店场景 -->
+  <div class="card">
+    <h2><span>🚪</span>二、三种进店场景与对应接待策略</h2>
+
+    <h3>场景A：主动进店型（顾客有明确目的）</h3>
+    <p>识别特征：进门后目光明确，步伐较快，可能直接走向某个展柜或直接询问</p>
+    <div class="script-box">
+      <div class="script-label">💬 推荐话术</div>
+      <p>顾客走向镜架区时：<br>
+      "您好！您直接来看镜架，是想配近视镜，还是看看太阳镜？"（开放式提问，快速定位需求）<br><br>
+      顾客直接询问时：<br>
+      "您好！有什么可以帮您的？"或"您好，请问您想配什么样的眼镜？"</p>
+    </div>
+    <p><strong>策略：</strong>不要拦截，让顾客自然进入，在顾客停下来的时候主动搭话</p>
+
+    <h3>场景B：随意浏览型（顾客没有明确目的）</h3>
+    <p>识别特征：进门后随意走动，眼神游移，似乎在"逛"而不是"找"</p>
+    <div class="script-box">
+      <div class="script-label">💬 推荐话术</div>
+      <p>"您好，欢迎光临！您随便看，有需要随时喊我。"<br>（先不打扰，给顾客空间，等顾客在某处停留3秒以上，再主动靠近）<br><br>
+      靠近后：<br>
+      "这款镜架最近很多顾客在关注，您可以拿起来试试，我帮您看看效果。"</p>
+    </div>
+    <div class="highlight-box">
+      <strong>关键：</strong>随意浏览型顾客最怕被"盯着"和"追着问"。给他们足够的自由空间，在恰当时机提供一个具体的"邀请动作"（如试戴），效果远好过直接推销。
+    </div>
+
+    <h3>场景C：寻求帮助型（顾客主动找人咨询）</h3>
+    <p>识别特征：进门后四处张望找服务人员，或直接说"我想问一下…"</p>
+    <div class="script-box">
+      <div class="script-label">💬 推荐话术</div>
+      <p>"您好！我在这里，请问有什么可以帮您？"（快速响应，不让顾客等待）<br><br>
+      顾客咨询验光：<br>
+      "好的，验光我们这里完全免费。我先帮您安排一下，请问您现在方便做吗？大概只需要10-15分钟。"</p>
+    </div>
+  </div>
+
+  <!-- 三、禁忌话术 -->
+  <div class="card">
+    <h2><span>❌</span>三、接待话术中的禁忌</h2>
+    <p>以下话术在眼镜门店接待中应坚决避免：</p>
+    <div class="compare-grid">
+      <div class="compare-card bad-way">
+        <div class="title">❌ 错误话术</div>
+        <p>"你好，买眼镜吗？"</p>
+      </div>
+      <div class="compare-card good-way">
+        <div class="title">✅ 正确话术</div>
+        <p>"您好，欢迎光临！您是想配近视镜，还是有其他需要？"</p>
+      </div>
+    </div>
+    <div class="compare-grid">
+      <div class="compare-card bad-way">
+        <div class="title">❌ 错误话术</div>
+        <p>"随便看看！"（语气敷衍）</p>
+      </div>
+      <div class="compare-card good-way">
+        <div class="title">✅ 正确话术</div>
+        <p>"您随便看，有需要随时找我，我叫小X。"（亲切且主动留下联系锚点）</p>
+      </div>
+    </div>
+    <div class="compare-grid">
+      <div class="compare-card bad-way">
+        <div class="title">❌ 错误话术</div>
+        <p>"这个很好的，很多人买。"（立即推销，没有了解需求）</p>
+      </div>
+      <div class="compare-card good-way">
+        <div class="title">✅ 正确话术</div>
+        <p>"您对镜架有什么特别的偏好吗？比如材质、风格或者价位？"（先问需求）</p>
+      </div>
+    </div>
+    <div class="compare-grid">
+      <div class="compare-card bad-way">
+        <div class="title">❌ 错误话术</div>
+        <p>"你的预算是多少？"（直接问钱让顾客不舒服）</p>
+      </div>
+      <div class="compare-card good-way">
+        <div class="title">✅ 正确话术</div>
+        <p>"我这边有几个不同价位的系列，我帮您介绍一下，您选择最适合您的。"</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 四、需求探测话术 -->
+  <div class="card">
+    <h2><span>🔍</span>四、开场后的需求探测话术</h2>
+    <p>成功开场后，要通过有效提问了解顾客的核心需求，才能做到精准推荐。</p>
+    <h3>SPIN提问模型（简化版）</h3>
+    <ul>
+      <li><strong>S（状况）：</strong>"您现在是第一次配镜，还是原来有眼镜了？"</li>
+      <li><strong>P（问题）：</strong>"目前佩戴有什么不舒服的地方吗？"</li>
+      <li><strong>I（影响）：</strong>"度数深了，是不是看东西有点吃力？"</li>
+      <li><strong>N（需求）：</strong>"所以您这次是想配一副更清晰、更舒适的近视镜对吗？"</li>
+    </ul>
+    <div class="highlight-box green">
+      <strong>实战技巧：</strong>不需要严格按SPIN顺序提问，关键是在聊天中自然地了解：①顾客当前情况 ②顾客的痛点 ③顾客最看重什么（价格/品质/款式/功能）。了解清楚后，推荐才能精准。
+    </div>
+  </div>
+
+  <!-- 五、核心话术背诵 -->
+  <div class="card">
+    <h2><span>📖</span>五、今日必背5条核心话术</h2>
+    <ol>
+      <li style="margin-bottom:16px; background:#f8f9fc; padding:12px; border-radius:8px;">
+        <strong>标准迎宾语：</strong><br>
+        "您好，欢迎光临！请问今天有什么可以帮您？"<br>
+        <em>（配合微笑+点头+手势引导）</em>
+      </li>
+      <li style="margin-bottom:16px; background:#f8f9fc; padding:12px; border-radius:8px;">
+        <strong>不打扰接待：</strong><br>
+        "您好，您随便看，有需要随时找我，我叫[姓名]。"<br>
+        <em>（适用于浏览型顾客）</em>
+      </li>
+      <li style="margin-bottom:16px; background:#f8f9fc; padding:12px; border-radius:8px;">
+        <strong>邀请试戴：</strong><br>
+        "这款是我们最近很受欢迎的新款，您可以拿起来试试效果，我帮您看看适不适合您的脸型。"<br>
+        <em>（主动帮顾客做决定的邀请动作）</em>
+      </li>
+      <li style="margin-bottom:16px; background:#f8f9fc; padding:12px; border-radius:8px;">
+        <strong>引导验光：</strong><br>
+        "我们门店提供免费验光服务，专业验光师帮您精准检查度数，大概10-15分钟，配出来的眼镜更舒适，需要我帮您预约一下吗？"</li>
+      <li style="background:#f8f9fc; padding:12px; border-radius:8px;">
+        <strong>了解预算：</strong><br>
+        "我这里有几个不同系列，从几百元到几千元都有，各有特色，我先帮您介绍介绍，您再选择最适合您的。"<br>
+        <em>（绕开直接问预算的尴尬）</em>
+      </li>
+    </ol>
+  </div>
+
+  <div class="summary-box">
+    <h3>📋 今日知识小结</h3>
+    <ul>
+      <li>7秒定律：第一印象55%来自肢体语言，38%来自声音，7%来自内容</li>
+      <li>三种进店类型：主动型（快速定位需求）/ 浏览型（给空间再邀请）/ 求助型（快速响应）</li>
+      <li>禁忌：立即推销、直接问预算、语气敷衍</li>
+      <li>开场后用SPIN思维了解顾客的情况、痛点和需求</li>
+      <li>5条核心话术必须流利背诵，配合真实场景演练</li>
+    </ul>
+  </div>
+
+  <div class="footer">Day 22 · 眼镜门店新员工8周成才培训计划 · 第4周 销售话术与中期考核</div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="../第3周_专业技能训练/Day_21_练习题.html">← Day 21 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_22_练习题.html">Day 22 练习题 →</a>
+  </div>
+</div>
+
+</body>
+</html>
