@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 18 - 收银操作与库存管理</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 15px; }
+  .meta-bar { background: white; padding: 15px 40px; display: flex; gap: 30px; border-bottom: 1px solid #e8ecf0; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+  .meta-item span.dot { width: 8px; height: 8px; border-radius: 50%; background: #11998e; display: inline-block; }
+  .container { max-width: 960px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 20px; color: #333; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #11998e; display: flex; align-items: center; gap: 10px; }
+  .card h3 { font-size: 16px; color: #444; margin: 18px 0 10px; }
+  .card p { line-height: 1.8; color: #555; margin-bottom: 12px; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { line-height: 1.9; color: #555; margin-bottom: 4px; }
+  .highlight-box { background: #f0fdf8; border-left: 4px solid #11998e; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .highlight-box.yellow { background: #fffbf0; border-color: #f59e0b; }
+  .highlight-box.red { background: #fff5f5; border-color: #ef4444; }
+  .highlight-box.blue { background: #f0f4ff; border-color: #667eea; }
+  .step-list { counter-reset: step; list-style: none; padding-left: 0; }
+  .step-list li { counter-increment: step; padding: 12px 16px 12px 52px; position: relative; margin-bottom: 10px; background: #f8f9fc; border-radius: 8px; }
+  .step-list li::before { content: counter(step); position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 26px; height: 26px; background: #11998e; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; }
+  .table-wrap { overflow-x: auto; margin: 16px 0; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #11998e; color: white; padding: 10px 14px; text-align: left; font-size: 14px; }
+  td { padding: 10px 14px; border-bottom: 1px solid #e8ecf0; font-size: 14px; color: #555; }
+  tr:nth-child(even) { background: #f8f9fc; }
+  .tip-box { background: #e8f5e9; border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
+  .tip-box .tip-title { font-weight: bold; color: #2e7d32; margin-bottom: 8px; }
+  .method-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin: 16px 0; }
+  .method-card { background: #f8f9fc; border-radius: 10px; padding: 16px; text-align: center; border: 2px solid transparent; }
+  .method-card:hover { border-color: #11998e; }
+  .method-card .icon { font-size: 28px; margin-bottom: 8px; }
+  .method-card p { font-size: 13px; color: #666; margin: 0; }
+  .method-card strong { font-size: 14px; }
+  .warning { background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 14px 18px; margin: 16px 0; }
+  .warning strong { color: #856404; }
+  .summary-box { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border-radius: 12px; padding: 24px; margin-top: 8px; }
+  .summary-box h3 { font-size: 18px; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 20px; }
+  .summary-box li { line-height: 2; opacity: 0.95; }
+  .footer { text-align: center; padding: 30px; color: #aaa; font-size: 13px; }
+  .nav-footer { display: flex; justify-content: space-between; margin: 20px 0 40px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #f7971e, #ffd200); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #f7971e; border: 2px solid #f7971e; }
+  .nav-btn.outline:hover { background: #fffbf0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="week-badge">第3周 · 专业技能训练</div>
+  <h1>Day 18 — 收银操作与库存管理</h1>
+  <div class="subtitle">技能模块 · 掌握收银流程与库存盘点，保障门店运营数据准确</div>
+</div>
+
+<div class="meta-bar">
+  <div class="meta-item"><span class="dot"></span>学习时长：约3小时</div>
+  <div class="meta-item"><span class="dot"></span>模块：技能（Skills）+ 流程（Process）</div>
+  <div class="meta-item"><span class="dot"></span>重要性：⭐⭐⭐⭐⭐</div>
+  <div class="meta-item"><span class="dot"></span>实操要求：必须在师傅监督下操作</div>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2><span>🎯</span>今日学习目标</h2>
+    <ol>
+      <li>掌握收银系统的基本操作流程（开单→收款→找零→出票）</li>
+      <li>熟悉各种收款方式（现金、刷卡、扫码）的操作要点</li>
+      <li>了解收银差错的预防与处理方法</li>
+      <li>掌握库存管理的基本逻辑与每日盘点操作</li>
+      <li>能够独立完成一次模拟收银操作</li>
+    </ol>
+  </div>
+
+  <!-- 收银系统 -->
+  <div class="card">
+    <h2><span>💰</span>一、收银操作标准流程</h2>
+    <p>收银工作要求"零差错"，每一步操作必须严格按照流程执行，不能有任何马虎。</p>
+
+    <h3>标准收银6步流程</h3>
+    <ol class="step-list">
+      <li><strong>核对商品信息：</strong>收到顾客商品后，核对货号、规格、数量与销售单是否一致，避免录错</li>
+      <li><strong>在系统中开单：</strong>在POS系统或销售管理系统中查找商品编号，录入数量，确认应收金额</li>
+      <li><strong>告知顾客金额：</strong>清晰报出"您好，您这次消费共XXX元"，让顾客确认</li>
+      <li><strong>收款：</strong>按照顾客选择的支付方式完成收款（详见下文各方式操作要点）</li>
+      <li><strong>打印小票：</strong>收款成功后打印消费小票，双手递给顾客并说"您的小票，请收好"</li>
+      <li><strong>更新库存：</strong>在系统中确认出库，或通知同事减少该商品的库存记录</li>
+    </ol>
+
+    <h3>各支付方式操作要点</h3>
+    <div class="method-grid">
+      <div class="method-card">
+        <div class="icon">💵</div>
+        <strong>现金支付</strong>
+        <p>当面点清金额，找零前复述，当面完成</p>
+      </div>
+      <div class="method-card">
+        <div class="icon">💳</div>
+        <strong>刷卡/插卡</strong>
+        <p>核对卡号后4位，金额确认后让顾客输密码</p>
+      </div>
+      <div class="method-card">
+        <div class="icon">📱</div>
+        <strong>微信/支付宝</strong>
+        <p>出示收款码，确认到账后再出票</p>
+      </div>
+      <div class="method-card">
+        <div class="icon">🎁</div>
+        <strong>会员积分/券</strong>
+        <p>先核验有效期，再在系统中核销</p>
+      </div>
+    </div>
+
+    <div class="warning">
+      <strong>⚠️ 收银安全红线（违反一条即严重失误）：</strong>
+      <ul style="margin-top:8px; padding-left:18px;">
+        <li>不允许在系统外私下收钱</li>
+        <li>不允许代顾客输入支付密码</li>
+        <li>不允许在未到账的情况下放行商品</li>
+        <li>发现收款差错必须立即上报，不得自行处理</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 收银差错处理 -->
+  <div class="card">
+    <h2><span>⚠️</span>二、收银差错的预防与处理</h2>
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th>差错类型</th>
+          <th>常见原因</th>
+          <th>预防方法</th>
+          <th>发生后处理</th>
+        </tr>
+        <tr>
+          <td>金额录入错误</td>
+          <td>手误、系统卡顿</td>
+          <td>每次录入后大声复读确认</td>
+          <td>立即作废重开，告知顾客</td>
+        </tr>
+        <tr>
+          <td>找零错误</td>
+          <td>紧张、注意力不集中</td>
+          <td>找零前当面清点，告知金额</td>
+          <td>当面补足或退回多找部分</td>
+        </tr>
+        <tr>
+          <td>扫码重复收款</td>
+          <td>网络延迟导致重复扫描</td>
+          <td>确认第一次到账再关闭</td>
+          <td>立即通知主管，走退款流程</td>
+        </tr>
+        <tr>
+          <td>商品与小票不符</td>
+          <td>录错货号</td>
+          <td>收款前核对商品编号</td>
+          <td>当场更正，重新出票</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 库存管理 -->
+  <div class="card">
+    <h2><span>📦</span>三、库存管理基础</h2>
+    <p>库存管理是门店运营的基础工作，准确的库存数据能帮助门店及时补货、避免积压、防范损耗。</p>
+
+    <h3>库存管理的核心原则</h3>
+    <ul>
+      <li><strong>先进先出（FIFO）：</strong>先入库的商品优先售出，避免积压过期</li>
+      <li><strong>实物与系统一致：</strong>系统中的库存数量必须与实际陈列+仓库数量一致</li>
+      <li><strong>每笔进出有记录：</strong>进货、出售、调拨、损耗每次都必须录入系统</li>
+      <li><strong>定期全盘：</strong>建议每周一次小盘点，每月一次全面盘点</li>
+    </ul>
+
+    <h3>每日库存检查流程</h3>
+    <ol class="step-list">
+      <li>核查前一日销售记录，确认出库数量是否与系统同步</li>
+      <li>巡查展柜，记录展柜空位数量，对照系统判断是否需要补货</li>
+      <li>从仓库取货补充展柜时，在系统中完成"从仓库移至展区"的记录</li>
+      <li>发现实物与系统数量不符时，立即上报师傅或主管，不得自行修改</li>
+    </ol>
+
+    <h3>库存异常的常见原因</h3>
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th>异常类型</th>
+          <th>可能原因</th>
+          <th>处理方式</th>
+        </tr>
+        <tr>
+          <td>实物多于系统</td>
+          <td>进货漏录、上次盘点有误</td>
+          <td>核查进货记录，上报主管处理</td>
+        </tr>
+        <tr>
+          <td>实物少于系统</td>
+          <td>销售漏记、商品损耗或丢失</td>
+          <td>调取监控核查，填写损耗单上报</td>
+        </tr>
+        <tr>
+          <td>商品信息录入错误</td>
+          <td>新品录入时手误</td>
+          <td>由有权限的人员在系统中更正</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 实操任务 -->
+  <div class="card">
+    <h2><span>🛠️</span>四、今日实操任务</h2>
+    <ol class="step-list">
+      <li>在师傅带领下，观摩一次完整的收银操作流程</li>
+      <li>在系统测试模式（或用模拟数据）中独立完成一次从"开单→收款→打印小票"的模拟操作</li>
+      <li>学习如何在系统中查询库存数量，对照1个品类的系统库存与实物数量</li>
+      <li>完成当日展柜巡查，记录哪些展位需要补货，填写"补货需求单"</li>
+    </ol>
+    <div class="tip-box">
+      <div class="tip-title">💡 学习小贴士</div>
+      <p>收银操作初学时容易紧张，先把流程背熟（6步流程），然后在模拟环境多练几次，等熟练了再在真实顾客面前操作，顾客体验更好，自己也更有自信。</p>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>📋 今日知识小结</h3>
+    <ul>
+      <li>收银标准6步：核对商品→开单→告知金额→收款→打印小票→更新库存</li>
+      <li>四大收款方式各有操作要点，扫码支付必须确认到账才能放行</li>
+      <li>收银4大红线：不私下收钱、不代输密码、不未到账放行、差错立即上报</li>
+      <li>库存管理核心：先进先出、实物与系统一致、每笔进出有记录</li>
+      <li>发现库存异常不要自行处理，立即上报主管</li>
+    </ul>
+  </div>
+
+  <div class="footer">Day 18 · 眼镜门店新员工8周成才培训计划 · 第3周 专业技能训练</div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_17_练习题.html">← Day 17 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_18_练习题.html">Day 18 练习题 →</a>
+  </div>
+</div>
+
+</body>
+</html>
