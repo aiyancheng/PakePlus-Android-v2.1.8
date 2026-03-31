@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 06 | 岗位职责与工作流程初识</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}
+  .header{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);padding:40px 30px;border-bottom:3px solid #4CAF50;}
+  .day-tag{background:#4CAF50;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}
+  .header h1{font-size:2em;color:#2e7d32;margin-bottom:8px;}
+  .header .subtitle{color:#555;}
+  .container{max-width:900px;margin:30px auto;padding:0 20px;}
+  .objective-box{background:#e8f5e9;border-left:5px solid #4CAF50;border-radius:8px;padding:20px 24px;margin-bottom:30px;}
+  .objective-box h3{color:#2e7d32;margin-bottom:10px;}
+  .objective-box li{margin-bottom:6px;font-size:0.95em;}
+  .section{background:white;border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+  .section h2{font-size:1.3em;color:#2e7d32;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #e8f5e9;}
+  .section h3{font-size:1.05em;color:#333;margin:18px 0 10px;}
+  .section p{line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em;}
+  .section ul,.section ol{padding-left:20px;margin-bottom:14px;}
+  .section li{line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px;}
+  .role-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:16px 0;}
+  .role-card{background:#f5f5f5;border-radius:10px;padding:18px;border-left:4px solid #4CAF50;}
+  .role-card h4{color:#2e7d32;margin-bottom:10px;}
+  .role-card li{font-size:0.88em;line-height:1.7;margin-bottom:3px;}
+  .flow-steps{margin:16px 0;}
+  .flow-step{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}
+  .flow-num{background:#4CAF50;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;margin-top:2px;}
+  .flow-content .title{font-weight:700;color:#333;margin-bottom:4px;}
+  .flow-content .desc{font-size:0.9em;color:#555;line-height:1.6;}
+  .highlight-box{background:#fff8e1;border:1px solid #FFD54F;border-radius:8px;padding:16px 20px;margin:16px 0;}
+  .highlight-box .label{color:#F57F17;font-weight:700;font-size:0.85em;margin-bottom:6px;}
+  .summary-box{background:linear-gradient(135deg,#e8f5e9,#f1f8e9);border-radius:12px;padding:24px;margin-top:30px;}
+  .summary-box h3{color:#2e7d32;margin-bottom:14px;}
+  .summary-box li{margin-bottom:8px;font-size:0.95em;}
+  .nav-footer{display:flex;justify-content:space-between;margin:30px 0 40px;}
+  .nav-btn{background:#4CAF50;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}
+  .nav-btn.outline{background:white;color:#4CAF50;border:2px solid #4CAF50;}
+  @media(max-width:600px){.role-cards{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="day-tag">📅 第1周 · Day 06</span>
+  <h1>⚙️ 岗位职责与工作流程初识</h1>
+  <div class="subtitle">模块：流程 Processes | 今日主题：各岗位分工 · 日常工作流程概览 · 团队协作</div>
+</div>
+<div class="container">
+  <div class="objective-box">
+    <h3>🎯 今日学习目标</h3>
+    <ul>
+      <li>了解门店各主要岗位的职责分工</li>
+      <li>掌握一天工作的基本流程脉络（开店→接待→配镜→收银→闭店）</li>
+      <li>理解各岗位之间如何协作，明确自己的角色</li>
+      <li>为第5周的流程深入学习打下基础</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>👥 第一部分：门店岗位分工</h2>
+    <div class="role-cards">
+      <div class="role-card">
+        <h4>🏪 店长</h4>
+        <ul>
+          <li>统筹门店日常运营和人员管理</li>
+          <li>制定排班、销售目标和培训计划</li>
+          <li>处理顾客重大投诉和特殊情况</li>
+          <li>与总部、供应商对接沟通</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <h4>👁️ 验光师</h4>
+        <ul>
+          <li>为顾客进行专业视力检查</li>
+          <li>出具验光处方，给出配镜建议</li>
+          <li>解答顾客关于视力健康的问题</li>
+          <li>负责验光设备的维护和校准</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <h4>💼 销售顾问/配镜师</h4>
+        <ul>
+          <li>接待顾客，了解配镜需求</li>
+          <li>推荐镜架和镜片方案</li>
+          <li>协助配镜、收银、取镜</li>
+          <li>处理日常售后、调整维修</li>
+        </ul>
+      </div>
+      <div class="role-card">
+        <h4>🔧 加工/技术岗（如有）</h4>
+        <ul>
+          <li>按验光处方磨制加工镜片</li>
+          <li>镜架调整、整形、螺丝紧固</li>
+          <li>检验成品镜质量</li>
+          <li>维护加工设备</li>
+        </ul>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <div class="label">💡 关键认知</div>
+      <p>门店是一个团队，每个岗位都不可缺少。销售顾问需要理解验光师的工作，验光师也需要了解销售流程。<strong>协作顺畅，顾客体验才能无缝衔接。</strong></p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🔄 第二部分：一天工作的基本流程</h2>
+    <p>（详细操作规范将在第5周深入学习，今天先了解整体流程脉络）</p>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-content">
+          <div class="title">⬆️ 开店准备（上班前15分钟）</div>
+          <div class="desc">开灯、检查设备、整理陈列、补货、查看昨日待跟进事项、召开晨会</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-content">
+          <div class="title">🚪 顾客接待（全天）</div>
+          <div class="desc">迎接顾客、了解需求、引导至相应服务区域、等候期间维护顾客体验</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-content">
+          <div class="title">👁️ 验光环节（由验光师主导）</div>
+          <div class="desc">配合验光师安排顾客，收集基本信息，等候期间介绍产品或提供饮水</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-content">
+          <div class="title">🕶️ 选镜/配镜环节</div>
+          <div class="desc">根据验光结果推荐合适的镜架和镜片，解答顾客问题，完成选购决策</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">5</div>
+        <div class="flow-content">
+          <div class="title">💳 收银/下单</div>
+          <div class="desc">核对订单信息，完成收银，告知取镜时间，开具凭证</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">6</div>
+        <div class="flow-content">
+          <div class="title">🔧 取镜/售后</div>
+          <div class="desc">检查成品、调整配戴、讲解保养方法、解答售后问题</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">7</div>
+        <div class="flow-content">
+          <div class="title">⬇️ 闭店整理（下班前30分钟）</div>
+          <div class="desc">整理陈列、清点库存、关闭设备、打扫卫生、记录当日情况、做好交接</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>📝 今日要点总结</h3>
+    <ul>
+      <li>✅ 门店四大岗位：店长、验光师、销售顾问/配镜师、技术岗</li>
+      <li>✅ 一天工作7步流程：开店→接待→验光→选镜→收银→取镜→闭店</li>
+      <li>✅ 各岗位紧密协作，共同为顾客提供完整服务</li>
+      <li>✅ 本周先了解框架，第5周将深入掌握每个流程的标准操作</li>
+    </ul>
+    <p style="margin-top:14px; color:#2e7d32; font-weight:600;">🎯 今日任务：跟着师傅完整观察一次顾客从进店到离店的全流程</p>
+  </div>
+
+    <div class="section">
+    <h2>🚀 第四部分：第2周学习预览与准备</h2>
+        <p>第1周，你了解了门店文化、制度规范和职场礼仪——这是成为合格员工的"地基"。</p>
+    <p>从第2周开始，你将进入眼镜行业的专业知识学习：</p>
+    <table class="rule-table">
+      <thead><tr><th>第2周学习重点</th><th>与日常工作的关联</th></tr></thead>
+      <tbody>
+        <tr><td>眼睛结构与屈光原理</td><td>帮助客户理解他们的视力问题</td></tr>
+        <tr><td>近视/远视/散光</td><td>解释配镜处方，推荐合适镜片</td></tr>
+        <tr><td>镜片材料与镀膜</td><td>为客户选择最合适的镜片产品</td></tr>
+        <tr><td>镜框材质与选型</td><td>帮客户找到最适合脸型的镜框</td></tr>
+        <tr><td>验配基础流程</td><td>接待客户时的专业流程</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box"><div class="label">💡 预习建议</div>
+    <p>在进入第2周之前，可以先观察门店里的展示品：镜片的薄厚差异是怎么产生的？不同材质的镜框手感如何？带着问题去观察，学习效果会加倍。</p>
+    </div>
+
+  </div>
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_05_学习内容.html">← Day 05</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_06_练习题.html">今日练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
