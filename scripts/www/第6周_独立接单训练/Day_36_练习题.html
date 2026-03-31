@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 36 练习题 — 标准接待流程</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', Arial, sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 30px 40px; }
+  .header .day-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 16px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 1.7em; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 14px; }
+  .container { max-width: 860px; margin: 30px auto; padding: 0 20px; }
+  .intro-box { background: #e8fff3; border-left: 5px solid #43e97b; border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; font-size: 0.93em; line-height: 1.7; }
+  .section-title { font-size: 1.1em; color: #1b5e20; font-weight: 700; margin: 28px 0 12px; padding-left: 12px; border-left: 4px solid #43e97b; }
+  .question-card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+  .q-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .q-num { background: #43e97b; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9em; flex-shrink: 0; }
+  .q-type { background: #e8fff3; color: #1b5e20; padding: 3px 12px; border-radius: 12px; font-size: 0.8em; font-weight: 600; }
+  .question-text { font-size: 1em; color: #333; font-weight: 600; line-height: 1.6; margin-bottom: 14px; }
+  .options { list-style: none; padding: 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; font-size: 0.93em; }
+  .answer-area { width: 100%; min-height: 100px; border: 2px solid #e0e0e0; border-radius: 8px; padding: 12px; font-family: inherit; font-size: 0.93em; resize: vertical; outline: none; }
+  .answer-area:focus { border-color: #43e97b; }
+  .show-answer-btn { background: none; border: 1px solid #9E9E9E; color: #666; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82em; margin-top: 10px; }
+  .show-answer-btn:hover { background: #f5f5f5; }
+  .answer-hint { background: #f0fff8; border-left: 3px solid #43e97b; padding: 12px 16px; margin-top: 12px; font-size: 0.88em; color: #444; border-radius: 0 6px 6px 0; display: none; line-height: 1.7; }
+  .nav-footer { display: flex; justify-content: space-between; margin: 30px 0 50px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #43e97b; border: 2px solid #43e97b; }
+  .nav-btn.outline:hover { background: #f0fff8; }
+
+  /* interactive-options-type-a */
+  .options li { cursor: pointer; transition: all 0.2s; }
+  .options li:hover { border-color: #4CAF50 !important; background: #f1f8e9 !important; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .options li.answered    { pointer-events: none !important; }
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="day-tag">📝 第6周 · Day 36 练习题</span>
+  <h1>标准接待流程 — 巩固测评</h1>
+  <div class="subtitle">总分：100分 | 建议完成时间：25分钟</div>
+</div>
+
+<div class="container">
+  <div class="intro-box">
+    💡 <strong>做题提示：</strong>今天你已开始独立接单！这些题目都是实战中最高频的场景，每题认真作答，对照答案反思自己今天的接待是否符合标准。
+  </div>
+
+  <!-- 第一部分：排序题 -->
+  <div class="section-title">第一部分：排序题（20分）</div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">1</div><span class="q-type">排序题</span></div>
+    <div class="question-text">请将以下接待步骤按正确顺序排列（填序号）：<br>①制单确认 ②送客告别 ③迎宾问候 ④试戴选定 ⑤需求了解 ⑥验光检查 ⑦方案推荐</div>
+    <textarea class="answer-area" placeholder="正确顺序：____→____→____→____→____→____→____"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确顺序：<strong>③→⑤→⑥→⑦→④→①→②</strong><br>解析：迎宾问候（建立第一印象）→ 需求了解（挖掘客户真实需求）→ 验光检查（获取专业处方数据）→ 方案推荐（基于需求和处方推荐）→ 试戴选定（确认舒适度和美观）→ 制单确认（核对所有信息，签字）→ 送客告别（告知取镜时间，礼貌送客）。每个步骤都有其存在的意义，顺序不能颠倒。</div>
+  </div>
+
+  <!-- 第二部分：单选题 -->
+  <div class="section-title">第二部分：单选题（每题 15 分，共 60 分）</div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">2</div><span class="q-type">单选题</span></div>
+    <div class="question-text">客户一进门就说"我随便看看"，最合适的回应是？</div>
+    <ul class="options">
+      <li>A. "好的，您有需要再叫我。"（退到一旁）</li>
+      <li>B. "没关系，请随意看，有什么问题随时问我。"（保持1米礼貌距离，观察客户兴趣）</li>
+      <li>C. 立刻介绍当季新款热销产品</li>
+      <li>D. 询问客户度数和预算</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析："随便看看"是客户给自己的保护性语言，并不意味着没有购买意向。正确做法是给予宽松空间同时保持服务待命状态——不要立刻纠缠推销（C、D都过于主动，会让客户感到压力），也不能完全退出（A会让客户感到被冷落）。保持1米左右距离观察客户在哪类产品上停留最久，找准时机再切入。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">3</div><span class="q-type">单选题</span></div>
+    <div class="question-text">同时来了两位客户，而只有你一个员工，正确做法是？</div>
+    <ul class="options">
+      <li>A. 先服务先来的，完全不管后来的</li>
+      <li>B. 向后来的客户微笑致歉，请其稍候，同时呼叫同事协助</li>
+      <li>C. 让两位客户自己比较产品，等空了再服务</li>
+      <li>D. 立刻停下当前服务，先接待新来的客户</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：A选项不理会后来的客户会造成流失；C让客户自己等太被动；D打断当前服务会让正在服务中的客户感到不被尊重。B是最佳方案：用眼神和微笑确认后来客户（告诉他"我看见你了"），对正在服务的客户说明情况，同时呼叫同事或店长协助，让每位客户都感到被关注。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">4</div><span class="q-type">单选题</span></div>
+    <div class="question-text">推荐产品时，以下哪个表述最符合FAB法则中的"Benefit"？</div>
+    <ul class="options">
+      <li>A. "这款镜片折射率是1.74"（特征F）</li>
+      <li>B. "这款镜片比普通镜片薄50%"（优势A）</li>
+      <li>C. "戴上这款镜片，您的眼镜会非常轻薄，外观更美观，完全看不出度数深"（利益B）</li>
+      <li>D. "这款镜片是我们店的主推款"（无关）</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：FAB三层递进：F说明产品是什么（1.74折射率）→ A说明好在哪里（比普通薄50%）→ B说明对客户有什么具体意义（外观轻薄，看不出度数深，形象更好）。B是最有说服力的一层，因为它直接触达客户的利益和情感需求。C选项直接描述了对客户的价值，是典型的Benefit表达。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">5</div><span class="q-type">单选题</span></div>
+    <div class="question-text">制单时，客户对价格稍有犹豫，你应该？</div>
+    <ul class="options">
+      <li>A. 立刻降价或打折</li>
+      <li>B. 重新强调产品价值，询问客户具体顾虑</li>
+      <li>C. 推荐最便宜的款式</li>
+      <li>D. 告知这是今日特价，明天就恢复原价</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：客户犹豫价格时，首先要了解他的具体顾虑是什么（是超出预算？还是觉得价格和品质不匹配？）。立刻降价（A）会让客户觉得之前报价虚高；推最便宜的（C）可能背离客户实际需求；制造紧迫感（D）是不诚信的销售技巧。正确做法是重申产品价值，找到客户犹豫的真正原因，再针对性沟通。</div>
+  </div>
+
+  <!-- 第三部分：情景模拟 -->
+  <div class="section-title">第三部分：情景模拟题（20分）</div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">6</div><span class="q-type">情景模拟</span></div>
+    <div class="question-text">请写出你面对以下客户时的完整需求挖掘对话（至少5个问题）：<br>客户背景：35岁男性，戴了3年的眼镜，来店说"想换一副新眼镜"</div>
+    <textarea class="answer-area" placeholder="你：（第1个问题）……&#10;你：（第2个问题）……&#10;你：（第3个问题）……&#10;……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">
+      ✅ 参考答案（5个核心提问方向）：<br>
+      ① <strong>旧镜状态</strong>："您现在这副眼镜戴着有什么不舒服的地方吗？是看不清了，还是镜框有些旧了？"<br>
+      ② <strong>度数历史</strong>："您上一次验光是什么时候？这3年里度数有没有变化？"<br>
+      ③ <strong>使用场景</strong>："您平时主要在什么场合戴眼镜？是工作用电脑，还是开车，或者户外活动比较多？"<br>
+      ④ <strong>佩戴感受</strong>："您对现在眼镜的重量或厚度有什么感受？有没有希望这次改善的地方？"<br>
+      ⑤ <strong>风格偏好</strong>："对镜框的风格有什么偏好？比较喜欢商务简约风，还是轻巧休闲款？"<br>
+      <strong>关键点</strong>：提问要自然流畅，不要像审问，每个问题都基于上一个答案延伸，体现专业和关心。
+    </div>
+  </div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_36_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_37_学习内容.html">Day 37 学习内容 →</a>
+  </div>
+</div>
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card').forEach(function(card){
+    var hint = card.querySelector('.answer-hint');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    // 兼容两种格式：
+    // 1. 正确答案：<strong>B</strong>
+    // 2. 正确答案：B。或 正确答案：B（错误）
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<strong>)?([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var letter = (li.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
