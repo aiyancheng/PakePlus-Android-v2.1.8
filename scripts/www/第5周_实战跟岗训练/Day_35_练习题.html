@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 35 练习题 — 第5周周测</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', Arial, sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 30px 40px; }
+  .header .day-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 16px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 1.7em; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 14px; }
+  .container { max-width: 860px; margin: 30px auto; padding: 0 20px; }
+  .intro-box { background: #e0f7fa; border-left: 5px solid #00acc1; border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; font-size: 0.93em; line-height: 1.7; }
+  .section-title { font-size: 1.1em; color: #0277bd; font-weight: 700; margin: 28px 0 12px; padding-left: 12px; border-left: 4px solid #4facfe; }
+  .question-card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+  .q-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .q-num { background: #4facfe; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9em; flex-shrink: 0; }
+  .q-type { background: #e0f7fa; color: #006064; padding: 3px 12px; border-radius: 12px; font-size: 0.8em; font-weight: 600; }
+  .question-text { font-size: 1em; color: #333; font-weight: 600; line-height: 1.6; margin-bottom: 14px; }
+  .options { list-style: none; padding: 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; font-size: 0.93em; }
+  .answer-area { width: 100%; min-height: 90px; border: 2px solid #e0e0e0; border-radius: 8px; padding: 12px; font-family: inherit; font-size: 0.93em; resize: vertical; outline: none; }
+  .answer-area:focus { border-color: #4facfe; }
+  .show-answer-btn { background: none; border: 1px solid #9E9E9E; color: #666; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82em; margin-top: 10px; }
+  .show-answer-btn:hover { background: #f5f5f5; }
+  .answer-hint { background: #f0f9ff; border-left: 3px solid #4facfe; padding: 12px 16px; margin-top: 12px; font-size: 0.88em; color: #444; border-radius: 0 6px 6px 0; display: none; line-height: 1.7; }
+  .congrats-box { background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-radius: 12px; padding: 24px; margin: 20px 0; text-align: center; }
+  .congrats-box h3 { color: #006064; font-size: 1.3em; margin-bottom: 10px; }
+  .nav-footer { display: flex; justify-content: space-between; margin: 30px 0 50px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #4facfe; border: 2px solid #4facfe; }
+  .nav-btn.outline:hover { background: #f0f9ff; }
+
+  /* interactive-options-type-a */
+  .options li { cursor: pointer; transition: all 0.2s; }
+  .options li:hover { border-color: #4CAF50 !important; background: #f1f8e9 !important; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .options li.answered    { pointer-events: none !important; }
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="day-tag">📋 第5周 · Day 35 · 周测</span>
+  <h1>第5周综合周测 — 跟岗实战考核</h1>
+  <div class="subtitle">涵盖本周全部知识点 | 总分：100分 | 建议完成时间：25分钟</div>
+</div>
+
+<div class="container">
+  <div class="intro-box">
+    💡 <strong>周测说明：</strong>本次测试涵盖Day29-34的所有核心内容。先独立作答，完成后点击每题"查看参考答案"进行核对，找到知识薄弱点，为第6周独立接单做好准备！
+  </div>
+
+  <!-- 第一部分：单选题 -->
+  <div class="section-title">第一部分：单选题（每题 5 分，共 50 分）</div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">1</div><span class="q-type">单选题</span></div>
+    <div class="question-text">客户刚进门，正确的接待顺序是？</div>
+    <ul class="options">
+      <li>A. 问清需求 → 问候迎接 → 介绍产品</li>
+      <li>B. 问候迎接 → 引导就座 → 了解需求 → 推荐方案</li>
+      <li>C. 直接推荐热销产品 → 问候 → 了解需求</li>
+      <li>D. 问候 → 递宣传单 → 等待客户提问</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：标准接待流程：问候迎接（建立第一印象）→ 引导就座（给客户安全感）→ 了解需求（开放式提问挖掘需求）→ 推荐方案（基于需求推荐）。先问候再了解需求是专业服务的基础，直接推产品会让客户有强买强卖的感觉。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">2</div><span class="q-type">单选题</span></div>
+    <div class="question-text">开放式提问的主要目的是？</div>
+    <ul class="options">
+      <li>A. 让客户回答"是"或"不是"</li>
+      <li>B. 引导客户多说，挖掘深层需求</li>
+      <li>C. 节省沟通时间，提高效率</li>
+      <li>D. 确认客户已经决定购买</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：开放式提问（如"您平时在什么场合佩戴眼镜？"）能引导客户充分表达，帮助我们了解深层需求；封闭式提问（如"您要配近视镜吗？"）只能得到是/否答案。在需求挖掘阶段应以开放式提问为主，真正了解客户需要什么。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">3</div><span class="q-type">单选题</span></div>
+    <div class="question-text">FAB法则中，"Benefit（利益）"是指？</div>
+    <ul class="options">
+      <li>A. 产品的物理特征</li>
+      <li>B. 产品相比竞品的优势</li>
+      <li>C. 产品能给客户带来的具体好处</li>
+      <li>D. 产品的价格优惠</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：FAB=Feature（特征）+ Advantage（优势）+ Benefit（利益/好处）。Benefit是最重要的一环，指这个产品对"这位具体客户"的意义和价值。例如："这款镜片（F）采用高透过率材质（A），所以您长时间看手机不容易疲劳（B）"——B需要结合客户的具体需求来表达。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">4</div><span class="q-type">单选题</span></div>
+    <div class="question-text">电脑验光仪（Auto Refractor）测出的结果用于？</div>
+    <ul class="options">
+      <li>A. 直接作为配镜处方</li>
+      <li>B. 作为主观验光的初始参考数据</li>
+      <li>C. 判断是否需要手术</li>
+      <li>D. 评估镜片磨损程度</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：电脑验光（客观验光）只是初步测量眼球屈光状态的参考，存在一定误差，不能直接作为配镜处方使用。配镜处方必须经过主观验光（试镜架验光）后由验光师确定。这是非常重要的专业知识点，也是向顾客解释验光流程的依据。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">5</div><span class="q-type">单选题</span></div>
+    <div class="question-text">以下关于销售工单填写，哪项说法正确？</div>
+    <ul class="options">
+      <li>A. 瞳距数据不重要，可以估算</li>
+      <li>B. 客户签名不是必须的，口头确认即可</li>
+      <li>C. 工单必须包含处方、瞳距、镜框镜片型号及客户签名</li>
+      <li>D. 如果是熟客，工单可以简化填写</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：销售工单是法律文件，也是日后处理纠纷的重要依据。必填项包括：验光处方（球镜/柱镜/轴向/ADD）、单眼瞳距（双眼分开测量）、镜框品牌及型号、镜片品牌及型号、实际销售金额、客户签名确认。任何一项缺失都可能造成后续纠纷。无论是新客还是熟客，都必须完整填写。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">6</div><span class="q-type">单选题</span></div>
+    <div class="question-text">渐进多焦点镜片适应期通常为？</div>
+    <ul class="options">
+      <li>A. 1-2天</li>
+      <li>B. 3-7天，部分人需2-4周</li>
+      <li>C. 1个月以上</li>
+      <li>D. 没有适应期，戴上就应该清楚</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：渐进多焦点镜片因为镜片上有多个焦区（看远/中/近），大脑需要重新学习如何在不同区域切换，所以有适应期。大多数人需要3-7天，少部分初次佩戴者可能需要2-4周。取镜时务必告知客户这一点，避免客户因"适应期不适"而产生投诉。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">7</div><span class="q-type">单选题</span></div>
+    <div class="question-text">客诉处理中"先处理情绪，再处理问题"的正确理解是？</div>
+    <ul class="options">
+      <li>A. 陪客户聊天，转移话题</li>
+      <li>B. 先表达理解和共情，让客户感到被重视，再寻找解决方案</li>
+      <li>C. 让客户先冷静，等他不说话了再解释</li>
+      <li>D. 先做一杯茶给客户，然后慢慢处理</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：情绪激动时，大脑理性部分被情绪主导，客户无法理性听取解释。先用共情语言让客户感到"被理解、被重视"，情绪稳定后才能进入问题解决模式。A是逃避，C是消极等待（会让客户感到被无视），D虽然有帮助但不是"先处理情绪"的核心。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">8</div><span class="q-type">单选题</span></div>
+    <div class="question-text">取镜时最重要的操作是？</div>
+    <ul class="options">
+      <li>A. 快速取出眼镜，节省客户时间</li>
+      <li>B. 现场检查光度、外观，当面试戴并询问感受</li>
+      <li>C. 包装好后直接交给客户</li>
+      <li>D. 告知客户保修期限后让客户自己检查</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：取镜是整个服务流程中最重要的节点之一，必须：① 当面检查镜片光度是否正确 ② 检查外观（划痕/气泡/中心偏差）③ 让客户试戴并询问是否清晰舒适 ④ 教客户正确清洁和保养方法。这既是质量把关，也是防止后续纠纷的关键步骤。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">9</div><span class="q-type">单选题</span></div>
+    <div class="question-text">4F复盘法中，第一个"F"（Facts）是指？</div>
+    <ul class="options">
+      <li>A. 未来计划</li>
+      <li>B. 个人感受</li>
+      <li>C. 客观发生的事实</li>
+      <li>D. 发现的规律</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：4F复盘法：F1-Facts（事实：客观发生了什么）→ F2-Feelings（感受：我的情绪和感受）→ F3-Findings（发现：学到了什么规律）→ F4-Future（未来：下次如何改进）。从客观事实出发是复盘的起点，避免被主观情绪影响判断。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">10</div><span class="q-type">单选题</span></div>
+    <div class="question-text">以下哪个属于"封闭式提问"？</div>
+    <ul class="options">
+      <li>A. "您平时主要在什么场合佩戴眼镜？"</li>
+      <li>B. "您对眼镜有什么特别的要求吗？"</li>
+      <li>C. "您是第一次配眼镜吗？"</li>
+      <li>D. "您希望我们为您做些什么？"</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：封闭式提问只能得到"是/否/特定数字"的答案。C选项"您是第一次配眼镜吗？"只能回答"是"或"不是"，是典型封闭式提问。A、B、D都是开放式提问，引导客户展开描述。在实际接待中，两种提问方式需要结合使用：开放式挖掘需求，封闭式确认信息。</div>
+  </div>
+
+  <!-- 第二部分：简答题 -->
+  <div class="section-title">第二部分：简答题（每题 25 分，共 50 分）</div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">11</div><span class="q-type">简答题</span></div>
+    <div class="question-text">请用FAB法则为"蔡司防蓝光镜片"写一段完整的推介话术（包含F、A、B三个要素）：</div>
+    <textarea class="answer-area" placeholder="F（特征）：这款镜片……&#10;A（优势）：相比普通镜片……&#10;B（利益）：对您来说……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">
+      ✅ 参考答案：<br>
+      <strong>F（特征）</strong>：这款蔡司防蓝光镜片采用特殊镀膜技术，能有效过滤波长415-455nm的有害蓝光，同时保留有益的蓝绿光不影响正常色觉。<br>
+      <strong>A（优势）</strong>：相比普通镜片，它能减少30%以上的有害蓝光透过，同时具备蔡司顶级的高透明度，无明显偏色，室内灯光下佩戴完全自然。<br>
+      <strong>B（利益）</strong>：您平时工作需要长时间看电脑，佩戴这款镜片可以有效减轻眼睛疲劳感，让您下班后眼睛不那么酸涩，睡眠质量也会更好。<br>
+      <strong>关键点</strong>：B的表达要结合客户的具体需求和场景，越具体越有说服力。
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">12</div><span class="q-type">简答题</span></div>
+    <div class="question-text">一位客户配了半框眼镜，戴了1个月后来店说"越来越不清楚了"。请写出你的完整处理流程：</div>
+    <textarea class="answer-area" placeholder="第一步：…&#10;第二步：…&#10;第三步：…&#10;可能原因分析：…&#10;解决方案：…"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">
+      ✅ 参考答案要点：<br>
+      <strong>第一步（共情接待）</strong>：表示理解和关心，请客户描述具体症状（是看远不清还是看近不清？白天还是晚上更明显？）<br>
+      <strong>第二步（检查镜片）</strong>：检查镜片有无明显划痕、是否有松动；半框镜的尼龙丝是否老化断裂导致镜片位移<br>
+      <strong>第三步（复验光）</strong>：安排重新验光，对比原处方数据，判断是视力变化还是镜片问题<br>
+      <strong>可能原因分析）</strong>：① 镜片位移（尼龙丝老化）→ 更换尼龙丝（免费）② 视力变化（度数加深）→ 重新配镜 ③ 镜片严重磨损 → 建议更换镜片<br>
+      <strong>解决方案</strong>：根据检查结果给出针对性方案，明确责任归属，让客户感到公平和被重视。
+    </div>
+  </div>
+
+  <div class="congrats-box">
+    <h3>🎉 第5周全部完成！</h3>
+    <p style="color:#00838f;margin-bottom:8px">下周你将进入第6周——独立接单训练，真正独当一面！</p>
+    <p style="color:#555;font-size:0.9em">建议完成跟岗总结报告后再进入第6周学习，把经验沉淀下来。</p>
+  </div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_35_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="../第6周_独立接单训练/Day_36_学习内容.html">第6周 Day 36 →</a>
+  </div>
+</div>
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card').forEach(function(card){
+    var hint = card.querySelector('.answer-hint');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    // 兼容两种格式：
+    // 1. 正确答案：<strong>B</strong>
+    // 2. 正确答案：B。或 正确答案：B（错误）
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<strong>)?([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var letter = (li.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
