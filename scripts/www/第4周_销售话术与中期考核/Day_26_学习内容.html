@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 26 | 连带销售与会员维护</title>
+<style>
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;margin:0;padding:0}
+  .header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:30px 40px;text-align:center}
+  .header h1{margin:0;font-size:28px}
+  .header p{margin:8px 0 0;opacity:.85;font-size:14px}
+  .container{max-width:900px;margin:30px auto;padding:0 20px 40px}
+  .card{background:#fff;border-radius:12px;padding:28px 32px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+  .card h2{color:#764ba2;font-size:20px;border-left:4px solid #764ba2;padding-left:12px;margin-top:0}
+  .card h3{color:#444;font-size:16px;margin:20px 0 8px}
+  .tip{background:#f3f0ff;border-left:4px solid #764ba2;border-radius:6px;padding:12px 16px;margin:12px 0;font-size:14px;line-height:1.8}
+  .warn{background:#fff7e6;border-left:4px solid #fa8c16;border-radius:6px;padding:12px 16px;margin:12px 0;font-size:14px;line-height:1.8}
+  .success{background:#f6ffed;border-left:4px solid #52c41a;border-radius:6px;padding:12px 16px;margin:12px 0;font-size:14px;line-height:1.8}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+  th{background:#764ba2;color:#fff;padding:10px 14px;text-align:left}
+  td{padding:9px 14px;border-bottom:1px solid #eee}
+  tr:hover td{background:#faf8ff}
+  .step{display:flex;align-items:flex-start;margin:12px 0;padding:14px 16px;background:#fafafa;border-radius:8px;border:1px solid #eee}
+  .step-num{background:#764ba2;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;margin-right:14px;margin-top:2px}
+  .step-content{flex:1;font-size:14px;line-height:1.8}
+  .badge{display:inline-block;background:#764ba2;color:#fff;font-size:11px;padding:2px 8px;border-radius:10px;margin-right:4px}
+  ul{padding-left:20px;line-height:1.9;font-size:14px}
+  li{margin-bottom:4px}
+  .dialog{background:#e8f4fd;border:1px solid #91d5ff;border-radius:8px;padding:12px 16px;margin:8px 0;font-size:14px;line-height:1.8;font-style:italic}
+  .dialog strong{color:#1890ff;font-style:normal}
+  .summary-box{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:10px;padding:20px 24px;margin-top:8px}
+  .summary-box h3{margin:0 0 12px;font-size:17px}
+  .summary-box ul{margin:0;padding-left:20px}
+  .summary-box li{margin-bottom:6px;font-size:14px}
+  .nav-footer { display: flex; justify-content: space-between; margin: 20px 0 40px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #fa709a, #fee140); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #fa709a; border: 2px solid #fa709a; }
+  .nav-btn.outline:hover { background: #fff5f8; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Day 26 · 连带销售与会员维护</h1>
+  <p>第4周 · 销售话术与中期考核 | 提升客单价 · 建立长期顾客关系</p>
+</div>
+<div class="container">
+
+  <div class="card">
+    <h2>🎯 今日学习目标</h2>
+    <ul>
+      <li>掌握眼镜门店连带销售的时机与话术</li>
+      <li>了解会员制度的价值与维护方法</li>
+      <li>学会用微信/电话跟进顾客，提高复购率</li>
+      <li>掌握老顾客转介绍的话术技巧</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>📦 一、连带销售的意义与时机</h2>
+    <h3>1. 什么是连带销售？</h3>
+    <p style="font-size:14px;line-height:1.9">连带销售是指在顾客购买主要商品的同时，顺势推荐相关配套商品，从而提升客单价和顾客满意度。它不是"硬推销"，而是基于顾客需求的贴心服务。</p>
+
+    <div class="tip">💡 <strong>数据参考：</strong>成功连带销售可使单笔订单金额提升 30%～60%，是提升门店业绩最高效的方式之一。</div>
+
+    <h3>2. 连带销售的黄金时机</h3>
+    <table>
+      <tr><th>时机</th><th>具体场景</th><th>连带商品推荐</th></tr>
+      <tr><td>验光结束后</td><td>顾客确认度数，准备选镜</td><td>防蓝光镜片、渐进镜片升级</td></tr>
+      <tr><td>选好镜架时</td><td>顾客对镜架满意，进入选片阶段</td><td>镀膜升级、变色镜片</td></tr>
+      <tr><td>等待取镜时</td><td>顾客在门店等候或来取镜</td><td>镜布、眼镜盒、清洁液、太阳镜</td></tr>
+      <tr><td>成交付款后</td><td>顾客完成购买</td><td>护理套装、第二副备用镜</td></tr>
+      <tr><td>日常保养时</td><td>顾客来免费调整</td><td>更换鼻托、镜腿、清洗服务升级</td></tr>
+    </table>
+
+    <h3>3. 连带销售话术模板</h3>
+    <div class="dialog">
+      <strong>场景：</strong>顾客已选好镜架和镜片，准备付款<br>
+      <strong>话术：</strong>"您选的这款镜片非常好，建议再配一套专用清洁套装——我们这款是无醇型清洁液，不伤镀膜，搭配超细纤维镜布，每天擦拭镜片可以延长镀膜寿命2～3年，才38元，相当于给镜片买了个'保险'，要不要顺便带一套？"
+    </div>
+    <div class="dialog">
+      <strong>场景：</strong>顾客配了近视镜，夏天快到了<br>
+      <strong>话术：</strong>"您平时开车或者户外活动多吗？我们有一款夹片式太阳镜，专门为近视顾客设计，直接夹在您的眼镜上，防UV400、防眩光，今天配镜有优惠，您需要了解一下吗？"
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>👑 二、会员制度与积分体系</h2>
+    <h3>1. 会员制度的价值</h3>
+    <ul>
+      <li><strong>对顾客：</strong>享受专属折扣、积分兑换、生日礼品、优先服务</li>
+      <li><strong>对门店：</strong>建立顾客数据库、提高复购率、促进口碑传播</li>
+      <li><strong>对员工：</strong>会员转化率是业绩考核指标，做好会员即做好长期业绩</li>
+    </ul>
+
+    <h3>2. 会员邀请话术</h3>
+    <div class="dialog">
+      <strong>基础版：</strong>"您今天配的这副眼镜，如果注册成我们会员，可以获得200积分，下次消费可以直接抵扣20元，而且每年免费享受两次镜片清洗和调整服务，要不要帮您开通？只需要手机号就可以，一分钟搞定。"
+    </div>
+    <div class="dialog">
+      <strong>生日营销版：</strong>"我们会员生日当月可享受全场9折，而且会收到专属礼品，您的生日是哪个月？我帮您备注一下，到时候我们会主动联系您。"
+    </div>
+
+    <h3>3. 会员档案管理要点</h3>
+    <table>
+      <tr><th>档案内容</th><th>重要性</th><th>用途</th></tr>
+      <tr><td>姓名 + 手机号</td><td>⭐⭐⭐⭐⭐ 必填</td><td>联系通知、积分管理</td></tr>
+      <tr><td>验光度数档案</td><td>⭐⭐⭐⭐⭐ 必填</td><td>复配眼镜时对比度数变化</td></tr>
+      <tr><td>消费记录</td><td>⭐⭐⭐⭐ 重要</td><td>分析消费习惯，精准推荐</td></tr>
+      <tr><td>生日 / 职业</td><td>⭐⭐⭐ 较重要</td><td>个性化关怀，节日营销</td></tr>
+      <tr><td>佩戴偏好</td><td>⭐⭐⭐ 较重要</td><td>新品推荐时有针对性</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>📱 三、顾客跟进与复购维护</h2>
+    <h3>1. 取镜后跟进（黄金48小时）</h3>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content"><strong>取镜后第2天：</strong>发送关怀短信/微信 → "您好，昨天配的眼镜戴着适应吗？有任何不舒服随时告知，我们提供免费调整服务～"</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content"><strong>取镜后第7天：</strong>再次跟进适应情况 → "一周了，眼镜适应得怎么样？度数有没有偏差感？如果方便的话可以来店里验证一下～"</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content"><strong>1个月后：</strong>发送护理提醒 → "您的眼镜配好一个月啦！记得定期清洗镜片，欢迎来店免费超声波清洗，只要5分钟～"</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content"><strong>6个月后：</strong>提醒复查视力 → "距离您上次验光已满6个月，建议来做一次免费视力复查，了解度数是否有变化～"</div>
+    </div>
+
+    <h3>2. 转介绍话术</h3>
+    <div class="dialog">
+      <strong>时机：</strong>顾客满意取镜后<br>
+      <strong>话术：</strong>"谢谢您对我们的信任！如果您身边有朋友也需要配镜，欢迎介绍来我们门店，凭您的推荐他们可以享受9.5折优惠，同时您也会获得100积分，相当于我们送您10元现金～"
+    </div>
+
+    <div class="warn">⚠️ <strong>注意：</strong>发送微信/短信时要控制频率，每月不超过2次主动联系，避免让顾客产生骚扰感。内容要有实际价值（优惠、提醒、关怀），不要发无意义广告。</div>
+  </div>
+
+  <div class="card">
+    <h2>💡 四、实战技巧汇总</h2>
+    <h3>连带销售三不原则</h3>
+    <ul>
+      <li>🚫 <strong>不强推：</strong>推荐一次，顾客拒绝后不再重复推同款</li>
+      <li>🚫 <strong>不夸大：</strong>商品效果据实介绍，不过度渲染</li>
+      <li>🚫 <strong>不捆绑：</strong>连带商品是建议，顾客有权拒绝，不影响主购体验</li>
+    </ul>
+    <h3>提升复购的关键习惯</h3>
+    <ul>
+      <li>✅ 记住老顾客的姓名和上次配镜情况</li>
+      <li>✅ 每次服务后主动添加微信，建立长期联系</li>
+      <li>✅ 门店有新品时，第一时间通知可能感兴趣的会员</li>
+      <li>✅ 节假日发送简短祝福（内容简洁，勿变群发广告）</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="summary-box">
+      <h3>📋 今日核心要点回顾</h3>
+      <ul>
+        <li>连带销售的5大黄金时机：验光后、选架时、等待时、成交后、保养时</li>
+        <li>会员档案必须记录：度数、手机号、消费记录</li>
+        <li>取镜后48小时内发关怀跟进，提升满意度和复购</li>
+        <li>转介绍话术：顾客介绍有折扣奖励，让传播有动力</li>
+        <li>连带销售三不原则：不强推、不夸大、不捆绑</li>
+      </ul>
+    </div>
+  </div>
+
+    <div class="section">
+    <h2>🎁 连带销售实战技巧</h2>
+    <h3>📌 连带销售时机识别</h3>
+    <ul>
+      <li>客户成单后心情好的时刻——是推荐的最佳时机</li>
+      <li>客户提到其他场景需求（开车、运动、户外）</li>
+      <li>客户子女或同伴在场，可顺势服务</li>
+    </ul>
+    <h3>📌 会员积分运用技巧</h3>
+    <p>在结账时自然引入会员：</p>
+    <p><em>"您今天消费满XX元，如果成为我们会员，可以获得XXX积分，下次使用相当于优惠了XX元。您今天就开通吗？只需要手机号就可以。"</em></p>
+    <div style="background:#e8f5e9;border-left:4px solid #4CAF50;padding:12px 16px;border-radius:0 8px 8px 0;margin-top:14px">
+      💡 会员不只是打折工具，更是建立客户档案、实现精准回访的重要手段。每位建档会员的价值远超一次性消费。
+    </div>
+  </div>
+
+
+
+    <!-- 补充 -->
+  <div class="section">
+    <h2>📝 今日要点总结</h2>
+    <ul>
+      <li>✅ 连带销售的时机：客户成单后、客户提到其他用途时</li>
+      <li>✅ 会员建档是积累复购资源的核心手段，每单必须引导开通</li>
+      <li>✅ 连带不是强买强卖，而是发现客户未被满足的需求</li>
+    </ul>
+  </div>
+
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_25_练习题.html">← Day 25 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_26_练习题.html">Day 26 练习题 →</a>
+  </div>
+
+</div>
+</body>
+</html>
