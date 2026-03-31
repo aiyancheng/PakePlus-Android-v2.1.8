@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 10 | 镜片基础知识（一）：材质与折射率</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}
+  .header{background:linear-gradient(135deg,#e3f2fd,#bbdefb);padding:40px 30px;border-bottom:3px solid #2196F3;}
+  .day-tag{background:#2196F3;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}
+  .header h1{font-size:2em;color:#1565c0;margin-bottom:8px;}
+  .header .subtitle{color:#555;}
+  .container{max-width:900px;margin:30px auto;padding:0 20px;}
+  .objective-box{background:#e3f2fd;border-left:5px solid #2196F3;border-radius:8px;padding:20px 24px;margin-bottom:30px;}
+  .objective-box h3{color:#1565c0;margin-bottom:10px;}
+  .objective-box li{margin-bottom:6px;font-size:0.95em;}
+  .section{background:white;border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+  .section h2{font-size:1.3em;color:#1565c0;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #e3f2fd;}
+  .section h3{font-size:1.05em;color:#333;margin:18px 0 10px;}
+  .section p{line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em;}
+  .section ul,.section ol{padding-left:20px;margin-bottom:14px;}
+  .section li{line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px;}
+  .index-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .index-table th{background:#2196F3;color:white;padding:10px 14px;text-align:left;font-size:0.9em;}
+  .index-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;vertical-align:middle;}
+  .index-table tr:nth-child(even) td{background:#f9f9f9;}
+  .badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:0.78em;font-weight:700;}
+  .badge-eco{background:#e8f5e9;color:#2e7d32;}
+  .badge-mid{background:#fff3e0;color:#e65100;}
+  .badge-high{background:#fce4ec;color:#ad1457;}
+  .coating-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0;}
+  .coating-card{background:#f5f5f5;border-radius:10px;padding:16px;border-left:4px solid #2196F3;}
+  .coating-card .name{font-weight:700;color:#1565c0;margin-bottom:6px;}
+  .coating-card .desc{font-size:0.88em;color:#555;line-height:1.6;}
+  .highlight-box{background:#fff8e1;border:1px solid #FFD54F;border-radius:8px;padding:16px 20px;margin:16px 0;}
+  .highlight-box .label{color:#F57F17;font-weight:700;font-size:0.85em;margin-bottom:6px;}
+  .summary-box{background:linear-gradient(135deg,#e3f2fd,#e8f5ff);border-radius:12px;padding:24px;margin-top:30px;}
+  .summary-box h3{color:#1565c0;margin-bottom:14px;}
+  .summary-box li{margin-bottom:8px;font-size:0.95em;}
+  .nav-footer{display:flex;justify-content:space-between;margin:30px 0 40px;}
+  .nav-btn{background:#2196F3;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}
+  .nav-btn.outline{background:white;color:#2196F3;border:2px solid #2196F3;}
+  @media(max-width:600px){.coating-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="day-tag">📅 第2周 · Day 10</span>
+  <h1>🔬 镜片基础知识（一）</h1>
+  <div class="subtitle">模块：知识 Knowledge | 今日主题：镜片材质 · 折射率 · 表面镀膜</div>
+</div>
+<div class="container">
+  <div class="objective-box">
+    <h3>🎯 今日学习目标</h3>
+    <ul>
+      <li>理解折射率的含义及与镜片厚度的关系</li>
+      <li>能说出树脂镜片的主要折射率档次及适用度数范围</li>
+      <li>了解玻璃片与树脂片的区别</li>
+      <li>掌握4种常见镀膜的功能和推荐场景</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>📐 第一部分：折射率 — 镜片薄厚的关键</h2>
+    <p>折射率（Refractive Index）是衡量光线在材料中弯折程度的数值，数字越高，代表镜片在相同度数下可以做得更薄。</p>
+    <div class="highlight-box">
+      <div class="label">💡 通俗理解</div>
+      <p>同样是近视600度的镜片，1.56折射率的镜片厚度可能有7mm，而1.74折射率的镜片可以只有4mm。<strong>折射率越高，镜片越薄，美观度越好，但价格也越高。</strong></p>
+    </div>
+    <table class="index-table">
+      <thead><tr><th>折射率</th><th>适用度数范围</th><th>厚度特点</th><th>价格区间</th><th>推荐人群</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1.50</strong></td><td>0~300度</td><td>较厚</td><td><span class="badge badge-eco">经济款</span></td><td>低度数、预算有限</td></tr>
+        <tr><td><strong>1.56</strong></td><td>0~400度</td><td>适中</td><td><span class="badge badge-eco">亲民款</span></td><td>中低度数主流选择</td></tr>
+        <tr><td><strong>1.60</strong></td><td>200~600度</td><td>较薄</td><td><span class="badge badge-mid">中端款</span></td><td>中高度数，日常佩戴</td></tr>
+        <tr><td><strong>1.67</strong></td><td>400~800度</td><td>薄</td><td><span class="badge badge-mid">中高端</span></td><td>高度数，追求美观</td></tr>
+        <tr><td><strong>1.74</strong></td><td>600度以上</td><td>极薄</td><td><span class="badge badge-high">高端款</span></td><td>高度数，极致轻薄</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight-box">
+      <div class="label">📌 销售技巧：如何推荐折射率</div>
+      <p>「您的度数是___，我们建议至少选1.___的镜片，这样镜片厚度在合理范围内，戴起来也比较好看。当然如果想要更薄更轻，可以考虑1.___……」</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🪟 第二部分：镜片材质比较</h2>
+    <h3>树脂镜片 vs 玻璃镜片</h3>
+    <table class="index-table">
+      <thead><tr><th>对比项</th><th>树脂镜片</th><th>玻璃镜片</th></tr></thead>
+      <tbody>
+        <tr><td>重量</td><td>轻（约玻璃的一半）</td><td>较重</td></tr>
+        <tr><td>安全性</td><td>破碎不易伤眼</td><td>破碎有碎片风险</td></tr>
+        <tr><td>抗刮性</td><td>需镀膜保护，易划伤</td><td>天然耐刮</td></tr>
+        <tr><td>光学质量</td><td>良好，折射率范围广</td><td>优秀（光学玻璃）</td></tr>
+        <tr><td>市场占有</td><td>目前主流（>95%）</td><td>逐渐减少使用</td></tr>
+      </tbody>
+    </table>
+    <p>目前门店销售的镜片以<strong>树脂镜片为主</strong>，玻璃镜片仅在少数定制或特殊场景下使用。</p>
+  </div>
+
+  <div class="section">
+    <h2>✨ 第三部分：镜片镀膜</h2>
+    <p>现代树脂镜片几乎都会有镀膜处理，不同镀膜解决不同问题：</p>
+    <div class="coating-grid">
+      <div class="coating-card">
+        <div class="name">🛡️ 硬化膜（耐磨膜）</div>
+        <div class="desc">增加镜片表面硬度，防止日常轻微划伤。几乎所有镜片的基础层，通常已包含在镜片价格内。</div>
+      </div>
+      <div class="coating-card">
+        <div class="name">🔵 减反膜（增透膜）</div>
+        <div class="desc">减少镜片表面反光，提高透光率，让镜片看起来更"通透"，夜间驾驶效果显著。</div>
+      </div>
+      <div class="coating-card">
+        <div class="name">☀️ 防紫外线膜</div>
+        <div class="desc">阻隔UVA和UVB，保护眼睛不受紫外线损伤。户外活动人群强烈推荐。</div>
+      </div>
+      <div class="coating-card">
+        <div class="name">📱 防蓝光膜</div>
+        <div class="desc">过滤高能量蓝光（400-450nm），减少长时间使用手机/电脑导致的视觉疲劳，适合办公族和学生。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>📝 今日要点总结</h3>
+    <ul>
+      <li>✅ 折射率越高 = 镜片越薄，但价格越高</li>
+      <li>✅ 常规推荐：低度数选1.56，中度选1.60，高度选1.67或1.74</li>
+      <li>✅ 现今主流为树脂镜片，轻便安全</li>
+      <li>✅ 四大常见镀膜：耐磨膜、减反膜、防紫外线膜、防蓝光膜</li>
+    </ul>
+    <p style="margin-top:14px; color:#1565c0; font-weight:600;">🎯 今日任务：练习向师傅说出近视400度顾客的折射率推荐方案，并解释理由</p>
+  </div>
+
+    <div class="section">
+    <h2>👓 第三部分：镜框选购导购实战</h2>
+        <h3>📌 脸型与镜框的匹配建议</h3>
+    <table class="rule-table">
+      <thead><tr><th>脸型</th><th>特征</th><th>推荐镜框形状</th><th>避免</th></tr></thead>
+      <tbody>
+        <tr><td>圆脸</td><td>脸部轮廓圆润</td><td>方形/矩形框，增加立体感</td><td>圆形框，会显脸更圆</td></tr>
+        <tr><td>方脸</td><td>棱角分明，额头和颌骨宽</td><td>圆形/椭圆框，柔化线条</td><td>方形框，会强调棱角</td></tr>
+        <tr><td>长脸</td><td>脸型较长，较窄</td><td>粗框/深色框，横向感强的</td><td>细框/窄框，会显脸更长</td></tr>
+        <tr><td>心形脸</td><td>额宽颌窄</td><td>下半部分较宽的框型</td><td>额宽镜框，会夸大额头</td></tr>
+        <tr><td>椭圆脸</td><td>标准比例</td><td>几乎所有款式都适合</td><td>几乎无禁忌</td></tr>
+      </tbody>
+    </table>
+
+    <h3>📌 镜框尺寸说明</h3>
+    <p>镜框上通常标注三个数字，如"52-18-140"，分别代表：</p>
+    <ul>
+      <li><strong>52</strong>：镜片宽度（mm），与瞳距相关</li>
+      <li><strong>18</strong>：鼻梁宽度（mm），影响佩戴舒适度</li>
+      <li><strong>140</strong>：镜腿长度（mm），适合不同头部大小</li>
+    </ul>
+    <div class="tip-box"><div class="label">💡 导购小技巧</div><p>让客户先描述自己的用途和风格偏好（商务/休闲/运动/时尚），再推荐3-5款而不是一下子展示全部，避免选择困难症。</p></div>
+  </div>
+  <div class="section">
+    <h2>🔧 第四部分：镜框调整基础</h2>
+        <p>新员工初期需要学会基础的镜框调整技巧，帮助客户获得最舒适的佩戴体验：</p>
+    <ul>
+      <li><strong>鼻托调整</strong>：两侧鼻托松紧一致，镜框水平，不压迫鼻梁</li>
+      <li><strong>镜腿调整</strong>：镜腿弯曲角度要自然，不夹头，不松脱</li>
+      <li><strong>整体水平</strong>：戴上后观察两侧是否对称，不歪斜</li>
+    </ul>
+    <div class="tip-box"><div class="label">⚠️ 注意</div><p>高温处理镜框前需确认材质，板材框可加热软化调整，金属框直接弯折；调整前先询问师傅，避免损坏镜框造成损失。</p></div>
+
+  </div>
+
+
+    <div class="section">
+    <h2>🛍️ 镜框展示陈列技巧</h2>
+    <p>好的陈列能让客户更容易找到中意的款式，提升成单率：</p>
+    <ul>
+      <li>按照颜色或材质分区陈列，视觉更整洁</li>
+      <li>主推款放在视线高度（通常1.2-1.6米区间）</li>
+      <li>高价款与低价款错开陈列，形成价格锚定</li>
+      <li>定期更新陈列顺序，避免客户"看腻了"</li>
+    </ul>
+    <h3>📌 试戴礼仪</h3>
+    <ul>
+      <li>递给客户前先用布擦拭镜架</li>
+      <li>请客户坐下后帮助佩戴，而非直接递给对方</li>
+      <li>附近准备镜子，方便客户自行观察效果</li>
+      <li>试戴完毕的镜架及时收回清洁，放回原位</li>
+    </ul>
+  </div>
+
+
+
+    <p style="text-align:center;color:#2196F3;font-weight:600;margin:12px 0">了解脸型和镜框的搭配，让每位客户都能找到最适合自己的那副眼镜。</p>
+  <p style="text-align:center;color:#aaa;font-size:.85rem;margin-bottom:12px">— Day 10 · 镜框知识 · 完成 —</p>
+
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_09_学习内容.html">← Day 09</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_10_练习题.html">今日练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
