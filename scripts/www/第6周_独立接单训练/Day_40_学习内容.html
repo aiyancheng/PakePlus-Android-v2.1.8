@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 40 学习内容 — 太阳镜与功能性眼镜销售</title>
+<style>
+  body{font-family:'Microsoft YaHei',sans-serif;background:#f5f7fa;margin:0;padding:20px;color:#333}
+  .container{max-width:860px;margin:0 auto;background:#fff;border-radius:12px;padding:36px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+  h1{color:#2980b9;font-size:1.6rem;border-bottom:3px solid #2980b9;padding-bottom:10px}
+  h2{color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9}
+  h3{color:#2980b9;font-size:1rem;margin-top:18px}
+  .card{background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5}
+  .tip{background:#d1ecf1;border-left:4px solid #17a2b8;padding:10px 14px;border-radius:0 8px 8px 0;color:#0c5460;margin:10px 0}
+  .warn{background:#fff3cd;border-left:4px solid #ffc107;padding:10px 14px;border-radius:0 8px 8px 0;color:#856404;margin:10px 0}
+  table{width:100%;border-collapse:collapse;margin:14px 0}
+  th{background:#2980b9;color:#fff;padding:10px 14px;text-align:left}
+  td{padding:10px 14px;border-bottom:1px solid #d0e8f5}
+  tr:nth-child(even) td{background:#eaf4fc}
+  .product-card{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:14px 0}
+  .pc{background:#fff;border:2px solid #2980b9;border-radius:10px;padding:14px;text-align:center}
+  .pc .name{font-weight:bold;color:#1a5276;margin-bottom:6px}
+  .pc .desc{font-size:.9rem;color:#555}
+  @media(max-width:600px){.product-card{grid-template-columns:1fr}}
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#2980b9;border:2px solid #2980b9}
+</style>
+</head>
+<body>
+<div class="container">
+  <div style="background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;border-radius:10px;padding:20px 24px;margin-bottom:24px">
+    <div style="font-size:.9rem;opacity:.85">第6周 · Day 40 · 独立接单训练</div>
+    <h1 style="color:#fff;border:none;padding:0;margin:8px 0">🕶️ 太阳镜与功能性眼镜销售</h1>
+    <p style="margin:4px 0;opacity:.9">扩大销售品类，提升客单价与交叉销售能力</p>
+  </div>
+
+  <h2>☀️ 太阳镜基础知识</h2>
+  <div class="card">
+    <h3>太阳镜的核心功能</h3>
+    <ul>
+      <li><strong>防紫外线（UV）</strong>：最基本功能，应选UV400标准（阻隔波长≤400nm的紫外线）</li>
+      <li><strong>遮挡强光</strong>：减少眩光，保护视觉舒适</li>
+      <li><strong>装饰时尚</strong>：现代人的穿搭必需品</li>
+    </ul>
+    <div class="warn">⚠️ 常见误区：镜片越深（颜色越暗）防紫外线效果越好——这是错误的！防UV能力取决于镜片材质和镀膜，与颜色深浅无关。劣质深色镜片会让瞳孔散大，反而让更多紫外线进入眼睛，造成更大伤害。</div>
+  </div>
+
+  <h2>🔬 太阳镜镜片类型</h2>
+  <div class="product-card">
+    <div class="pc">
+      <div class="name">偏光镜</div>
+      <div class="desc">消除水平反射光<br>开车、钓鱼、户外运动必备<br>能有效减少眩光</div>
+    </div>
+    <div class="pc">
+      <div class="name">变色镜</div>
+      <div class="desc">室内透明，室外变深<br>一副两用，方便实用<br>适合频繁出入室内外的人</div>
+    </div>
+    <div class="pc">
+      <div class="name">渐进色镜</div>
+      <div class="desc">上浅下深/上深下浅<br>时尚个性设计<br>适合年轻潮流人群</div>
+    </div>
+  </div>
+
+  <h2>🎯 太阳镜销售技巧</h2>
+  <div class="card">
+    <h3>场景化推荐</h3>
+    <p>根据客户用途推荐，而非单纯推价格最高的：</p>
+    <table>
+      <tr><th>使用场景</th><th>推荐类型</th><th>推荐理由</th></tr>
+      <tr><td>开车通勤</td><td>偏光太阳镜</td><td>消除路面和前车挡风玻璃反光，提升行车安全</td></tr>
+      <tr><td>日常户外</td><td>变色镜或标准太阳镜</td><td>时尚实用，进出室内不用换镜</td></tr>
+      <tr><td>水上运动</td><td>偏光+防水镜框</td><td>水面强反光，偏光效果显著</td></tr>
+      <tr><td>雪地/高原</td><td>高密度镀膜镜片</td><td>UV辐射更强，需要更高防护</td></tr>
+    </table>
+
+    <h3>近视客户的太阳镜方案</h3>
+    <ul>
+      <li><strong>夹片式</strong>：成本低，直接夹在近视镜上，但美观度差</li>
+      <li><strong>近视太阳镜</strong>：定制有度数的太阳镜镜片，美观但价格较高</li>
+      <li><strong>变色近视镜</strong>：一副搞定，最受近视客户欢迎</li>
+    </ul>
+  </div>
+
+  <h2>🛒 功能性眼镜品类拓展</h2>
+  <div class="card">
+    <h3>防蓝光眼镜</h3>
+    <p>针对长时间使用手机、电脑的人群，过滤有害蓝光（380-480nm），缓解视疲劳，改善睡眠质量。</p>
+    <div class="tip">💡 销售话术："您每天用电脑多久？长时间接触蓝光会导致眼睛酸涩、睡前难以入睡。这款防蓝光镜片专门针对这一问题设计……"</div>
+
+    <h3>运动眼镜</h3>
+    <p>镜框材料更坚固（TR-90/碳纤维），防滑鼻托，镜腿可弯曲，适合跑步、球类、骑行等运动场景。</p>
+
+    <h3>护目镜/防护眼镜</h3>
+    <p>针对特殊职业（工厂、实验室、骑手等），重视抗冲击性和密封性，符合相关安全标准。</p>
+  </div>
+
+  <h2>💡 交叉销售（Cross-Selling）策略</h2>
+  <div class="card">
+    <p>当客户购买了近视镜后，可自然引导购买太阳镜：</p>
+    <p><em>"您刚配了近视镜，平时开车或者户外活动的时候，没有太阳镜的话眩光会很强。我们正好有一款和您这副镜框颜色非常搭的偏光太阳镜，您要不要试一下？"</em></p>
+    <div class="tip">💡 交叉销售的时机是客户心情最好的时候——刚刚成单之后。不要在客户犹豫期介绍更多产品，那只会增加决策负担。</div>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#eaf4fc,#d0e8f5);border-radius:10px;padding:18px 22px;margin-top:24px">
+    <strong style="color:#1a5276">🎯 今日目标</strong><br>
+    在今天的接单过程中，尝试至少一次交叉销售（向配近视镜的客户介绍太阳镜或防蓝光镜），记录结果。
+  </div>
+
+  
+  <!-- 扩充：太阳镜品质鉴别与场景销售 -->
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">🔎 太阳镜品质鉴别方法</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <h3 style="color:#2980b9;font-size:1rem;margin-top:18px">现场鉴别偏光镜真伪</h3>
+    <ol style="padding-left:20px;margin-bottom:14px">
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:8px"><strong>水平旋转测试</strong>：将两片偏光镜叠放，旋转90°，如变暗则是真正偏光镜（偏振方向垂直时会阻光）</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:8px"><strong>屏幕测试</strong>：对着手机/电脑屏幕，旋转镜片，偏光镜会在某角度让屏幕变暗</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px"><strong>标签确认</strong>：正规太阳镜应标注UV400或100% UV Protection</li>
+    </ol>
+
+    <h3 style="color:#2980b9;font-size:1rem;margin-top:18px">镜片光学质量检查</h3>
+    <ul style="padding-left:20px;margin-bottom:14px">
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">透过镜片看直线（如门框），如有弯曲变形说明光学质量差</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">逆光检查镜片，应无气泡、划痕、压纹等缺陷</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">进出室内应颜色一致（变色镜除外），无色差或白雾感</li>
+    </ul>
+  </div>
+
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">🌈 镜片颜色与适用场景对照</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <table style="width:100%;border-collapse:collapse;margin:14px 0">
+      <tr style="background:#2980b9;color:#fff"><th style="padding:10px 14px;text-align:left">镜片颜色</th><th style="padding:10px 14px;text-align:left">特点</th><th style="padding:10px 14px;text-align:left">适用场景</th></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">灰色</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">减光不失真，色彩还原最自然</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">日常通用、开车、强日照</td></tr>
+      <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">茶/棕色</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">增强对比度，使景物更清晰</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">阴天、开车、运动</td></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">绿色</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">吸收紫外线同时柔化强光</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">高尔夫、草地运动</td></tr>
+      <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">黄/橙色</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">增强低光环境下的清晰度</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">阴天、雾天、射击运动</td></tr>
+      <tr><td style="padding:10px 14px">蓝/紫色</td><td style="padding:10px 14px">时尚装饰性强，防UV效果一般</td><td style="padding:10px 14px">时尚搭配，非专业防护</td></tr>
+    </table>
+  </div>
+
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">🏃 运动眼镜与特殊场景眼镜</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <h3 style="color:#2980b9;font-size:1rem;margin-top:18px">运动眼镜关键特性</h3>
+    <ul style="padding-left:20px;margin-bottom:14px">
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px"><strong>镜框材质</strong>：TR-90（轻盈有弹性）、PC（抗冲击）、钛合金（轻量化）</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px"><strong>防滑设计</strong>：橡胶鼻托、内嵌防滑鼻梁、弯曲镜腿端头</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px"><strong>可替换镜片</strong>：不同颜色镜片适应不同光线条件</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px"><strong>防雾涂层</strong>：适合高强度运动、自行车、滑雪场景</li>
+    </ul>
+
+    <h3 style="color:#2980b9;font-size:1rem;margin-top:18px">驾驶专用眼镜</h3>
+    <ul style="padding-left:20px;margin-bottom:14px">
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">偏光镜：消除水面、路面的水平反射眩光</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">夜驾眼镜（黄色防眩光）：增强夜间对比度，减少迎面灯光散射</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">近视驾驶者推荐：近视太阳镜或变色近视镜</li>
+    </ul>
+    <div style="background:#d1ecf1;border-left:4px solid #17a2b8;padding:10px 14px;border-radius:0 8px 8px 0;color:#0c5460;margin:10px 0">
+      💡 销售话术：<em>"您开车多吗？夏天阳光强烈，路面反光特别厉害，开车没有偏光镜真的很危险。我们这款偏光驾驶镜，不仅防紫外线，消除眩光的效果特别好，很多老司机的首选。"</em>
+    </div>
+  </div>
+
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">💎 防蓝光眼镜详解与销售话术</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <h3 style="color:#2980b9;font-size:1rem;margin-top:18px">蓝光的双面性</h3>
+    <p style="line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em">蓝光并非全部有害：</p>
+    <ul style="padding-left:20px;margin-bottom:14px">
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px"><strong>有益蓝光（480-500nm）</strong>：调节生物钟、提升注意力，适量接触有益</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px"><strong>有害蓝光（380-440nm）</strong>：高能量，长期接触可能损伤视网膜黄斑，影响睡眠</li>
+    </ul>
+    <p style="line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em">防蓝光镜片主要过滤380-440nm的有害蓝光，保留有益蓝光。</p>
+
+    <h3 style="color:#2980b9;font-size:1rem;margin-top:18px">目标客群话术</h3>
+    <table style="width:100%;border-collapse:collapse;margin:14px 0">
+      <tr style="background:#2980b9;color:#fff"><th style="padding:10px 14px;text-align:left">客群</th><th style="padding:10px 14px;text-align:left">推荐切入点</th></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">程序员/设计师</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">每天盯屏8小时以上，防蓝光缓解视疲劳，下班眼睛还是亮的</td></tr>
+      <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">学生/家长</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">孩子网课多，防蓝光保护发育中的眼睛，也帮助睡前不刷手机入睡更快</td></tr>
+      <tr><td style="padding:10px 14px">中老年人</td><td style="padding:10px 14px">老年黄斑病变风险更高，防蓝光是预防性保护</td></tr>
+    </table>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#eaf4fc,#d0e8f5);border-radius:10px;padding:20px 24px;margin-top:24px">
+    <strong style="color:#1a5276">📝 今日总结</strong>
+    <ul style="margin-top:10px;padding-left:18px;line-height:2">
+      <li>太阳镜核心功能是防紫外线，颜色深浅≠防护效果</li>
+      <li>偏光镜适合驾驶和户外，掌握现场演示偏光效果的方法</li>
+      <li>镜片颜色不同，适用场景不同，根据客户用途精准推荐</li>
+      <li>防蓝光眼镜针对长时间屏幕用户，蓝光危害和益处都要了解</li>
+      <li>交叉销售最佳时机：客户成单后心情最好的那一刻</li>
+    </ul>
+  </div>
+
+    <p style="text-align:center;color:#2980b9;font-weight:600;margin:12px 0">太阳镜与功能镜不只是附加品，更是提升客单价和关怀客户的绝佳机会。</p>
+  <p style="text-align:center;color:#aaa;font-size:.85rem;margin-bottom:12px">— Day 40 · 太阳镜与功能性眼镜销售 · 完成 —</p>
+
+
+
+  <div class="nav-footer">
+    <a href="Day_39_练习题.html" class="nav-btn outline">← Day 39 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_40_练习题.html" class="nav-btn">Day 40 练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
