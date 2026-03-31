@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 01 | 欢迎加入 · 企业文化与使命愿景</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', Arial, sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); padding: 40px 30px; border-bottom: 3px solid #4CAF50; }
+  .header .day-tag { background: #4CAF50; color: white; display: inline-block; padding: 4px 16px; border-radius: 20px; font-size: 0.85em; margin-bottom: 12px; }
+  .header h1 { font-size: 2em; color: #2e7d32; margin-bottom: 8px; }
+  .header .subtitle { color: #555; font-size: 1em; }
+  .meta-bar { background: white; padding: 14px 30px; display: flex; gap: 30px; border-bottom: 1px solid #eee; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 0.88em; color: #666; }
+  .meta-item strong { color: #333; }
+  .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+  .objective-box { background: #e8f5e9; border-left: 5px solid #4CAF50; border-radius: 8px; padding: 20px 24px; margin-bottom: 30px; }
+  .objective-box h3 { color: #2e7d32; margin-bottom: 12px; font-size: 1.1em; }
+  .objective-box ul { padding-left: 18px; }
+  .objective-box li { margin-bottom: 8px; font-size: 0.95em; line-height: 1.6; }
+  .section { background: white; border-radius: 12px; padding: 28px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+  .section h2 { font-size: 1.3em; color: #2e7d32; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 2px solid #e8f5e9; }
+  .section h3 { font-size: 1.05em; color: #333; margin: 18px 0 10px; }
+  .section p { line-height: 1.8; color: #555; margin-bottom: 12px; font-size: 0.95em; }
+  .section ul, .section ol { padding-left: 20px; margin-bottom: 14px; }
+  .section li { line-height: 1.8; color: #555; font-size: 0.95em; margin-bottom: 4px; }
+  .highlight-box { background: #fff8e1; border: 1px solid #FFD54F; border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
+  .highlight-box .label { color: #F57F17; font-weight: 700; font-size: 0.85em; margin-bottom: 6px; }
+  .value-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0; }
+  .value-card { background: #f5f5f5; border-radius: 10px; padding: 16px; text-align: center; }
+  .value-card .icon { font-size: 1.8em; margin-bottom: 8px; }
+  .value-card .name { font-weight: 700; font-size: 0.95em; color: #333; margin-bottom: 6px; }
+  .value-card .desc { font-size: 0.82em; color: #666; line-height: 1.5; }
+  .story-box { background: #f3e5f5; border-radius: 10px; padding: 20px; margin: 16px 0; border-left: 4px solid #9C27B0; }
+  .story-box .story-title { color: #6a1b9a; font-weight: 700; margin-bottom: 10px; }
+  .checklist { background: #f5f5f5; border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
+  .checklist-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 0.92em; }
+  .checklist-item::before { content: "☐"; color: #4CAF50; font-size: 1.1em; flex-shrink: 0; }
+  .summary-box { background: linear-gradient(135deg, #e8f5e9, #f1f8e9); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .summary-box h3 { color: #2e7d32; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 18px; }
+  .summary-box li { margin-bottom: 8px; font-size: 0.95em; }
+  .nav-footer { display: flex; justify-content: space-between; margin-top: 30px; margin-bottom: 40px; }
+  .nav-btn { background: #4CAF50; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 0.9em; }
+  .nav-btn.outline { background: white; color: #4CAF50; border: 2px solid #4CAF50; }
+  @media (max-width: 600px) { .value-cards { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="day-tag">📅 第1周 · Day 01</span>
+  <h1>🎉 欢迎加入我们的大家庭</h1>
+  <div class="subtitle">模块：文化 Culture | 今日主题：企业文化 · 使命愿景 · 我们是谁</div>
+</div>
+
+<div class="meta-bar">
+  <div class="meta-item">⏱ <strong>建议学习时长：</strong>2小时</div>
+  <div class="meta-item">🎯 <strong>学习方式：</strong>阅读 + 带教讲解 + 讨论</div>
+  <div class="meta-item">📝 <strong>配套练习：</strong>Day_01_练习题.html</div>
+  <div class="meta-item">👤 <strong>带教师傅：</strong>店长/资深员工</div>
+</div>
+
+<div class="container">
+
+  <div class="objective-box">
+    <h3>🎯 今日学习目标（完成后你能做到）</h3>
+    <ul>
+      <li>能用自己的话说出门店的使命和核心价值观（3条以上）</li>
+      <li>了解门店发展历史和主要业务方向</li>
+      <li>理解"为什么我们要做好服务"的深层原因</li>
+      <li>感受到团队的欢迎，初步融入文化氛围</li>
+    </ul>
+  </div>
+
+  <!-- 第一部分：欢迎仪式 -->
+  <div class="section">
+    <h2>🌟 第一部分：欢迎与第一印象</h2>
+    <p>今天是你在这里的第一天。无论你之前有没有做过销售，有没有接触过眼镜行业——<strong>从今天起，一切重新开始。</strong></p>
+    <p>我们培养的，不只是会卖眼镜的人，而是真正懂得帮助顾客"看清世界"的专业人。这是一份有温度的工作。</p>
+    
+    <div class="highlight-box">
+      <div class="label">💡 入职第一天，带教师傅会带你做：</div>
+      <div class="checklist">
+        <div class="checklist-item">参观门店所有区域（前台、验光区、配镜区、库房、员工区）</div>
+        <div class="checklist-item">认识所有团队成员，了解各自分工</div>
+        <div class="checklist-item">领取工装、工牌、员工手册</div>
+        <div class="checklist-item">熟悉打卡系统和基本日常规范</div>
+        <div class="checklist-item">签署相关协议（劳动合同、保密协议等）</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第二部分：企业使命 -->
+  <div class="section">
+    <h2>🎯 第二部分：我们的使命 — 为什么存在</h2>
+    
+    <h3>📌 门店使命宣言</h3>
+    <div class="highlight-box">
+      <div class="label">🌟 我们的使命</div>
+      <p style="font-size:1.15em; font-weight:700; color:#2e7d32; margin:8px 0;">
+        "我们将用臻于至善的工匠精神，为客户打造一流的视觉健康解决方案"
+      </p>
+    </div>
+
+    <p>这句话不是口号，它是我们每天工作的出发点。每当你面对一位顾客，记住：<strong>他们来这里，是因为眼睛需要帮助。</strong>你的专业和用心，直接影响他们的视觉质量和生活品质。</p>
+
+    <h3>🔍 为什么使命重要？</h3>
+    <p>想象一位60岁的老人，因为配了度数不准的眼镜，每天头晕、看书模糊。又或者一个孩子，因为第一副眼镜选错了，影响了视力发育……</p>
+    <p><strong>我们做的不只是卖商品，我们在守护人们看世界的权利。</strong></p>
+
+    <div class="story-box">
+      <div class="story-title">📖 真实故事：一副眼镜改变的事</div>
+      <p>王阿姨第一次来店里，带着老花镜进门，说："我配了三副眼镜了，每副都看不清，以为是眼睛坏了。"我们的验光师重新给她检查，发现她是双眼散光，之前门店的验光都没有检出。</p>
+      <p style="margin-top:8px;">三天后，王阿姨戴着新眼镜回来，眼眶红了，说："这是我十年来第一次看清楚孙子的脸。"</p>
+      <p style="margin-top:8px; color:#6a1b9a; font-weight:600;">这就是为什么我们要做好这份工作。</p>
+    </div>
+  </div>
+
+  <!-- 第三部分：愿景与核心价值观 -->
+  <div class="section">
+    <h2>🌈 第三部分：愿景与核心价值观</h2>
+
+    <h3>🔭 门店愿景</h3>
+    <div class="highlight-box">
+      <div class="label">🚀 我们的愿景</div>
+      <p style="font-size:1.1em; font-weight:700; color:#1565c0;">"让客户更加满意，让员工更有尊严，让企业更受尊重"</p>
+    </div>
+
+    <p>愿景是我们努力的方向。不是最大，而是<strong>最专业、最值得信赖</strong>。每位员工的每一次用心服务，都在帮助门店靠近这个目标。</p>
+
+    <h3>💎 核心价值观</h3>
+    <div class="value-cards">
+      <div class="value-card">
+        <div class="icon">🎯</div>
+        <div class="name">专业精准</div>
+        <div class="desc">用科学和技术为顾客提供精准的视觉解决方案，不猜测，不马虎</div>
+      </div>
+      <div class="value-card">
+        <div class="icon">❤️</div>
+        <div class="name">真诚用心</div>
+        <div class="desc">把顾客当家人，用真心换信任，不为业绩牺牲顾客利益</div>
+      </div>
+      <div class="value-card">
+        <div class="icon">📈</div>
+        <div class="name">持续成长</div>
+        <div class="desc">不断学习新知识、新技能，和行业一起进步</div>
+      </div>
+      <div class="value-card">
+        <div class="icon">🤝</div>
+        <div class="name">团队协作</div>
+        <div class="desc">互相支持，知识共享，团队的成功才是真正的成功</div>
+      </div>
+      <div class="value-card">
+        <div class="icon">⭐</div>
+        <div class="name">追求卓越</div>
+        <div class="desc">不满足于"及格"，每一件事都做到最好</div>
+      </div>
+      <div class="value-card">
+        <div class="icon">🌱</div>
+        <div class="name">诚信守正</div>
+        <div class="desc">说到做到，对顾客诚实，不夸大、不欺骗</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第四部分：门店简介 -->
+  <div class="section">
+    <h2>🏪 第四部分：我们的门店</h2>
+
+    <h3>📍 门店基本信息</h3>
+    <p>（此处由带教师傅结合实际门店情况补充：门店成立时间、地址、主要服务项目、主要顾客群体、门店业绩等）</p>
+
+    <h3>🛎️ 我们提供的服务</h3>
+    <ul>
+      <li><strong>专业视力检查</strong>：电脑验光 + 综合验光 + 视功能检查</li>
+      <li><strong>眼镜配制服务</strong>：近视镜、老花镜、太阳镜、功能性镜片</li>
+      <li><strong>镜架调整整形</strong>：免费调整，确保配戴舒适</li>
+      <li><strong>售后维护服务</strong>：清洗、螺丝紧固、镜腿更换</li>
+      <li><strong>视觉健康咨询</strong>：青少年近视防控、老视管理等</li>
+    </ul>
+
+    <h3>👥 团队构成</h3>
+    <p>（带教师傅结合门店实际情况介绍：店长、验光师、配镜师、销售顾问等岗位分工）</p>
+  </div>
+
+  <!-- 第五部分：我的角色 -->
+  <div class="section">
+    <h2>🙋 第五部分：我在团队中的角色</h2>
+
+    <h3>📌 你的岗位职责（销售顾问/配镜师）</h3>
+    <ul>
+      <li><strong>顾客接待</strong>：热情迎接每一位进店顾客，了解需求</li>
+      <li><strong>产品推荐</strong>：根据顾客需求，专业推荐合适的镜架和镜片</li>
+      <li><strong>验光配合</strong>：协助验光师完成接待、沟通和配镜流程</li>
+      <li><strong>售后服务</strong>：处理取镜、调整、维修等售后事务</li>
+      <li><strong>门店维护</strong>：保持陈列整洁，参与日常运营</li>
+    </ul>
+
+    <div class="highlight-box">
+      <div class="label">🌟 你的成功路径：8周成长地图</div>
+      <ol style="padding-left:18px; margin-top:8px;">
+        <li style="margin-bottom:6px;"><strong>第1-2周</strong>：学习文化、制度和产品知识——"认识这个世界"</li>
+        <li style="margin-bottom:6px;"><strong>第3-4周</strong>：掌握基础技能和销售话术——"开始动手开口"</li>
+        <li style="margin-bottom:6px;"><strong>第5-6周</strong>：熟练流程，进阶话术——"独立处理日常"</li>
+        <li style="margin-bottom:6px;"><strong>第7-8周</strong>：综合演练，通过考核——"合格上岗"</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 今日总结 -->
+  <div class="summary-box">
+    <h3>📝 今日学习要点回顾</h3>
+    <ul>
+      <li>✅ 公司使命："我们将用臻于至善的工匠精神，为客户打造一流的视觉健康解决方案"</li>
+      <li>✅ 六大核心价值观：专业精准、真诚用心、持续成长、团队协作、追求卓越、诚信守正</li>
+      <li>✅ 愿景：让客户更加满意，让员工更有尊严，让企业更受尊重</li>
+      <li>✅ 你的成长路径：8周从零基础到独立上岗</li>
+      <li>✅ 我们做的不只是卖眼镜——我们在守护人们看世界的权利</li>
+    </ul>
+    <p style="margin-top:14px; color:#2e7d32; font-weight:600;">🎯 今日实践任务：用自己的话向带教师傅复述门店使命和3条以上价值观</p>
+  </div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="../课程总览.html">← 课程总览</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_01_练习题.html">今日练习题 →</a>
+  </div>
+
+</div>
+</body>
+</html>
