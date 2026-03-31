@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 13 | 品牌知识与产品陈列认知</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}
+  .header{background:linear-gradient(135deg,#e3f2fd,#bbdefb);padding:40px 30px;border-bottom:3px solid #2196F3;}
+  .day-tag{background:#2196F3;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}
+  .header h1{font-size:2em;color:#1565c0;margin-bottom:8px;}
+  .container{max-width:900px;margin:30px auto;padding:0 20px;}
+  .objective-box{background:#e3f2fd;border-left:5px solid #2196F3;border-radius:8px;padding:20px 24px;margin-bottom:30px;}
+  .objective-box h3{color:#1565c0;margin-bottom:10px;}
+  .objective-box li{margin-bottom:6px;font-size:0.95em;}
+  .section{background:white;border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+  .section h2{font-size:1.3em;color:#1565c0;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #e3f2fd;}
+  .section h3{font-size:1.05em;color:#333;margin:18px 0 10px;}
+  .section p{line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em;}
+  .section ul,.section ol{padding-left:20px;margin-bottom:14px;}
+  .section li{line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px;}
+  .brand-section{margin:16px 0;}
+  .brand-category{background:#f5f5f5;border-radius:10px;padding:16px;margin-bottom:12px;}
+  .brand-category h4{color:#1565c0;margin-bottom:10px;font-size:0.95em;}
+  .brand-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .brand-tag{background:white;border:1px solid #2196F3;color:#1565c0;padding:4px 12px;border-radius:16px;font-size:0.82em;}
+  .display-rules{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0;}
+  .rule-card{background:#e3f2fd;border-radius:10px;padding:16px;border-left:4px solid #2196F3;}
+  .rule-card h4{color:#1565c0;margin-bottom:8px;font-size:0.9em;}
+  .rule-card p{font-size:0.85em;color:#555;line-height:1.6;}
+  .highlight-box{background:#fff8e1;border:1px solid #FFD54F;border-radius:8px;padding:16px 20px;margin:16px 0;}
+  .highlight-box .label{color:#F57F17;font-weight:700;font-size:0.85em;margin-bottom:6px;}
+  .summary-box{background:linear-gradient(135deg,#e3f2fd,#e8f5ff);border-radius:12px;padding:24px;margin-top:30px;}
+  .summary-box h3{color:#1565c0;margin-bottom:14px;}
+  .summary-box li{margin-bottom:8px;font-size:0.95em;}
+  .nav-footer{display:flex;justify-content:space-between;margin:30px 0 40px;}
+  .nav-btn{background:#2196F3;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}
+  .nav-btn.outline{background:white;color:#2196F3;border:2px solid #2196F3;}
+  @media(max-width:600px){.display-rules{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="day-tag">📅 第2周 · Day 13</span>
+  <h1>🏷️ 品牌知识与产品陈列认知</h1>
+  <div class="subtitle">模块：知识 Knowledge | 今日主题：主要品牌认知 · 陈列规则 · 产品熟悉</div>
+</div>
+<div class="container">
+  <div class="objective-box">
+    <h3>🎯 今日学习目标</h3>
+    <ul>
+      <li>了解门店主要镜架和镜片品牌的定位</li>
+      <li>能在陈列区找到并介绍各价位段的主要产品</li>
+      <li>掌握产品陈列的基本规则和逻辑</li>
+      <li>学会利用陈列区进行视觉引导销售</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🏷️ 第一部分：镜架品牌认知</h2>
+    <p>不同品牌有不同的目标客群和定价策略，了解品牌是推荐的前提。（以下为通用分类，请结合门店实际在售品牌进行学习）</p>
+    <div class="brand-section">
+      <div class="brand-category">
+        <h4>💎 奢华/设计师品牌（高客单价）</h4>
+        <div class="brand-tags">
+          <span class="brand-tag">Ray-Ban</span>
+          <span class="brand-tag">Gucci</span>
+          <span class="brand-tag">Prada</span>
+          <span class="brand-tag">Tom Ford</span>
+          <span class="brand-tag">Dior</span>
+        </div>
+        <p style="font-size:0.85em;color:#666;margin-top:8px;">客群：注重品牌价值、时尚形象的顾客；卖点：品牌溢价、设计感</p>
+      </div>
+      <div class="brand-category">
+        <h4>🔷 中高端品牌（主流价位）</h4>
+        <div class="brand-tags">
+          <span class="brand-tag">SEIKO精工</span>
+          <span class="brand-tag">Silhouette诗乐</span>
+          <span class="brand-tag">ic! berlin</span>
+          <span class="brand-tag">LINDBERG</span>
+        </div>
+        <p style="font-size:0.85em;color:#666;margin-top:8px;">客群：注重品质、有消费能力的专业人士；卖点：做工、材质、轻量</p>
+      </div>
+      <div class="brand-category">
+        <h4>💚 中端实用品牌（高性价比）</h4>
+        <div class="brand-tags">
+          <span class="brand-tag">门店自有品牌</span>
+          <span class="brand-tag">国产优质品牌</span>
+          <span class="brand-tag">协议品牌</span>
+        </div>
+        <p style="font-size:0.85em;color:#666;margin-top:8px;">客群：注重性价比、实用主义的大众客群；卖点：品质稳定、价格合理</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🔬 第二部分：镜片品牌认知</h2>
+    <p>以下为市场主要镜片品牌，门店可能代理其中几款（请对照门店实际产品学习）：</p>
+    <ul>
+      <li><strong>依视路（Essilor）</strong>：全球最大镜片品牌，锐俪、钻晶、万里路等系列</li>
+      <li><strong>蔡司（ZEISS）</strong>：德国精工品质，光学表现优秀，高端定位</li>
+      <li><strong>豪雅（HOYA）</strong>：日本品牌，MiYOSMART近视防控镜片知名</li>
+      <li><strong>苏拿（Nikon）</strong>：日本精工镜片，清晰度高</li>
+      <li><strong>国产品牌</strong>：万新、明月等，性价比高，适合大众市场</li>
+    </ul>
+    <div class="highlight-box">
+      <div class="label">💡 品牌推荐原则</div>
+      <p>推荐品牌时，以<strong>顾客需求和预算为中心</strong>，而不是以利润为中心。了解各品牌的真实优势，才能真正帮到顾客，也才能赢得信任。</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🏪 第三部分：产品陈列规则</h2>
+    <p>好的陈列能引导顾客自然地浏览和购买。</p>
+    <div class="display-rules">
+      <div class="rule-card">
+        <h4>📍 区域分布原则</h4>
+        <p>高价值产品放在入门视线正前方；大众产品放在侧面；新款/主推款放在最易触及位置（距地面90~160cm）</p>
+      </div>
+      <div class="rule-card">
+        <h4>🎨 色彩与款式归类</h4>
+        <p>同色系归类摆放，男款/女款分区；同一款式不同色号集中展示，方便顾客对比选择</p>
+      </div>
+      <div class="rule-card">
+        <h4>🔖 价格标签规范</h4>
+        <p>每副眼镜须有清晰价签；价格标注规范，不得涂改或模糊；促销品需标注原价和现价</p>
+      </div>
+      <div class="rule-card">
+        <h4>✨ 清洁与整理</h4>
+        <p>每日开店前用专用眼镜布清洁展示镜架；被顾客试戴后立即归位并清洁；陈列区不得有灰尘积累</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>📝 今日要点总结</h3>
+    <ul>
+      <li>✅ 品牌分为高/中高/中端，了解各自客群和卖点</li>
+      <li>✅ 推荐以顾客需求为中心，不以品牌溢价为导向</li>
+      <li>✅ 陈列规则：高价值品正面展示，按色系/款式归类，价签清晰</li>
+      <li>✅ 每日维护陈列清洁，试戴后归位擦拭</li>
+    </ul>
+    <p style="margin-top:14px; color:#1565c0; font-weight:600;">🎯 今日任务：在陈列区找出3个不同价位段的镜架，向师傅介绍各自的品牌定位和适合人群</p>
+  </div>
+
+    <div class="section">
+    <h2>📝 补充：配镜处方解读练习</h2>
+        <p>能快速准确地读懂配镜处方，是眼镜店员工的基本功。以下是几道练习：</p>
+    
+    <h3>📌 处方案例分析</h3>
+    <table class="rule-table">
+      <thead><tr><th>处方</th><th>解读</th></tr></thead>
+      <tbody>
+        <tr><td>R: -3.50 DS<br>L: -4.00 DS<br>PD: 62mm</td><td>右眼近视350度，左眼近视400度，瞳距62mm，无散光，轻度近视，推荐1.67折射率镜片</td></tr>
+        <tr><td>R: -6.00 / -1.50 × 180°<br>L: -5.50 / -1.00 × 170°</td><td>双眼高度近视合并散光，度数较深，推荐1.71-1.74超高折射率，减少镜片厚度</td></tr>
+        <tr><td>R: +1.50 DS ADD +2.00<br>L: +1.00 DS ADD +2.00</td><td>轻度远视合并老视，需要渐进镜片，近附加+2.00D补偿老花</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box"><div class="label">💡 练习方法</div><p>每次接待客户拿来处方时，先自己读一遍，再与验光师核对，积累经验。遇到不理解的缩写立即记录，下班后查阅。</p></div>
+
+  </div>
+
+
+    <div class="section">
+    <h2>📐 瞳距测量方法</h2>
+    <p>瞳距（PD）是配镜精度的关键参数，测量误差会导致戴镜不适：</p>
+    <h3>📌 瞳距尺测量步骤</h3>
+    <ol style="padding-left:20px;margin-bottom:14px;">
+      <li style="margin-bottom:6px;">嘱咐客户平视前方，注视5米外的视标</li>
+      <li style="margin-bottom:6px;">将瞳距尺紧贴眉弓，右端"0"刻度对准右眼瞳孔中心</li>
+      <li style="margin-bottom:6px;">读取左眼瞳孔中心对应的刻度，即为双眼瞳距</li>
+      <li style="margin-bottom:6px;">重复测量3次，取平均值</li>
+      <li style="margin-bottom:6px;">单眼瞳距：分别测量左右眼瞳孔到鼻梁中线的距离</li>
+    </ol>
+    <div class="refraction-box" style="background:#e3f2fd;border-color:#bbdefb;">
+      <div class="label" style="color:#1565c0;">📏 正常参考值</div>
+      <p>成人平均瞳距：男性约64mm，女性约62mm<br>单眼瞳距通常左右各约31-32mm，但不一定完全对称</p>
+    </div>
+    <div class="tip-box"><div class="label">⚠️ 注意</div><p>渐进镜和高度数镜片对瞳距要求更严格，误差不超过±1mm。儿童测量时需特别注意，因为他们不容易长时间保持注视。</p></div>
+  </div>
+
+
+
+    <div class="summary-box" style="background:linear-gradient(135deg,#e3f2fd,#e8f5ff)">
+    <h3 style="color:#1565c0">📝 今日要点总结</h3>
+    <ul>
+      <li>✅ 能快速正确解读处方中S/C/A/ADD/PD各参数含义</li>
+      <li>✅ 瞳距测量：平视注视，测量3次取均值，误差小于±1mm</li>
+      <li>✅ 处方解读是配镜质量控制的第一关，不能出错</li>
+      <li>✅ 特殊处方（高度数、高散光）需要验光师参与确认</li>
+    </ul>
+    <p style="margin-top:14px;color:#1565c0;font-weight:600">
+      今日任务：找5张不同类型的处方单（旧档案或师傅提供），逐一解读所有参数，师傅核对。
+    </p>
+  </div>
+
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_12_学习内容.html">← Day 12</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_13_练习题.html">今日练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
