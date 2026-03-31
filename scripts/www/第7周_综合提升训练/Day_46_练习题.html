@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 46 练习题：团队协作与门店日常管理</title>
+<style>
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f0f4f8; margin: 0; padding: 20px; }
+  .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 12px; }
+  .info-bar { background: #eaf4ff; border-radius: 8px; padding: 12px 20px; margin: 16px 0; display: flex; gap: 30px; font-size: 14px; color: #1a6fa8; flex-wrap: wrap; }
+  h2 { color: #2980b9; margin-top: 30px; }
+  .question { background: #f8fbff; border: 1px solid #d6eaf8; border-radius: 8px; padding: 20px; margin: 16px 0; }
+  .question-num { font-weight: bold; color: #2980b9; font-size: 15px; }
+  .option { padding: 8px 12px; margin: 6px 0; background: #eaf4ff; border-radius: 6px; cursor: pointer; border: 1px solid #aed6f1; }
+  .option:hover { background: #cce5f5; }
+  .fill-input { width: 100%; padding: 10px; border: 1px solid #aed6f1; border-radius: 6px; font-size: 14px; margin-top: 8px; box-sizing: border-box; }
+  .answer-box { background: #eafaf1; border: 1px dashed #27ae60; border-radius: 8px; padding: 14px 18px; margin-top: 10px; display: none; color: #1a5c38; }
+  .btn { background: #3498db; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; margin: 4px; }
+  .btn:hover { background: #2980b9; }
+  .btn-show { background: #27ae60; }
+  .btn-show:hover { background: #1e8449; }
+  .section-tag { background: #3498db; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-right: 8px; }
+  .scenario { background: #fff8f0; border-left: 4px solid #e67e22; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 10px 0; font-style: italic; color: #7d4a1a; font-size: 14px; }
+  .sort-area { background: #f0f4f8; border-radius: 8px; padding: 14px; margin: 10px 0; }
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#8e44ad,#6c3483);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#8e44ad;border:2px solid #8e44ad}
+
+  /* interactive-options-type-d */
+  .option { cursor: pointer; transition: all 0.2s; }
+  .option.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .option.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .option.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .option.answered    { pointer-events: none !important; cursor: default !important; }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 46 练习题：团队协作与门店日常管理</h1>
+  <div class="info-bar">
+    <span>📅 第7周 第4天</span>
+    <span>⏱ 建议用时：25分钟</span>
+    <span>👥 主题：团队管理实战</span>
+    <span>💯 总分：100分</span>
+  </div>
+
+  <h2><span class="section-tag">A</span>单选题（每题8分，共40分）</h2>
+
+  <div class="question">
+    <div class="question-num">1. 同事正在接待顾客时，你发现旁边等候区还有两位顾客无人照顾，你应该？</div>
+    <div class="option">A. 等同事忙完再去招呼</div>
+    <div class="option">B. 立即主动上前问候等候顾客，告知稍候并提供初步帮助</div>
+    <div class="option">C. 去后台休息，等有顾客叫你再出来</div>
+    <div class="option">D. 大声叫同事快点结束</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a1')">查看答案</button>
+    <div class="answer-box" id="a1">✅ <strong>答案：B</strong><br>团队协作的精髓是"灵活补位"。发现等候顾客无人照顾，主动上前是专业表现，既提升顾客体验，又维护了团队服务质量。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">2. 以下哪种沟通行为属于"沟通雷区"？</div>
+    <div class="option">A. 接受任务后复述确认</div>
+    <div class="option">B. 提建议时同时提出解决方案</div>
+    <div class="option">C. 在顾客面前向同事抱怨工作安排不公平</div>
+    <div class="option">D. 遇到问题及时向店长反馈</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a2')">查看答案</button>
+    <div class="answer-box" id="a2">✅ <strong>答案：C</strong><br>在顾客面前的一切内部矛盾都会损害门店形象和顾客信任感。内部问题应在私下、合适时机与相关人员沟通解决。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">3. 门店开班流程中，"早会"最主要的目的是？</div>
+    <div class="option">A. 让员工聚在一起聊天增进感情</div>
+    <div class="option">B. 同步今日目标、特别活动和注意事项，统一团队方向</div>
+    <div class="option">C. 检查员工迟到情况</div>
+    <div class="option">D. 让店长展示管理权威</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a3')">查看答案</button>
+    <div class="answer-box" id="a3">✅ <strong>答案：B</strong><br>早会是高效团队的关键"对齐"环节。5-10分钟内完成今日目标同步、特别活动提示、注意事项传达，让每个人开始工作时方向一致。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">4. 收班时发现POS流水与实际现金差了50元，正确做法是？</div>
+    <div class="option">A. 自己垫付50元，不声张</div>
+    <div class="option">B. 就当没发现，明天再说</div>
+    <div class="option">C. 仔细核对流水单据，找出差异原因，如实记录并上报店长</div>
+    <div class="option">D. 责怪其他同事操作失误</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a4')">查看答案</button>
+    <div class="answer-box" id="a4">✅ <strong>答案：C</strong><br>财务差异必须如实记录和上报，不能自行处理。应仔细核查当日所有流水单据，找出差异原因（是否有找零错误、退款漏记等），并如实向店长反映。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">5. 加工技师发现顾客订单的镜片规格有误，无法按时完成，他应该优先做什么？</div>
+    <div class="option">A. 等到取镜当天再说</div>
+    <div class="option">B. 擅自更换相近规格的镜片，不告知任何人</div>
+    <div class="option">C. 第一时间告知销售顾问，共同确认处理方案，再与顾客沟通</div>
+    <div class="option">D. 直接联系顾客说明情况</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a5')">查看答案</button>
+    <div class="answer-box" id="a5">✅ <strong>答案：C</strong><br>技师发现问题后，应优先通知销售顾问（因为销售顾问是顾客的主要联系人），共同确认解决方案，再由销售顾问与顾客沟通说明并提出补偿方案，保持服务的一致性。</div>
+  </div>
+
+  <h2><span class="section-tag">B</span>情景应对题（每题20分，共40分）</h2>
+
+  <div class="question">
+    <div class="question-num">6. 你对店长的排班安排有异议，请写出正确的沟通方式：</div>
+    <div class="scenario">
+      店长安排你每周六早班8:00上班（比平时早1小时），你家住得远，这让你很困扰，但你不想直接抗拒，又不想默默忍受。
+    </div>
+    <textarea class="fill-input" rows="6" placeholder="写出你会如何与店长沟通，注意：要有建设性，提出替代方案..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a6')">查看参考答案</button>
+    <div class="answer-box" id="a6">
+      ✅ <strong>参考应答：</strong><br><br>
+      找到店长的合适时间（非忙碌时段），主动约谈：<br><br>
+      "店长，我想跟您反映一下周六排班的情况。我理解周六是客流高峰，需要早点准备，我愿意配合。我家住在XX，周六早高峰地铁特别拥挤，8:00到店的话5点多就要出门，长期这样我担心状态会受影响，从而影响工作质量。<br><br>
+      我有两个建议想请您考虑：一是能否让住得近的同事负责周六早班，我来替他/她负责平时的某一天早班；二是如果非要我上周六早班，能否补贴一些交通费？<br><br>
+      当然，如果现在确实没有替换方案，我也会想办法克服，不会影响工作的，只是想让您知道这个情况。"
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">7. 请描述一次你（假设）在门店遇到的需要"团队协作"才能解决的情况，并说明你的处理方式：</div>
+    <textarea class="fill-input" rows="7" placeholder="描述场景（何时、何地、发生了什么），说明你如何协调各岗位（验光师/技师/同事/店长）共同解决问题..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a7')">查看参考答案</button>
+    <div class="answer-box" id="a7">
+      ✅ <strong>参考情景（供参考，自由发挥）：</strong><br><br>
+      <strong>场景：</strong>国庆长假第一天，门店突然迎来大量顾客，同时有3位顾客需要验光、2单需要加工、店内还有顾客在选镜架，整个门店一片忙乱。<br><br>
+      <strong>协作处理：</strong><br>
+      • 我主动承担"排队协调"职责，告知每位顾客大概等候时间，维持秩序；<br>
+      • 提醒验光师按预约和先来先到顺序安排，紧急顾客（如学生急需上课）优先；<br>
+      • 让技师先加工紧急单，延缓不急的单并提前与顾客沟通；<br>
+      • 告知店长门店人手不足，请求协助；<br>
+      • 团队整体有序运转，最终无一顾客流失投诉。<br><br>
+      <strong>收获：</strong>复杂情况下，主动分工、清晰沟通是关键，每个人知道自己该做什么，就不会乱。
+    </div>
+  </div>
+
+  <h2><span class="section-tag">C</span>排序题（20分）</h2>
+  <div class="question">
+    <div class="question-num">8. 请将以下门店收班流程步骤按正确顺序排列（用数字1-6标注）：</div>
+    <div class="sort-area">
+      <p>（ ）陈列整理：展示品归位，展柜上锁</p>
+      <p>（ ）收银核对：盘点现金，核对POS流水</p>
+      <p>（ ）设备关闭：仪器关机，断电检查</p>
+      <p>（ ）日报填写：汇总销售数据，发群分享</p>
+      <p>（ ）库存盘点：记录售出，检查库存</p>
+      <p>（ ）环境整理：清洁卫生，关闭灯光空调</p>
+    </div>
+    <textarea class="fill-input" rows="3" placeholder="写出你认为正确的顺序，如：收银→库存→日报→陈列→设备→环境"></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a8')">查看答案</button>
+    <div class="answer-box" id="a8">✅ <strong>参考顺序：</strong><br>① 收银核对 → ② 库存盘点 → ③ 日报填写 → ④ 陈列整理 → ⑤ 设备关闭 → ⑥ 环境整理<br><br>逻辑：先处理数据和财务（时间敏感），再整理物品，最后关设备和做清洁（确保无疏漏）。</div>
+  </div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <button class="btn" onclick="showAllAnswers()">📖 展示全部答案</button>
+    <button class="btn" style="background:#e74c3c;" onclick="resetAll()">🔄 重置练习</button>
+  </div>
+</div>
+
+<script>
+function toggleAnswer(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+function showAllAnswers() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'block');
+}
+function resetAll() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.fill-input').forEach(el => el.value = '');
+}
+</script>
+
+<div class="nav-footer" style="max-width:960px;margin:0 auto 20px;padding:0 30px;display:flex;justify-content:space-between;gap:12px">
+  <a href="Day_46_学习内容.html" class="nav-btn outline" style="background:#fff;color:#8e44ad;border:2px solid #8e44ad;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+  <a href="Day_47_学习内容.html" class="nav-btn" style="background:linear-gradient(135deg,#8e44ad,#6c3483);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600">Day 47 学习内容 →</a>
+</div>
+
+
+<script>
+/* interactive-options-type-d-js */
+(function(){
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    // 收集该题所有 .option
+    var opts = Array.from(qBlock.querySelectorAll(':scope > .option, :scope > .options > .option'));
+    if(opts.length === 0) return;
+
+    // 找答案框：answer-box
+    var ansBox = qBlock.querySelector('.answer-box');
+    if(!ansBox) return;
+
+    // 从 answer-box 提取答案字母，支持多种格式：
+    // ✅ 正确答案：B / ✅ 答案：B / ✅ <strong>答案：B</strong>
+    var txt = ansBox.textContent || '';
+    var m = txt.match(/(?:\u6b63\u786e)?\u7b54\u6848[:\uff1a]\s*([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    opts.forEach(function(opt){
+      var letter = (opt.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      opt.classList.add('opt-clickable');
+      opt.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        opts.forEach(function(o){ o.classList.add('answered'); });
+        if(letter === correct){
+          opt.classList.add('opt-correct');
+          opt.textContent = '\u2705 ' + opt.textContent;
+        } else {
+          opt.classList.add('opt-wrong');
+          opt.textContent = '\u274c ' + opt.textContent;
+          opts.forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ o.classList.add('opt-reveal'); o.textContent = '\ud83d\udc49 ' + o.textContent; }
+          });
+        }
+        ansBox.style.display = 'block';
+        var btn = qBlock.querySelector('.btn-show, .show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
