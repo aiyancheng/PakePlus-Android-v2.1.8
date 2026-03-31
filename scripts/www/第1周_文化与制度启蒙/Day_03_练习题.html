@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 03 练习题 | 考勤制度与薪酬福利</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Microsoft YaHei',Arial,sans-serif; background:#f5f7fa; color:#333; }
+  .header { background:linear-gradient(135deg,#e8f5e9,#c8e6c9); padding:36px 30px; border-bottom:3px solid #4CAF50; }
+  .day-tag { background:#4CAF50; color:white; display:inline-block; padding:4px 16px; border-radius:20px; font-size:0.85em; margin-bottom:12px; }
+  .header h1 { font-size:1.8em; color:#2e7d32; margin-bottom:8px; }
+  .container { max-width:860px; margin:30px auto; padding:0 20px; }
+  .section-title { font-size:1.15em; color:#2e7d32; font-weight:700; margin:32px 0 14px; padding-left:12px; border-left:4px solid #4CAF50; }
+  .question-card { background:white; border-radius:12px; padding:26px; margin-bottom:22px; box-shadow:0 2px 10px rgba(0,0,0,0.07); }
+  .q-header { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+  .q-num { background:#4CAF50; color:white; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.9em; flex-shrink:0; }
+  .q-type { background:#e8f5e9; color:#2e7d32; padding:3px 12px; border-radius:12px; font-size:0.8em; font-weight:600; }
+  .q-score { color:#999; font-size:0.82em; }
+  .question-text { font-size:1em; color:#333; font-weight:600; line-height:1.6; margin-bottom:16px; }
+  .options li { padding:10px 16px; border:2px solid #e0e0e0; border-radius:8px; margin-bottom:8px; font-size:0.93em; list-style:none; }
+  .answer-area { width:100%; min-height:80px; border:2px solid #e0e0e0; border-radius:8px; padding:12px; font-family:inherit; font-size:0.93em; resize:vertical; }
+  .answer-hint { background:#f9f9f9; border-left:3px solid #9E9E9E; padding:10px 14px; margin-top:12px; font-size:0.85em; color:#666; display:none; }
+  .show-answer-btn { background:none; border:1px solid #9E9E9E; color:#666; padding:6px 14px; border-radius:6px; cursor:pointer; font-size:0.82em; margin-top:10px; }
+  .scenario-box { background:#e3f2fd; border-radius:8px; padding:14px; margin-bottom:12px; border-left:4px solid #2196F3; font-size:0.92em; line-height:1.7; }
+  .nav-footer { display:flex; justify-content:space-between; margin:30px 0 50px; }
+  .nav-btn { background:#4CAF50; color:white; padding:10px 24px; border-radius:8px; text-decoration:none; font-size:0.9em; }
+  .nav-btn.outline { background:white; color:#4CAF50; border:2px solid #4CAF50; }
+
+  /* interactive-options-type-a */
+  .options li { cursor: pointer; transition: all 0.2s; }
+  .options li:hover { border-color: #4CAF50 !important; background: #f1f8e9 !important; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .options li.answered    { pointer-events: none !important; }
+
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="day-tag">📝 第1周 · Day 03 练习题</span>
+  <h1>考勤制度与薪酬福利 — 巩固测评</h1>
+  <div class="subtitle" style="color:#555;">总分：100分 | 建议完成时间：20分钟</div>
+</div>
+<div class="container">
+  <div class="section-title">选择题（每题15分，共60分）</div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">1</div><span class="q-type">单选题</span><span class="q-score">15分</span></div>
+    <div class="question-text">如果因为突发状况无法按时到岗，正确的做法是？</div>
+    <ul class="options">
+      <li>A. 发一条微信消息说明情况，等店长回复</li>
+      <li>B. 直接不来，事后解释</li>
+      <li>C. 提前电话通知店长，主动沟通解决方案</li>
+      <li>D. 让同事帮忙代打卡，再慢慢赶来</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：C。主动电话沟通是最负责任的做法，发消息可能不被及时看到，代打卡属于违规。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">2</div><span class="q-type">单选题</span><span class="q-score">15分</span></div>
+    <div class="question-text">员工薪酬结构中，哪一项是固定发放的？</div>
+    <ul class="options">
+      <li>A. 销售提成</li><li>B. 绩效奖金</li><li>C. 底薪</li><li>D. 节日福利</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：C。底薪是固定部分，提成和绩效奖金根据业绩和表现浮动。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">3</div><span class="q-type">单选题</span><span class="q-score">15分</span></div>
+    <div class="question-text">试用期底薪是正式底薪的多少比例？</div>
+    <ul class="options">
+      <li>A. 60%</li><li>B. 70%</li><li>C. 80%</li><li>D. 90%</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：C（80%）。试用期满转正后按正式标准重新核算。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">4</div><span class="q-type">单选题</span><span class="q-score">15分</span></div>
+    <div class="question-text">关于代人打卡，以下说法正确的是？</div>
+    <ul class="options">
+      <li>A. 同事很忙时可以帮忙代打，是互帮互助的体现</li>
+      <li>B. 代人打卡属于违规，双方均受处罚</li>
+      <li>C. 只要事后说明就没关系</li>
+      <li>D. 只有被帮忙的人受罚，帮忙的人没问题</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：B。代打卡是违规行为，双方都会受到处罚。</div>
+  </div>
+
+  <div class="section-title">情景题（40分）</div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">5</div><span class="q-type">情景题</span><span class="q-score">20分</span></div>
+    <div class="scenario-box">📍 小张本月已经迟到了2次，今天早上堵车，预计要迟到20分钟。他应该怎么处理？</div>
+    <div class="question-text">请写出小张正确的处理步骤（至少3步）。</div>
+    <textarea class="answer-area" placeholder="请写出处理步骤……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 参考步骤：①马上电话通知店长，说明情况和预计到达时间 ②到岗后主动向店长说明并道歉 ③当天工作中用良好表现弥补 ④注意本月已是第3次，会影响绩效，以后规划好出行时间</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">6</div><span class="q-type">简答题</span><span class="q-score">20分</span></div>
+    <div class="question-text">除了底薪，门店还提供哪些福利？请列举4项以上并简要说明。</div>
+    <textarea class="answer-area" placeholder="请列举福利……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 参考：①销售提成②绩效奖金③节日福利（礼金/实物）④员工及家属配镜折扣⑤培训/考证学习补贴⑥调休制度</div>
+  </div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_03_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_04_学习内容.html">Day 04 →</a>
+  </div>
+</div>
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card').forEach(function(card){
+    var hint = card.querySelector('.answer-hint');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    // 兼容两种格式：
+    // 1. 正确答案：<strong>B</strong>
+    // 2. 正确答案：B。或 正确答案：B（错误）
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<strong>)?([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var letter = (li.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
