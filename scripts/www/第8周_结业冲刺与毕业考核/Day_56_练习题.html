@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 56 练习题 - 结业自评与职业规划</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #415a77 100%); min-height: 100vh; padding: 20px; }
+  .container { max-width: 900px; margin: 0 auto; }
+
+  /* 毕业庆典横幅 */
+  .graduation-banner { background: linear-gradient(135deg, #FFD700, #FFA500, #FF6347); color: white; padding: 35px; border-radius: 20px; text-align: center; margin-bottom: 30px; box-shadow: 0 15px 40px rgba(255,165,0,0.5); position: relative; overflow: hidden; }
+  .graduation-banner::before { content: '🌟'; position: absolute; top: 10px; left: 20px; font-size: 40px; opacity: 0.3; }
+  .graduation-banner::after { content: '🌟'; position: absolute; top: 10px; right: 20px; font-size: 40px; opacity: 0.3; }
+  .graduation-banner h1 { font-size: 30px; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+  .graduation-banner .subtitle { font-size: 16px; opacity: 0.95; margin-bottom: 8px; }
+  .graduation-banner .day-badge { display: inline-block; background: rgba(255,255,255,0.25); padding: 6px 18px; border-radius: 20px; font-size: 14px; font-weight: bold; }
+
+  .section { background: white; border-radius: 15px; padding: 25px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+  .section-title { font-size: 18px; font-weight: bold; color: #FF6347; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; display: flex; align-items: center; gap: 8px; }
+
+  /* 自评量表 */
+  .rating-item { margin-bottom: 20px; padding: 18px; background: #fff8f0; border-radius: 12px; border-left: 4px solid #FFA500; }
+  .rating-label { font-size: 15px; font-weight: bold; color: #333; margin-bottom: 10px; }
+  .rating-scale { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .rating-btn { width: 42px; height: 42px; border-radius: 50%; border: 2px solid #ddd; background: white; cursor: pointer; font-size: 15px; font-weight: bold; color: #666; transition: all 0.2s; }
+  .rating-btn:hover { border-color: #FFA500; background: #fff3e0; }
+  .rating-btn.active { border-color: #FFA500; background: #FFA500; color: white; transform: scale(1.1); }
+  .rating-desc { display: flex; justify-content: space-between; font-size: 12px; color: #999; margin-top: 5px; }
+  .rating-note { margin-top: 8px; font-size: 13px; color: #888; font-style: italic; }
+
+  /* 问答题 */
+  .qa-item { margin-bottom: 25px; padding: 18px; background: #f8f9fa; border-radius: 12px; border-left: 4px solid #FF6347; }
+  .qa-num { font-weight: bold; color: #FF6347; font-size: 14px; margin-bottom: 8px; }
+  .qa-text { font-size: 15px; line-height: 1.8; color: #333; margin-bottom: 12px; }
+  .fill-blank { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 14px; resize: vertical; min-height: 80px; font-family: inherit; }
+  .fill-blank:focus { outline: none; border-color: #FFA500; }
+
+  /* 承诺书 */
+  .pledge-box { background: linear-gradient(135deg, #fff3e0, #fce4ec); border-radius: 15px; padding: 25px; border: 2px solid #FFA500; margin-top: 20px; }
+  .pledge-title { font-size: 18px; font-weight: bold; color: #e65100; text-align: center; margin-bottom: 20px; }
+  .pledge-items { list-style: none; }
+  .pledge-items li { padding: 10px 0; font-size: 15px; color: #555; display: flex; align-items: flex-start; gap: 8px; border-bottom: 1px dashed #ffd0a0; line-height: 1.7; }
+  .pledge-items li:last-child { border-bottom: none; }
+  .pledge-check { color: #FFA500; font-size: 18px; flex-shrink: 0; }
+  .sign-area { margin-top: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .sign-field { text-align: center; }
+  .sign-field input { width: 100%; padding: 10px; border: none; border-bottom: 2px solid #ddd; background: transparent; font-size: 15px; text-align: center; font-family: inherit; }
+  .sign-field input:focus { outline: none; border-bottom-color: #FFA500; }
+  .sign-field .sign-label { font-size: 13px; color: #888; margin-top: 5px; }
+
+  /* 职业规划表格 */
+  .plan-table { width: 100%; border-collapse: collapse; }
+  .plan-table th { background: linear-gradient(135deg, #FFA500, #FF6347); color: white; padding: 12px; text-align: left; font-size: 14px; }
+  .plan-table td { padding: 12px; border-bottom: 1px solid #f0f0f0; font-size: 14px; vertical-align: top; }
+  .plan-table tr:hover td { background: #fff8f0; }
+  .plan-table input, .plan-table textarea { width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; font-family: inherit; resize: vertical; }
+  .plan-table input:focus, .plan-table textarea:focus { outline: none; border-color: #FFA500; }
+
+  /* 毕业寄语墙 */
+  .wish-wall { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; border-radius: 20px; padding: 30px; margin: 20px 0; }
+  .wish-wall h2 { font-size: 22px; color: #FFD700; margin-bottom: 20px; text-align: center; }
+  .wish-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+  .wish-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 18px; border: 1px solid rgba(255,255,255,0.2); }
+  .wish-card .wish-icon { font-size: 24px; margin-bottom: 8px; }
+  .wish-card h3 { font-size: 15px; color: #FFD700; margin-bottom: 8px; }
+  .wish-card p { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.7; }
+
+  /* 提交按钮 */
+  .btn-group { text-align: center; margin: 30px 0; }
+  .btn-submit { background: linear-gradient(135deg, #FFA500, #FF6347); color: white; border: none; padding: 16px 50px; border-radius: 30px; font-size: 18px; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 20px rgba(255,99,71,0.4); }
+  .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255,99,71,0.5); }
+
+  /* 总结弹窗 */
+  .summary-box { background: linear-gradient(135deg, #FFD700, #FFA500); color: #333; padding: 25px; border-radius: 15px; text-align: center; margin: 20px 0; display: none; }
+  .summary-box h2 { font-size: 24px; margin-bottom: 15px; }
+  .summary-box p { font-size: 15px; line-height: 1.8; margin-bottom: 10px; }
+  .rating-summary { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 15px 0; }
+  .rating-chip { background: rgba(255,255,255,0.6); padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold; }
+
+  /* 引用语 */
+  .quote-box { background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 12px; padding: 20px; margin: 15px 0; border-left: 5px solid #FFA500; }
+  .quote-text { font-size: 15px; color: #555; line-height: 1.8; font-style: italic; }
+  .quote-author { font-size: 13px; color: #888; margin-top: 8px; text-align: right; }
+
+  .highlight { color: #FF6347; font-weight: bold; }
+  .week-chip { display: inline-block; background: #fff3e0; color: #e65100; padding: 2px 10px; border-radius: 10px; font-size: 12px; margin: 2px; }
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#2c3e50,#1a252f);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#2c3e50;border:2px solid #2c3e50}
+</style>
+</head>
+<body>
+<div class="container">
+  <!-- 毕业庆典横幅 -->
+  <div class="graduation-banner">
+    <h1>🎓 Day 56 结业总结与职业规划</h1>
+    <div class="subtitle">8周，56天，从零到专业眼镜人的蜕变之旅</div>
+    <div class="day-badge">第8周第7天 · 结业日 · 新起点</div>
+  </div>
+
+  <!-- 开篇寄语 -->
+  <div class="section">
+    <div class="section-title">💌 写给今天的你</div>
+    <div class="quote-box">
+      <div class="quote-text">
+        恭喜你！你已经完成了整个8周的培训旅程。从第1天还不了解眼镜行业，到今天能够独立完成验光、选框、销售、售后的完整服务流程——这不是一件小事，这是你用56天的认真换来的专业能力。<br><br>
+        今天的练习不是考试，而是一次对自己的诚实回顾。请认真填写每一个问题，把8周的感悟和收获留在这里——这将是你职业成长路上最真实的起点记录。
+      </div>
+      <div class="quote-author">—— 你的培训团队，永远为你加油 ❤️</div>
+    </div>
+  </div>
+
+  <!-- 第一部分：8周能力自评量表 -->
+  <div class="section">
+    <div class="section-title">📊 一、8周能力自评量表（1=很弱 / 5=很强）</div>
+    <p style="color:#888; font-size:13px; margin-bottom:20px;">请根据自己的实际水平打分，诚实评估才能找到真正的提升方向。</p>
+
+    <div class="rating-item">
+      <div class="rating-label">① 电脑验光操作能力
+        <span class="week-chip">第3周</span>
+      </div>
+      <div class="rating-scale">
+        <div style="font-size:13px; color:#888;">弱</div>
+        <button class="rating-btn" onclick="rate(this,'r1',1)">1</button>
+        <button class="rating-btn" onclick="rate(this,'r1',2)">2</button>
+        <button class="rating-btn" onclick="rate(this,'r1',3)">3</button>
+        <button class="rating-btn" onclick="rate(this,'r1',4)">4</button>
+        <button class="rating-btn" onclick="rate(this,'r1',5)">5</button>
+        <div style="font-size:13px; color:#888;">强</div>
+      </div>
+      <div class="rating-note" id="note_r1">💡 包括：仪器操作、参数读取、结果初步判断</div>
+    </div>
+
+    <div class="rating-item">
+      <div class="rating-label">② 主觉验光（插片/综合验光仪）能力
+        <span class="week-chip">第3周</span><span class="week-chip">第7周</span>
+      </div>
+      <div class="rating-scale">
+        <div style="font-size:13px; color:#888;">弱</div>
+        <button class="rating-btn" onclick="rate(this,'r2',1)">1</button>
+        <button class="rating-btn" onclick="rate(this,'r2',2)">2</button>
+        <button class="rating-btn" onclick="rate(this,'r2',3)">3</button>
+        <button class="rating-btn" onclick="rate(this,'r2',4)">4</button>
+        <button class="rating-btn" onclick="rate(this,'r2',5)">5</button>
+        <div style="font-size:13px; color:#888;">强</div>
+      </div>
+      <div class="rating-note" id="note_r2">💡 包括：初始度数确认、红绿测试、散光矫正、双眼平衡</div>
+    </div>
+
+    <div class="rating-item">
+      <div class="rating-label">③ 镜片产品知识掌握程度
+        <span class="week-chip">第2周</span><span class="week-chip">第6周</span>
+      </div>
+      <div class="rating-scale">
+        <div style="font-size:13px; color:#888;">弱</div>
+        <button class="rating-btn" onclick="rate(this,'r3',1)">1</button>
+        <button class="rating-btn" onclick="rate(this,'r3',2)">2</button>
+        <button class="rating-btn" onclick="rate(this,'r3',3)">3</button>
+        <button class="rating-btn" onclick="rate(this,'r3',4)">4</button>
+        <button class="rating-btn" onclick="rate(this,'r3',5)">5</button>
+        <div style="font-size:13px; color:#888;">强</div>
+      </div>
+      <div class="rating-note" id="note_r3">💡 包括：折射率、镀膜、功能型镜片（防蓝光、变色、渐进等）</div>
+    </div>
+
+    <div class="rating-item">
+      <div class="rating-label">④ 顾客接待与需求探询能力
+        <span class="week-chip">第4周</span><span class="week-chip">第6周</span>
+      </div>
+      <div class="rating-scale">
+        <div style="font-size:13px; color:#888;">弱</div>
+        <button class="rating-btn" onclick="rate(this,'r4',1)">1</button>
+        <button class="rating-btn" onclick="rate(this,'r4',2)">2</button>
+        <button class="rating-btn" onclick="rate(this,'r4',3)">3</button>
+        <button class="rating-btn" onclick="rate(this,'r4',4)">4</button>
+        <button class="rating-btn" onclick="rate(this,'r4',5)">5</button>
+        <div style="font-size:13px; color:#888;">强</div>
+      </div>
+      <div class="rating-note" id="note_r4">💡 包括：开场白、提问技巧、倾听、需求分类</div>
+    </div>
+
+    <div class="rating-item">
+      <div class="rating-label">⑤ 产品推荐与销售话术能力
+        <span class="week-chip">第4周</span><span class="week-chip">第6周</span>
+      </div>
+      <div class="rating-scale">
+        <div style="font-size:13px; color:#888;">弱</div>
+        <button class="rating-btn" onclick="rate(this,'r5',1)">1</button>
+        <button class="rating-btn" onclick="rate(this,'r5',2)">2</button>
+        <button class="rating-btn" onclick="rate(this,'r5',3)">3</button>
+        <button class="rating-btn" onclick="rate(this,'r5',4)">4</button>
+        <button class="rating-btn" onclick="rate(this,'r5',5)">5</button>
+        <div style="font-size:13px; color:#888;">强</div>
+      </div>
+      <div class="rating-note" id="note_r5">💡 包括：FAB话术、异议处理、促成成交技巧</div>
+    </div>
+
+    <div class="rating-item">
+      <div class="rating-label">⑥ 投诉处理与售后服务能力
+        <span class="week-chip">第5周</span><span class="week-chip">第6周</span>
+      </div>
+      <div class="rating-scale">
+        <div style="font-size:13px; color:#888;">弱</div>
+        <button class="rating-btn" onclick="rate(this,'r6',1)">1</button>
+        <button class="rating-btn" onclick="rate(this,'r6',2)">2</button>
+        <button class="rating-btn" onclick="rate(this,'r6',3)">3</button>
+        <button class="rating-btn" onclick="rate(this,'r6',4)">4</button>
+        <button class="rating-btn" onclick="rate(this,'r6',5)">5</button>
+        <div style="font-size:13px; color:#888;">强</div>
+      </div>
+      <div class="rating-note" id="note_r6">💡 包括：投诉接待、调架技能、回访话术、顾客维系</div>
+    </div>
+
+    <div class="rating-item">
+      <div class="rating-label">⑦ 门店日常运营与数据分析能力
+        <span class="week-chip">第7周</span>
+      </div>
+      <div class="rating-scale">
+        <div style="font-size:13px; color:#888;">弱</div>
+        <button class="rating-btn" onclick="rate(this,'r7',1)">1</button>
+        <button class="rating-btn" onclick="rate(this,'r7',2)">2</button>
+        <button class="rating-btn" onclick="rate(this,'r7',3)">3</button>
+        <button class="rating-btn" onclick="rate(this,'r7',4)">4</button>
+        <button class="rating-btn" onclick="rate(this,'r7',5)">5</button>
+        <div style="font-size:13px; color:#888;">强</div>
+      </div>
+      <div class="rating-note" id="note_r7">💡 包括：日报填写、客单价/成交率计算、数据分析思维</div>
+    </div>
+
+    <div class="rating-item">
+      <div class="rating-label">⑧ 团队协作与职业素养
+        <span class="week-chip">第1周</span><span class="week-chip">第7周</span>
+      </div>
+      <div class="rating-scale">
+        <div style="font-size:13px; color:#888;">弱</div>
+        <button class="rating-btn" onclick="rate(this,'r8',1)">1</button>
+        <button class="rating-btn" onclick="rate(this,'r8',2)">2</button>
+        <button class="rating-btn" onclick="rate(this,'r8',3)">3</button>
+        <button class="rating-btn" onclick="rate(this,'r8',4)">4</button>
+        <button class="rating-btn" onclick="rate(this,'r8',5)">5</button>
+        <div style="font-size:13px; color:#888;">强</div>
+      </div>
+      <div class="rating-note" id="note_r8">💡 包括：时间管理、沟通协调、学习态度、职业形象</div>
+    </div>
+  </div>
+
+  <!-- 第二部分：8周回顾反思 -->
+  <div class="section">
+    <div class="section-title">💭 二、8周回顾与反思</div>
+
+    <div class="qa-item">
+      <div class="qa-num">问题1</div>
+      <div class="qa-text">在这8周的培训中，<span class="highlight">你觉得自己最大的收获或成长</span>是什么？（请具体描述，不要只说"学到很多"）</div>
+      <textarea class="fill-blank" placeholder="例如：我最大的收获是学会了如何跟顾客沟通，特别是在顾客觉得贵的时候，我学会了从价值角度分析，而不是一味让价。记得有一次..."></textarea>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-num">问题2</div>
+      <div class="qa-text">这8周中，<span class="highlight">最让你感到挑战或困难</span>的是哪个环节？你是如何克服的（或者还没有完全克服）？</div>
+      <textarea class="fill-blank" placeholder="例如：最难的是主觉验光，因为要控制顾客的配合程度，同时自己还要判断终止点..."></textarea>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-num">问题3</div>
+      <div class="qa-text">如果让你<span class="highlight">给下一批新员工</span>一个建议，你会说什么？（基于你自己的真实经历）</div>
+      <textarea class="fill-blank" placeholder="例如：我会建议新员工不要害怕提问，我一开始很怕问问题让师傅觉得我笨，但后来发现主动问才是最快的学习方式..."></textarea>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-num">问题4</div>
+      <div class="qa-text">现在回头看，<span class="highlight">你对眼镜行业的看法</span>有什么变化？（与8周前相比）</div>
+      <textarea class="fill-blank" placeholder="例如：我以前以为配眼镜就是一个简单的零售，没想到其实是一门专业度很高的学问。特别是验光这块..."></textarea>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-num">问题5</div>
+      <div class="qa-text">对培训课程本身，<span class="highlight">你有什么改进建议</span>？（哪些内容太少？哪些可以加强？）</div>
+      <textarea class="fill-blank" placeholder="你的真实反馈对改进培训课程非常重要，请大胆写出来..."></textarea>
+    </div>
+  </div>
+
+  <!-- 第三部分：职业规划表 -->
+  <div class="section">
+    <div class="section-title">🗺️ 三、我的职业规划（结业后）</div>
+    <p style="color:#888; font-size:13px; margin-bottom:20px;">完成培训只是开始，职业发展需要主动规划。请认真填写以下规划表。</p>
+
+    <table class="plan-table">
+      <thead>
+        <tr>
+          <th>时间阶段</th>
+          <th>我的目标</th>
+          <th>为实现目标，我计划做什么</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:#e65100; font-weight:bold; white-space:nowrap;">未来1个月</td>
+          <td><textarea placeholder="例如：能够独立完成80%以上的接单全流程，无需师傅协助..." style="min-height:60px; width:100%; padding:6px; border:1px solid #ddd; border-radius:6px; font-size:13px; resize:vertical; font-family:inherit;"></textarea></td>
+          <td><textarea placeholder="例如：每天至少接待5位顾客，下班后复盘当天的销售对话..." style="min-height:60px; width:100%; padding:6px; border:1px solid #ddd; border-radius:6px; font-size:13px; resize:vertical; font-family:inherit;"></textarea></td>
+        </tr>
+        <tr>
+          <td style="color:#e65100; font-weight:bold; white-space:nowrap;">未来3个月</td>
+          <td><textarea placeholder="例如：月销售额达到门店平均水平，验光准确率90%以上..." style="min-height:60px; width:100%; padding:6px; border:1px solid #ddd; border-radius:6px; font-size:13px; resize:vertical; font-family:inherit;"></textarea></td>
+          <td><textarea placeholder="例如：系统复习验光理论，参加一次店内技能竞赛，向优秀同事学习..." style="min-height:60px; width:100%; padding:6px; border:1px solid #ddd; border-radius:6px; font-size:13px; resize:vertical; font-family:inherit;"></textarea></td>
+        </tr>
+        <tr>
+          <td style="color:#e65100; font-weight:bold; white-space:nowrap;">未来6个月</td>
+          <td><textarea placeholder="例如：取得验光员资格证，成为门店独当一面的骨干员工..." style="min-height:60px; width:100%; padding:6px; border:1px solid #ddd; border-radius:6px; font-size:13px; resize:vertical; font-family:inherit;"></textarea></td>
+          <td><textarea placeholder="例如：备考验光员职业资格证，主动参与门店管理工作..." style="min-height:60px; width:100%; padding:6px; border:1px solid #ddd; border-radius:6px; font-size:13px; resize:vertical; font-family:inherit;"></textarea></td>
+        </tr>
+        <tr>
+          <td style="color:#e65100; font-weight:bold; white-space:nowrap;">未来1年</td>
+          <td><textarea placeholder="例如：成为店内验光主力，考取中级验光师证书，尝试带领新员工..." style="min-height:60px; width:100%; padding:6px; border:1px solid #ddd; border-radius:6px; font-size:13px; resize:vertical; font-family:inherit;"></textarea></td>
+          <td><textarea placeholder="例如：自学眼视光学相关知识，争取参加行业培训..." style="min-height:60px; width:100%; padding:6px; border:1px solid #ddd; border-radius:6px; font-size:13px; resize:vertical; font-family:inherit;"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 第四部分：毕业承诺书 -->
+  <div class="section">
+    <div class="section-title">📜 四、毕业承诺书</div>
+    <div class="pledge-box">
+      <div class="pledge-title">🌟 眼镜人的职业承诺</div>
+      <ul class="pledge-items">
+        <li><span class="pledge-check">✦</span>我承诺以诚信为本，为每一位顾客提供真实、准确的验光数据，绝不虚报度数或过度销售。</li>
+        <li><span class="pledge-check">✦</span>我承诺不断学习，保持专业成长，因为顾客的视力健康值得最专业的服务。</li>
+        <li><span class="pledge-check">✦</span>我承诺尊重每一位同事，积极配合团队工作，共同维护门店的服务品质。</li>
+        <li><span class="pledge-check">✦</span>我承诺遵守职业道德，维护行业声誉，以专业的态度传递眼视光健康理念。</li>
+        <li><span class="pledge-check">✦</span>我承诺用心对待每一双眼睛，因为这不只是一份工作，更是一份责任。</li>
+      </ul>
+      <div class="sign-area">
+        <div class="sign-field">
+          <input type="text" placeholder="请填写你的姓名" id="signName">
+          <div class="sign-label">员工姓名（签字）</div>
+        </div>
+        <div class="sign-field">
+          <input type="text" placeholder="填写今日日期" id="signDate" value="2026年3月26日">
+          <div class="sign-label">承诺日期</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 毕业寄语墙 -->
+  <div class="wish-wall">
+    <h2>🌈 给每一位毕业生的话</h2>
+    <div class="wish-cards">
+      <div class="wish-card">
+        <div class="wish-icon">🔭</div>
+        <h3>关于专业</h3>
+        <p>验光是科学，配镜是艺术。你现在掌握的，只是入门的钥匙——门后面还有无数的精彩等你探索。永远不要停止学习。</p>
+      </div>
+      <div class="wish-card">
+        <div class="wish-icon">💬</div>
+        <h3>关于服务</h3>
+        <p>顾客记住的，不是你推荐的镜片有多贵，而是你在他们困惑时给的那句专业建议。用真心服务，口碑自然来。</p>
+      </div>
+      <div class="wish-card">
+        <div class="wish-icon">📈</div>
+        <h3>关于成长</h3>
+        <p>每一次顾客的疑问，都是你提升的机会。每一次销售失败，都是下一次成功的练习。记录、复盘、改进——这就是成长的路。</p>
+      </div>
+      <div class="wish-card">
+        <div class="wish-icon">🤝</div>
+        <h3>关于同事</h3>
+        <p>一个人走得快，一群人走得远。优秀的团队会让你事半功倍。珍惜你的师傅和搭档，他们是你最宝贵的资源。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 提交按钮 -->
+  <div class="btn-group">
+    <button class="btn-submit" onclick="submitReview()">🎓 完成结业总结，开启新旅程！</button>
+  </div>
+
+  <!-- 完成提示 -->
+  <div class="summary-box" id="summaryBox">
+    <h2>🎊 恭喜你完成了8周全部培训！</h2>
+    <p>你的自评已记录。以下是你的能力雷达图得分：</p>
+    <div class="rating-summary" id="ratingSummary"></div>
+    <p id="avgScore" style="font-size:18px; font-weight:bold; margin:15px 0;"></p>
+    <p>不管你的分数如何，重要的是你已经<strong>完成了8周的系统训练</strong>。<br>
+    接下来，把这份承诺书中的目标变成行动，你的眼镜职业之路从今天正式开始！</p>
+    <p style="font-size:20px; margin-top:15px;">💪 加油！未来的眼镜专家！</p>
+  </div>
+</div>
+
+<script>
+const ratings = {};
+const abilityNames = {
+  r1:'电脑验光', r2:'主觉验光', r3:'产品知识',
+  r4:'顾客接待', r5:'销售话术', r6:'售后服务',
+  r7:'数据运营', r8:'职业素养'
+};
+
+function rate(btn, rId, val) {
+  ratings[rId] = val;
+  const container = btn.parentElement;
+  container.querySelectorAll('.rating-btn').forEach((b,i) => {
+    b.classList.toggle('active', i < val);
+  });
+  const tips = {
+    1:'还需要大量练习，建议重新学习相关内容',
+    2:'基础薄弱，需要重点加强',
+    3:'达到基本要求，还有较大提升空间',
+    4:'掌握较好，继续保持并追求卓越',
+    5:'非常优秀！成为这个方向的专家！'
+  };
+  const noteEl = document.getElementById('note_' + rId);
+  if(noteEl) {
+    noteEl.textContent = '💡 你的评分：' + val + '分 · ' + tips[val];
+    noteEl.style.color = val >= 4 ? '#28a745' : val >= 3 ? '#856404' : '#dc3545';
+  }
+}
+
+function submitReview() {
+  const name = document.getElementById('signName').value.trim();
+  if(!name) { alert('请先填写你的姓名（在承诺书签名处）'); return; }
+
+  const ratedCount = Object.keys(ratings).length;
+  if(ratedCount < 8) { alert(`你还有 ${8-ratedCount} 项能力自评未完成，请先完成所有评分`); return; }
+
+  const total = Object.values(ratings).reduce((a,b)=>a+b, 0);
+  const avg = (total / 8).toFixed(1);
+
+  const summaryEl = document.getElementById('ratingSummary');
+  summaryEl.innerHTML = Object.entries(ratings).map(([k,v]) =>
+    `<span class="rating-chip">${abilityNames[k]}: ${v}/5</span>`
+  ).join('');
+
+  let level = '';
+  if(avg >= 4.5) level = '🏆 顶尖水平！你是这批学员中的佼佼者！';
+  else if(avg >= 4.0) level = '⭐ 优秀水平！综合能力很强，继续保持！';
+  else if(avg >= 3.5) level = '👍 良好水平！大部分能力已掌握，针对弱项继续加强！';
+  else if(avg >= 3.0) level = '📚 中等水平！已具备基础能力，需要更多实践积累！';
+  else level = '💪 基础阶段！没关系，8周只是开始，实践中你会快速成长！';
+
+  document.getElementById('avgScore').textContent = `综合平均分：${avg}/5 · ${level}`;
+  document.getElementById('summaryBox').style.display = 'block';
+  document.getElementById('summaryBox').scrollIntoView({ behavior:'smooth' });
+
+  // 按钮变化
+  document.querySelector('.btn-submit').textContent = '✅ 已完成结业总结';
+  document.querySelector('.btn-submit').style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+}
+</script>
+<div class="nav-footer" style="max-width:960px;margin:28px auto 10px;padding:0 20px">
+  <a href="Day_56_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+  <a href="../课程总览.html" class="nav-btn">🎓 课程总览</a>
+</div>
+</body>
+</html>
