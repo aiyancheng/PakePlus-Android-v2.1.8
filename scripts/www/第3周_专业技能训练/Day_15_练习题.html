@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Day 15 练习题</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}.header{background:linear-gradient(135deg,#fff3e0,#ffe0b2);padding:36px 30px;border-bottom:3px solid #FF9800;}.day-tag{background:#FF9800;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}.header h1{font-size:1.8em;color:#e65100;margin-bottom:8px;}.container{max-width:860px;margin:30px auto;padding:0 20px;}.section-title{font-size:1.15em;color:#e65100;font-weight:700;margin:32px 0 14px;padding-left:12px;border-left:4px solid #FF9800;}.question-card{background:white;border-radius:12px;padding:26px;margin-bottom:22px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}.q-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}.q-num{background:#FF9800;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9em;flex-shrink:0;}.q-type{background:#fff3e0;color:#e65100;padding:3px 12px;border-radius:12px;font-size:0.8em;font-weight:600;}.q-score{color:#999;font-size:0.82em;}.question-text{font-size:1em;color:#333;font-weight:600;line-height:1.6;margin-bottom:16px;}.options li{padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;margin-bottom:8px;font-size:0.93em;list-style:none;}.answer-area{width:100%;min-height:80px;border:2px solid #e0e0e0;border-radius:8px;padding:12px;font-family:inherit;font-size:0.93em;resize:vertical;}.answer-hint{background:#f9f9f9;border-left:3px solid #9E9E9E;padding:10px 14px;margin-top:12px;font-size:0.85em;color:#666;display:none;}.show-answer-btn{background:none;border:1px solid #9E9E9E;color:#666;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.82em;margin-top:10px;}.scenario-box{background:#fff3e0;border-radius:8px;padding:14px;margin-bottom:12px;border-left:4px solid #FF9800;font-size:0.92em;line-height:1.7;}.nav-footer{display:flex;justify-content:space-between;margin:30px 0 50px;}.nav-btn{background:#FF9800;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}.nav-btn.outline{background:white;color:#FF9800;border:2px solid #FF9800;}
+  /* interactive-options-type-a */
+  .options li { cursor: pointer; transition: all 0.2s; }
+  .options li:hover { border-color: #4CAF50 !important; background: #f1f8e9 !important; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .options li.answered    { pointer-events: none !important; }
+
+</style>
+</head>
+<body>
+<div class="header"><span class="day-tag">📝 第3周 · Day 15 练习题</span><h1>验光辅助操作 — 巩固测评</h1><div style="color:#555;">总分：100分</div></div>
+<div class="container">
+  <div class="section-title">选择题（每题12分，共48分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">1</div><span class="q-type">单选题</span><span class="q-score">12分</span></div><div class="question-text">电脑验光仪的结果可以直接用作配镜处方吗？</div><ul class="options"><li>A. 可以，电脑验光很准确</li><li>B. 不可以，只作为综合验光的参考值</li><li>C. 低度数可以，高度数不行</li><li>D. 顾客要求的话可以直接用</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：B。电脑验光只是参考，精确处方需要综合验光仪由验光师确认。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">2</div><span class="q-type">单选题</span><span class="q-score">12分</span></div><div class="question-text">销售顾问在验光环节的主要职责是？</div><ul class="options"><li>A. 操作综合验光仪，帮顾客验光</li><li>B. 收集顾客信息、引导进入验光室、等候维护</li><li>C. 判断顾客度数，给出处方建议</li><li>D. 拒绝回答顾客关于验光的问题</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：B。综合验光是验光师的专业职责，销售顾问负责准备、引导和服务。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">3</div><span class="q-type">单选题</span><span class="q-score">12分</span></div><div class="question-text">顾客使用验光设备后，额托的消毒方式是？</div><ul class="options"><li>A. 清水擦拭即可</li><li>B. 每天早上统一消毒一次</li><li>C. 每次使用后用酒精棉片擦拭消毒</li><li>D. 消毒液浸泡</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：C。每次使用后都需要用酒精棉片擦拭，这是基本卫生规范。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">4</div><span class="q-type">单选题</span><span class="q-score">12分</span></div><div class="question-text">引导顾客进入验光室时，正确的手势是？</div><ul class="options"><li>A. 用手指指向验光室方向</li><li>B. 手掌向上，五指并拢指示方向</li><li>C. 拉着顾客的手走进去</li><li>D. 不用手势，口头说方向即可</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：B。手掌向上是礼貌的引导手势，用手指指向会显得不礼貌。</div></div>
+
+  <div class="section-title">情景实操题（52分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">5</div><span class="q-type">情景题</span><span class="q-score">22分</span></div>
+  <div class="scenario-box">📍 顾客张先生说要配眼镜，这是他第一次在你们门店配镜，他有些紧张，不知道流程。</div>
+  <div class="question-text">请写出你接待张先生到送他进验光室的完整话术和动作步骤。</div>
+  <textarea class="answer-area" placeholder="请写出完整流程……"></textarea>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 参考：①热情问候，让他放松："您好，欢迎光临，不用紧张，我来一步步帮您。" ②简单收集信息："请问是第一次配镜吗？有没有旧的处方单？" ③协助填写信息表 ④引导进入验光室："验光室在这边，我们的验光师会为您做专业的视力检测，大约需要15~20分钟，请跟我来。"（手掌向上引导）⑤安抚等候顾客，提供饮水</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">6</div><span class="q-type">实操任务</span><span class="q-score">30分</span></div>
+  <div class="question-text">在带教师傅面前完成以下实操：<br>① 指认门店4种验光设备的名称和用途（10分）<br>② 演示电脑验光仪额托的消毒步骤（10分）<br>③ 角色扮演：向"顾客"（师傅扮演）引导进入验光室，说出完整话术（10分）</div>
+  <div style="background:#fff8e1;border-radius:8px;padding:12px;margin-top:10px;border-left:4px solid #FF9800;font-size:0.88em;color:#555;">师傅现场评分，记录带教手册</div></div>
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_15_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_16_学习内容.html">Day 16 →</a>
+  </div>
+</div>
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card').forEach(function(card){
+    var hint = card.querySelector('.answer-hint');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    // 兼容两种格式：
+    // 1. 正确答案：<strong>B</strong>
+    // 2. 正确答案：B。或 正确答案：B（错误）
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<strong>)?([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var letter = (li.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
