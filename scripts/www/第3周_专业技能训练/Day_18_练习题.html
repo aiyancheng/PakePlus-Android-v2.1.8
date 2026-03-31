@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 18 练习题 - 收银操作与库存管理</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 28px 40px; }
+  .header .badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; margin-bottom: 6px; }
+  .header p { opacity: 0.85; font-size: 14px; }
+  .container { max-width: 860px; margin: 30px auto; padding: 0 20px; }
+  .section { background: white; border-radius: 12px; padding: 28px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .section h2 { font-size: 18px; color: #333; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #11998e; }
+  .question { margin-bottom: 22px; }
+  .question .q-text { font-size: 15px; line-height: 1.7; color: #333; font-weight: 500; display: flex; align-items: flex-start; gap: 10px; }
+  .q-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #11998e; color: white; border-radius: 50%; font-size: 13px; font-weight: bold; flex-shrink: 0; }
+  .options { margin: 12px 0 0 38px; }
+  
+  .option:hover { background: #f0fdf8; border-color: #11998e; }
+  .option input { margin-top: 2px; accent-color: #11998e; }
+  .option label { cursor: pointer; font-size: 14px; color: #555; line-height: 1.6; }
+  .scenario { background: #f0fdf8; border-left: 4px solid #11998e; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 10px 0 0 38px; font-size: 14px; color: #444; line-height: 1.7; }
+  .answer-area { margin: 12px 0 0 38px; }
+  .answer-area textarea { width: 100%; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; font-size: 14px; resize: vertical; min-height: 90px; font-family: 'Microsoft YaHei', sans-serif; }
+  .answer-area textarea:focus { outline: none; border-color: #11998e; }
+  .judge-options { margin: 10px 0 0 38px; display: flex; gap: 20px; }
+  .judge-btn { display: flex; align-items: center; gap: 8px; padding: 8px 20px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+  .judge-btn:hover { border-color: #11998e; background: #f0fdf8; }
+  .judge-btn input { accent-color: #11998e; }
+  .submit-area { text-align: center; padding: 20px 0; }
+  .submit-btn { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border: none; padding: 14px 50px; border-radius: 30px; font-size: 16px; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; }
+  /* 每题答案按钮 */
+  .show-answer-btn { display: block; margin: 8px 0 4px 38px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .show-answer-btn:hover { border-color: #11998e; color: #11998e; background: #f0fdf8; }
+  .answer-hint { display: none; margin: 4px 0 8px 38px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #166534; line-height: 1.7; }
+  /* 情景题答案 */
+  .scene-answer-btn { display: block; margin: 8px 0 4px 38px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .scene-answer-btn:hover { border-color: #11998e; color: #11998e; background: #f0fdf8; }
+  .scene-answer { display: none; margin: 4px 0 8px 38px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #166534; line-height: 1.8; }
+  /* 底部导航 */
+  .nav-footer { display: flex; justify-content: space-between; align-items: center; padding: 20px 0 30px; gap: 12px; }
+  .nav-btn { display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.25s; color: white; background: linear-gradient(135deg, #11998e, #38ef7d); }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #11998e; border: 2px solid #11998e; }
+  .nav-btn.outline:hover { background: #f0fdf8; }
+
+  
+
+
+  /* ── 交互式选项（Day01标准） ── */
+  .options { list-style: none; padding: 0; margin: 12px 0 0 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-size: 0.93em; transition: all 0.2s; line-height: 1.6; }
+  .options li:hover:not(.answered) { border-color: var(--accent, #4CAF50); background: #f1f8e9; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events: none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events: none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
+  .options li.answered    { pointer-events: none !important; cursor: default !important; }
+
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="badge">Day 18 · 练习题</div>
+  <h1>📝 收银操作与库存管理 — 巩固测评</h1>
+  <p>共20题 · 建议完成时间25分钟 · 满分100分</p>
+</div>
+<div class="container">
+
+  <div class="section">
+    <h2>📌 一、单选题（每题4分，共40分）</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">1</span>收银标准6步流程中，"打印小票"在第几步？</div>
+          <ul class="options">
+      <li>A. 第3步</li>
+      <li>B. 第4步</li>
+      <li>C. 第5步</li>
+      <li>D. 第6步</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>C（第5步）</strong><br>解析：收银6步流程：①报价确认→②选择支付→③收款→④确认到账→⑤打印小票→⑥告别致谢。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">2</span>使用微信/支付宝收款时，最重要的一步是什么？</div>
+          <ul class="options">
+      <li>A. 向顾客展示收款码就算完成</li>
+      <li>B. 确认到账后再出票，不得提前放行</li>
+      <li>C. 顾客说扫了就可以</li>
+      <li>D. 先出票再等到账</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：必须等系统显示"收款成功"或听到到账提示音后才能出票，避免收款纠纷和资金损失。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">3</span>库存管理中"先进先出（FIFO）"原则的含义是？</div>
+          <ul class="options">
+      <li>A. 先进入门店的顾客先被服务</li>
+      <li>B. 先入库的商品优先售出，避免积压</li>
+      <li>C. 先进货的款式比后进货的价格更低</li>
+      <li>D. 先来的员工先下班</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：先进先出原则确保早期入库商品优先售出，防止库存积压和商品过期，是库存管理的基本原则。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">4</span>发现收银金额录入错误，正确的处理方式是？</div>
+          <ul class="options">
+      <li>A. 自行修改，不必告诉顾客</li>
+      <li>B. 立即作废重开，并告知顾客</li>
+      <li>C. 差额自己垫付</li>
+      <li>D. 等下一位顾客再补</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：发现错误必须立即作废并重开，全程告知顾客，保持透明，不可私自修改或垫付，这是收银规范的基本要求。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">5</span>以下哪种行为违反了收银安全红线？</div>
+          <ul class="options">
+      <li>A. 收款后打印小票</li>
+      <li>B. 代顾客输入支付密码</li>
+      <li>C. 报出金额让顾客确认</li>
+      <li>D. 找零前当面清点</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：代顾客输入支付密码是严重的安全红线违规，可能引发支付纠纷甚至法律风险。密码必须由顾客本人输入。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">6</span>每日库存检查发现实物少于系统数量，应该怎么办？</div>
+          <ul class="options">
+      <li>A. 自行在系统中修改数量</li>
+      <li>B. 不管它，等月底盘点再说</li>
+      <li>C. 立即上报师傅或主管，核查原因</li>
+      <li>D. 从别的地方拿商品补数量</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：库存差异必须立即上报并核查原因（可能是漏录、错放、丢失等），不能私自修改系统数据或置之不理。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">7</span>刷卡收款时，顾客输完密码后，员工应该？</div>
+          <ul class="options">
+      <li>A. 核对卡号后4位后再确认</li>
+      <li>B. 直接拔卡还给顾客</li>
+      <li>C. 等POS机显示"交易成功"再操作</li>
+      <li>D. 立即打印两份签购单</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：必须等POS机显示"交易成功"确认后再进行后续操作，避免交易未完成就拔卡导致失败或重复扣款。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">8</span>库存盘点的建议频率是？</div>
+          <ul class="options">
+      <li>A. 每天全面盘点</li>
+      <li>B. 每周小盘点，每月全面盘点</li>
+      <li>C. 每季度盘点一次</li>
+      <li>D. 年度盘点即可</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：科学的库存管理要求每周进行重点品类小盘点，每月进行全面盘点，及时发现和处理库存异常。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">9</span>使用会员积分或优惠券收款前，必须先做什么？</div>
+          <ul class="options">
+      <li>A. 询问顾客是否同意使用</li>
+      <li>B. 核验有效期，再在系统中核销</li>
+      <li>C. 直接当现金处理</li>
+      <li>D. 留档保存后再处理</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：使用优惠券或积分前必须核验有效期和适用条件，并在系统中正确核销，防止重复使用和欺诈。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">10</span>以下哪项是收银工作的核心标准？</div>
+          <ul class="options">
+      <li>A. 速度快，多收多赚</li>
+      <li>B. 零差错，每笔有记录</li>
+      <li>C. 让顾客感觉便宜</li>
+      <li>D. 凭记忆不用打小票</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：收银工作的核心是"零差错"，每一笔交易都必须有完整记录，这是财务管理和顾客信任的基础。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>✅ 二、判断题（每题4分，共20分）</h2>
+    <div class="question">
+      <div class="q-text"><span class="q-num">11</span>发现收款差错后，员工可以自行从零钱中补足，不需要上报。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">❌ 正确答案：<strong>B（错误）</strong><br>解析：任何收款差错都必须上报，不允许私自补足处理，否则可能掩盖问题，给门店造成更大损失。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">12</span>从仓库取货补充展柜时，必须在系统中完成相应的库存移转记录。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：仓库到展柜的商品移转必须在系统中记录，确保库存数据准确，方便盘点和追踪。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">13</span>门店允许员工在系统外私下向顾客收取现金，方便快捷。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">❌ 正确答案：<strong>B（错误）</strong><br>解析：绝对禁止系统外私下收款，这属于严重违规行为，可能构成职务侵占，会受到严厉处分。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">14</span>收银员告知顾客金额后应让顾客确认，再进行收款操作。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：报价确认是收银6步流程的第一步，让顾客确认金额后再收款，避免金额纠纷，体现专业服务。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">15</span>库存管理中实物与系统数量不一致是正常现象，无需处理。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">❌ 正确答案：<strong>B（错误）</strong><br>解析：库存差异是异常情况，必须立即核查原因并处理，长期不处理会造成数据混乱，影响门店经营管理。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🎭 三、情景应用题（共40分）</h2>
+    <div class="question">
+      <div class="q-text"><span class="q-num">16</span>情景模拟（20分）：</div>
+      <div class="scenario">
+        顾客购买了一副镜架（售价680元）+镜片（售价520元），共计1200元。顾客表示要使用100元优惠券+微信支付。请写出你完整的收银操作流程，包括每一步说的话和做的操作。
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="请写出完整的收银操作流程（包括每步的语言和操作）..."></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        ✅ <strong>参考流程：</strong><br>
+        ①<strong>报价确认：</strong>"您好，您这次购买镜架680元+镜片520元，合计1200元，您有100元优惠券，实付1100元，请确认一下。"<br>
+        ②<strong>核验优惠券：</strong>查看优惠券有效期和使用条件，在系统中核销。<br>
+        ③<strong>收款操作：</strong>"好的，请扫码支付1100元。"出示收款码，等待顾客扫码。<br>
+        ④<strong>确认到账：</strong>等系统显示"收款成功1100元"提示音或通知后，再继续操作。<br>
+        ⑤<strong>打印小票：</strong>打印收银小票，同时更新库存记录。<br>
+        ⑥<strong>告别致谢：</strong>"这是您的小票，感谢您的惠顾，眼镜取好大约3-5天，我们会电话通知您。"
+      </div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">17</span>异常处理题（20分）：</div>
+      <div class="scenario">
+        今天下午盘点时，你发现一款金属镜架（货号MF-2024，系统显示库存8副），但实际展柜只有5副，仓库内也只有1副，共计6副，比系统少了2副。你该如何处理这个情况？请写出你的处理步骤。
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="请写出处理步骤..."></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        ✅ <strong>参考处理步骤：</strong><br>
+        ①<strong>复核实物：</strong>再次仔细清点展柜和仓库，排除数错的可能，确认少了2副。<br>
+        ②<strong>查看销售记录：</strong>在系统中查询该款最近的销售和出入库记录，看是否有漏录。<br>
+        ③<strong>上报主管：</strong>立即告知师傅或主管："货号MF-2024，系统显示8副，实盘6副，差2副，请协助核查。"<br>
+        ④<strong>配合调查：</strong>回顾近期是否有借样/调货/损坏等情况，提供线索协助查明原因。<br>
+        ⑤<strong>填写盘点差异表：</strong>如实记录差异情况，待主管确认原因后按规定处理系统数据。<br>
+        ⑥<strong>不擅自修改数据：</strong>在原因未查清前，不得私自在系统中修改库存数量。
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-area">
+    <button class="submit-btn" onclick="alert('已提交！请交给师傅复盘。')">提交练习题 ✓</button>
+  </div>
+
+  <div style="background: #f8f9fc; border-radius: 10px; padding: 20px; margin-bottom: 24px; font-size: 14px; line-height: 1.8;">
+    <strong>📋 参考答案（师傅用）：</strong><br>
+    单选题：1-C &nbsp; 2-B &nbsp; 3-B &nbsp; 4-B &nbsp; 5-B &nbsp; 6-C &nbsp; 7-C &nbsp; 8-B &nbsp; 9-B &nbsp; 10-B<br>
+    判断题：11-错误 &nbsp; 12-正确 &nbsp; 13-错误 &nbsp; 14-正确 &nbsp; 15-错误
+  </div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_18_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_19_学习内容.html">Day 19 学习内容 →</a>
+  </div>
+</div>
+
+
+
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card, .question, .q-block').forEach(function(card){
+    var hint = card.querySelector('.answer-hint, .answer-box');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<[^>]+>)?([A-Da-d正确错误])/i);
+    if(!m) return;
+    var correctRaw = m[1];
+    // 支持汉字"正确"/"错误"和字母A/B/C/D
+    var correct = correctRaw.toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var txt = li.textContent.trim();
+      var letter = (txt.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
