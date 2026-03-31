@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 23 练习题 - 产品介绍话术</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 28px 40px; }
+  .header .badge { background: rgba(0,0,0,0.12); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; margin-bottom: 6px; }
+  .container { max-width: 860px; margin: 30px auto; padding: 0 20px; }
+  .section { background: white; border-radius: 12px; padding: 28px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .section h2 { font-size: 18px; color: #333; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #43e97b; }
+  .question { margin-bottom: 22px; }
+  .q-text { font-size: 15px; line-height: 1.7; color: #333; font-weight: 500; display: flex; align-items: flex-start; gap: 10px; }
+  .q-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #43e97b; color: white; border-radius: 50%; font-size: 13px; font-weight: bold; flex-shrink: 0; }
+  .options { margin: 12px 0 0 38px; }
+  
+  .option:hover { background: #f0fdf7; border-color: #43e97b; }
+  .option input { margin-top: 2px; accent-color: #43e97b; }
+  .option label { cursor: pointer; font-size: 14px; color: #555; }
+  .judge-options { margin: 10px 0 0 38px; display: flex; gap: 20px; }
+  .judge-btn { display: flex; align-items: center; gap: 8px; padding: 8px 20px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+  .judge-btn:hover { border-color: #43e97b; background: #f0fdf7; }
+  .judge-btn input { accent-color: #43e97b; }
+  .scenario { background: #f0fdf7; border-left: 4px solid #43e97b; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 10px 0 0 38px; font-size: 14px; color: #444; line-height: 1.7; }
+  .answer-area { margin: 12px 0 0 38px; }
+  .answer-area textarea { width: 100%; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; font-size: 14px; resize: vertical; min-height: 120px; font-family: 'Microsoft YaHei', sans-serif; }
+  .answer-area textarea:focus { outline: none; border-color: #43e97b; }
+  .submit-area { text-align: center; padding: 20px 0; }
+  .submit-btn { background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; border: none; padding: 14px 50px; border-radius: 30px; font-size: 16px; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; }
+  .answer-ref { background: #f8f9fc; border-radius: 10px; padding: 20px; margin-bottom: 24px; font-size: 14px; line-height: 1.8; }
+  .show-answer-btn { display: block; margin: 8px 0 4px 38px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .show-answer-btn:hover { border-color: #43e97b; color: #43e97b; background: #f0fdf7; }
+  .answer-hint { display: none; margin: 4px 0 8px 38px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #166534; line-height: 1.7; }
+  .scene-answer-btn { display: block; margin: 8px 0 4px 38px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .scene-answer-btn:hover { border-color: #43e97b; color: #43e97b; background: #f0fdf7; }
+  .scene-answer { display: none; margin: 4px 0 8px 38px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #166534; line-height: 1.8; }
+  .nav-footer { display: flex; justify-content: space-between; align-items: center; padding: 20px 0 30px; gap: 12px; }
+  .nav-btn { display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.25s; color: white; background: linear-gradient(135deg, #43e97b, #38f9d7); }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #43e97b; border: 2px solid #43e97b; }
+  .nav-btn.outline:hover { background: #f0fdf7; }
+
+  
+
+
+  /* ── 交互式选项（Day01标准） ── */
+  .options { list-style: none; padding: 0; margin: 12px 0 0 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-size: 0.93em; transition: all 0.2s; line-height: 1.6; }
+  .options li:hover:not(.answered) { border-color: var(--accent, #4CAF50); background: #f1f8e9; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events: none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events: none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
+  .options li.answered    { pointer-events: none !important; cursor: default !important; }
+
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="badge">Day 23 · 练习题</div>
+  <h1>📝 产品介绍话术（FABE法则）— 巩固测评</h1>
+  <p>共20题 · 建议完成时间30分钟</p>
+</div>
+<div class="container">
+
+  <div class="section">
+    <h2>📌 一、单选题（每题4分，共40分）</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">1</span>FABE法则中，最重要的核心环节是哪一步？</div>
+          <ul class="options">
+      <li>A. F（特征）</li>
+      <li>B. A（优势）</li>
+      <li>C. B（利益）——与顾客需求挂钩</li>
+      <li>D. E（证据）</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>C（B-利益）</strong><br>解析：FABE中B（利益）是核心，它将产品特征和顾客需求挂钩，回答顾客最关心的问题："这对我有什么好处？"</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">2</span>"这款钛合金镜架重量只有3克" — 这句话对应FABE中的哪个环节？</div>
+          <ul class="options">
+      <li>A. Benefit（利益）</li>
+      <li>B. Feature（特征）</li>
+      <li>C. Advantage（优势）</li>
+      <li>D. Evidence（证据）</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B（Feature-特征）</strong><br>解析："重量只有3克"是产品的客观参数描述，属于F（特征）环节，需要继续推进到A（比普通镜架轻80%）和B（您佩戴一整天都不会有压鼻感）才完整。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">3</span>对一个每天长时间用电脑的顾客，最应该重点推荐的镜片功能是？</div>
+          <ul class="options">
+      <li>A. 高折射率超薄</li>
+      <li>B. 防蓝光</li>
+      <li>C. 变色镜片</li>
+      <li>D. 防反射镀膜</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B（防蓝光）</strong><br>解析：长时间用电脑的主要问题是蓝光危害和眼睛疲劳，防蓝光镜片直接解决这个痛点，与顾客需求高度匹配。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">4</span>"您可以亲手掂量一下这副架子，和旁边这副普通架子对比一下重量" — 这是FABE的哪一步？</div>
+          <ul class="options">
+      <li>A. Feature</li>
+      <li>B. Advantage</li>
+      <li>C. Benefit</li>
+      <li>D. Evidence</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>D（Evidence-证据）</strong><br>解析：让顾客亲手体验对比是提供实物证据，属于E环节。这种方式最有说服力，让顾客自己感受到差异。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">5</span>以下哪句产品介绍话术最能打动顾客？</div>
+          <ul class="options">
+      <li>A. "这款镜片折射率是1.74。"（只说参数）</li>
+      <li>B. "这款镜片可以让您即使度数很深，看起来也不会有瓶底感，特别自然美观。"</li>
+      <li>C. "这款很贵，但很好。"</li>
+      <li>D. "我们卖的最好的就是这款。"</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：B选项直接说出了顾客关心的利益（不会有瓶底感、自然美观），而非只报参数，这正是FABE中B环节的精髓。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">6</span>对一个注重外观、喜欢时尚的顾客，介绍镜架时最应该强调哪方面？</div>
+          <ul class="options">
+      <li>A. 重量轻</li>
+      <li>B. 款式设计和脸型搭配</li>
+      <li>C. 防腐蚀性能</li>
+      <li>D. 螺丝耐久性</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：注重外观的顾客最关心颜值和上脸效果，应重点介绍设计风格、颜色搭配和脸型适合度，而非功能参数。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">7</span>产品介绍前，最重要的准备工作是？</div>
+          <ul class="options">
+      <li>A. 记住所有产品参数</li>
+      <li>B. 先了解顾客的需求和痛点</li>
+      <li>C. 准备好产品价格表</li>
+      <li>D. 确认库存数量</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：FABE话术的B（利益）必须基于顾客需求，只有先了解痛点，才能有的放矢。产品参数只是工具，需求才是方向。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">8</span>防蓝光镜片的B（利益）环节应该描述什么？</div>
+          <ul class="options">
+      <li>A. 过滤380-450nm波段蓝光</li>
+      <li>B. 眼睛更不容易疲劳，改善睡眠质量</li>
+      <li>C. 这款镜片比较贵</li>
+      <li>D. 镀有特殊膜层</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：B（利益）描述的是顾客得到的好处：眼睛更舒适、不疲劳、改善睡眠。A选项是参数（F环节），D是特征描述。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">9</span>对价格敏感型顾客，介绍产品时最有效的策略是？</div>
+          <ul class="options">
+      <li>A. 直接推荐最便宜的产品</li>
+      <li>B. 强调产品的性价比和当前活动优惠</li>
+      <li>C. 不推荐任何产品等顾客自选</li>
+      <li>D. 推荐最贵的产品彰显实力</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：价格敏感顾客需要看到"值"，强调性价比（同等价位最好选择）和活动优惠（现在买最划算），能有效打消顾虑。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">10</span>FABE话术的万能模板开头应该是？</div>
+          <ul class="options">
+      <li>A. "这款产品很便宜，适合您。"</li>
+      <li>B. "这款[产品名]使用了[特征]……"</li>
+      <li>C. "您要不要考虑买一个？"</li>
+      <li>D. "这款我个人很喜欢。"</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：FABE从F（特征）开始："这款[产品名]使用了[特征]，所以比其他款[优势A]，对您来说[利益B]，您看[证据E]。"</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>✅ 二、判断题（每题4分，共20分）</h2>
+    <div class="question">
+      <div class="q-text"><span class="q-num">11</span>同一款产品面对不同顾客，应该用相同的FABE话术介绍。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">❌ 正确答案：<strong>B（错误）</strong><br>解析：同一产品对不同顾客需要强调不同利益点。对学生强调轻便，对白领强调防蓝光，对时尚达人强调设计感。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">12</span>顾客对产品的利益（对自己有什么用）比产品技术参数更感兴趣。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：大多数顾客不是专业人士，他们关心的是"对我有什么好处"，而非技术参数。FABE的B（利益）是最有说服力的部分。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">13</span>用样品对比、让顾客亲手触摸体验是FABE中E（证据）的有效实现方式。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：实物体验是最有力的证据，比口头描述更具说服力。让顾客亲手感受重量差异、弯折弹性等，胜过千言万语。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">14</span>产品参数背得越多越好，全部告诉顾客，顾客就会越信任。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">❌ 正确答案：<strong>B（错误）</strong><br>解析：信息过载会让顾客困惑和疲惫。应根据顾客需求筛选2-3个最相关的卖点重点介绍，而非堆砌参数。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">15</span>先了解顾客需求，再有针对性地介绍产品，这是精准销售的核心。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：精准销售的公式：充分了解需求→有针对性推荐→FABE精准介绍→顺利成交。需求了解越深，推荐越精准。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>✍️ 三、FABE话术创作（共40分）</h2>
+    <div class="question">
+      <div class="q-text"><span class="q-num">16</span>FABE话术创作（20分）：</div>
+      <div class="scenario">
+        请用FABE法则，为以下产品写一段完整的介绍话术：<br>
+        <strong>产品：TR-90轻质运动镜架</strong><br>
+        目标顾客：一位喜欢打球运动的顾客<br>
+        产品特征：TR-90材质，重量8克，高弹性记忆材料，不易折断
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="请按照F→A→B→E的顺序写出完整话术..."></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        ✅ <strong>参考FABE话术：</strong><br>
+        <strong>F（特征）：</strong>"这款镜架采用TR-90记忆材料，重量只有8克，弹性极强。"<br>
+        <strong>A（优势）：</strong>"比普通板材轻60%以上，弯折后能自动回弹，不容易因碰撞而变形或折断。"<br>
+        <strong>B（利益）：</strong>"您打球的时候出汗、跑动，它都不容易滑落，即使不小心被碰了也不容易损坏，让您运动时完全没有后顾之忧。"<br>
+        <strong>E（证据）：</strong>"您可以现在弯一下这个镜腿，感受一下它的弹性，放手后它会自动恢复原状。"
+      </div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">17</span>话术优化（20分）：</div>
+      <div class="scenario">
+        以下是一段只有F（特征）的话术，请为它补充A（优势）、B（利益）、E（证据）：<br>
+        原始话术："这款渐进多焦镜片，上半部分是远用区，下半部分是近用区，中间是过渡区。"<br>
+        目标顾客：一位40岁以上，看手机近距离模糊的顾客
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="请补充A（优势）、B（利益）、E（证据）三部分，形成完整FABE话术..."></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        ✅ <strong>参考补充内容：</strong><br>
+        <strong>A（优势）：</strong>"与老花镜相比，它不需要频繁摘戴——远处、中距离、近处都能清晰看到，一副眼镜解决所有距离问题。"<br>
+        <strong>B（利益）：</strong>"看手机、看书直接低头就清楚，抬头看黑板、看路也一样清晰，不需要一直换眼镜，特别方便，也更有气质。"<br>
+        <strong>E（证据）：</strong>"您现在戴上试试，低头看一下您手机屏幕，再抬头看一下远处，感受一下是不是都清楚。"
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-area">
+    <button class="submit-btn" onclick="alert('已提交！请找师傅进行FABE话术演练评分。')">提交练习题 ✓</button>
+  </div>
+
+  <div class="answer-ref">
+    <strong>📋 参考答案（师傅用）：</strong><br>
+    单选题：1-C &nbsp; 2-B &nbsp; 3-B &nbsp; 4-D &nbsp; 5-B &nbsp; 6-B &nbsp; 7-B &nbsp; 8-B &nbsp; 9-B &nbsp; 10-B<br>
+    判断题：11-错误 &nbsp; 12-正确 &nbsp; 13-正确 &nbsp; 14-错误 &nbsp; 15-正确
+  </div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_23_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_24_学习内容.html">Day 24 学习内容 →</a>
+  </div>
+</div>
+
+
+
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card, .question, .q-block').forEach(function(card){
+    var hint = card.querySelector('.answer-hint, .answer-box');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<[^>]+>)?([A-Da-d正确错误])/i);
+    if(!m) return;
+    var correctRaw = m[1];
+    // 支持汉字"正确"/"错误"和字母A/B/C/D
+    var correct = correctRaw.toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var txt = li.textContent.trim();
+      var letter = (txt.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
