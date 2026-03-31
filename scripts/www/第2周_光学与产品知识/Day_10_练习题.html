@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Day 10 练习题</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}.header{background:linear-gradient(135deg,#e3f2fd,#bbdefb);padding:36px 30px;border-bottom:3px solid #2196F3;}.day-tag{background:#2196F3;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}.header h1{font-size:1.8em;color:#1565c0;margin-bottom:8px;}.container{max-width:860px;margin:30px auto;padding:0 20px;}.section-title{font-size:1.15em;color:#1565c0;font-weight:700;margin:32px 0 14px;padding-left:12px;border-left:4px solid #2196F3;}.question-card{background:white;border-radius:12px;padding:26px;margin-bottom:22px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}.q-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}.q-num{background:#2196F3;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9em;flex-shrink:0;}.q-type{background:#e3f2fd;color:#1565c0;padding:3px 12px;border-radius:12px;font-size:0.8em;font-weight:600;}.q-score{color:#999;font-size:0.82em;}.question-text{font-size:1em;color:#333;font-weight:600;line-height:1.6;margin-bottom:16px;}.options li{padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;margin-bottom:8px;font-size:0.93em;list-style:none;}.answer-area{width:100%;min-height:80px;border:2px solid #e0e0e0;border-radius:8px;padding:12px;font-family:inherit;font-size:0.93em;resize:vertical;}.answer-hint{background:#f9f9f9;border-left:3px solid #9E9E9E;padding:10px 14px;margin-top:12px;font-size:0.85em;color:#666;display:none;}.show-answer-btn{background:none;border:1px solid #9E9E9E;color:#666;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.82em;margin-top:10px;}.scenario-box{background:#e3f2fd;border-radius:8px;padding:14px;margin-bottom:12px;border-left:4px solid #2196F3;font-size:0.92em;line-height:1.7;}.nav-footer{display:flex;justify-content:space-between;margin:30px 0 50px;}.nav-btn{background:#2196F3;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}.nav-btn.outline{background:white;color:#2196F3;border:2px solid #2196F3;}
+  /* interactive-options-type-a */
+  .options li { cursor: pointer; transition: all 0.2s; }
+  .options li:hover { border-color: #4CAF50 !important; background: #f1f8e9 !important; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .options li.answered    { pointer-events: none !important; }
+
+</style>
+</head>
+<body>
+<div class="header"><span class="day-tag">📝 第2周 · Day 10 练习题</span><h1>镜片材质与折射率 — 巩固测评</h1><div style="color:#555;">总分：100分</div></div>
+<div class="container">
+  <div class="section-title">选择题（每题12分，共48分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">1</div><span class="q-type">单选题</span><span class="q-score">12分</span></div><div class="question-text">顾客近视度数为750度，最适合推荐哪个折射率的镜片？</div><ul class="options"><li>A. 1.50</li><li>B. 1.56</li><li>C. 1.60</li><li>D. 1.74</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：D。750度属于高度数，选1.74折射率可以将镜片厚度压到最薄，美观舒适。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">2</div><span class="q-type">单选题</span><span class="q-score">12分</span></div><div class="question-text">防蓝光镜片最适合推荐给哪类顾客？</div><ul class="options"><li>A. 经常户外运动的顾客</li><li>B. 长时间使用手机/电脑的办公族或学生</li><li>C. 需要夜间驾驶的顾客</li><li>D. 度数较高的顾客</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：B。防蓝光膜主要过滤屏幕蓝光，适合长时间使用电子设备的人群。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">3</div><span class="q-type">单选题</span><span class="q-score">12分</span></div><div class="question-text">以下关于树脂镜片和玻璃镜片的比较，正确的是？</div><ul class="options"><li>A. 玻璃镜片比树脂镜片更轻</li><li>B. 树脂镜片比玻璃镜片更不容易被划伤</li><li>C. 树脂镜片更轻、更安全，是目前市场主流</li><li>D. 玻璃镜片折射率范围更广</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：C。树脂镜片轻、安全（不易碎裂伤人），市占率超95%，是主流选择。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">4</div><span class="q-type">单选题</span><span class="q-score">12分</span></div><div class="question-text">减反膜（增透膜）的主要作用是？</div><ul class="options"><li>A. 防止镜片被划伤</li><li>B. 减少镜片表面反光，提升透光率</li><li>C. 阻隔紫外线</li><li>D. 减少蓝光伤害</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：B。减反膜让镜片更通透，减少眩光，特别有助于夜间视觉。</div></div>
+
+  <div class="section-title">情景题（52分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">5</div><span class="q-type">情景题</span><span class="q-score">30分</span></div>
+  <div class="scenario-box">📍 顾客小王，近视500度，是程序员，每天对着电脑超过10小时，偶尔开车，预算中等，希望镜片不要太厚。</div>
+  <div class="question-text">请为小王提供一个完整的镜片推荐方案，包括：①折射率选择②推荐哪几种镀膜，各自的理由</div>
+  <textarea class="answer-area" placeholder="请写出完整推荐方案……"></textarea>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 参考方案：①折射率：建议1.60或1.67（500度中高度数，1.60已较薄，追求极致可选1.67）②镀膜推荐：防蓝光膜（长时间用电脑保护眼睛）+减反膜（开车夜间减少眩光）+耐磨膜（基础保护）。可推荐集成多种功能的套餐镜片。</div></div>
+
+  <div class="question-card"><div class="q-header"><div class="q-num">6</div><span class="q-type">简答题</span><span class="q-score">22分</span></div>
+  <div class="question-text">请用一句话解释"折射率越高，镜片越薄"的原理（用顾客能听懂的方式表达）。</div>
+  <textarea class="answer-area" placeholder="请写出你的解释……"></textarea>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 参考回答："折射率高的材料弯折光线的能力更强，同样的矫正效果，需要的材料更少，镜片就可以做得更薄——就像用更锋利的刀，切同样的东西用更少的力气。"（言之成理即可）</div></div>
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_10_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_11_学习内容.html">Day 11 →</a>
+  </div>
+</div>
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card').forEach(function(card){
+    var hint = card.querySelector('.answer-hint');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    // 兼容两种格式：
+    // 1. 正确答案：<strong>B</strong>
+    // 2. 正确答案：B。或 正确答案：B（错误）
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<strong>)?([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var letter = (li.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
