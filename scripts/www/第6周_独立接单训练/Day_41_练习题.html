@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 41 练习题 — 售后服务与客户维护</title>
+<style>
+  body{font-family:'Microsoft YaHei',sans-serif;background:#f5f7fa;margin:0;padding:20px;color:#333}
+  .container{max-width:860px;margin:0 auto;background:#fff;border-radius:12px;padding:36px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+  h1{color:#2980b9;font-size:1.5rem;border-bottom:3px solid #2980b9;padding-bottom:10px}
+  h2{color:#1a5276;font-size:1.1rem;margin-top:28px}
+  .question{background:#eaf4fc;border-left:4px solid #2980b9;padding:14px 18px;margin:14px 0;border-radius:0 8px 8px 0}
+  .question p{margin:6px 0;font-weight:600}
+  .options label{display:block;padding:6px 10px;margin:4px 0;background:#d6eaf8;border-radius:6px;cursor:pointer}
+  .options label:hover{background:#aed6f1}
+  textarea{width:100%;box-sizing:border-box;padding:10px;border:2px solid #2980b9;border-radius:8px;font-size:.95rem;font-family:inherit;min-height:80px;resize:vertical}
+  .show-answer-btn{background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-size:.9rem;cursor:pointer;margin-top:10px;transition:all .2s}
+  .show-answer-btn:hover{opacity:.85}
+  .answer-hint{display:none;background:#e8f5e9;border-left:4px solid #27ae60;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:8px;color:#1a5276;font-size:.95rem}
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#2980b9;border:2px solid #2980b9}
+
+  /* interactive-options-type-e */
+  .options label { cursor: pointer; transition: all 0.2s; }
+  .options label.opt-correct { background: #d4edda !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options label.opt-wrong   { background: #f8d7da !important; color: #721c24 !important; pointer-events:none; }
+  .options label.opt-reveal  { background: #fff3cd !important; color: #856404 !important; pointer-events:none; }
+  .options label.answered    { pointer-events: none !important; cursor: default !important; }
+  .options input[type=radio] { display: none; }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 41 练习题 — 售后服务与客户维护</h1>
+
+  <h2>一、单选题</h2>
+
+  <div class="question">
+    <p>1. 开发新客户的成本是维护老客户的多少倍？</p>
+    <div class="options" id="q1">
+      <label><input type="radio" name="q1" value="A"> A. 1-2倍</label>
+      <label><input type="radio" name="q1" value="B"> B. 5-7倍</label>
+      <label><input type="radio" name="q1" value="C"> C. 10倍以上</label>
+      <label><input type="radio" name="q1" value="D"> D. 差不多，成本相同</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：营销学研究表明，开发一个新客户的成本是维护一个老客户成本的5-7倍。老客户已经建立了信任，复购意愿强，转介绍可能性大，是门店最宝贵的资产。因此，做好售后服务和客户维护，比不断拉新更高效。</div>
+  </div>
+
+  <div class="question">
+    <p>2. 取镜后回访的最佳时间是：</p>
+    <div class="options" id="q2">
+      <label><input type="radio" name="q2" value="A"> A. 取镜当天立刻电话</label>
+      <label><input type="radio" name="q2" value="B"> B. 取镜后3-7天</label>
+      <label><input type="radio" name="q2" value="C"> C. 取镜后1个月</label>
+      <label><input type="radio" name="q2" value="D"> D. 客户主动联系再回访</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：取镜后3-7天是回访黄金期。此时客户已经试戴几天，能感受到是否适应（如头晕、视物不清等），有实际体验可以反馈。当天回访太早，客户还未充分试戴；1个月后太迟，问题可能已发酵成投诉。等客户主动联系则完全失去服务主动权。</div>
+  </div>
+
+  <div class="question">
+    <p>3. 以下哪项是正确的眼镜清洁方法？</p>
+    <div class="options" id="q3">
+      <label><input type="radio" name="q3" value="A"> A. 用纸巾干擦镜片</label>
+      <label><input type="radio" name="q3" value="B"> B. 用流动水冲洗后，用专用镜布轻擦</label>
+      <label><input type="radio" name="q3" value="C"> C. 用热水浸泡10分钟消毒</label>
+      <label><input type="radio" name="q3" value="D"> D. 用衣服内侧擦拭</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：正确清洁：用流动水冲洗去除灰尘颗粒，再用专用眼镜布轻擦。纸巾纤维粗糙会划伤镀膜；热水会损坏镀膜和镜框（尤其TR-90）；衣服内侧有纤维也会划伤。告知客户正确清洁方式，可减少投诉并体现专业服务。</div>
+  </div>
+
+  <div class="question">
+    <p>4. 客户档案中，"家庭情况"这一项信息的价值在于：</p>
+    <div class="options" id="q4">
+      <label><input type="radio" name="q4" value="A"> A. 满足门店的个人资料收集要求</label>
+      <label><input type="radio" name="q4" value="B"> B. 了解是否有家庭成员有配镜需求，进行转介绍营销</label>
+      <label><input type="radio" name="q4" value="C"> C. 分析客户的消费能力</label>
+      <label><input type="radio" name="q4" value="D"> D. 门店规定必须填写</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：了解客户的家庭情况（如有没有孩子、老人）可以在合适时机做转介绍引导："您孩子最近视力检查了吗？""老人有没有看近不清楚的情况？"一个满意的客户可以带来一个家庭甚至整个朋友圈的客源，转介绍是最低成本的获客方式。</div>
+  </div>
+
+  <h2>二、情景应用题</h2>
+
+  <div class="question">
+    <p>5. 请写出一段完整的取镜后3天回访电话话术（包含自我介绍、询问感受、处理问题、转介绍引导四个步骤）：</p>
+    <textarea id="q5" placeholder="自我介绍：……&#10;询问感受：……&#10;（如客户反馈有点不适应）处理问题：……&#10;转介绍引导：……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 参考答案要点：<br>
+    <strong>自我介绍</strong>："您好，请问是XX先生/女士吗？我是XX眼镜店的小王，上次您在我们店配了一副眼镜，特地打电话问候一下。"<br>
+    <strong>询问感受</strong>："眼镜戴了几天了，感觉怎么样？清晰度、舒适度都还好吧？"<br>
+    <strong>处理问题</strong>（如客户说有点不适应）："这是正常的，新眼镜一般需要3-7天适应期，如果1周后还有不适，欢迎来店里我们帮您再调整一下，不收费的。"<br>
+    <strong>转介绍引导</strong>："对了，如果您身边的朋友或家人也有配镜需求，欢迎带他们来，凭您介绍可以享受优惠。您如果满意我们的服务，也欢迎多给我们介绍哦！"</div>
+  </div>
+
+  <div class="question">
+    <p>6. 一位老客户来店清洗眼镜，你如何利用这个机会进行客户维护和再营销（不要硬推销）？请写出你的做法：</p>
+    <textarea id="q6" placeholder="接待方式：……&#10;关怀话题：……&#10;自然引入新品/需求：……&#10;留下好印象：……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 参考答案要点：<br>
+    <strong>接待</strong>：主动认出客户，热情问候："XX姐，好久不见！来洗眼镜啊，我帮您"；<br>
+    <strong>关怀</strong>：清洗过程中聊聊视力情况："最近眼睛感觉怎么样？有没有比以前看东西更吃力的感觉？"；<br>
+    <strong>自然引入</strong>：检查眼镜状态，"您这副镜片已经戴了X年了，镀膜有些磨损了，对眼睛有影响的，我们最近有款新品您可以看看，不一定要换，了解一下。"；<br>
+    <strong>留下好印象</strong>：清洗完成后，调整镜框鼻托，说"帮您顺便调整了一下，戴起来更舒服了"，送客时热情送别。核心原则：服务优先，推销自然，不强迫。</div>
+  </div>
+
+  <div class="nav-footer">
+    <a href="Day_41_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_42_学习内容.html" class="nav-btn">Day 42 学习内容 →</a>
+  </div>
+</div>
+
+<script>
+/* interactive-options-type-e-js */
+(function(){
+  // 找所有 .question div（每道题一个）
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    var optionsDiv = qBlock.querySelector('.options');
+    if(!optionsDiv) return;
+    var labels = optionsDiv.querySelectorAll('label');
+    if(labels.length === 0) return;
+    var hint = qBlock.querySelector('.answer-hint');
+    if(!hint) return;
+    var m = hint.innerHTML.match(/\u6b63\u786e\u7b54\u6848[:\uff1a]\s*<strong>([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+    labels.forEach(function(label){
+      // 提取 value 或文本里的字母
+      var inp = label.querySelector('input');
+      var letter = inp ? inp.value.toUpperCase() : (label.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      label.addEventListener('click', function(e){
+        e.preventDefault();
+        if(answered) return;
+        answered = true;
+        labels.forEach(function(l){ l.classList.add('answered'); });
+        if(letter === correct){
+          label.classList.add('opt-correct');
+          label.textContent = '\u2705 ' + label.textContent;
+        } else {
+          label.classList.add('opt-wrong');
+          label.textContent = '\u274c ' + label.textContent;
+          labels.forEach(function(l){
+            var raw = l.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var il = l.querySelector('input');
+            var oL = il ? il.value.toUpperCase() : (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ l.classList.add('opt-reveal'); l.textContent = '\ud83d\udc49 ' + l.textContent; }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = qBlock.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
