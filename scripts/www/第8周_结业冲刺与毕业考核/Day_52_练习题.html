@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 52 练习题：极端情境挑战</title>
+<style>
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #fff0f0; margin: 0; padding: 20px; }
+  .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  h1 { color: #2c3e50; border-bottom: 3px solid #c0392b; padding-bottom: 12px; }
+  .info-bar { background: #fef0ef; border-radius: 8px; padding: 12px 20px; margin: 16px 0; display: flex; gap: 24px; font-size: 14px; color: #922b21; flex-wrap: wrap; }
+  h2 { color: #c0392b; margin-top: 30px; }
+  .question { background: #fffafa; border: 1px solid #f5c6c6; border-radius: 8px; padding: 20px; margin: 16px 0; }
+  .question-num { font-weight: bold; color: #c0392b; font-size: 15px; }
+  .option { padding: 8px 12px; margin: 6px 0; background: #fef0ef; border-radius: 6px; cursor: pointer; border: 1px solid #f5b7b1; }
+  .option:hover { background: #fcd6d0; }
+  .fill-input { width: 100%; padding: 10px; border: 1px solid #f5b7b1; border-radius: 6px; font-size: 14px; margin-top: 8px; box-sizing: border-box; }
+  .answer-box { background: #eafaf1; border: 1px dashed #27ae60; border-radius: 8px; padding: 14px 18px; margin-top: 10px; display: none; color: #1a5c38; }
+  .btn { background: #c0392b; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; margin: 4px; }
+  .btn:hover { background: #922b21; }
+  .btn-show { background: #27ae60; }
+  .btn-show:hover { background: #1e8449; }
+  .section-tag { background: #c0392b; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-right: 8px; }
+  .scenario { background: #fff0ec; border-left: 4px solid #c0392b; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 10px 0; color: #7d1a1a; font-size: 14px; }
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#2c3e50,#1a252f);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#2c3e50;border:2px solid #2c3e50}
+
+  /* interactive-options-type-d */
+  .option { cursor: pointer; transition: all 0.2s; }
+  .option.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .option.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .option.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .option.answered    { pointer-events: none !important; cursor: default !important; }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 52 练习题：极端情境挑战应对</h1>
+  <div class="info-bar">
+    <span>📅 第8周 第3天</span>
+    <span>⏱ 建议用时：35分钟</span>
+    <span>🔥 主题：高难度顾客应对实战</span>
+    <span>💯 总分：100分</span>
+  </div>
+
+  <h2><span class="section-tag">A</span>单选题（每题10分，共30分）</h2>
+
+  <div class="question">
+    <div class="question-num">1. 顾客在店内大声嚷嚷投诉，影响了其他顾客，最优先的处理步骤是？</div>
+    <div class="option">A. 立即与顾客对峙，澄清责任</div>
+    <div class="option">B. 先请顾客到安静区域，降低场面影响，再用HEAT法处理</div>
+    <div class="option">C. 直接答应顾客一切要求</div>
+    <div class="option">D. 立即叫店长出来，自己撤退</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a1')">查看答案</button>
+    <div class="answer-box" id="a1">✅ <strong>答案：B</strong><br>首先要保护其他顾客的购物体验，将投诉处理转移到安静区域。然后用HEAT法（倾听→同理→道歉→行动）有序处理，而不是直接对峙或一味妥协。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">2. 顾客说"你们验光肯定有猫腻，把度数验高让我多花钱"，最有效的回应方式是？</div>
+    <div class="option">A. 激动地解释"我们绝对没有造假"</div>
+    <div class="option">B. 沉默不回应，等顾客自己想通</div>
+    <div class="option">C. 用行动建立信任，如建议对比验证，公开验光流程，提供无条件保障</div>
+    <div class="option">D. 告诉顾客如果不信任就去别家</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a2')">查看答案</button>
+    <div class="answer-box" id="a2">✅ <strong>答案：C</strong><br>面对不信任，辩解只会加深对立。最有效的方式是"行动胜过言语"——邀请顾客对比验证、透明展示流程、提供明确保障承诺，让事实说话。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">3. 渐进多焦点镜片顾客戴了10天仍头晕，要求退换，正确的处理流程是？</div>
+    <div class="option">A. 立即同意退款</div>
+    <div class="option">B. 告诉顾客"渐进镜就是这样，没办法"</div>
+    <div class="option">C. 先重新检查光心距和加工精度，免费调整后继续适应；若适应2周仍不适，按门店政策提供解决方案</div>
+    <div class="option">D. 让顾客回去继续适应，不做任何处理</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a3')">查看答案</button>
+    <div class="answer-box" id="a3">✅ <strong>答案：C</strong><br>渐进镜适应通常需要1-2周，10天略短，但不能置之不理。正确做法：先检查加工是否有误（光心距/轴向），免费调整后继续适应；若满2-3周仍有严重不适，再评估是否需要换片或退换。</div>
+  </div>
+
+  <h2><span class="section-tag">B</span>情景应对实战题（每题35分，共70分）</h2>
+
+  <div class="question">
+    <div class="question-num">4. 【高难度情境，35分】请写出完整应对方案：</div>
+    <div class="scenario">
+      一位中年男性（顾客）气冲冲地拿着一副眼镜走进门，对你说："你们配的这眼镜根本不能用！我戴了两周，一直头晕恶心，现在我老板说我工作效率下降，我还因此被扣了奖金！你们必须赔我损失，我要你们赔我5000块！要不然我去消费者协会投诉你们！"
+    </div>
+    <textarea class="fill-input" rows="12" placeholder="请写出你的完整应对（包括：①情绪处理话术 ②问题调查步骤 ③解决方案提供 ④如何处理'赔5000元'这个无理要求 ⑤后续跟进）..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a4')">查看参考答案</button>
+    <div class="answer-box" id="a4">
+      ✅ <strong>参考完整应对：</strong><br><br>
+      <strong>①情绪处理（HEAT法前两步）：</strong><br>
+      "您好，我听到了，能感受到您现在非常不舒服，两周都在头晕，工作还受了影响，这真的很糟糕。请先坐下来，我先听您把情况说清楚。"（倾听+同理，不打断）<br><br>
+      <strong>②道歉与调查：</strong><br>
+      "非常抱歉给您带来了这么大的困扰。我现在第一件事是帮您查清楚到底哪里出了问题——可能是光心距偏差、轴向问题，也可能是适应期的正常反应。我帮您重新验光，同时检查眼镜的加工精度，大概15分钟。"<br><br>
+      <strong>③根据调查结果提供方案：</strong><br>
+      • 如确认加工有误：主动承担重配责任，承诺优先加急处理<br>
+      • 如验光和加工均无误：解释渐进镜适应期，提供免费精细调整+继续陪同适应<br><br>
+      <strong>④处理"赔5000元"要求：</strong><br>
+      "我完全理解您因此受到了影响，这对您是很大的困扰。但关于因工作损失的赔偿，这超出了我们门店的处理范围，这一块需要我请示店长，由他来跟您正式沟通。<br>
+      我现在能保证的是，如果确认是我们的加工问题，眼镜免费重配，同时我们会在服务上给您额外的补偿（如护理礼包/免费折射升级等）。关于进一步的诉求，我们会认真对待，给您一个正式的答复。"<br><br>
+      <strong>⑤后续跟进：</strong><br>
+      请顾客留下联系方式，告知几天内给出正式处理结果；店长审阅后统一回复；记录事件全程存档备用。
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">5. 【中难度情境，35分】请写出应对：</div>
+    <div class="scenario">
+      顾客（一位约60岁的阿姨）买了一副渐进多焦点眼镜，一个星期后来店，拿着眼镜一脸委屈地说："你们小伙子，我这眼镜一点用没有，近处我还是看不清，反正跟以前没什么区别，我花了1500元，你说值吗？我想换成两副眼镜，退这个……"
+    </div>
+    <textarea class="fill-input" rows="10" placeholder="写出：①先怎么回应她的情绪 ②了解问题原因（她可能哪里没用对）③如何用恰当的方式帮助她适应 ④如果她坚持要换，怎么处理..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a5')">查看参考答案</button>
+    <div class="answer-box" id="a5">
+      ✅ <strong>参考应答：</strong><br><br>
+      <strong>①情绪回应：</strong><br>
+      "阿姨，您花了这么多钱买了眼镜还觉得没用，换成我也会很失望的。来，我们先坐下来，我帮您仔细看看是什么原因，好吗？"<br><br>
+      <strong>②问题排查：</strong><br>
+      "我先问您几个问题，帮我了解一下情况——您现在看近处是怎么用眼镜的？是低着头往下看？还是抬头用眼镜上半区看？"<br>
+      （渐进镜近区在下方，很多阿姨习惯抬头看手机，结果用的是远区，当然看不清！）<br><br>
+      <strong>③引导正确使用：</strong><br>
+      "阿姨，我明白了！渐进镜有个使用要点——看远处，头保持平视；看近处（手机、书），要把眼睛往下看，或者把东西放低一点，让您能用到镜片的下半区。<br>
+      我来演示一下……您试试，把手机放在这个高度，然后低头来看，是不是清楚多了？"<br><br>
+      <strong>④如果坚持要换：</strong><br>
+      "阿姨，您先别急，在您还没真正掌握用法之前就换掉，可能还是一样的问题。我们这样——您今天回去用我教的方法试一周，我留您的微信，随时可以来问我。如果一周后还是觉得完全不习惯，我们再跟店长申请看看能不能换方案，您觉得公平吗？"
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <button class="btn" onclick="showAllAnswers()">📖 展示全部答案</button>
+    <button class="btn" style="background:#e74c3c;" onclick="resetAll()">🔄 重置练习</button>
+  </div>
+</div>
+
+<script>
+function toggleAnswer(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+function showAllAnswers() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'block');
+}
+function resetAll() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.fill-input').forEach(el => el.value = '');
+}
+</script>
+<div class="nav-footer" style="max-width:960px;margin:28px auto 10px;padding:0 20px">
+  <a href="Day_52_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+  <a href="Day_53_学习内容.html" class="nav-btn">Day 53 学习内容 →</a>
+</div>
+
+<script>
+/* interactive-options-type-d-js */
+(function(){
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    // 收集该题所有 .option
+    var opts = Array.from(qBlock.querySelectorAll(':scope > .option, :scope > .options > .option'));
+    if(opts.length === 0) return;
+
+    // 找答案框：answer-box
+    var ansBox = qBlock.querySelector('.answer-box');
+    if(!ansBox) return;
+
+    // 从 answer-box 提取答案字母，支持多种格式：
+    // ✅ 正确答案：B / ✅ 答案：B / ✅ <strong>答案：B</strong>
+    var txt = ansBox.textContent || '';
+    var m = txt.match(/(?:\u6b63\u786e)?\u7b54\u6848[:\uff1a]\s*([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    opts.forEach(function(opt){
+      var letter = (opt.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      opt.classList.add('opt-clickable');
+      opt.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        opts.forEach(function(o){ o.classList.add('answered'); });
+        if(letter === correct){
+          opt.classList.add('opt-correct');
+          opt.textContent = '\u2705 ' + opt.textContent;
+        } else {
+          opt.classList.add('opt-wrong');
+          opt.textContent = '\u274c ' + opt.textContent;
+          opts.forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ o.classList.add('opt-reveal'); o.textContent = '\ud83d\udc49 ' + o.textContent; }
+          });
+        }
+        ansBox.style.display = 'block';
+        var btn = qBlock.querySelector('.btn-show, .show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
