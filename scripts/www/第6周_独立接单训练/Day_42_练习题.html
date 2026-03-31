@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 42 练习题 — 第6周周测</title>
+<style>
+  body{font-family:'Microsoft YaHei',sans-serif;background:#f5f7fa;margin:0;padding:20px;color:#333}
+  .container{max-width:860px;margin:0 auto;background:#fff;border-radius:12px;padding:36px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+  h1{color:#2980b9;font-size:1.6rem;border-bottom:3px solid #2980b9;padding-bottom:10px}
+  h2{color:#1a5276;font-size:1.1rem;margin-top:28px}
+  .question{background:#eaf4fc;border-left:4px solid #2980b9;padding:14px 18px;margin:14px 0;border-radius:0 8px 8px 0}
+  .question p{margin:6px 0;font-weight:600}
+  .options label{display:block;padding:6px 10px;margin:4px 0;background:#d6eaf8;border-radius:6px;cursor:pointer}
+  .options label:hover{background:#aed6f1}
+  textarea{width:100%;box-sizing:border-box;padding:10px;border:2px solid #2980b9;border-radius:8px;font-size:.95rem;font-family:inherit;min-height:80px;resize:vertical}
+  .show-answer-btn{background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-size:.9rem;cursor:pointer;margin-top:10px;transition:all .2s}
+  .show-answer-btn:hover{opacity:.85}
+  .answer-hint{display:none;background:#e8f5e9;border-left:4px solid #27ae60;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:8px;color:#1a5276;font-size:.95rem}
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#2980b9;border:2px solid #2980b9}
+
+  /* interactive-options-type-e */
+  .options label { cursor: pointer; transition: all 0.2s; }
+  .options label.opt-correct { background: #d4edda !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options label.opt-wrong   { background: #f8d7da !important; color: #721c24 !important; pointer-events:none; }
+  .options label.opt-reveal  { background: #fff3cd !important; color: #856404 !important; pointer-events:none; }
+  .options label.answered    { pointer-events: none !important; cursor: default !important; }
+  .options input[type=radio] { display: none; }
+
+</style>
+</head>
+<body>
+<div class="container">
+  <div style="background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;border-radius:10px;padding:18px 22px;margin-bottom:24px">
+    <div style="font-size:.85rem;opacity:.8">第6周 · 独立接单训练 · 周测</div>
+    <h1 style="color:#fff;border:none;padding:0;margin:6px 0">📋 第6周周测 — 独立接单综合考核</h1>
+    <p style="margin:4px 0;opacity:.9">涵盖本周全部6天知识点 | 建议完成时间：30分钟</p>
+  </div>
+
+  <h2>一、单选题（每题3分，共30分）</h2>
+
+  <div class="question">
+    <p>1. 独立接单时，遇到无法解答的技术问题，正确做法是：</p>
+    <div class="options" id="q1">
+      <label><input type="radio" name="q1" value="A"> A. 根据经验猜测一个答案</label>
+      <label><input type="radio" name="q1" value="B"> B. 告知客户不知道</label>
+      <label><input type="radio" name="q1" value="C"> C. 说"我帮您查一下更准确的答案"，再请教师傅或查资料</label>
+      <label><input type="radio" name="q1" value="D"> D. 转移话题，不回答这个问题</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：遇到不确定的问题，既不能猜测（容易给错信息），也不能直接说不知道（显得不专业），更不能回避。正确做法是诚实告知正在查证，让客户等一下或稍后回复，再请教师傅或查资料，给出准确答案。这是诚信服务的体现。</div>
+  </div>
+
+  <div class="question">
+    <p>2. 客户说"太贵了"，首先应该做的是：</p>
+    <div class="options" id="q2">
+      <label><input type="radio" name="q2" value="A"> A. 立刻降价</label>
+      <label><input type="radio" name="q2" value="B"> B. 了解客户异议的真正原因，再针对性回应</label>
+      <label><input type="radio" name="q2" value="C"> C. 推荐更便宜的款式</label>
+      <label><input type="radio" name="q2" value="D"> D. 解释价格是合理的</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析："太贵了"背后可能有多种原因：超出预算、觉得不值这个价、想要砍价、想对比其他店等。先了解真正原因（用提问："您是觉得价格超出预算了，还是觉得性价比可以更好？"）再有针对性地回应，远比一味降价或硬解释有效。</div>
+  </div>
+
+  <div class="question">
+    <p>3. 12岁以下儿童配镜，建议先做什么？</p>
+    <div class="options" id="q3">
+      <label><input type="radio" name="q3" value="A"> A. 直接电脑验光配镜</label>
+      <label><input type="radio" name="q3" value="B"> B. 到眼科医院散瞳验光，凭处方配镜</label>
+      <label><input type="radio" name="q3" value="C"> C. 参考家长的度数估算</label>
+      <label><input type="radio" name="q3" value="D"> D. 买现成的成品老花镜</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：12岁以下儿童调节能力强，不散瞳的电脑验光误差大，可能把假性近视误配成真近视。规范做法是建议家长先到眼科医院进行睫状肌麻痹散瞳验光，获取准确处方后再来配镜。</div>
+  </div>
+
+  <div class="question">
+    <p>4. 渐进多焦点镜片适合哪类客户？</p>
+    <div class="options" id="q4">
+      <label><input type="radio" name="q4" value="A"> A. 纯近视客户，只用来看远</label>
+      <label><input type="radio" name="q4" value="B"> B. 需要同时兼顾远中近视力，尤其是有老视的中老年人</label>
+      <label><input type="radio" name="q4" value="C"> C. 儿童近视防控专用</label>
+      <label><input type="radio" name="q4" value="D"> D. 散光度数较高的客户</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：渐进多焦点镜片的设计是从上（看远）到下（看近）度数渐变，最适合同时需要看远、看中距离（电脑）和看近（手机、书本）的中老年有老视的客户，一副眼镜满足全程视力需求，无需频繁换镜。</div>
+  </div>
+
+  <div class="question">
+    <p>5. 偏光太阳镜的核心功能是：</p>
+    <div class="options" id="q5">
+      <label><input type="radio" name="q5" value="A"> A. 颜色更深，遮挡强光</label>
+      <label><input type="radio" name="q5" value="B"> B. 消除水平方向的反射眩光</label>
+      <label><input type="radio" name="q5" value="C"> C. 防止紫外线伤害眼睛</label>
+      <label><input type="radio" name="q5" value="D"> D. 让镜片颜色随光线变化</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：偏光镜片内置偏光层，只允许特定方向的光线通过，能有效消除来自路面、水面、玻璃等平面反射的水平方向眩光，使视野更清晰，特别适合驾驶、钓鱼、户外运动等场景。注意：防UV和偏光是两个独立功能。</div>
+  </div>
+
+  <div class="question">
+    <p>6. 取镜后回访的最佳时间节点是：</p>
+    <div class="options" id="q6">
+      <label><input type="radio" name="q6" value="A"> A. 取镜后当天</label>
+      <label><input type="radio" name="q6" value="B"> B. 取镜后3-7天</label>
+      <label><input type="radio" name="q6" value="C"> C. 取镜后1个月</label>
+      <label><input type="radio" name="q6" value="D"> D. 等客户主动联系</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：取镜3-7天是客户已有实际使用体验、但问题尚未发酵的最佳回访窗口期。此时询问，客户感受真实，若有不适还可及时处理，体现门店的贴心服务，大幅提升客户满意度和复购率。</div>
+  </div>
+
+  <div class="question">
+    <p>7. "给您的两个选项：这款金色镜框或者黑色镜框，您更喜欢哪个？"这是哪种成交技巧？</p>
+    <div class="options" id="q7">
+      <label><input type="radio" name="q7" value="A"> A. 假设成交法</label>
+      <label><input type="radio" name="q7" value="B"> B. 二择一法</label>
+      <label><input type="radio" name="q7" value="C"> C. 紧迫感法</label>
+      <label><input type="radio" name="q7" value="D"> D. 关键人物法</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：二择一法是将客户的选择范围缩小到两个选项，把"买不买"的问题转化为"买哪个"的问题，引导客户在两个选项中做选择，从而推进成交。这是促进客户决策的常用心理技巧，比直接问"您要买吗"的成功率高很多。</div>
+  </div>
+
+  <div class="question">
+    <p>8. 以下哪项不是正确的眼镜使用行为？</p>
+    <div class="options" id="q8">
+      <label><input type="radio" name="q8" value="A"> A. 双手摘戴眼镜</label>
+      <label><input type="radio" name="q8" value="B"> B. 用衣角擦镜片</label>
+      <label><input type="radio" name="q8" value="C"> C. 不戴时放入镜盒</label>
+      <label><input type="radio" name="q8" value="D"> D. 流动水冲洗后用镜布擦干</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：用衣角或纸巾擦镜片是最常见的错误行为，衣物纤维会产生细微划痕，长期下来镜片变花，影响视觉效果和使用寿命。正确清洁方式是用流动水冲洗后，用专用眼镜布轻轻擦拭。</div>
+  </div>
+
+  <div class="question">
+    <p>9. 儿童配镜时，儿童视力档案的主要作用是：</p>
+    <div class="options" id="q9">
+      <label><input type="radio" name="q9" value="A"> A. 门店合规要求，必须建立</label>
+      <label><input type="radio" name="q9" value="B"> B. 跟踪近视增长情况，每3-6个月复查并维护客户关系</label>
+      <label><input type="radio" name="q9" value="C"> C. 用于医学研究分析</label>
+      <label><input type="radio" name="q9" value="D"> D. 方便报价，不用每次重新验光</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：儿童视力档案记录每次验光数据和配镜信息，既能追踪近视度数变化趋势，判断是否需要调整镜片或升级防控方案，又是维护儿童长期客户关系的工具——每3-6个月提醒复查，建立持续服务关系。</div>
+  </div>
+
+  <div class="question">
+    <p>10. 客户刚成单心情好，最适合做什么？</p>
+    <div class="options" id="q10">
+      <label><input type="radio" name="q10" value="A"> A. 立刻让客户离开，避免反悔</label>
+      <label><input type="radio" name="q10" value="B"> B. 进行交叉销售，自然介绍相关产品</label>
+      <label><input type="radio" name="q10" value="C"> C. 询问客户是否还有其他需求</label>
+      <label><input type="radio" name="q10" value="D"> D. 讲解所有门店服务项目</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：客户刚成单是交叉销售的最佳时机：客户决策疲劳已过，心情愉悦，对店员信任度最高。此时自然介绍相关产品（如"顺带问一下您有太阳镜吗？"），成功率远高于其他时机。B和C很相似，B更主动，是正确答案；C太被动。</div>
+  </div>
+
+  <h2>二、综合情景题（每题10分，共20分）</h2>
+
+  <div class="question">
+    <p>11. 一位妈妈带着8岁的孩子来配镜，孩子近视100度。妈妈问：<br>"孩子这么小度数又低，是不是不用配？听说戴了眼镜度数会加深？"<br>请写出你的完整回应话术：</p>
+    <textarea id="q11" placeholder="共情：……&#10;科学解释：……&#10;建议：……&#10;推荐方案：……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 参考答案要点：<br>
+    <strong>共情</strong>："家长您的担心完全可以理解，很多家长第一反应都是'度数这么低要不要紧'。"<br>
+    <strong>科学解释</strong>："戴眼镜不会让度数加深，度数增长主要受遗传和用眼习惯影响。不配镜反而会让孩子长期处于看不清的状态，长时间眯眼、凑近看，近视反而加深更快。"<br>
+    <strong>建议</strong>："100度已经影响到孩子看黑板了，建议配一副矫正视力，上课戴着，课间休息可以摘下来。"<br>
+    <strong>推荐方案</strong>："我们有专门的儿童近视防控镜，有研究支持可以减缓度数增长，您孩子正处于近视高发年龄，现在干预是最好的时机，您了解一下？"</div>
+  </div>
+
+  <div class="question">
+    <p>12. 一位60岁的大爷，同时有近视-2.50D和老视+2.00D，想要一副眼镜解决问题。请说明你的完整配镜方案推荐及理由：</p>
+    <textarea id="q12" placeholder="方案：……&#10;度数计算/处理方式：……&#10;适应期说明：……&#10;推荐理由：……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 参考答案要点：<br>
+    <strong>最佳方案：渐进多焦点镜片</strong><br>
+    处方：远用区-2.50D（看远），近用区-2.50+2.00=-0.50D（看近），中间区域过渡；外观无分界线，一副眼镜实现全程视力；<br>
+    <strong>适应期</strong>：需约1-2周适应渐进镜的视觉分区，初期走路、下楼梯需谨慎，用眼睛上下移动切换视区；<br>
+    <strong>备选方案</strong>：两副眼镜（看远一副-2.50D，看近一副-0.50D），价格更低但不方便；<br>
+    <strong>推荐话术</strong>："大爷，您出门需要看路，在家要看手机看书，渐进镜一副搞定所有场景，不用来回换镜，生活方便很多。虽然有个适应期，但绝大多数老人一两周就完全适应了，非常值得！"</div>
+  </div>
+
+  <div style="margin-top:24px;background:#e8f5e9;border-radius:8px;padding:16px;font-size:.9rem">
+    <strong>🎉 恭喜完成第6周学习！</strong><br>
+    下周进入第7周——综合提升训练，深化专业技能，向优秀员工进阶！
+  </div>
+
+  <div class="nav-footer">
+    <a href="Day_42_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="../第7周_综合提升训练/Day_43_学习内容.html" class="nav-btn">进入第7周 →</a>
+  </div>
+</div>
+
+<script>
+/* interactive-options-type-e-js */
+(function(){
+  // 找所有 .question div（每道题一个）
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    var optionsDiv = qBlock.querySelector('.options');
+    if(!optionsDiv) return;
+    var labels = optionsDiv.querySelectorAll('label');
+    if(labels.length === 0) return;
+    var hint = qBlock.querySelector('.answer-hint');
+    if(!hint) return;
+    var m = hint.innerHTML.match(/\u6b63\u786e\u7b54\u6848[:\uff1a]\s*<strong>([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+    labels.forEach(function(label){
+      // 提取 value 或文本里的字母
+      var inp = label.querySelector('input');
+      var letter = inp ? inp.value.toUpperCase() : (label.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      label.addEventListener('click', function(e){
+        e.preventDefault();
+        if(answered) return;
+        answered = true;
+        labels.forEach(function(l){ l.classList.add('answered'); });
+        if(letter === correct){
+          label.classList.add('opt-correct');
+          label.textContent = '\u2705 ' + label.textContent;
+        } else {
+          label.classList.add('opt-wrong');
+          label.textContent = '\u274c ' + label.textContent;
+          labels.forEach(function(l){
+            var raw = l.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var il = l.querySelector('input');
+            var oL = il ? il.value.toUpperCase() : (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ l.classList.add('opt-reveal'); l.textContent = '\ud83d\udc49 ' + l.textContent; }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = qBlock.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
