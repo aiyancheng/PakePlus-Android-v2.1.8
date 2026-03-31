@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 04 练习题 | 行为规范与职场礼仪</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}
+  .header{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);padding:36px 30px;border-bottom:3px solid #4CAF50;}
+  .day-tag{background:#4CAF50;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}
+  .header h1{font-size:1.8em;color:#2e7d32;margin-bottom:8px;}
+  .container{max-width:860px;margin:30px auto;padding:0 20px;}
+  .section-title{font-size:1.15em;color:#2e7d32;font-weight:700;margin:32px 0 14px;padding-left:12px;border-left:4px solid #4CAF50;}
+  .question-card{background:white;border-radius:12px;padding:26px;margin-bottom:22px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+  .q-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .q-num{background:#4CAF50;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9em;flex-shrink:0;}
+  .q-type{background:#e8f5e9;color:#2e7d32;padding:3px 12px;border-radius:12px;font-size:0.8em;font-weight:600;}
+  .q-score{color:#999;font-size:0.82em;}
+  .question-text{font-size:1em;color:#333;font-weight:600;line-height:1.6;margin-bottom:16px;}
+  .options li{padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;margin-bottom:8px;font-size:0.93em;list-style:none;}
+  .answer-area{width:100%;min-height:80px;border:2px solid #e0e0e0;border-radius:8px;padding:12px;font-family:inherit;font-size:0.93em;resize:vertical;}
+  .answer-hint{background:#f9f9f9;border-left:3px solid #9E9E9E;padding:10px 14px;margin-top:12px;font-size:0.85em;color:#666;display:none;}
+  .show-answer-btn{background:none;border:1px solid #9E9E9E;color:#666;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.82em;margin-top:10px;}
+  .scenario-box{background:#e3f2fd;border-radius:8px;padding:14px;margin-bottom:12px;border-left:4px solid #2196F3;font-size:0.92em;line-height:1.7;}
+  .nav-footer{display:flex;justify-content:space-between;margin:30px 0 50px;}
+  .nav-btn{background:#4CAF50;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}
+  .nav-btn.outline{background:white;color:#4CAF50;border:2px solid #4CAF50;}
+
+  /* interactive-options-type-a */
+  .options li { cursor: pointer; transition: all 0.2s; }
+  .options li:hover { border-color: #4CAF50 !important; background: #f1f8e9 !important; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .options li.answered    { pointer-events: none !important; }
+
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="day-tag">📝 第1周 · Day 04 练习题</span>
+  <h1>行为规范与职场礼仪 — 巩固测评</h1>
+  <div style="color:#555;">总分：100分 | 建议完成时间：25分钟</div>
+</div>
+<div class="container">
+  <div class="section-title">选择题（每题15分，共45分）</div>
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">1</div><span class="q-type">单选题</span><span class="q-score">15分</span></div>
+    <div class="question-text">工作时间内，以下哪种手机使用方式是被允许的？</div>
+    <ul class="options">
+      <li>A. 趁顾客等待时刷一下朋友圈</li>
+      <li>B. 在非服务区休息时间使用私人手机</li>
+      <li>C. 将工作相关截图发到个人朋友圈分享</li>
+      <li>D. 接私人电话时在服务台旁边小声接听</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：B。在非服务区的休息时间使用私人手机是允许的，其他选项均违反规定。</div>
+  </div>
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">2</div><span class="q-type">单选题</span><span class="q-score">15分</span></div>
+    <div class="question-text">顾客离店时，正确的送别方式是？</div>
+    <ul class="options">
+      <li>A. 继续做自己的事，点头示意即可</li>
+      <li>B. 起身相送，说"慢走，下次再来"</li>
+      <li>C. 大声喊"欢迎下次光临"不用起身</li>
+      <li>D. 不用特别说什么，自然就好</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：B。起身相送体现对顾客的尊重，标准送别语给顾客留下好印象。</div>
+  </div>
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">3</div><span class="q-type">单选题</span><span class="q-score">15分</span></div>
+    <div class="question-text">以下哪类信息属于门店保密内容？</div>
+    <ul class="options">
+      <li>A. 门店的营业时间</li>
+      <li>B. 顾客的视力档案和个人信息</li>
+      <li>C. 门店的地址</li>
+      <li>D. 门店提供的服务项目</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：B。顾客个人信息、视力档案属于隐私，严禁泄露。营业时间、地址、服务项目是公开信息。</div>
+  </div>
+
+  <div class="section-title">判断题（每题10分，共20分）</div>
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">4</div><span class="q-type">判断题</span><span class="q-score">10分</span></div>
+    <div class="question-text">当顾客投诉时，应该先弄清楚是顾客的错还是我们的错，再决定是否道歉。（ ）</div>
+    <ul class="options"><li>A. 正确</li><li>B. 错误</li></ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：B（错误）。投诉处理原则是先道歉（表示重视顾客感受），再解决问题，不要争辩对错。</div>
+  </div>
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">5</div><span class="q-type">判断题</span><span class="q-score">10分</span></div>
+    <div class="question-text">同事薪资属于个人隐私，不得向其他同事或外部人员透露。（ ）</div>
+    <ul class="options"><li>A. 正确</li><li>B. 错误</li></ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：A（正确）。薪资属于保密信息，私自讨论或透露他人薪资违反保密规定。</div>
+  </div>
+
+  <div class="section-title">情景模拟题（35分）</div>
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">6</div><span class="q-type">情景模拟</span><span class="q-score">35分</span></div>
+    <div class="scenario-box">📍 你正在服务一位顾客介绍镜片，此时你的私人手机响了（是朋友发来的消息提示音）。请描述你会怎么做，以及离开服务区接紧急私人电话前应该说什么。</div>
+    <textarea class="answer-area" placeholder="请描述具体应对方式……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 参考答案：①消息提示音：无需理会，继续专注服务顾客，不查看手机 ②如果是必须接听的紧急电话：先对顾客说"不好意思，我有一个紧急电话需要接一下，请稍等"，向师傅示意后离开服务区低声接听，尽快结束返回，向顾客道歉并继续服务</div>
+  </div>
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_04_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_05_学习内容.html">Day 05 →</a>
+  </div>
+</div>
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card').forEach(function(card){
+    var hint = card.querySelector('.answer-hint');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    // 兼容两种格式：
+    // 1. 正确答案：<strong>B</strong>
+    // 2. 正确答案：B。或 正确答案：B（错误）
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<strong>)?([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var letter = (li.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
