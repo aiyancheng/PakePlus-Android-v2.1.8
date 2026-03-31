@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 55 练习题 - 毕业综合模拟考核</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); min-height: 100vh; padding: 20px; color: #333; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .header { background: linear-gradient(135deg, #e94560, #c0392b); color: white; padding: 30px; border-radius: 20px; text-align: center; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(233,69,96,0.4); }
+  .header h1 { font-size: 28px; margin-bottom: 10px; }
+  .header .subtitle { font-size: 16px; opacity: 0.9; margin-bottom: 8px; }
+  .header .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 14px; }
+
+  /* 考试信息 */
+  .exam-info { background: white; border-radius: 15px; padding: 20px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+  .info-item { text-align: center; padding: 10px; background: #f8f9fa; border-radius: 10px; }
+  .info-item .label { font-size: 13px; color: #666; margin-bottom: 5px; }
+  .info-item .value { font-size: 18px; font-weight: bold; color: #e94560; }
+
+  /* 考核说明 */
+  .exam-notice { background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-radius: 15px; padding: 18px 25px; margin-bottom: 20px; border-left: 4px solid #ff9800; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+  .exam-notice strong { color: #e65100; font-size: 15px; }
+  .exam-notice p { margin: 6px 0 0; color: #555; font-size: 14px; line-height: 1.7; }
+
+  /* 评分板 */
+  .score-board { background: linear-gradient(135deg, #e94560, #c0392b); color: white; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 25px; display: none; }
+  .score-board h2 { font-size: 22px; margin-bottom: 10px; }
+  .score-board .score { font-size: 52px; font-weight: bold; margin: 10px 0; }
+  .score-board .feedback { font-size: 15px; opacity: 0.95; line-height: 1.8; }
+  .progress-bar { background: rgba(255,255,255,0.3); border-radius: 10px; height: 10px; margin: 15px auto; max-width: 320px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 10px; background: white; transition: width 0.6s ease; }
+
+  /* Section 大块 */
+  .section { background: white; border-radius: 15px; padding: 25px; margin-bottom: 22px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+  .section-title { font-size: 18px; font-weight: bold; color: #e94560; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #f0f0f0; display: flex; align-items: center; gap: 8px; }
+
+  /* ====== 并排题目网格 ====== */
+  .questions-grid { display: grid; gap: 16px; }
+  .questions-grid.two-col { grid-template-columns: 1fr 1fr; }
+  .questions-grid.one-col { grid-template-columns: 1fr; }
+
+  /* 单题卡片 */
+  .question { padding: 18px; background: #f8f9fa; border-radius: 12px; border-left: 4px solid #e94560; display: flex; flex-direction: column; }
+  .question-num { font-weight: bold; color: #e94560; font-size: 13px; margin-bottom: 8px; }
+  .question-text { font-size: 14px; line-height: 1.8; color: #333; margin-bottom: 12px; flex-grow: 1; }
+  .options { list-style: none; }
+  .options li { padding: 8px 12px; margin: 4px 0; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; background: white; font-size: 13px; line-height: 1.5; }
+  .options li:hover { background: #ffeef0; border-color: #e94560; }
+  .options li.selected { background: #ffeef0; border-color: #e94560; }
+  .options li.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+  .options li.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+
+  /* 填空框 */
+  .fill-blank { width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 8px; font-size: 13px; resize: vertical; min-height: 90px; font-family: 'Microsoft YaHei', sans-serif; line-height: 1.6; }
+  .fill-blank:focus { outline: none; border-color: #e94560; }
+
+  /* 参考答案区 */
+  .answer-box { margin-top: 12px; padding: 12px 16px; background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-radius: 8px; border-left: 4px solid #28a745; display: none; }
+  .answer-box .answer-label { font-weight: bold; color: #155724; font-size: 13px; margin-bottom: 6px; }
+  .answer-box .answer-text { color: #2d6a4f; font-size: 13px; line-height: 1.8; }
+
+  /* 待查看提示按钮 */
+  .pending-tip { margin-top: 10px; padding: 6px 14px; background: #f8f9fa; color: #888; border: 2px solid #ddd; border-radius: 20px; font-size: 12px; text-align: center; cursor: default; }
+
+  /* 情景描述 */
+  .scenario-box { background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-radius: 10px; padding: 14px; margin-bottom: 12px; border-left: 4px solid #ff9800; }
+  .scenario-box h4 { color: #e65100; font-size: 14px; margin-bottom: 8px; }
+  .scenario-box p { color: #555; line-height: 1.7; font-size: 13px; }
+
+  /* 标签 */
+  .tag { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 11px; font-weight: bold; margin-right: 4px; }
+  .tag-hard { background: #ffd6d6; color: #c0392b; }
+  .tag-medium { background: #fff3cd; color: #856404; }
+  .tag-easy { background: #d4edda; color: #155724; }
+
+  /* 按钮组 */
+  .btn-group { text-align: center; margin: 28px 0; }
+  .btn-check { background: linear-gradient(135deg, #e94560, #c0392b); color: white; border: none; padding: 14px 45px; border-radius: 25px; font-size: 16px; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(233,69,96,0.4); }
+  .btn-check:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(233,69,96,0.5); }
+  .btn-reset { background: white; color: #e94560; border: 2px solid #e94560; padding: 12px 32px; border-radius: 25px; font-size: 15px; cursor: pointer; margin-left: 15px; transition: all 0.3s; }
+  .btn-reset:hover { background: #ffeef0; }
+
+  /* 分析表 */
+  .analysis-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+  .analysis-table th { background: #e94560; color: white; padding: 10px 12px; text-align: left; font-size: 13px; }
+  .analysis-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; font-size: 13px; line-height: 1.6; }
+  .analysis-table tr:hover td { background: #ffeef0; }
+
+  /* 导航 */
+  .nav-footer { display: flex; justify-content: space-between; margin: 28px 0 10px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #2c3e50, #1a252f); color: #fff; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: .95em; font-weight: 600; transition: all .2s; text-align: center; }
+  .nav-btn:hover { opacity: .85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+  .nav-btn.outline { background: #fff; color: #2c3e50; border: 2px solid #2c3e50; }
+
+  /* 响应式：小屏幕回退单列 */
+  @media (max-width: 700px) {
+    .questions-grid.two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 页头 -->
+  <div class="header">
+    <h1>🎓 Day 55 毕业综合模拟考核</h1>
+    <div class="subtitle">全面检验8周学习成果 · 模拟正式毕业考核</div>
+    <div class="badge">第8周第6天 · 考前冲刺 · 决战时刻</div>
+  </div>
+
+  <!-- 考试信息 -->
+  <div class="exam-info">
+    <div class="info-item">
+      <div class="label">总题数</div>
+      <div class="value">20题</div>
+    </div>
+    <div class="info-item">
+      <div class="label">考试时间</div>
+      <div class="value">45分钟</div>
+    </div>
+    <div class="info-item">
+      <div class="label">合格分数</div>
+      <div class="value">80分</div>
+    </div>
+  </div>
+
+  <!-- 考核说明 -->
+  <div class="exam-notice">
+    <strong>📝 考核说明：</strong>
+    <p>本次为综合模拟考核，请认真作答。<strong>单选题点击选项即可立即查看答案解析</strong>；情景题、综合分析题等主观题完成后，点击"提交模拟考核"按钮查看参考答案及能力分析。点击"重新开始"可重置考核，重新练习。</p>
+  </div>
+
+  <!-- 评分板（提交后显示） -->
+  <div class="score-board" id="scoreBoard">
+    <h2>🏆 模拟考核结果</h2>
+    <div class="score" id="scoreDisplay">0分</div>
+    <div class="feedback" id="feedbackText"></div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- ===== 第一部分：单选题 ===== -->
+  <div class="section">
+    <div class="section-title">📋 第一部分：单选题（每题4分，共40分）</div>
+    <div class="questions-grid two-col">
+
+      <!-- 第1题 -->
+      <div class="question" id="q1">
+        <div class="question-num"><span class="tag tag-easy">易</span>第1题（4分）</div>
+        <div class="question-text">顾客进店时，标准的接待开场白应该是？</div>
+        <ul class="options">
+          <li onclick="selectOption(this,'A','q1')">A. 您好，请问您想买什么？</li>
+          <li onclick="selectOption(this,'B','q1')">B. 您好，欢迎光临！请随便看看，有什么需要随时叫我。</li>
+          <li onclick="selectOption(this,'C','q1')">C. 请进，我们这边都是新款。</li>
+          <li onclick="selectOption(this,'D','q1')">D. 你好，有配镜需要吗？</li>
+        </ul>
+        <div class="answer-box" id="ans_q1">
+          <div class="answer-label">✅ 正确答案：B</div>
+          <div class="answer-text">标准接待开场白要包含：问候（您好）、欢迎词（欢迎光临）、给予空间（随便看看）、服务承诺（有需要随时叫我），让顾客感到被尊重而非被压迫。</div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第2题 -->
+      <div class="question" id="q2">
+        <div class="question-num"><span class="tag tag-medium">中</span>第2题（4分）</div>
+        <div class="question-text">验光时发现顾客散光轴向为175°，下列说法正确的是？</div>
+        <ul class="options">
+          <li onclick="selectOption(this,'A','q2')">A. 散光轴向只有90°和180°两种</li>
+          <li onclick="selectOption(this,'B','q2')">B. 散光轴向范围是1°-180°，175°属于接近水平轴的散光</li>
+          <li onclick="selectOption(this,'C','q2')">C. 散光轴向超过90°就不正常</li>
+          <li onclick="selectOption(this,'D','q2')">D. 散光轴向与视力好坏无关</li>
+        </ul>
+        <div class="answer-box" id="ans_q2">
+          <div class="answer-label">✅ 正确答案：B</div>
+          <div class="answer-text">散光轴向范围为1°-180°。175°接近180°（水平轴），属于顺规散光或接近顺规散光。不同轴向对应不同类型的散光，均有临床意义。</div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第3题 -->
+      <div class="question" id="q3">
+        <div class="question-num"><span class="tag tag-medium">中</span>第3题（4分）</div>
+        <div class="question-text">顾客说"你们家的眼镜太贵了"，最佳应对策略是？</div>
+        <ul class="options">
+          <li onclick="selectOption(this,'A','q3')">A. 直接打折，告诉顾客可以再便宜一些</li>
+          <li onclick="selectOption(this,'B','q3')">B. 解释我们不能降价，请顾客理解</li>
+          <li onclick="selectOption(this,'C','q3')">C. 先认同感受，再从价值维度分析，引导顾客关注长期收益</li>
+          <li onclick="selectOption(this,'D','q3')">D. 推荐顾客购买便宜款式</li>
+        </ul>
+        <div class="answer-box" id="ans_q3">
+          <div class="answer-label">✅ 正确答案：C</div>
+          <div class="answer-text">价格异议处理的核心是"转移注意力到价值"。先认同顾客感受（"您考虑性价比是很对的"），再从镜片品质、使用寿命、视觉舒适度等维度分析价值，让顾客认识到"一分价钱一分货"。</div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第4题 -->
+      <div class="question" id="q4">
+        <div class="question-num"><span class="tag tag-easy">易</span>第4题（4分）</div>
+        <div class="question-text">渐进多焦点镜片主要适合哪类顾客？</div>
+        <ul class="options">
+          <li onclick="selectOption(this,'A','q4')">A. 高度近视青少年</li>
+          <li onclick="selectOption(this,'B','q4')">B. 40岁以上老花眼且需要同时兼顾远近视力的顾客</li>
+          <li onclick="selectOption(this,'C','q4')">C. 单纯近视顾客</li>
+          <li onclick="selectOption(this,'D','q4')">D. 色盲顾客</li>
+        </ul>
+        <div class="answer-box" id="ans_q4">
+          <div class="answer-label">✅ 正确答案：B</div>
+          <div class="answer-text">渐进多焦点镜片（渐进片）是专为老花眼顾客设计，可以在一副眼镜中实现远、中、近距离的清晰视力，避免了频繁换镜的麻烦，特别适合40岁以上的中老年顾客。</div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第5题 -->
+      <div class="question" id="q5">
+        <div class="question-num"><span class="tag tag-hard">难</span>第5题（4分）</div>
+        <div class="question-text">儿童配镜时，家长说"孩子度数高，配最好的镜片就好"，但验光结果显示存在较大调节功能问题，你应该？</div>
+        <ul class="options">
+          <li onclick="selectOption(this,'A','q5')">A. 直接按家长要求配最贵的镜片</li>
+          <li onclick="selectOption(this,'B','q5')">B. 先告知家长孩子存在调节功能问题，建议先做视功能评估，再综合推荐解决方案</li>
+          <li onclick="selectOption(this,'C','q5')">C. 只推荐降度数方案</li>
+          <li onclick="selectOption(this,'D','q5')">D. 告诉家长孩子视力没问题不用担心</li>
+        </ul>
+        <div class="answer-box" id="ans_q5">
+          <div class="answer-label">✅ 正确答案：B</div>
+          <div class="answer-text">儿童视力管理需要专业化处理：当发现调节功能问题时，必须如实告知家长，建议做完整的视功能评估（调节幅度、双眼视功能等），再综合制定干预方案（可能包括：视觉训练、特殊镜片设计等），而不能单纯以"配好镜片"了事。</div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第6题 -->
+      <div class="question" id="q6">
+        <div class="question-num"><span class="tag tag-medium">中</span>第6题（4分）</div>
+        <div class="question-text">门店日报中"日均客单价"的计算公式是？</div>
+        <ul class="options">
+          <li onclick="selectOption(this,'A','q6')">A. 总销售额 ÷ 营业天数</li>
+          <li onclick="selectOption(this,'B','q6')">B. 总销售额 ÷ 接待顾客数</li>
+          <li onclick="selectOption(this,'C','q6')">C. 总销售额 ÷ 成交笔数</li>
+          <li onclick="selectOption(this,'D','q6')">D. 成交笔数 ÷ 接待顾客数</li>
+        </ul>
+        <div class="answer-box" id="ans_q6">
+          <div class="answer-label">✅ 正确答案：C</div>
+          <div class="answer-text">客单价 = 总销售额 ÷ 成交笔数。例如当日销售额5000元，成交8单，客单价 = 5000 ÷ 8 = 625元。注意区分"客流量（接待人数）"和"成交笔数"，两者不同。</div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第7题 -->
+      <div class="question" id="q7">
+        <div class="question-num"><span class="tag tag-easy">易</span>第7题（4分）</div>
+        <div class="question-text">顾客取镜时抱怨"戴上去头晕"，首先应该做什么？</div>
+        <ul class="options">
+          <li onclick="selectOption(this,'A','q7')">A. 告诉顾客是正常适应期，让其先戴几天</li>
+          <li onclick="selectOption(this,'B','q7')">B. 立即道歉并重新配镜</li>
+          <li onclick="selectOption(this,'C','q7')">C. 耐心倾听具体症状，检查眼镜参数（光心距、镜片度数、轴向），找到问题原因</li>
+          <li onclick="selectOption(this,'D','q7')">D. 拒绝承认是眼镜问题</li>
+        </ul>
+        <div class="answer-box" id="ans_q7">
+          <div class="answer-label">✅ 正确答案：C</div>
+          <div class="answer-text">取镜后的不适处理流程：①耐心倾听（头晕的具体情况、时间规律）→②系统检查（镜片度数、轴向、光心距与瞳距是否匹配、镜架调整是否到位）→③分析原因（度数问题/装配问题/适应期）→④提出解决方案。不能笼统说"正常适应"。</div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第8题 -->
+      <div class="question" id="q8">
+        <div class="question-num"><span class="tag tag-medium">中</span>第8题（4分）</div>
+        <div class="question-text">关于防蓝光镜片，下列说法正确的是？</div>
+        <ul class="options">
+          <li onclick="selectOption(this,'A','q8')">A. 防蓝光镜片可以完全阻隔所有蓝光</li>
+          <li onclick="selectOption(this,'B','q8')">B. 防蓝光镜片主要针对有害短波蓝光（380-450nm），有助于减少视疲劳</li>
+          <li onclick="selectOption(this,'C','q8')">C. 防蓝光镜片只适合老年人</li>
+          <li onclick="selectOption(this,'D','q8')">D. 防蓝光镜片与普通镜片效果完全相同</li>
+        </ul>
+        <div class="answer-box" id="ans_q8">
+          <div class="answer-label">✅ 正确答案：B</div>
+          <div class="answer-text">防蓝光镜片的工作原理是过滤或吸收有害短波蓝光（380-450nm），而非阻隔所有蓝光（有益蓝光460-500nm对人体有调节生物钟等积极作用）。主要适合长时间使用电子设备的人群，有助于减少视疲劳。</div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第9题 -->
+      <div class="question" id="q9">
+        <div class="question-num"><span class="tag tag-hard">难</span>第9题（4分）</div>
+        <div class="question-text">顾客原镜：右眼 -3.00DS/-0.75DC×180，瞳距62mm。新验光：右眼 -3.25DS/-1.00DC×175，瞳距62mm。他说"能不能直接用原来的镜框配新片"？你应该？</div>
+        <ul class="options">
+          <li onclick="selectOption(this,'A','q9')">A. 直接同意，反正度数变化不大</li>
+          <li onclick="selectOption(this,'B','q9')">B. 检查原镜框尺寸与加工要求，评估可行性后再决定，同时说明轴向变化5°可能的适应问题</li>
+          <li onclick="selectOption(this,'C','q9')">C. 拒绝，必须更换新镜框</li>
+          <li onclick="selectOption(this,'D','q9')">D. 只考虑镜框是否完好，不考虑其他因素</li>
+        </ul>
+        <div class="answer-box" id="ans_q9">
+          <div class="answer-label">✅ 正确答案：B</div>
+          <div class="answer-text">旧框配新片需要评估：①镜框尺寸（鼻梁宽、镜片尺寸）是否满足新镜片加工要求；②镜框材质和状态是否允许重新切割；③新旧度数变化：度数增加0.25D且轴向变化5°，需告知顾客可能存在短暂适应期。专业做法是评估后再给出方案。</div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第10题 -->
+      <div class="question" id="q10">
+        <div class="question-num"><span class="tag tag-medium">中</span>第10题（4分）</div>
+        <div class="question-text">门店促销中，"买一送一"和"五折优惠"哪种形式对顾客吸引力更大（客观分析）？</div>
+        <ul class="options">
+          <li onclick="selectOption(this,'A','q10')">A. 五折优惠，因为优惠幅度明确</li>
+          <li onclick="selectOption(this,'B','q10')">B. 两者完全相同，消费者都能理性计算</li>
+          <li onclick="selectOption(this,'C','q10')">C. 买一送一，因为"得到额外物品"的心理价值更大，符合消费者心理偏好</li>
+          <li onclick="selectOption(this,'D','q10')">D. 取决于商品单价，无法判断</li>
+        </ul>
+        <div class="answer-box" id="ans_q10">
+          <div class="answer-label">✅ 正确答案：C</div>
+          <div class="answer-text">消费者心理学研究表明，"买一送一"比"五折"更有吸引力，虽然数学上相同（都是50%优惠）。原因：消费者对"获得额外物品"的感知价值高于"节省金钱"——这是"禀赋效应"和"损失厌恶"心理的体现。</div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+    </div><!-- /questions-grid -->
+  </div><!-- /section 单选题 -->
+
+  <!-- ===== 第二部分：情景对话分析题 ===== -->
+  <div class="section">
+    <div class="section-title">🎭 第二部分：情景对话分析题（每题6分，共30分）</div>
+    <div class="questions-grid two-col">
+
+      <!-- 第11题 -->
+      <div class="question" id="q11">
+        <div class="question-num"><span class="tag tag-medium">中</span>第11题（6分）</div>
+        <div class="scenario-box">
+          <h4>📍 情景描述</h4>
+          <p>一位30岁女性顾客进店："我最近看手机时感觉眼睛很酸，以前从来没有这个问题，我没有近视，是不是老花了？"</p>
+        </div>
+        <div class="question-text">请分析该顾客可能的情况，并写出你的专业接待思路（包括可能原因、建议检查项目、初步解决方案）。</div>
+        <textarea class="fill-blank" placeholder="请写出你的分析和接待思路（至少100字）..."></textarea>
+        <div class="answer-box" id="ans_q11">
+          <div class="answer-label">✅ 参考答案要点</div>
+          <div class="answer-text">
+            <strong>可能原因：</strong><br>
+            ①30岁一般不是老花，更可能是视疲劳或假性近视/隐性远视<br>
+            ②长时间使用手机导致调节痉挛<br>
+            ③可能存在隐性远视（消耗更多调节力）<br>
+            ④干眼症引起的视疲劳<br><br>
+            <strong>建议检查：</strong>常规视力、睫状肌放松验光、调节幅度和灵活度、泪液分泌评估<br><br>
+            <strong>接待话术：</strong>"您说的症状非常常见，30岁出现视疲劳不一定是老花，很可能是调节系统过度疲劳或轻微的隐性远视。我建议先做一个全面的视力检查，大概15分钟，帮您找到真正原因。"
+          </div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第12题 -->
+      <div class="question" id="q12">
+        <div class="question-num"><span class="tag tag-hard">难</span>第12题（6分）</div>
+        <div class="scenario-box">
+          <h4>📍 情景描述</h4>
+          <p>一位老顾客带着朋友来配镜，朋友说："网上买镜片更便宜，我看了一下，同款镜片比你们便宜200元。"</p>
+        </div>
+        <div class="question-text">面对这位朋友的价格比较，请写出你的完整应对话术（需维护老顾客关系，同时有效回应价格异议）。</div>
+        <textarea class="fill-blank" placeholder="请写出完整应对话术..."></textarea>
+        <div class="answer-box" id="ans_q12">
+          <div class="answer-label">✅ 参考答案要点</div>
+          <div class="answer-text">
+            <strong>三步法应对：</strong><br><br>
+            <strong>①感谢+认同：</strong>"感谢您做了功课！网购确实有价格优势，您的对比意识很强。"<br><br>
+            <strong>②价值差异化：</strong>"配眼镜和买其他商品不太一样——镜片需要根据您的瞳距、角膜曲率精准加工。我们的200元差价包含：专业验光服务、精准加工和光心定位、后期免费调整维护、不适的专业处理。"<br><br>
+            <strong>③借力老顾客：</strong>"您的朋友配了5年，应该最有体会——配镜最重要的是戴上去舒不舒服。您可以先体验一下我们的验光服务，再做决定，完全不强制。"
+          </div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第13题 -->
+      <div class="question" id="q13">
+        <div class="question-num"><span class="tag tag-hard">难</span>第13题（6分）</div>
+        <div class="scenario-box">
+          <h4>📍 情景描述</h4>
+          <p>周六下午，门店同时来了5位顾客：1位验光中、1位等取镜、1位老顾客调架、2位新顾客刚进门。门店目前只有你和师傅两人。</p>
+        </div>
+        <div class="question-text">请写出你的优先级安排和具体处理方案（每位顾客如何处理、时间节奏如何控制）。</div>
+        <textarea class="fill-blank" placeholder="请写出优先级安排和处理方案..."></textarea>
+        <div class="answer-box" id="ans_q13">
+          <div class="answer-label">✅ 参考答案要点</div>
+          <div class="answer-text">
+            <strong>分工原则：</strong><br>
+            师傅继续完成验光（不可中断），我负责其余四位顾客。<br><br>
+            <strong>我的处理顺序：</strong><br>
+            1. 先向2位新顾客打招呼："您好欢迎光临，稍等我马上来为您服务。"（2分钟）<br>
+            2. 快速处理老顾客调架（5分钟内完成）<br>
+            3. 通知等取镜顾客："您的眼镜已准备好，稍等我来为您检验。"<br>
+            4. 为取镜顾客做检验和交付（5-8分钟）<br>
+            5. 接待新顾客了解需求<br><br>
+            <strong>关键：</strong>主动告知每位顾客预计等待时间，避免顾客感到被忽视。
+          </div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第14题 -->
+      <div class="question" id="q14">
+        <div class="question-num"><span class="tag tag-medium">中</span>第14题（6分）</div>
+        <div class="scenario-box">
+          <h4>📍 情景描述</h4>
+          <p>顾客配镜3天后回来说："我的眼镜戴上去右边总感觉有点歪，而且鼻梁压得很疼。"</p>
+        </div>
+        <div class="question-text">请写出完整的处理流程（诊断步骤+调整方案+沟通话术）。</div>
+        <textarea class="fill-blank" placeholder="请写出完整处理流程..."></textarea>
+        <div class="answer-box" id="ans_q14">
+          <div class="answer-label">✅ 参考答案要点</div>
+          <div class="answer-text">
+            <strong>①热情接待：</strong>"感谢您及时反馈！配镜后有任何不舒服都应该来调整，我马上帮您检查。"<br><br>
+            <strong>②诊断检查：</strong>让顾客戴上眼镜正面观察倾斜情况；检查镜腿弯折位置（耳挂高低不一）；检查鼻托高度和间距<br><br>
+            <strong>③调整方案：</strong>用热风机软化镜腿，调整弯折点；调整鼻托角度和间距（向外调宽，降低压力）；调整后让顾客确认<br><br>
+            <strong>④结束话术：</strong>"我帮您调整好了，您戴上试试看。以后随时来调整，都是免费的。"
+          </div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第15题（单独占一行，跨两列） -->
+      <div class="question" id="q15" style="grid-column: 1 / -1;">
+        <div class="question-num"><span class="tag tag-hard">难</span>第15题（6分）</div>
+        <div class="scenario-box">
+          <h4>📍 情景描述</h4>
+          <p>一位顾客验光后，结果显示需要配 +1.50DS（轻度远视），但顾客说"我看远处完全没问题，为什么要配眼镜？"他显得有些抵触。</p>
+        </div>
+        <div class="question-text">请用专业而易懂的方式解释轻度远视的特点及配镜必要性，化解顾客的抵触情绪。</div>
+        <textarea class="fill-blank" placeholder="请写出你的解释话术..."></textarea>
+        <div class="answer-box" id="ans_q15">
+          <div class="answer-label">✅ 参考答案要点</div>
+          <div class="answer-text">
+            "您说的是真的，轻度远视在年轻的时候通常不影响看远，因为眼睛的调节肌肉会主动代偿，帮您把图像拉清楚——就像弹簧一直处于绷紧状态。<br><br>
+            但这个'代偿'是要付出代价的：①长时间近距离工作时，眼睛要花双倍的调节力，所以您可能眼睛更容易疲劳；②随着年龄增长，调节力下降后，症状会开始出现，而那时候配镜适应期会更长。<br><br>
+            所以配+1.50DS的眼镜，不是说您现在看不清，而是帮眼睛放松，减少不必要的调节负担。您平时有没有感觉用电脑时间长了眼睛容易累？我建议您先了解一下，不急着决定。"
+          </div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+    </div><!-- /questions-grid -->
+  </div><!-- /section 情景题 -->
+
+  <!-- ===== 第三部分：综合分析题 ===== -->
+  <div class="section">
+    <div class="section-title">📊 第三部分：综合分析题（每题10分，共30分）</div>
+    <div class="questions-grid two-col">
+
+      <!-- 第16题 -->
+      <div class="question" id="q16">
+        <div class="question-num"><span class="tag tag-hard">难</span>第16题（10分）</div>
+        <div class="question-text">请完整写出眼镜门店一次标准销售的全流程（从顾客进门到成交离店，列出关键步骤和每步的核心任务）。</div>
+        <textarea class="fill-blank" style="min-height:130px;" placeholder="请写出完整销售流程..."></textarea>
+        <div class="answer-box" id="ans_q16">
+          <div class="answer-label">✅ 参考答案</div>
+          <div class="answer-text">
+            <strong>标准销售全流程：</strong><br>
+            ①迎宾接待（0-2min）：眼神接触→起身迎接→标准问候→引导入座/浏览<br>
+            ②需求探询（2-8min）：开放式提问→判断来店目的→深入了解具体需求<br>
+            ③专业验光（10-20min）：电脑验光→主觉验光→双眼平衡→瞳距测量→解读结果<br>
+            ④产品推荐（5-10min）：根据度数/用途/预算推荐镜片→推荐2-3款镜框→FAB话术介绍<br>
+            ⑤异议处理（按需）：价格异议→价值引导；款式不满→多款对比<br>
+            ⑥促成成交（2-5min）：假设成交法/二选一法→确认选择→填写订单→核对参数<br>
+            ⑦取镜服务（5min）：参数复核→戴镜检验→镜架调整→使用保养指导<br>
+            ⑧售后维系：3天回访→定期保养提醒→节假日关怀→转介绍邀请
+          </div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第17题 -->
+      <div class="question" id="q17">
+        <div class="question-num"><span class="tag tag-hard">难</span>第17题（10分）</div>
+        <div class="question-text">请分析以下门店月度数据，并提出至少3条改进建议：<br>本月接待顾客：280人；成交顾客：120人；总销售额：96,000元；回头顾客：18人；投诉：3起</div>
+        <textarea class="fill-blank" style="min-height:130px;" placeholder="请写出数据分析和改进建议..."></textarea>
+        <div class="answer-box" id="ans_q17">
+          <div class="answer-label">✅ 参考答案</div>
+          <div class="answer-text">
+            <strong>数据分析：</strong><br>
+            • 成交率：120÷280 ≈ 42.9%（行业参考值50-60%，偏低）<br>
+            • 客单价：96000÷120 = 800元（中等水平）<br>
+            • 回头率：18÷120 = 15%（偏低，理想值应达25%以上）<br>
+            • 投诉率：3÷120 = 2.5%（需关注，行业控制在1%以内）<br><br>
+            <strong>改进建议：</strong><br>
+            ①提升成交率：加强销售话术训练，特别是需求挖掘和价格异议处理<br>
+            ②提高回头率：建立顾客档案，做好3天/1个月/半年回访计划<br>
+            ③降低投诉：分析投诉原因，加强取镜前核查，做好期望管理<br>
+            ④提升客单价：推动配件连带销售，向现有顾客推荐功能镜片升级
+          </div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 第18题（跨两列） -->
+      <div class="question" id="q18" style="grid-column: 1 / -1;">
+        <div class="question-num"><span class="tag tag-hard">难</span>第18题（10分）</div>
+        <div class="question-text">作为眼镜门店新员工，完成8周培训后，你认为最重要的三项核心能力是什么？请结合8周学习内容，说明每项能力的重要性和如何持续提升。</div>
+        <textarea class="fill-blank" style="min-height:130px;" placeholder="请写出你的核心能力总结（结合8周学习内容）..."></textarea>
+        <div class="answer-box" id="ans_q18">
+          <div class="answer-label">✅ 参考答案（开放性题目）</div>
+          <div class="answer-text">
+            <strong>核心能力一：专业验光能力</strong><br>
+            重要性：验光是配镜的基础，精准的验光直接决定顾客配镜后的视觉质量和满意度，也是门店口碑的核心。<br>
+            提升方式：多练习电脑验光和主觉验光技术，向资深验光师请教，积累复杂案例经验。<br><br>
+            <strong>核心能力二：销售沟通能力</strong><br>
+            重要性：专业知识必须通过有效沟通才能转化为成交，包括需求探询、产品介绍、异议处理、促成成交等。<br>
+            提升方式：每天复盘销售对话，收集成功和失败案例；向业绩好的同事学习话术；定期角色扮演练习。<br><br>
+            <strong>核心能力三：顾客服务意识</strong><br>
+            重要性：优质的全流程服务（售前-售中-售后）是形成口碑和复购的关键。<br>
+            提升方式：时刻以顾客需求为出发点；主动回访关怀；处理投诉时保持同理心。<br><br>
+            <em>（评分关键点：是否结合8周实际学习内容、是否有具体的提升方法、思路是否清晰完整）</em>
+          </div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+    </div><!-- /questions-grid -->
+  </div><!-- /section 综合题 -->
+
+  <!-- ===== 附加题 ===== -->
+  <div class="section">
+    <div class="section-title">⭐ 附加题（不计入总分，挑战自我）</div>
+    <div class="questions-grid two-col">
+
+      <!-- 附加题A -->
+      <div class="question" id="q19">
+        <div class="question-num"><span class="tag tag-hard">难</span>附加题A</div>
+        <div class="question-text">请用英文写出三种常见的镜片镀膜（Coating）名称及其功能（AR coating, UV coating, Scratch-resistant coating）。</div>
+        <textarea class="fill-blank" placeholder="请用英文回答..."></textarea>
+        <div class="answer-box" id="ans_q19">
+          <div class="answer-label">✅ 参考答案</div>
+          <div class="answer-text">
+            1. <strong>AR Coating (Anti-Reflective)</strong> - Reduces glare and reflections, improving visual clarity and reducing eye strain.<br><br>
+            2. <strong>UV Coating (Anti-Ultraviolet)</strong> - Blocks harmful UV rays (UV-A and UV-B), protecting against potential eye diseases like cataracts.<br><br>
+            3. <strong>Scratch-Resistant Coating (Hard Coating)</strong> - Adds a hard layer to protect against scratches, extending the lifespan of the lenses.
+          </div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+      <!-- 附加题B -->
+      <div class="question" id="q20">
+        <div class="question-num"><span class="tag tag-hard">难</span>附加题B</div>
+        <div class="question-text">请设计一个针对"大学生群体"的营销活动方案（包括活动主题、时间、折扣设计、推广渠道），要求创意新颖、落地可行。</div>
+        <textarea class="fill-blank" placeholder="请写出你的创意营销方案..."></textarea>
+        <div class="answer-box" id="ans_q20">
+          <div class="answer-label">✅ 参考方案示例</div>
+          <div class="answer-text">
+            <strong>活动名称：</strong>"护眼开学季·清晰每一刻"<br>
+            <strong>时间：</strong>每年8月20日-9月10日（开学前后3周）<br><br>
+            <strong>折扣设计：</strong>凭学生证享8.5折；配镜满800元赠护眼灯（价值98元）；邀请1位同学配镜，两人各享额外9折<br><br>
+            <strong>推广渠道：</strong>微信朋友圈广告（定向周边高校学生）；抖音/小红书短视频；与高校周边超市合作发放优惠券<br><br>
+            <strong>创意亮点：</strong>推出"近视档案建立"服务——为学生建立视力档案，每年免费复查一次，形成长期粘性。
+          </div>
+        </div>
+        <div class="pending-tip">✓ 提交考核后查看答案</div>
+      </div>
+
+    </div><!-- /questions-grid -->
+  </div><!-- /section 附加题 -->
+
+  <!-- 提交按钮 -->
+  <div class="btn-group">
+    <button class="btn-check" onclick="calculateScore()">🎯 提交模拟考核</button>
+    <button class="btn-reset" onclick="resetAll()">🔄 重新开始</button>
+  </div>
+
+  <!-- 考核能力分析表（提交后显示） -->
+  <div class="section" id="analysisSection" style="display:none;">
+    <div class="section-title">📈 考核能力分析</div>
+    <table class="analysis-table">
+      <thead>
+        <tr><th>能力维度</th><th>对应题目</th><th>考查重点</th><th>自评建议</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>验光专业知识</td>
+          <td>Q2、Q5、Q9、Q15</td>
+          <td>散光轴向、儿童视功能、旧框配新片、远视解释</td>
+          <td>如果这几题失分，建议重读第3、7周内容</td>
+        </tr>
+        <tr>
+          <td>销售沟通技巧</td>
+          <td>Q1、Q3、Q12、Q16</td>
+          <td>接待话术、价格异议、竞争对比、销售全流程</td>
+          <td>如果失分，重点练习话术背诵和角色扮演</td>
+        </tr>
+        <tr>
+          <td>产品专业知识</td>
+          <td>Q4、Q8、Q10</td>
+          <td>渐进片、防蓝光、营销心理</td>
+          <td>如果失分，建议重读第2、6周产品知识</td>
+        </tr>
+        <tr>
+          <td>服务处理能力</td>
+          <td>Q7、Q11、Q13、Q14</td>
+          <td>投诉处理、需求分析、多任务管理、调架技能</td>
+          <td>如果失分，重点加强实操练习</td>
+        </tr>
+        <tr>
+          <td>数据分析能力</td>
+          <td>Q6、Q17</td>
+          <td>客单价计算、经营数据分析</td>
+          <td>如果失分，重读第7周数据管理内容</td>
+        </tr>
+        <tr>
+          <td>综合职业素养</td>
+          <td>Q18、附加题</td>
+          <td>自我总结、创意思维、英语基础</td>
+          <td>开放性题目，注重思路的完整性和逻辑性</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+const correctAnswers = { q1:'B', q2:'B', q3:'C', q4:'B', q5:'B', q6:'C', q7:'C', q8:'B', q9:'B', q10:'C' };
+const scores = { q1:4, q2:4, q3:4, q4:4, q5:4, q6:4, q7:4, q8:4, q9:4, q10:4 };
+
+// 记录每道选择题是否已答过（防止重复点击）
+const answered = {};
+
+function selectOption(el, choice, qId) {
+  // 如果已答过，不再处理
+  if (answered[qId]) return;
+
+  const options = document.querySelectorAll('#' + qId + ' .options li');
+  const correct = correctAnswers[qId];
+
+  // 标记已答
+  answered[qId] = true;
+
+  // 禁用所有选项的点击
+  options.forEach(function(o) {
+    o.style.cursor = 'default';
+    o.onclick = null;
+  });
+
+  if (choice === correct) {
+    // 答对：绿色高亮
+    el.classList.add('correct');
+    el.innerHTML = '✅ ' + el.innerHTML;
+  } else {
+    // 答错：红色标记错误选项
+    el.classList.add('wrong');
+    el.innerHTML = '❌ ' + el.innerHTML;
+    // 高亮正确答案
+    options.forEach(function(o) {
+      if (o.dataset && o.dataset.choice === correct) {
+        o.classList.add('correct');
+        o.innerHTML = '👉 ' + o.innerHTML;
+      }
+    });
+  }
+
+  // 立即展示答案框，隐藏 pending-tip
+  const ansBox = document.getElementById('ans_' + qId);
+  if (ansBox) ansBox.style.display = 'block';
+  const pendingTip = el.closest('.question').querySelector('.pending-tip');
+  if (pendingTip) pendingTip.style.display = 'none';
+}
+
+function calculateScore() {
+  let total = 0;
+  Object.keys(correctAnswers).forEach(function(qId) {
+    // 统计已答且正确的
+    const correctLi = document.querySelector('#' + qId + ' .options li.correct');
+    if (correctLi && !correctLi.classList.contains('wrong')) {
+      // 判断该题是否是用户自己答对的（不是被高亮的正确答案）
+      // 用 answered[qId] 且正确答案就是用户选中的
+      const wrongLi = document.querySelector('#' + qId + ' .options li.wrong');
+      if (!wrongLi) {
+        // 没有错误选项 → 用户答对了
+        total += scores[qId];
+      }
+    }
+  });
+
+  const board = document.getElementById('scoreBoard');
+  board.style.display = 'block';
+  document.getElementById('scoreDisplay').textContent = total + '分';
+
+  let feedback = '';
+  const pct = total / 40;
+  if (pct >= 0.9) feedback = '🎉 优秀！单选题掌握扎实，综合题再认真作答，毕业考核稳了！';
+  else if (pct >= 0.75) feedback = '👍 良好！大部分知识点掌握，查看错题分析，针对性补充！';
+  else if (pct >= 0.6) feedback = '📚 及格！还有提升空间，重点复习失分题目对应的知识模块。';
+  else feedback = '💪 加油！单选题失分较多，建议今晚系统复习8周核心知识点！';
+
+  const feedbackEl = document.getElementById('feedbackText');
+  feedbackEl.innerHTML = '单选题得分：' + total + '/40分。' + feedback + '<br><br><strong>📖 考核完成！所有主观题参考答案已显示在下方，请仔细对照学习。</strong>';
+
+  document.getElementById('progressFill').style.width = (total / 40 * 100) + '%';
+  document.getElementById('analysisSection').style.display = 'block';
+
+  // 只显示主观题（非单选题）的参考答案
+  showSubjectiveAnswers();
+
+  board.scrollIntoView({ behavior: 'smooth' });
+}
+
+// 只展开主观题答案（q11-q20）
+function showSubjectiveAnswers() {
+  for (let i = 11; i <= 20; i++) {
+    const ansBox = document.getElementById('ans_q' + i);
+    if (ansBox) ansBox.style.display = 'block';
+    const qDiv = document.getElementById('q' + i);
+    if (qDiv) {
+      const tip = qDiv.querySelector('.pending-tip');
+      if (tip) tip.style.display = 'none';
+    }
+  }
+}
+
+function resetAll() {
+  // 重置答题状态
+  Object.keys(answered).forEach(function(k) { delete answered[k]; });
+
+  // 重置单选题选项样式和点击事件
+  document.querySelectorAll('.options li').forEach(function(o) {
+    o.classList.remove('selected', 'correct', 'wrong');
+    o.style.cursor = 'pointer';
+    // 清除可能加上的 emoji 前缀
+    o.innerHTML = o.innerHTML.replace(/^[✅❌👉]\s*/, '');
+  });
+
+  document.querySelectorAll('.fill-blank').forEach(function(t) { t.value = ''; });
+
+  // 隐藏所有参考答案，恢复 pending-tip
+  for (let i = 1; i <= 20; i++) {
+    const ansBox = document.getElementById('ans_q' + i);
+    if (ansBox) ansBox.style.display = 'none';
+    const qDiv = document.getElementById('q' + i);
+    if (qDiv) {
+      const tip = qDiv.querySelector('.pending-tip');
+      if (tip) tip.style.display = 'block';
+    }
+  }
+
+  document.getElementById('scoreBoard').style.display = 'none';
+  document.getElementById('analysisSection').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // 重新绑定单选题点击事件（因为 onclick 被清空了）
+  rebindOptions();
+}
+
+// 重新绑定选项点击（reset后使用）
+function rebindOptions() {
+  Object.keys(correctAnswers).forEach(function(qId) {
+    const options = document.querySelectorAll('#' + qId + ' .options li');
+    options.forEach(function(o) {
+      const choice = o.dataset.choice;
+      o.onclick = function() { selectOption(o, choice, qId); };
+    });
+  });
+}
+</script>
+
+<script>
+// 页面加载后，给每个选项 li 设置 data-choice 属性（用于 reset 重绑）
+window.addEventListener('DOMContentLoaded', function() {
+  Object.keys(correctAnswers).forEach(function(qId) {
+    const options = document.querySelectorAll('#' + qId + ' .options li');
+    options.forEach(function(o) {
+      // 从 onclick 属性中提取 choice 字母
+      const onclickAttr = o.getAttribute('onclick') || '';
+      const match = onclickAttr.match(/selectOption\(this,'([A-D])'/);
+      if (match) o.dataset.choice = match[1];
+    });
+  });
+});
+</script>
+
+<div class="nav-footer" style="max-width:1100px;margin:28px auto 10px;padding:0 20px">
+  <a href="Day_55_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+  <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+  <a href="Day_56_学习内容.html" class="nav-btn">Day 56 学习内容 →</a>
+</div>
+</body>
+</html>
