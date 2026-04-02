@@ -38,6 +38,71 @@
   .summary li { margin: 6px 0; }
   .warn { background: #fdecea; border: 1px solid #f5b7b1; border-radius: 8px; padding: 12px 16px; margin: 12px 0; color: #c0392b; }
   .highlight { background: #fff3cd; border-radius: 6px; padding: 3px 8px; font-weight: bold; color: #856404; }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
 </style>
 </head>
 <body>
@@ -73,7 +138,7 @@
     </div>
   </div>
 
-  <table>
+  <table class="structure-table">
     <tr><th>指标名称</th><th>计算公式</th><th>行业参考值</th><th>改善方向</th></tr>
     <tr><td><strong>进店率</strong></td><td>进店人数 ÷ 路过人数 × 100%</td><td>30~50%</td><td>橱窗陈列、门头吸引力</td></tr>
     <tr><td><strong>成交率（客转率）</strong></td><td>成交单数 ÷ 接待人数 × 100%</td><td>40~60%</td><td>接待技能、产品匹配度</td></tr>
@@ -87,7 +152,7 @@
   <h2>二、如何解读门店日报与月报</h2>
 
   <h3>📋 日报核心模块</h3>
-  <table>
+  <table class="structure-table">
     <tr><th>模块</th><th>关注内容</th><th>分析重点</th></tr>
     <tr><td>销售汇总</td><td>当日销售额、单数、客单价</td><td>与目标对比，看达成率</td></tr>
     <tr><td>品类结构</td><td>镜架/镜片/隐形/护理各占比</td><td>判断品类是否均衡</td></tr>
@@ -150,7 +215,7 @@
   <!-- 五、常见数据问题诊断 -->
   <h2>五、常见数据异常的诊断与应对</h2>
 
-  <table>
+  <table class="structure-table">
     <tr><th>数据表现</th><th>可能原因</th><th>应对措施</th></tr>
     <tr><td>客流下降10%以上</td><td>竞争对手开业/节假日前后/天气影响</td><td>加强外部引流，分析竞争动态</td></tr>
     <tr><td>成交率低于35%</td><td>接待技能不足/产品与需求不匹配/价格敏感</td><td>加强话术训练，丰富中档产品选择</td></tr>
