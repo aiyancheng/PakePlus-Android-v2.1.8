@@ -61,6 +61,67 @@
   .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
   .options li.answered    { pointer-events: none !important; cursor: default !important; }
 
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
 </style>
 </head>
 <body>
@@ -295,6 +356,8 @@
       <li>C. 完成了一部分，明天继续补完（10分）</li>
       <li>D. 未完成（0分）</li>
     </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">📋 本题为<strong>实操自评</strong>，请如实选择。没有标准"正确答案"，建议选A（完成并验收通过）为目标。</div>
     </div>
 
     <div class="question">
@@ -303,6 +366,8 @@
       <li>A. ✅ 是</li>
       <li>B. ❌ 否</li>
     </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">📋 本题为<strong>实操自评</strong>，建议选A。拍照对比记录是培养陈列意识和积累学习素材的好习惯。</div>
     </div>
 
     <div class="question">
@@ -317,11 +382,6 @@
     <button class="submit-btn" onclick="alert('练习题已提交！请交给师傅检查，共同复盘今日学习成果。')">提交练习题 ✓</button>
   </div>
 
-  <div style="background: #f8f9fc; border-radius: 10px; padding: 20px; margin-bottom: 24px;">
-    <strong>📋 参考答案（师傅用）：</strong><br>
-    单选题：1-B &nbsp; 2-C &nbsp; 3-C &nbsp; 4-D &nbsp; 5-B &nbsp; 6-D &nbsp; 7-B &nbsp; 8-D &nbsp; 9-B &nbsp; 10-B<br>
-    判断题：11-错误 &nbsp; 12-正确 &nbsp; 13-错误 &nbsp; 14-正确 &nbsp; 15-正确
-  </div>
 
   <div class="nav-footer">
     <a class="nav-btn outline" href="Day_17_学习内容.html">← 返回学习内容</a>
@@ -345,7 +405,24 @@
     var optsList = card.querySelector('ul.options');
     if(!optsList || !hint) return;
     var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<[^>]+>)?([A-Da-d正确错误])/i);
-    if(!m) return;
+    if(!m){
+      // 自评题等无标准答案的题目：点击标记选中 + 显示提示
+      var selfAnswered = false;
+      optsList.querySelectorAll('li').forEach(function(li){
+        li.style.cursor = 'pointer';
+        li.addEventListener('click', function(){
+          if(selfAnswered) return;
+          selfAnswered = true;
+          optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+          hint.style.display = 'block';
+          var btn = card.querySelector('.show-answer-btn');
+          if(btn) btn.style.display = 'none';
+        });
+      });
+      return;
+    }
     var correctRaw = m[1];
     // 支持汉字"正确"/"错误"和字母A/B/C/D
     var correct = correctRaw.toUpperCase();
