@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -48,6 +49,71 @@
   .nav-btn{background:#2196F3;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}
   .nav-btn.outline{background:white;color:#2196F3;border:2px solid #2196F3;}
   @media(max-width:600px){.lens-grid{grid-template-columns:1fr;}}
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
 </style>
 </head>
 <body>
@@ -104,7 +170,7 @@
         <h4>🧒 近视防控镜片</h4>
         <div class="who">适用人群：8~18岁近视发展期青少年</div>
         <div class="desc">
-          <strong>常见类型：</strong>渐进青少年片、离焦镜片（如星趣控、豪雅MiYOSMART等）<br>
+          <strong>常见类型：</strong>渐进青少年片、离焦镜片（如依视路星趣控、豪雅新乐学等）、点扩散镜片（尼康控优点、柯达柯学优）<br>
           <strong>原理：</strong>通过特殊光学设计减缓眼轴增长速度，延缓近视加深<br>
           <strong>效果：</strong>临床研究显示可减缓近视进展约50%（各品牌数据不同）
         </div>
@@ -154,15 +220,15 @@
     <table class="rule-table">
       <thead><tr><th>步骤</th><th>内容</th><th>负责人</th></tr></thead>
       <tbody>
-        <tr><td>① 接待问诊</td><td>了解客户需求、旧镜情况、用眼习惯</td><td>销售员工</td></tr>
-        <tr><td>② 视力检查</td><td>裸眼视力+旧镜矫正视力</td><td>验光员</td></tr>
-        <tr><td>③ 电脑验光</td><td>仪器初步测量屈光度</td><td>验光员</td></tr>
-        <tr><td>④ 主觉验光</td><td>综合验光仪精确确认处方</td><td>验光员</td></tr>
-        <tr><td>⑤ 镜片推荐</td><td>根据处方和需求推荐镜片类型</td><td>销售员工</td></tr>
-        <tr><td>⑥ 镜框选型</td><td>帮助客户选择合适镜框</td><td>销售员工</td></tr>
-        <tr><td>⑦ 开单制镜</td><td>确认参数，填写工单，送加工</td><td>验光员/员工</td></tr>
-        <tr><td>⑧ 取镜验收</td><td>核对度数、瞳距，试戴确认</td><td>验光员/员工</td></tr>
-        <tr><td>⑨ 售后跟进</td><td>适应期回访，保养服务</td><td>销售员工</td></tr>
+        <tr><td>① 接待问诊</td><td>了解客户需求、旧镜情况、用眼习惯</td><td>配镜顾问</td></tr>
+        <tr><td>② 视力检查</td><td>裸眼视力+旧镜矫正视力</td><td>验光师</td></tr>
+        <tr><td>③ 电脑验光</td><td>仪器初步测量屈光度</td><td>验光师</td></tr>
+        <tr><td>④ 主觉验光</td><td>综合验光仪精确确认处方</td><td>验光师</td></tr>
+        <tr><td>⑤ 镜片推荐</td><td>根据处方和需求推荐镜片类型</td><td>验光师</td></tr>
+        <tr><td>⑥ 镜框选型</td><td>帮助客户选择合适镜框</td><td>配镜顾问</td></tr>
+        <tr><td>⑦ 开单制镜</td><td>确认参数，填写工单，送加工</td><td>验光师/配镜顾问</td></tr>
+        <tr><td>⑧ 取镜验收</td><td>核对度数、瞳距，试戴确认</td><td>验光师/配镜顾问</td></tr>
+        <tr><td>⑨ 售后跟进</td><td>适应期回访，保养服务</td><td>配镜顾问</td></tr>
       </tbody>
     </table>
     <div class="tip-box"><div class="label">💡 全流程意识</div><p>了解整个流程，你才能在接待时知道下一步是什么，而不是每次都要问同事，让客户感到专业。</p></div>
