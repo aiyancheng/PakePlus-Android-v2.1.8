@@ -37,6 +37,71 @@
   .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
   .nav-btn.outline{background:#fff;color:#8e44ad;border:2px solid #8e44ad}
   .summary li { margin: 6px 0; }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
 </style>
 </head>
 <body>
@@ -134,7 +199,7 @@
   <!-- 三、消费心理四大规律 -->
   <h2>三、消费心理的四大规律</h2>
 
-  <table>
+  <table class="structure-table">
     <tr><th>心理规律</th><th>表现形式</th><th>销售应用</th></tr>
     <tr><td><strong>锚定效应</strong></td><td>先看到高价产品，再看中价产品会觉得"还好"</td><td>先展示高端款，再推荐目标产品，顾客感觉更划算</td></tr>
     <tr><td><strong>稀缺心理</strong></td><td>"最后一副"或"限量款"让人更想买</td><td>真实情况下使用，如"这款颜色只剩这一副了"</td></tr>
@@ -190,7 +255,7 @@
   </div>
 
     <h2 style="color:#8e44ad;margin-top:32px">🎭 不同性格客户的接待策略</h2>
-  <table style="width:100%;border-collapse:collapse;margin:16px 0">
+  <table class="structure-table" style="width:100%;border-collapse:collapse;margin:16px 0">
     <tr style="background:#8e44ad;color:#fff"><th style="padding:10px 14px;text-align:left">性格类型</th><th style="padding:10px 14px;text-align:left">识别特征</th><th style="padding:10px 14px;text-align:left">接待策略</th></tr>
     <tr><td style="padding:10px 14px;border-bottom:1px solid #e8d5f5">果断型</td><td style="padding:10px 14px;border-bottom:1px solid #e8d5f5">说话直接，时间感强，快速做决定</td><td style="padding:10px 14px;border-bottom:1px solid #e8d5f5">简洁明了，直接给出最佳方案，不绕弯子</td></tr>
     <tr style="background:#fbf6ff"><td style="padding:10px 14px;border-bottom:1px solid #e8d5f5">分析型</td><td style="padding:10px 14px;border-bottom:1px solid #e8d5f5">问问题多，喜欢比较，不急于决定</td><td style="padding:10px 14px;border-bottom:1px solid #e8d5f5">提供数据和专业依据，耐心解答，不催促</td></tr>
