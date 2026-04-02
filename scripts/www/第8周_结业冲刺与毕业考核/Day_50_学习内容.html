@@ -43,6 +43,71 @@
   .nav-btn{background:linear-gradient(135deg,#2c3e50,#1a252f);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
   .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
   .nav-btn.outline{background:#fff;color:#2c3e50;border:2px solid #2c3e50}
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
 </style>
 </head>
 <body>
@@ -154,7 +219,7 @@
   <!-- 各能力模块进度 -->
   <h2>三、各能力模块进度自评</h2>
 
-  <table>
+  <table class="structure-table">
     <tr><th>能力模块</th><th>学习周期</th><th>参考难度</th><th>今日自评（1-5分）</th></tr>
     <tr><td>眼视光学理论</td><td>第2-3周</td><td>★★★☆☆</td><td>（请填写）</td></tr>
     <tr><td>验光操作技能</td><td>第3-5周</td><td>★★★★☆</td><td>（请填写）</td></tr>
@@ -169,7 +234,7 @@
   <!-- 第8周安排 -->
   <h2>四、第8周结业冲刺安排</h2>
 
-  <table>
+  <table class="structure-table">
     <tr><th>天次</th><th>主题</th><th>核心内容</th></tr>
     <tr><td>Day 50（今天）</td><td>成长复盘与启动</td><td>8周学习全程回顾，建立结业考核全局视角</td></tr>
     <tr><td>Day 51</td><td>全流程综合演练</td><td>配镜全流程（接待→验光→选镜→成交→取镜）实战演练</td></tr>
@@ -185,7 +250,7 @@
 
   <div class="level-card">
     <div class="level-name">📋 考核结构（满分200分）</div>
-    <table>
+    <table class="structure-table">
       <tr><th>考核模块</th><th>分值</th><th>形式</th><th>及格标准</th></tr>
       <tr><td>知识综合笔试</td><td>60分</td><td>单选+填空+简答</td><td>42分（70%）</td></tr>
       <tr><td>验光实操考核</td><td>40分</td><td>现场操作演示</td><td>28分（70%）</td></tr>
@@ -203,7 +268,7 @@
     📋 <strong>建议行动：</strong>今天花30分钟，按以下框架制定你的"结业冲刺个人计划"，找到薄弱点集中突破。
   </div>
 
-  <table>
+  <table class="structure-table">
     <tr><th>自评低于4分的模块</th><th>每天复习时间</th><th>重点复习内容</th><th>目标分数</th></tr>
     <tr><td>（填写）</td><td>（填写）</td><td>（填写）</td><td>（填写）</td></tr>
     <tr><td>（填写）</td><td>（填写）</td><td>（填写）</td><td>（填写）</td></tr>
