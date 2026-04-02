@@ -26,6 +26,71 @@
   .nav-btn{background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
   .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
   .nav-btn.outline{background:#fff;color:#2980b9;border:2px solid #2980b9}
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
 </style>
 </head>
 <body>
@@ -67,7 +132,7 @@
   <div class="card">
     <h3>场景化推荐</h3>
     <p>根据客户用途推荐，而非单纯推价格最高的：</p>
-    <table>
+    <table class="structure-table">
       <tr><th>使用场景</th><th>推荐类型</th><th>推荐理由</th></tr>
       <tr><td>开车通勤</td><td>偏光太阳镜</td><td>消除路面和前车挡风玻璃反光，提升行车安全</td></tr>
       <tr><td>日常户外</td><td>变色镜或标准太阳镜</td><td>时尚实用，进出室内不用换镜</td></tr>
@@ -129,7 +194,7 @@
 
   <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">🌈 镜片颜色与适用场景对照</h2>
   <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
-    <table style="width:100%;border-collapse:collapse;margin:14px 0">
+    <table class="structure-table" style="width:100%;border-collapse:collapse;margin:14px 0">
       <tr style="background:#2980b9;color:#fff"><th style="padding:10px 14px;text-align:left">镜片颜色</th><th style="padding:10px 14px;text-align:left">特点</th><th style="padding:10px 14px;text-align:left">适用场景</th></tr>
       <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">灰色</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">减光不失真，色彩还原最自然</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">日常通用、开车、强日照</td></tr>
       <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">茶/棕色</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">增强对比度，使景物更清晰</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">阴天、开车、运动</td></tr>
@@ -171,7 +236,7 @@
     <p style="line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em">防蓝光镜片主要过滤380-440nm的有害蓝光，保留有益蓝光。</p>
 
     <h3 style="color:#2980b9;font-size:1rem;margin-top:18px">目标客群话术</h3>
-    <table style="width:100%;border-collapse:collapse;margin:14px 0">
+    <table class="structure-table" style="width:100%;border-collapse:collapse;margin:14px 0">
       <tr style="background:#2980b9;color:#fff"><th style="padding:10px 14px;text-align:left">客群</th><th style="padding:10px 14px;text-align:left">推荐切入点</th></tr>
       <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">程序员/设计师</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">每天盯屏8小时以上，防蓝光缓解视疲劳，下班眼睛还是亮的</td></tr>
       <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">学生/家长</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">孩子网课多，防蓝光保护发育中的眼睛，也帮助睡前不刷手机入睡更快</td></tr>
