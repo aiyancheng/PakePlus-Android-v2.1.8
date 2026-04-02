@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Day 06 练习题</title>
@@ -10,6 +11,67 @@
   .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
   .options li.answered    { pointer-events: none !important; }
 
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
 </style>
 </head>
 <body>
@@ -17,7 +79,7 @@
 <div class="container">
   <div class="section-title">选择题（每题15分，共45分）</div>
   <div class="question-card"><div class="q-header"><div class="q-num">1</div><span class="q-type">单选题</span><span class="q-score">15分</span></div><div class="question-text">顾客进店希望配一副近视眼镜，应该由谁先接待？</div><ul class="options"><li>A. 直接带到镜架区选框架</li><li>B. 先由销售顾问接待了解需求，根据情况安排验光</li><li>C. 让顾客自己先看看，有问题再过来</li><li>D. 直接告知验光师名单，让顾客等候</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：B。销售顾问先接待、了解需求，再安排验光，这是标准服务流程。</div></div>
-  <div class="question-card"><div class="q-header"><div class="q-num">2</div><span class="q-type">单选题</span><span class="q-score">15分</span></div><div class="question-text">开店准备应该在正式营业前多少分钟完成？</div><ul class="options"><li>A. 准时开门前完成即可</li><li>B. 提前30分钟</li><li>C. 提前15分钟</li><li>D. 开门后第一个小时内完成</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：C。提前15分钟到岗完成开店准备，确保顾客进店就能获得良好体验。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">2</div><span class="q-type">单选题</span><span class="q-score">15分</span></div><div class="question-text">开店准备应该在正式营业前多少分钟完成？</div><ul class="options"><li>A. 准时开门前完成即可</li><li>B. 提前30分钟</li><li>C. 提前10分钟</li><li>D. 开门后第一个小时内完成</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：C。提前10分钟到岗完成开店准备，确保顾客进店就能获得良好体验。</div></div>
   <div class="question-card"><div class="q-header"><div class="q-num">3</div><span class="q-type">单选题</span><span class="q-score">15分</span></div><div class="question-text">销售顾问/配镜师的主要职责不包括以下哪项？</div><ul class="options"><li>A. 接待顾客，了解配镜需求</li><li>B. 为顾客进行专业视力检查，出具验光处方</li><li>C. 推荐镜架和镜片，完成销售</li><li>D. 处理日常售后、镜架调整</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：B。出具验光处方是验光师的专业职责，销售顾问不负责验光。</div></div>
   <div class="section-title">简答题（55分）</div>
   <div class="question-card"><div class="q-header"><div class="q-num">4</div><span class="q-type">简答题</span><span class="q-score">25分</span></div><div class="question-text">请按顺序列出一天工作的7个基本流程步骤，并简述每步的核心任务。</div><textarea class="answer-area" placeholder="请按顺序列出……"></textarea><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 参考答案：①开店准备（开灯整理陈列）②顾客接待（迎接了解需求）③验光环节（配合验光师）④选镜配镜（推荐方案）⑤收银下单（核对收款）⑥取镜售后（调整讲解保养）⑦闭店整理（清点打扫交接）</div></div>
