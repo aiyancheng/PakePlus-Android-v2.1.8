@@ -34,6 +34,71 @@
   .nav-btn{background:linear-gradient(135deg,#2c3e50,#1a252f);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
   .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
   .nav-btn.outline{background:#fff;color:#2c3e50;border:2px solid #2c3e50}
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
 </style>
 </head>
 <body>
@@ -70,7 +135,7 @@
   </div>
 
   <h3>💡 暴怒投诉的黄金原则</h3>
-  <table>
+  <table class="structure-table">
     <tr><th>原则</th><th>具体做法</th></tr>
     <tr><td>降低环境音量</td><td>邀请顾客到安静区域，避免公开场合的对峙影响其他顾客</td></tr>
     <tr><td>不还击</td><td>不管顾客态度多差，绝不回嘴；态度越好，顾客越快冷静</td></tr>
@@ -116,7 +181,7 @@
   <!-- 极端情境四：情绪失控退镜 -->
   <h2>四、更多典型极端情境速查</h2>
 
-  <table>
+  <table class="structure-table">
     <tr><th>情境</th><th>顾客行为</th><th>核心应对策略</th></tr>
     <tr><td>适应期不适</td><td>渐进镜戴了一周还头晕，要求退换</td><td>先同理+解释适应期（1-2周）→先免费调整光心距→若仍不适，提供换片方案</td></tr>
     <tr><td>镜架断裂纠纷</td><td>镜架一个月就断了，要求免费换</td><td>核查是正常损耗还是质量问题→如质保期内且非人为损坏，直接换→记录备案</td></tr>
@@ -149,7 +214,7 @@
     <h2 style="color:#c0392b;margin-top:32px">📋 极端情境处理复盘表</h2>
   <div style="background:#fef0ef;border-radius:10px;padding:18px 22px;margin:16px 0">
     <p style="line-height:1.8;color:#555;margin-bottom:12px">每次遇到高难度场景后，建议用此表复盘：</p>
-    <table style="width:100%;border-collapse:collapse;margin:14px 0">
+    <table class="structure-table" style="width:100%;border-collapse:collapse;margin:14px 0">
       <tr style="background:#c0392b;color:#fff"><th style="padding:10px 14px;text-align:left">复盘维度</th><th style="padding:10px 14px;text-align:left">自问内容</th></tr>
       <tr><td style="padding:10px 14px;border-bottom:1px solid #f5c6c6">情绪管理</td><td style="padding:10px 14px;border-bottom:1px solid #f5c6c6">我是否在客户激动时保持了冷静？有没有被情绪带跑？</td></tr>
       <tr style="background:#fffafa"><td style="padding:10px 14px;border-bottom:1px solid #f5c6c6">倾听质量</td><td style="padding:10px 14px;border-bottom:1px solid #f5c6c6">我有没有真正理解客户的核心诉求？还是只是听了表面？</td></tr>
