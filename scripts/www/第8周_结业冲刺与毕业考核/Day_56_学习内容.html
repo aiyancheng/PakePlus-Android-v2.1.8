@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -40,10 +41,14 @@
   .wish-section p { font-size: 16px; line-height: 1.9; color: #ecf0f1; }
   .score-input { border: 2px solid #f39c12; border-radius: 8px; padding: 12px; width: 100px; font-size: 18px; text-align: center; margin: 0 8px; }
   .final-score-box { background: #2c3e50; color: #fff; border-radius: 12px; padding: 24px; margin: 20px 0; }
-  .final-score-box input { background: transparent; color: #f39c12; border: none; border-bottom: 2px solid #f39c12; font-size: 22px; font-weight: bold; width: 80px; text-align: center; }
+  .final-score-box input { background: transparent; color: #f39c12 !important; border: none; border-bottom: 2px solid #f39c12; font-size: 22px; font-weight: bold; width: 80px; text-align: center; }
+  .final-score-box input::placeholder { color: #7f8c8d !important; }
   .final-score-box label { color: #bdc3c7; font-size: 14px; display: block; margin-top: 4px; }
   .score-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin: 16px 0; }
   .score-item { text-align: center; }
+  .score-item input { background: #ecf0f1; color: #2c3e50; border: 2px solid #f39c12; border-radius: 8px; padding: 10px; width: 90px; font-size: 18px; text-align: center; }
+  .score-item input::placeholder { color: #aaa; }
+  .score-item label { color: #bdc3c7; font-size: 13px; display: block; margin-top: 6px; }
   .journey-line { display: flex; gap: 0; margin: 24px 0; overflow-x: auto; }
   .jl-step { flex: 1; text-align: center; padding: 10px 4px; min-width: 80px; }
   .jl-num { width: 32px; height: 32px; border-radius: 50%; background: #27ae60; color: #fff; font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px auto; }
@@ -53,12 +58,77 @@
   .nav-btn{background:linear-gradient(135deg,#2c3e50,#1a252f);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
   .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
   .nav-btn.outline{background:#fff;color:#2c3e50;border:2px solid #2c3e50}
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
 </style>
 </head>
 <body>
 <div class="container">
   <div class="hero">
-    <h1>🎓 Day 56 · 眼镜门店新员工8周成才</h1>
+    <h1>🎓 Day 56 · 爱眼城新员工8周成才</h1>
     <p>正式结业考核 · 毕业总结 · 职业新起点</p>
     <div class="sub">完成本课程即代表你已经从一位新人成长为具备专业能力的眼镜门店顾问</div>
   </div>
@@ -73,8 +143,8 @@
       <div style="color:#888; font-size:13px; margin-bottom:16px;">结 业 证 书</div>
       <div class="cert-body">
         兹证明<br>
-        <div class="cert-name">________________（员工姓名）</div><br>
-        已圆满完成《眼镜门店新员工8周成才》培训全部课程<br>
+        <div class="cert-name"> 姓名：________________ </div><br>
+        已圆满完成《爱眼城新员工8周成才》培训全部课程<br>
         <strong>培训周期：8周 · 共56天 · 累计学习约80课时</strong><br><br>
         在培训期间，该员工系统掌握了眼视光学基础、验光操作技能、<br>
         产品专业知识、销售服务技巧、数据管理分析及团队协作能力，<br>
@@ -177,20 +247,20 @@
         <input type="number" placeholder="---" max="200" min="0" style="background:transparent; color:#f39c12; border:none; border-bottom:2px solid #f39c12; font-size:28px; font-weight:bold; width:100px; text-align:center;">
         <span style="font-size:18px; color:#bdc3c7;"> / 200分</span>
       </div>
-      <table style="margin-top:20px;">
+      <table class="structure-table" style="margin-top:20px;">
         <tr><th>分数段</th><th>等级</th><th>评语</th></tr>
-        <tr><td>180-200分</td><td style="color:#f39c12; font-weight:bold;">满分荣誉</td><td>卓越表现，期待成为门店明星员工</td></tr>
-        <tr><td>160-179分</td><td style="color:#27ae60; font-weight:bold;">优秀</td><td>全面掌握，具备独当一面的能力</td></tr>
-        <tr><td>140-159分</td><td style="color:#3498db; font-weight:bold;">合格</td><td>基础扎实，在实践中继续成长</td></tr>
-        <tr><td>120-139分</td><td style="color:#e67e22; font-weight:bold;">待提升</td><td>建议重点复习薄弱模块，30天后补考</td></tr>
-        <tr><td>120分以下</td><td style="color:#e74c3c; font-weight:bold;">需重修</td><td>建议系统重新完成培训，再次参加考核</td></tr>
+        <tr><td style="color:#333;">180-200分</td><td style="color:#f39c12; font-weight:bold;">满分荣誉</td><td style="color:#333;">卓越表现，期待成为门店明星员工</td></tr>
+        <tr><td style="color:#333;">160-179分</td><td style="color:#27ae60; font-weight:bold;">优秀</td><td style="color:#fff;">全面掌握，具备独当一面的能力</td></tr>
+        <tr><td style="color:#333;">140-159分</td><td style="color:#3498db; font-weight:bold;">合格</td><td style="color:#333;">基础扎实，在实践中继续成长</td></tr>
+        <tr><td style="color:#333;">120-139分</td><td style="color:#e67e22; font-weight:bold;">待提升</td><td style="color:#fff;">建议重点复习薄弱模块，30天后补考</td></tr>
+        <tr><td style="color:#333;">120分以下</td><td style="color:#e74c3c; font-weight:bold;">需重修</td><td style="color:#333;">建议系统重新完成培训，再次参加考核</td></tr>
       </table>
     </div>
 
     <!-- 职业发展路径 -->
     <h2>🚀 结业后的职业发展路径</h2>
 
-    <table>
+    <table class="structure-table">
       <tr><th>阶段</th><th>时间</th><th>目标</th><th>建议行动</th></tr>
       <tr><td>新人成长期</td><td>结业后1-3月</td><td>成交率稳定在40%+，客单价600元+</td><td>每周复盘，积累真实案例，主动向前辈请教</td></tr>
       <tr><td>独立骨干期</td><td>4-12月</td><td>独立完成月度指标，可带教新人</td><td>考取验光员四级证书，参与活动策划</td></tr>
@@ -222,7 +292,7 @@
     <!-- 最终说明 -->
     <h2>📌 本课程学习完毕说明</h2>
 
-    <table>
+    <table class="structure-table">
       <tr><th>内容模块</th><th>文件数量</th><th>完成状态</th></tr>
       <tr><td>第1-8周每日学习内容</td><td>共56个HTML文件</td><td>✅ 全部完成</td></tr>
       <tr><td>第1-8周每日练习题</td><td>共56个HTML文件</td><td>✅ 全部完成</td></tr>
@@ -232,7 +302,7 @@
     </table>
 
     <div style="background:#f8f9fa; border-radius:10px; padding:20px; margin-top:24px; text-align:center; color:#666; font-size:14px;">
-      🎓 <strong>《眼镜门店新员工8周成才》完整培训课程</strong><br>
+      🎓 <strong>《爱眼城新员工8周成才》完整培训课程</strong><br>
       全程共56天 · 涵盖视光学、验光技能、产品知识、销售服务、数据管理、团队协作六大模块<br>
       感谢你的坚持，愿这套课程成为你职业成长路上最扎实的起点。
     </div>
