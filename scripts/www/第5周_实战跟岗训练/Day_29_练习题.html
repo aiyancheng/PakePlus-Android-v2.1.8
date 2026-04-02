@@ -26,6 +26,7 @@
   .textarea-box { width: 100%; margin-top: 8px; padding: 12px 16px; border: 1px solid #e8ecf0; border-radius: 8px; font-size: 14px; font-family: 'Microsoft YaHei', sans-serif; resize: vertical; min-height: 100px; color: #444; line-height: 1.7; }
   .textarea-box:focus { outline: none; border-color: #11998e; box-shadow: 0 0 0 3px rgba(17,153,142,0.1); }
   .answer-box { background: #f0fdf9; border: 1px solid #a7f3d0; border-radius: 8px; padding: 14px 18px; margin-top: 12px; display: none; }
+  .answer-hint { display: none; border-radius: 8px; padding: 14px 18px; margin-top: 12px; border: 1px solid #a7f3d0; background: #f0fdf9; }
   .answer-box .label { color: #065f46; font-weight: bold; font-size: 13px; margin-bottom: 6px; }
   .answer-box p { font-size: 14px; color: #444; line-height: 1.7; }
   .show-answer-btn { background: none; border: 1px solid #11998e; color: #11998e; padding: 6px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; margin-top: 10px; }
@@ -52,6 +53,67 @@
   .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
   .options li.answered    { pointer-events: none !important; cursor: default !important; }
 
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
 </style>
 </head>
 <body>
@@ -118,7 +180,8 @@
     <div class="q-block">
       <div class="q-title"><span class="q-num">4</span>今天跟岗观摩中，你记录了几位顾客的接待过程？选择其中最令你印象深刻的一位，简要描述她/他的特征、需求，以及带教老师的接待亮点。</div>
       <textarea class="textarea-box" placeholder="请结合今天的实际观摩内容作答，尽量具体...（参考字数：150字以上）"></textarea>
-      <div class="answer-hint" style="display:block; background:#fffbf0; border-color:#fbbf24;">
+      <button class="show-answer-btn" onclick="toggleAnswer('a4')">查看参考方向</button>
+      <div class="answer-hint" id="a4" style="background:#fffbf0; border-color:#fbbf24;">
         <div class="label" style="color:#92400e;">📌 参考方向</div>
         <p>好的回答应包含：顾客特征描述（年龄/着装/进门状态）、主要需求（配镜/换镜/验光）、老师的1-2个接待亮点（如特别的开场白、处理异议的方式）以及你从中学到的东西。</p>
       </div>
