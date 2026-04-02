@@ -47,6 +47,71 @@
   .nav-btn { background: #4CAF50; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 0.9em; }
   .nav-btn.outline { background: white; color: #4CAF50; border: 2px solid #4CAF50; }
   @media (max-width: 600px) { .value-cards { grid-template-columns: 1fr; } }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
 </style>
 </head>
 <body>
@@ -85,11 +150,10 @@
     <div class="highlight-box">
       <div class="label">💡 入职第一天，带教师傅会带你做：</div>
       <div class="checklist">
-        <div class="checklist-item">参观门店所有区域（前台、验光区、配镜区、库房、员工区）</div>
+        <div class="checklist-item">参观门店所有区域（前台、营业区、验光区、配镜区、库房、员工区）</div>
         <div class="checklist-item">认识所有团队成员，了解各自分工</div>
         <div class="checklist-item">领取工装、工牌、员工手册</div>
         <div class="checklist-item">熟悉打卡系统和基本日常规范</div>
-        <div class="checklist-item">签署相关协议（劳动合同、保密协议等）</div>
       </div>
     </div>
   </div>
@@ -113,10 +177,15 @@
     <p><strong>我们做的不只是卖商品，我们在守护人们看世界的权利。</strong></p>
 
     <div class="story-box">
-      <div class="story-title">📖 真实故事：一副眼镜改变的事</div>
-      <p>王阿姨第一次来店里，带着老花镜进门，说："我配了三副眼镜了，每副都看不清，以为是眼睛坏了。"我们的验光师重新给她检查，发现她是双眼散光，之前门店的验光都没有检出。</p>
-      <p style="margin-top:8px;">三天后，王阿姨戴着新眼镜回来，眼眶红了，说："这是我十年来第一次看清楚孙子的脸。"</p>
-      <p style="margin-top:8px; color:#6a1b9a; font-weight:600;">这就是为什么我们要做好这份工作。</p>
+      <div class="story-title">📖 真实故事：那一副眼镜里的十年光阴</div>
+      <p>那是一个平常的午后，阳光斜斜地洒进店里。门铃轻响，一位头发花白的阿姨缓缓走进来，手里紧紧攥着一副老花镜。她叫王阿姨，眼神里透着一丝无奈和疲惫。
+"我已经配了三副眼镜了，每副都看不清，我还以为是自己的眼睛真的坏了。"她的声音有些颤抖，带着几分绝望。
+我们的验光师小李立刻放下手头的工作，细心地为王阿姨重新检查视力。结果让人大吃一惊——王阿姨有双眼散光，而这个重要的问题，前三家店的验光师竟然都没有发现！
+原来，这十年来，王阿姨的世界一直是模糊的。看不清报纸上的字，看不清电视里的画面，甚至看不清最疼爱的孙子长什么样。</p>
+      <p style="margin-top:8px;">三天后，又是一个下午。门铃再次响起，王阿姨推门而入，这次她的眼眶红红的。她摘下新配的眼镜，眼中含着泪水：
+"姑娘，这是我十年来第一次清清楚楚看到我孙子的脸！昨天晚上，我终于看清了他的眼睛、他的鼻子、他脸上的每一个表情。这十年，我错过了多少啊！"
+那一刻，在场的所有人都被感动了。王阿姨握着验光师的手，一遍遍地说着谢谢。</p>
+      <p style="margin-top:8px; color:#6a1b9a; font-weight:600;">有时候，一副眼镜改变的不仅仅是一双眼睛，更是整个人生的色彩。这就是我们坚持做好这份工作的意义——让每一双眼睛都能看到清晰美好的世界。这就是为什么我们要做好这份工作。</p>
     </div>
   </div>
 
@@ -130,7 +199,7 @@
       <p style="font-size:1.1em; font-weight:700; color:#1565c0;">"让客户更加满意，让员工更有尊严，让企业更受尊重"</p>
     </div>
 
-    <p>愿景是我们努力的方向。不是最大，而是<strong>最专业、最值得信赖</strong>。每位员工的每一次用心服务，都在帮助门店靠近这个目标。</p>
+    <p>愿景是我们努力的方向。不是最大，而是<strong>满意、尊严、尊重</strong>。每位员工的每一次用心服务，都在帮助门店靠近这个目标。</p>
 
     <h3>💎 核心价值观</h3>
     <div class="value-cards">
