@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -22,7 +23,7 @@
   .section ul, .section ol { padding-left: 20px; margin-bottom: 14px; }
   .section li { line-height: 1.8; color: #555; font-size: 0.95em; margin-bottom: 4px; }
   .rule-table { width: 100%; border-collapse: collapse; margin: 14px 0; }
-  .rule-table th { background: #4CAF50; color: white; padding: 10px 14px; text-align: left; font-size: 0.9em; }
+  .rule-table th { background: #4CAF50; color: white; padding: 10px 14px; text-align:center; font-size: 0.9em; }
   .rule-table td { padding: 10px 14px; border-bottom: 1px solid #f0f0f0; font-size: 0.88em; vertical-align: top; }
   .rule-table tr:nth-child(even) td { background: #f9f9f9; }
   .warning-box { background: #ffebee; border-left: 4px solid #f44336; border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
@@ -41,6 +42,71 @@
   .nav-btn { background: #4CAF50; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 0.9em; }
   .nav-btn.outline { background: white; color: #4CAF50; border: 2px solid #4CAF50; }
   @media (max-width:600px) { .salary-grid { grid-template-columns: 1fr; } }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
 </style>
 </head>
 <body>
@@ -66,9 +132,9 @@
     <table class="rule-table">
       <thead><tr><th>班次</th><th>上班时间</th><th>下班时间</th><th>备注</th></tr></thead>
       <tbody>
-        <tr><td>早班</td><td>09:00</td><td>18:00</td><td>含1小时午休</td></tr>
-        <tr><td>晚班</td><td>12:00</td><td>21:00</td><td>含1小时晚餐时间</td></tr>
-        <tr><td>全天班</td><td>09:00</td><td>21:00</td><td>轮换安排，含2小时休息</td></tr>
+        <tr><td>早班</td><td>08:30</td><td>18:00</td><td>1小时午休</td></tr>
+        <tr><td>晚班</td><td>12:00</td><td>21:00</td><td>1小时晚餐时间</td></tr>
+        <tr><td>全天班</td><td>09:00</td><td>21:00</td><td>轮换安排，1小时休息</td></tr>
       </tbody>
     </table>
     <p style="font-size:0.88em;color:#888;">※ 具体排班由店长统一安排，以实际通知为准。</p>
@@ -76,7 +142,7 @@
     <h3>📌 打卡规定</h3>
     <ul>
       <li>上下班均需打卡，忘记打卡需在当日下班前向店长报备</li>
-      <li>提前15分钟到岗做开班准备（开灯、陈列整理、设备检查）</li>
+      <li>提前10分钟到岗做开班准备（开灯、陈列整理、设备检查）</li>
       <li>不得代人打卡，一经发现，双方均受处罚</li>
     </ul>
 
@@ -102,7 +168,6 @@
     <table class="rule-table">
       <thead><tr><th>假期类型</th><th>天数/规定</th><th>申请方式</th></tr></thead>
       <tbody>
-        <tr><td>年假</td><td>满1年后享有，按年限累加</td><td>提前7天申请，店长审批</td></tr>
         <tr><td>病假</td><td>凭医院证明，按规定发放病假工资</td><td>当日通知，事后补交证明</td></tr>
         <tr><td>事假</td><td>不超过3天/次，不发工资</td><td>提前1天申请</td></tr>
         <tr><td>婚假/产假</td><td>按国家规定执行</td><td>提前告知HR/店长</td></tr>
@@ -117,7 +182,7 @@
       <div class="salary-card">
         <div class="icon">💵</div>
         <div class="name">底薪</div>
-        <div class="desc">按岗位级别固定发放，试用期底薪为正式底薪的80%</div>
+        <div class="desc">按岗位级别固定发放，试用期底薪为咨询区域负责人，常规下是正式员工底薪的80%</div>
       </div>
       <div class="salary-card">
         <div class="icon">📈</div>
@@ -127,7 +192,7 @@
       <div class="salary-card">
         <div class="icon">🏆</div>
         <div class="name">绩效奖金</div>
-        <div class="desc">月度/季度综合评估后发放，包括服务评分、出勤、团队贡献</div>
+        <div class="desc">月度/季度综合评估后发放，包括业绩完成度、服务评分、出勤、团队贡献</div>
       </div>
       <div class="salary-card">
         <div class="icon">🎂</div>
@@ -149,7 +214,7 @@
     <div class="tip-box">
       <div class="label">💡 薪资发放说明</div>
       <ul style="padding-left:18px;">
-        <li>发薪日：每月15日（遇节假日提前发放）</li>
+        <li>发薪日：每月10日/25日（遇节假日提前发放）</li>
         <li>工资条通过企业微信发送，如有疑问请及时向店长/HR核实</li>
         <li>试用期满转正后，薪酬按正式标准重新核算</li>
       </ul>
@@ -203,6 +268,7 @@
       <li>□ 记下店长的联系方式，了解紧急联系流程</li>
       <li>□ 询问师傅：本店目前的销售提成计算方式</li>
       <li>□ 了解试用期转正的具体考核内容</li>
+      <li>□ 如果存在和实际情况不符时，以公司最新制度为基准</li>
     </ul>
   </div>
 
