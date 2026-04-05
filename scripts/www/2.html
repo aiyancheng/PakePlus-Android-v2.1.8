@@ -1,0 +1,1056 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青少年近视防控预测与危害分析系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f5f5f5 100%);
+            padding: 10px;
+            font-size: 16px; /* 默认字体大小 */
+        }
+        
+        .container {
+            max-width: 1200px; /* 限制最大宽度适应平板 */
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2196F3 0%, #21CBF3 100%);
+            color: white;
+            padding: 20px 15px; /* 减少padding */
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.8em; /* 适配平板 */
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            font-size: 1.0em; /* 适配平板 */
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 20px; /* 减少内边距 */
+        }
+        
+        .input-section {
+            background: #f8f9fa;
+            padding: 20px; /* 减少内边距 */
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px; /* 减小间距 */
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 150px; /* 调整最小宽度 */
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #495057;
+            font-size: 14px; /* 适配平板 */
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px; /* 减小内边距 */
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 14px; /* 适配平板 */
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2196F3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+        }
+        
+        button {
+            background: #2196F3;
+            color: white;
+            padding: 10px 20px; /* 减小按钮大小 */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px; /* 适配平板 */
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #1976D2;
+        }
+        
+        .result-section {
+            margin-top: 20px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .prediction-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        .prediction-table th {
+            background: linear-gradient(135deg, #2196F3, #21CBF3);
+            color: white;
+            padding: 12px 8px; /* 减小内边距 */
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px; /* 适配平板 */
+        }
+        
+        .prediction-table td {
+            padding: 10px 8px; /* 减小内边距 */
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            font-size: 14px; /* 适配平板 */
+        }
+        
+        .prediction-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .prediction-table tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .age-cell {
+            font-weight: bold;
+            background-color: #e9ecef !important;
+        }
+        
+        .chart-container {
+            height: 400px; /* 调整图表高度 */
+            margin: 20px 0;
+            padding: 15px; /* 减小内边距 */
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .high-diopter {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52) !important;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .medium-diopter {
+            background: linear-gradient(45deg, #ffd166, #ffb700) !important;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .low-diopter {
+            background: linear-gradient(45deg, #06d6a0, #04b28a) !important;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            padding: 12px; /* 减小内边距 */
+            border-radius: 8px;
+            margin: 15px 0;
+            margin-bottom: 15px;
+            text-indent: 2em;
+            line-height: 1.6;
+            white-space: normal;
+            font-size: 14px; /* 适配平板 */
+        }
+        /* 新增样式：让info-box内的第一个h2标题居中 */
+        .info-box h2:first-child {
+            text-align: center;
+            margin-top: 2;
+        }
+        
+        .summary-box {
+            background: #d4edda;
+            padding: 12px; /* 减小内边距 */
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 14px; /* 适配平板 */
+        }
+        
+        .eye-comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 调整网格大小 */
+            gap: 15px; /* 减小间距 */
+            margin: 20px 0;
+        }
+        
+        .eye-section {
+            background: white;
+            padding: 15px; /* 减小内边距 */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .eye-section h3 {
+            margin-bottom: 12px;
+            color: #2196F3;
+            font-size: 16px; /* 适配平板 */
+        }
+        
+        .eye-image {
+            width: 100%;
+            max-width: 240px; /* 调整图片大小 */
+            height: auto;
+            border-radius: 8px;
+            margin: 8px 0;
+            object-fit: contain;
+        }
+        
+        .risk-calculator {
+            background: #fff3cd;
+            padding: 15px; /* 减小内边距 */
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #ffc107;
+            font-size: 14px; /* 适配平板 */
+        }
+        
+        .complication-card {
+            background: white;
+            padding: 15px; /* 减小内边距 */
+            border-radius: 8px;
+            margin: 12px 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            font-size: 14px; /* 适配平板 */
+        }
+        
+        .complication-card h3 {
+            color: #dc3545;
+            margin-bottom: 8px;
+            font-size: 16px; /* 适配平板 */
+        }
+        
+        .complication-card p {
+            margin: 8px 0;
+        }
+        
+        .method-card {
+            background: white;
+            padding: 15px; /* 减小内边距 */
+            border-radius: 8px;
+            margin: 12px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 14px; /* 适配平板 */
+        }
+        
+        .method-card h3 {
+            color: #28a745;
+            margin-bottom: 8px;
+            font-size: 16px; /* 适配平板 */
+        }
+        
+        .method-card p {
+            margin: 8px 0;
+        }
+        
+        .warning-text {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 15px; /* 减小内边距 */
+            background: #f8f9fa;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+            font-size: 14px; /* 适配平板 */
+            position: relative;
+        }
+        
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 10px;
+        }
+        
+        .disclaimer {
+            flex: 1;
+            text-align: left;
+        }
+        
+        /* 图片框样式 */
+        .image-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .image-frame {
+            width: 100%;
+            max-width: 1000px;
+            border-radius: 10px;
+            padding: 10px;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* 图片展示网格样式 */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .image-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .image-item img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 8px 0;
+            object-fit: contain;
+        }
+        
+        .image-item figcaption {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 针对平板设备的媒体查询 */
+        @media screen and (max-width: 1200px) {
+            body {
+                font-size: 15px;
+            }
+            
+            h1 {
+                font-size: 1.6em;
+            }
+            
+            .subtitle {
+                font-size: 0.9em;
+            }
+            
+            .form-group {
+                min-width: 140px;
+            }
+            
+            .eye-image {
+                max-width: 180px;
+            }
+        }
+        
+        @media screen and (max-width: 1000px) {
+            body {
+                font-size: 14px;
+                padding: 8px;
+            }
+            
+            h1 {
+                font-size: 1.4em;
+            }
+            
+            .subtitle {
+                font-size: 0.85em;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .form-group {
+                min-width: 120px;
+            }
+            
+            .chart-container {
+                height: 350px;
+            }
+            
+            .eye-image {
+                max-width: 160px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+        @media screen and (max-width: 800px) {
+            body {
+                font-size: 13px;
+            }
+            
+            h1 {
+                font-size: 1.3em;
+            }
+            
+            .form-group {
+                min-width: 100px;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+            
+            .eye-image {
+                max-width: 160px;
+            }
+        }
+        
+        @media screen and (max-width: 600px) {
+            body {
+                font-size: 12px;
+                padding: 5px;
+            }
+            
+            h1 {
+                font-size: 1.2em;
+            }
+            
+            .form-group {
+                min-width: 90px;
+            }
+            
+            input, select {
+                font-size: 13px;
+            }
+            
+            .chart-container {
+                height: 280px;
+            }
+            
+            .prediction-table th, 
+            .prediction-table td {
+                padding: 8px 6px;
+                font-size: 13px;
+            }
+            
+            .eye-image {
+                max-width: 150px;
+            }
+        }
+        
+        /* 美化近视对学业和工作影响部分的样式 */
+        .impact-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .impact-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .impact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .impact-card h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e3f2fd;
+            font-size: 1.2em;
+        }
+        
+        .impact-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .impact-list li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .impact-list li:before {
+            content: "•";
+            color: #2196F3;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 8px;
+        }
+        
+        .impact-subtitle {
+            font-weight: bold;
+            color: #1976d2;
+            margin: 10px 0 5px 0;
+            display: block;
+        }
+        
+        /* 针对桌面端的优化 */
+        @media screen and (min-width: 1201px) {
+            body {
+                font-size: 16px;
+            }
+            
+            .container {
+                max-width: 1400px;
+            }
+            
+            h1 {
+                font-size: 2.0em;
+            }
+            
+            .subtitle {
+                font-size: 1.1em;
+            }
+            
+            .content {
+                padding: 25px;
+            }
+            
+            .form-group {
+                min-width: 180px;
+            }
+            
+            .chart-container {
+                height: 450px;
+            }
+            
+            .eye-image {
+                max-width: 280px;
+            }
+            
+            .prediction-table th, 
+            .prediction-table td {
+                padding: 12px 10px;
+                font-size: 15px;
+            }
+        }
+
+        /* 返回首页按钮样式 */
+        .back-to-home {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #2196F3;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-home:hover {
+            background-color: #1976D2;
+            transform: scale(1.1);
+        }
+
+        .back-to-home i {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>近视预测与危害分析</h1>
+        </header>
+        
+        <div class="content">
+            <!-- 预测系统 -->
+            <div class="section active" id="prediction">
+                <div class="input-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="childName">姓名：</label>
+                            <input type="text" id="childName" placeholder="请输入孩子姓名" value="小明">
+                        </div>
+                        <div class="form-group">
+                            <label for="currentAge">当前年龄：</label>
+                            <input type="number" id="currentAge" min="6" max="17" value="12" placeholder="6-17岁">
+                        </div>
+                        <div class="form-group">
+                            <label for="currentDiopter">当前度数（度）：</label>
+                            <input type="number" id="currentDiopter" min="50" max="1000" value="200" placeholder="50-1500度">
+                        </div>
+                        <button onclick="generatePrediction()">生成预测结果</button>
+                    </div>
+                </div>
+                
+                <div class="summary-box" id="summaryBox" style="display: none;">
+                    <h3>📊 预测摘要</h3>
+                    <p id="summaryText"></p>
+                    <p><strong>说明：</strong>本系统假设不干预情况下每年增长100度近视度数。不同防控措施包括：不干预（每年增长100度）、25%防控、50%防控、75%防控、90%防控。数值显示为负数表示近视度数（如-350D表示350度近视）。</p>
+                </div>
+                
+                <div class="result-section">
+                    <h2 id="resultTitle">预测结果</h2>
+                    <div class="table-container">
+                        <table class="prediction-table" id="predictionTable">
+                            <thead>
+                                <tr>
+                                    <th>年龄</th>
+                                    <th>不干预</th>
+                                    <th>25%防控</th>
+                                    <th>50%防控</th>
+                                    <th>75%防控</th>
+                                    <th>90%防控</th>
+                                </tr>
+                            </thead>
+                            <tbody id="predictionBody">
+                                <!-- 表格内容将通过JavaScript动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <h2>📈 不同防控措施下的度数发展趋势</h2>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 危害分析 -->
+            <div class="section" id="risks">
+                <h2>眼轴长度对比</h2>
+                <div class="eye-comparison-grid">
+                    <div class="eye-section">
+                        <h3>正常眼轴</h3>
+                        <img src="images/jinshi1.jpg" alt="正常眼轴" class="eye-image">
+                        <p>正常眼轴长度约为23.5-24mm</p>
+                    </div>
+                    
+                    <div class="eye-section">
+                        <h3>近视眼轴</h3>
+                        <img src="images/jinshi2.jpg" alt="近视眼轴" class="eye-image">
+                        <p>近视眼轴延长至24-26mm</p>
+                    </div>
+                    
+                    <div class="eye-section">
+                        <h3>高度近视眼轴</h3>
+                        <img src="images/jinshi3.jpg" alt="高度近视眼轴" class="eye-image">
+                        <p>高度近视眼轴超过26mm</p>
+                    </div>
+                </div>
+
+                <h2>高度近视的危害</h2>
+                
+                <div class="eye-comparison-grid">
+                    <div class="eye-section">
+                        <h3>300度以内</h3>
+                        <img src="images/yandi1.jpg" alt="正常眼底" class="eye-image">
+                        <p>眼底结构基本正常，轻微豹纹状改变</p>
+                    </div>
+                    
+                    <div class="eye-section">
+                        <h3>300-900度</h3>
+                        <img src="images/yandi2.jpg" alt="中度近视眼底" class="eye-image">
+                        <p>豹纹状眼底随光度增加逐渐明显，可能出现后巩膜葡萄肿</p>
+                    </div>
+                    
+                    <div class="eye-section">
+                        <h3>900度以上</h3>
+                        <img src="images/yandi3.jpg" alt="高度近视眼底" class="eye-image">
+                        <p>萎缩性眼底，视网膜变薄，易发生病变</p>
+                    </div>
+                </div>
+
+                <h2>并发症风险预警</h2>
+                
+                <div class="eye-comparison-grid">
+                    <div class="complication-card">
+                        <h3>青光眼风险</h3>
+                        <p>正常眼压范围：10-21mmHg，超过24mmHg需警惕</p>
+                        
+                        <div class="risk-calculator">
+                            <h4>青光眼风险计算器</h4>
+                            <p>请输入18岁预测度数：<input type="number" id="glaucomaDiopter" min="0" max="2000" value="350"> 度</p>
+                            <button onclick="calculateGlaucomaRisk()">计算风险</button>
+                            <p id="glaucomaResult"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="complication-card">
+                        <h3>视网膜脱落风险</h3>
+                        <p>高度近视是视网膜脱落的重要危险因素</p>
+                        <p class="warning-text">600-900度：风险增加10倍以上</p>
+                        <p class="warning-text">900度以上：风险增加30倍以上</p>
+                        <img src="images/wangtuo.jpg" alt="视网膜脱落示意图" class="eye-image">
+                    </div>
+                    
+                    <div class="complication-card">
+                        <h3>其他并发症</h3>
+                        <p><strong>视网膜下新生血管：</strong>发生率5%-40%</p>
+                        <p><strong>后巩膜葡萄肿：</strong>发生率高达77.1%</p>
+                        <p><strong>视网膜萎缩/出血/脱离：</strong>随度数增加风险递增</p>
+                        <p><strong>遗传风险：</strong>父母均近视子女患病率显著提高</p>
+                        <img src="images/weihai.jpg" alt="其他并发症示意图" class="eye-image">
+                    </div>
+                </div>
+                
+                <h2>外观影响</h2>
+                
+                <div class="eye-comparison-grid">
+                    <div class="eye-section">
+                        <h3>眼睛变小</h3>
+                        <img src="images/bianxiao.jpg" alt="戴镜前后对比" class="eye-image">
+                        <p>长期高度近视导致眼部结构改变</p>
+                    </div>
+                    
+                    <div class="eye-section">
+                        <h3>眼球突出</h3>
+                        <img src="images/tuchu.jpg" alt="眼球突出对比" class="eye-image">
+                        <p>眼轴延长导致眼球前后径增大</p>
+                    </div>
+                    
+                    <div class="eye-section">
+                        <h3>眼神无光</h3>
+                        <img src="images/wushen.jpg" alt="眼神对比" class="eye-image">
+                        <p>眼底病变影响视觉质量</p>
+                    </div>
+                </div>
+                
+                <h2>近视对于学业和工作的影响</h2>
+                
+                <div class="impact-section">
+                    <div class="impact-grid">
+                        <div class="impact-card">
+                            <h3>📚 学业影响</h3>
+                            <ul class="impact-list">
+                                <li><span class="impact-subtitle">学习效率下降</span>近视导致视疲劳，注意力难以集中，影响学习效率</li>
+                                <li><span class="impact-subtitle">专业选择受限</span>军校、警校、飞行技术、航海技术等专业对视力有严格要求，高度近视可能无法报考</li>
+                                <li><span class="impact-subtitle">学习成绩受影响</span>视功能异常可能影响阅读速度和理解能力，进而影响整体学习成绩</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="impact-card">
+                            <h3>💼 职业影响</h3>
+                            <ul class="impact-list">
+                                <li><span class="impact-subtitle">就业限制</span>飞行员、警察、军人、运动员等职业对视力要求较高，近视可能成为入职障碍</li>
+                                <li><span class="impact-subtitle">工作表现</span>长时间使用电脑或精密仪器工作的人员，近视可能加剧视疲劳，影响工作效率</li>
+                                <li><span class="impact-subtitle">职业发展</span>某些精细操作岗位对视力要求极高，高度近视可能限制职业发展空间</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="impact-card">
+                            <h3>🏠 生活影响</h3>
+                            <ul class="impact-list">
+                                <li><span class="impact-subtitle">运动受限</span>高度近视患者不宜参加剧烈运动，以免增加视网膜脱落风险</li>
+                                <li><span class="impact-subtitle">生活不便</span>依赖眼镜或隐形眼镜，雨天、雾天等天气条件下视力受影响</li>
+                                <li><span class="impact-subtitle">经济负担</span>眼镜、隐形眼镜及相关医疗费用构成长期经济负担</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="footer-content">
+                <div class="disclaimer">
+                    <p>重要声明：因个体差异，本系统仅供参考，具体治疗方案请咨询专业视光师</p>
+                    <p>技术支持：高级验光技师闫胜君工作室</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 返回首页按钮 -->
+    <a href="index.html" class="back-to-home">
+        <span>🏠</span>
+    </a>
+
+    <script>
+        // 初始化图表
+        let trendChart = null;
+
+        // 生成预测数据
+        function generatePrediction() {
+            const name = document.getElementById('childName').value || '小朋友';
+            const currentAge = parseInt(document.getElementById('currentAge').value);
+            const currentDiopter = parseInt(document.getElementById('currentDiopter').value);
+
+            if (!currentAge || !currentDiopter || currentAge < 6 || currentAge > 17 || currentDiopter < 50 || currentDiopter > 1000) {
+                alert('请输入有效的年龄（6-17岁）和度数（50-1000度）');
+                return;
+            }
+
+            // 更新标题
+            document.getElementById('resultTitle').textContent = `${name}（${currentAge}岁，${currentDiopter}度）的度数发展趋势预测`;
+
+            // 计算预测数据
+            const tableBody = document.getElementById('predictionBody');
+            tableBody.innerHTML = ''; // 清空现有内容
+
+            // 存储图表数据
+            const chartData = {
+                labels: [],
+                datasets: [
+                    {
+                        label: '不干预（每年增长100度）',
+                        data: [],
+                        borderColor: '#FF6384',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                        tension: 0.4,
+                        fill: false
+                    },
+                    {
+                        label: '25%防控',
+                        data: [],
+                        borderColor: '#36A2EB',
+                        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                        tension: 0.4,
+                        fill: false
+                    },
+                    {
+                        label: '50%防控',
+                        data: [],
+                        borderColor: '#4BC0C0',
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                        tension: 0.4,
+                        fill: false
+                    },
+                    {
+                        label: '75%防控',
+                        data: [],
+                        borderColor: '#FFCD56',
+                        backgroundColor: 'rgba(255, 205, 86, 0.1)',
+                        tension: 0.4,
+                        fill: false
+                    },
+                    {
+                        label: '90%防控',
+                        data: [],
+                        borderColor: '#8E44AD',
+                        backgroundColor: 'rgba(142, 68, 173, 0.1)',
+                        tension: 0.4,
+                        fill: false
+                    }
+                ]
+            };
+
+            // 存储关键数据用于摘要
+            let finalNoControl = 0;
+            let finalControl90 = 0;
+            let yearsTo18 = 18 - currentAge;
+
+            for (let age = currentAge; age <= 18; age++) {
+                const yearsFromNow = age - currentAge;
+                
+                // 计算不同防控措施下的度数（不干预每年增长100度）
+                const noControl = calculateDiopter(currentDiopter, yearsFromNow, 0);
+                const control25 = calculateDiopter(currentDiopter, yearsFromNow, 0.25);
+                const control50 = calculateDiopter(currentDiopter, yearsFromNow, 0.5);
+                const control75 = calculateDiopter(currentDiopter, yearsFromNow, 0.75);
+                const control90 = calculateDiopter(currentDiopter, yearsFromNow, 0.9);
+
+                // 记录18岁时的数据
+                if (age === 18) {
+                    finalNoControl = noControl;
+                    finalControl90 = control90;
+                }
+
+                // 添加到图表数据
+                chartData.labels.push(`${age}岁`);
+                chartData.datasets[0].data.push(noControl);
+                chartData.datasets[1].data.push(control25);
+                chartData.datasets[2].data.push(control50);
+                chartData.datasets[3].data.push(control75);
+                chartData.datasets[4].data.push(control90);
+
+                // 创建表格行
+                const row = document.createElement('tr');
+                
+                // 根据度数范围分配颜色类
+                function getDiopterClass(diopter) {
+                    const absDiopter = Math.abs(diopter);
+                    if (absDiopter >= 600) return 'high-diopter';
+                    if (absDiopter >= 300) return 'medium-diopter';
+                    return 'low-diopter';
+                }
+
+                row.innerHTML = `
+                    <td class="age-cell">${age}岁</td>
+                    <td class="${getDiopterClass(noControl)}">${noControl} 度</td>
+                    <td class="${getDiopterClass(control25)}">${control25} 度</td>
+                    <td class="${getDiopterClass(control50)}">${control50} 度</td>
+                    <td class="${getDiopterClass(control75)}">${control75} 度</td>
+                    <td class="${getDiopterClass(control90)}">${control90} 度</td>
+                `;
+                
+                tableBody.appendChild(row);
+            }
+
+            // 显示摘要
+            const preventedDiopter = Math.abs(currentDiopter) - Math.abs(finalControl90);
+            document.getElementById('summaryText').innerHTML = `
+                如果从现在开始采取90%防控措施，到18岁时相比不干预可预防加深约<strong>${Math.abs(preventedDiopter)}</strong>度。
+                不干预情况下18岁时预计达到<strong>${Math.abs(finalNoControl)}</strong>度，
+                90%防控措施下预计达到<strong>${Math.abs(finalControl90)}</strong>度。
+            `;
+            document.getElementById('summaryBox').style.display = 'block';
+
+            // 销毁旧图表实例（如果存在）
+            if (trendChart) {
+                trendChart.destroy();
+            }
+
+            // 获取画布上下文
+            const ctx = document.getElementById('trendChart').getContext('2d');
+
+            // 创建新图表
+            trendChart = new Chart(ctx, {
+                type: 'line',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `从${currentAge}岁到18岁不同防控措施下的度数发展趋势（不干预每年增长100度）`,
+                            font: {
+                                size: 14
+                            }
+                        },
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            reverse: false, // 小度数在下方，大度数在上方
+                            title: {
+                                display: true,
+                                text: '度数 (度)',
+                                font: {
+                                    size: 12
+                                }
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return Math.abs(value) + '度';
+                                }
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '年龄',
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 计算度数的辅助函数
+        function calculateDiopter(initialDiopter, years, controlRate) {
+            // 基础增长：每年100度
+            const baseAnnualGrowth = 100;
+            
+            // 计算总增长量（应用防控措施）
+            const totalGrowth = baseAnnualGrowth * years * (1 - controlRate);
+            
+            // 返回计算后的度数（保持负值表示近视）
+            return Math.round(initialDiopter + totalGrowth);
+        }
+
+        // 青光眼风险计算器
+        function calculateGlaucomaRisk() {
+            const diopter = parseFloat(document.getElementById('glaucomaDiopter').value);
+            let risk = '';
+            
+            if (diopter < 600) {
+                risk = '风险略高于正常人群';
+            } else if (diopter >= 600 && diopter < 900) {
+                risk = '风险增加6-8倍';
+            } else if (diopter >= 900) {
+                risk = '风险增加8倍以上';
+            } else {
+                risk = '请输入有效度数';
+            }
+            
+            document.getElementById('glaucomaResult').innerHTML = `当前度数${diopter}度，青光风险：${risk}`;
+        }
+
+        // 页面加载完成后自动生成示例数据
+        window.onload = function() {
+            // 使用setTimeout确保DOM完全加载后再执行
+            setTimeout(generatePrediction, 100);
+        };
+    </script>
+</body>
+</html>
+
+
+
