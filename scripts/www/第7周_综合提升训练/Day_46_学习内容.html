@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 46 学习内容：团队协作与门店日常管理</title>
+<style>
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f0f4f8; margin: 0; padding: 20px; }
+  .container { max-width: 960px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 36px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+  h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 12px; }
+  .meta { background: #eaf4ff; border-radius: 8px; padding: 12px 20px; margin: 16px 0; display: flex; gap: 30px; font-size: 14px; color: #1a6fa8; flex-wrap: wrap; }
+  h2 { color: #2980b9; margin-top: 32px; }
+  h3 { color: #1a6fa8; margin-top: 20px; }
+  .tip { background: #eaf4ff; border-left: 4px solid #3498db; padding: 14px 18px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+  .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 16px 0; }
+  .card { border-radius: 10px; padding: 18px; }
+  .card.blue { background: #eaf4ff; border: 1px solid #aed6f1; }
+  .card.green { background: #eafaf1; border: 1px solid #a9dfbf; }
+  .card.yellow { background: #fef9e7; border: 1px solid #f9ca24; }
+  .card.red { background: #fef0ef; border: 1px solid #f5b7b1; }
+  .card h4 { margin: 0 0 10px 0; color: #2c3e50; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th { background: #3498db; color: #fff; padding: 10px 14px; }
+  td { padding: 10px 14px; border-bottom: 1px solid #d6eaf8; }
+  tr:nth-child(even) td { background: #f0f7ff; }
+  .steps { counter-reset: step; }
+  .step { counter-increment: step; padding: 14px 18px 14px 54px; position: relative; background: #f8fbff; border: 1px solid #d6eaf8; border-radius: 8px; margin: 10px 0; }
+  .step::before { content: counter(step); position: absolute; left: 16px; top: 50%; transform: translateY(-50%); background: #3498db; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+  .role-box { border: 2px solid #3498db; border-radius: 10px; padding: 16px; margin: 12px 0; }
+  .role-title { background: #3498db; color: #fff; display: inline-block; padding: 4px 14px; border-radius: 20px; font-weight: bold; font-size: 14px; margin-bottom: 10px; }
+  .summary { background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); color: #fff; border-radius: 10px; padding: 20px 24px; margin-top: 30px; }
+  .summary ul { margin: 8px 0; padding-left: 20px; }
+  .summary li { margin: 6px 0; }
+  .scenario { background: #fff8f0; border-left: 4px solid #e67e22; padding: 14px 18px; border-radius: 0 8px 8px 0; font-style: italic; color: #7d4a1a; }
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#8e44ad,#6c3483);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#8e44ad;border:2px solid #8e44ad}
+  .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .do { background: #eafaf1; border: 1px solid #82e0aa; border-radius: 8px; padding: 16px; }
+  .dont { background: #fdecea; border: 1px solid #f5b7b1; border-radius: 8px; padding: 16px; }
+  .do h4 { color: #1e8449; margin: 0 0 8px 0; }
+  .dont h4 { color: #c0392b; margin: 0 0 8px 0; }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🤝 Day 46：团队协作与门店日常管理</h1>
+  <div class="meta">
+    <span>📅 第7周 第4天</span>
+    <span>⏱ 学习时长：60分钟</span>
+    <span>🎯 目标：掌握团队协作技能与日常管理规范</span>
+    <span>👥 主题：高效团队与规范管理</span>
+  </div>
+
+  <div class="tip">
+    💡 <strong>核心认知：</strong>一个优秀的眼镜门店，靠的不只是每个人的个人能力，更是团队的整体协同。好的团队文化能让每个人都发挥出最大价值，让门店运营稳健而有活力。
+  </div>
+
+  <!-- 一、团队协作基础 -->
+  <h2>一、眼镜门店团队协作的核心要素</h2>
+
+  <div class="card-grid">
+    <div class="card blue">
+      <h4>🎯 共同目标</h4>
+      团队每个人都清楚当月销售目标、服务标准和重点任务，方向一致，合力更强。
+    </div>
+    <div class="card green">
+      <h4>💬 及时沟通</h4>
+      遇到问题主动沟通，不积累矛盾。顾客信息、库存变动、特殊情况及时传递给同事。
+    </div>
+    <div class="card yellow">
+      <h4>🔄 灵活补位</h4>
+      同事接待顾客时，主动关注是否需要协助；繁忙时段互相支援，不各自为战。
+    </div>
+    <div class="card red">
+      <h4>🌟 正向氛围</h4>
+      互相肯定和鼓励，避免当着顾客面争论或互相埋怨，维护团队整体形象。
+    </div>
+  </div>
+
+  <!-- 二、角色与职责 -->
+  <h2>二、门店各岗位职责与协作界面</h2>
+
+  <div class="role-box">
+    <div class="role-title">👔 店长</div>
+    负责整体目标制定、人员排班、绩效管理、重大客诉处理、与总部沟通；日常巡店，发现问题及时指导；是团队的核心纽带。
+  </div>
+
+  <div class="role-box">
+    <div class="role-title">🔬 验光师</div>
+    负责顾客视力检测、验光报告出具、屈光问题解答；配合销售人员完成专业咨询环节；验光间管理和仪器保养。
+  </div>
+
+  <div class="role-box">
+    <div class="role-title">🛍️ 销售顾问</div>
+    负责顾客接待、产品推荐、成交和开单；配合验光师完成验配全流程；客户档案维护和售后跟进。
+  </div>
+
+  <div class="role-box">
+    <div class="role-title">🔧 加工技师</div>
+    负责眼镜磨制、装配、质检；确保交货时间；协助处理眼镜调整和维修；保持加工区整洁。
+  </div>
+
+  <table class="structure-table">
+    <tr><th>协作场景</th><th>涉及角色</th><th>配合要点</th></tr>
+    <tr><td>新顾客进店验光</td><td>销售顾问→验光师</td><td>提前告知顾客年龄、主诉、特殊要求；验光完毕后及时接手继续销售</td></tr>
+    <tr><td>高度数/特殊处方</td><td>验光师→销售顾问</td><td>验光师主动提示适合的镜片建议，避免销售人员选错产品</td></tr>
+    <tr><td>繁忙时段多位顾客</td><td>全员协作</td><td>优先照顾等候最久的顾客，销售之间相互告知顾客情况</td></tr>
+    <tr><td>眼镜加工异常</td><td>技师→销售顾问</td><td>技师第一时间告知销售，销售负责与顾客沟通延误原因和补偿方案</td></tr>
+    <tr><td>大客诉升级</td><td>销售顾问→店长</td><td>及时上报，不自行承诺超出权限的补偿；提供完整事件经过</td></tr>
+  </table>
+
+  <!-- 三、日常管理规范 -->
+  <h2>三、门店日常运营管理规范</h2>
+
+  <h3>📋 开班流程（每日开店必做）</h3>
+  <div class="steps">
+    <div class="step">仪容仪表检查：工装整洁，徽章佩戴，精神状态饱满</div>
+    <div class="step">卫生清洁：门店各区域清扫，展示柜擦拭，验光室消毒</div>
+    <div class="step">商品陈列检查：确认产品摆放整齐，价签完整，无缺货展示位</div>
+    <div class="step">设备自检：验光仪器开机预热，收银系统正常，加工设备运行检查</div>
+    <div class="step">昨日数据回顾：了解昨日销售情况，确定今日重点任务</div>
+    <div class="step">早会（5-10分钟）：分享今日目标、特别活动、注意事项</div>
+  </div>
+
+  <h3>📋 收班流程（每日闭店必做）</h3>
+  <div class="steps">
+    <div class="step">收银核对：盘点当日现金、POS流水，确认与系统一致</div>
+    <div class="step">库存盘点：记录当日售出，检查库存异常</div>
+    <div class="step">日报填写：汇总当日销售数据，填写日报表，发团队群</div>
+    <div class="step">陈列整理：将展示品归位，展柜上锁，样品清点</div>
+    <div class="step">设备关闭：验光仪器关机，加工设备断电，安全检查</div>
+    <div class="step">环境整理：清洁门店环境，垃圾清理，关闭灯光和空调</div>
+  </div>
+
+  <!-- 四、沟通技巧 -->
+  <h2>四、团队内部沟通技巧</h2>
+
+  <div class="do-dont">
+    <div class="do">
+      <h4>✅ 有效沟通（应该做）</h4>
+      <ul>
+        <li>反馈问题时说清楚"什么时间、什么情况、什么影响"</li>
+        <li>提建议时搭配解决方案，而非只说"这样不好"</li>
+        <li>接受任务后复述确认，确保理解一致</li>
+        <li>当面沟通比文字更清晰，避免群内误解</li>
+        <li>分歧时以"事实"为依据，而非"感受"争论</li>
+      </ul>
+    </div>
+    <div class="dont">
+      <h4>❌ 沟通雷区（避免做）</h4>
+      <ul>
+        <li>在顾客面前抱怨同事或互相推责</li>
+        <li>收到任务后不响应，让人"不知道是否收到"</li>
+        <li>背后议论同事的销售数据或薪资</li>
+        <li>遇到问题不说，积累到爆发才提出</li>
+        <li>情绪化沟通，带着负面情绪讨论工作问题</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 五、常见协作场景 -->
+  <h2>五、典型协作场景解析</h2>
+
+  <h3>场景1：同事正在接待顾客，你如何协助？</h3>
+  <div class="scenario">
+    同事A正在为一位阿姨介绍渐进镜片，阿姨的老伴在旁边等候，你发现老伯也在看展柜上的眼镜。
+  </div>
+  <div class="tip">
+    <strong>正确做法：</strong>主动上前向老伯问好，询问"叔叔，您是陪太太来的，自己也有需要帮到您的地方吗？"——既不打断同事的服务，又主动捕捉潜在商机，还改善了等候体验。
+  </div>
+
+  <h3>场景2：繁忙时段三位顾客同时进店</h3>
+  <div class="scenario">
+    中午高峰期，你正在接待一位配镜顾客，同事也在忙，又同时进来两位新顾客，怎么办？
+  </div>
+  <div class="tip">
+    <strong>正确做法：</strong>首先向正在接待的顾客说"请稍等一下"，立即转身向新进门顾客打招呼："您好，欢迎光临！我马上就来，请先随便看看，有什么需要随时叫我。"——三方兼顾，不让任何人感到被忽视。同时用眼神或手势示意同事帮忙分担。
+  </div>
+
+  <h3>场景3：你认为某个工作安排不合理</h3>
+  <div class="scenario">
+    店长安排你这周每天下午负责门店清洁，你觉得这影响了你的接待时间和销售成绩，该怎么表达？
+  </div>
+  <div class="tip">
+    <strong>正确做法：</strong>选择合适时机（非忙碌时段）私下与店长沟通，先理解安排的原因，再表达自己的想法："店长，我理解清洁工作很重要，我也会做好。我想跟您反馈一下，下午2-4点通常是我们的客流高峰，如果我在这个时候做清洁，可能会影响接待效率。您看能不能调整一下时间安排，或者我们轮换一下？"——有建设性，不是简单抱怨，让对方感受到你是在解决问题。
+  </div>
+
+  <div class="summary">
+    <h3 style="margin:0 0 12px 0;">📚 Day 46 学习小结</h3>
+    <ul>
+      <li>团队协作的四核心：共同目标、及时沟通、灵活补位、正向氛围</li>
+      <li>门店各岗位（店长/验光师/销售/技师）职责清晰，协作界面明确</li>
+      <li>开班6步：仪容→清洁→陈列→设备→数据→早会</li>
+      <li>收班6步：收银→库存→日报→整理→设备关→环境清</li>
+      <li>沟通的核心：说清楚事实，带着方案，当面确认，避免情绪化</li>
+    </ul>
+    <p style="margin-top:14px; color:#cce5ff;">🎯 <strong>今日行动：</strong>观察今天与同事的协作情况，找出一个可以改善的协作环节，并主动跟店长分享你的想法。</p>
+  </div>
+
+  <div class="nav-footer">
+    <a href="Day_45_练习题.html" class="nav-btn outline">← Day 45 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_46_练习题.html" class="nav-btn">Day 46 练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
