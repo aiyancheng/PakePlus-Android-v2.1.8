@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 15 | 验光辅助操作入门</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}
+  .header{background:linear-gradient(135deg,#fff3e0,#ffe0b2);padding:40px 30px;border-bottom:3px solid #FF9800;}
+  .day-tag{background:#FF9800;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}
+  .header h1{font-size:2em;color:#e65100;margin-bottom:8px;}
+  .header .subtitle{color:#555;}
+  .container{max-width:900px;margin:30px auto;padding:0 20px;}
+  .objective-box{background:#fff3e0;border-left:5px solid #FF9800;border-radius:8px;padding:20px 24px;margin-bottom:30px;}
+  .objective-box h3{color:#e65100;margin-bottom:10px;}
+  .objective-box li{margin-bottom:6px;font-size:0.95em;}
+  .section{background:white;border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+  .section h2{font-size:1.3em;color:#e65100;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #fff3e0;}
+  .section h3{font-size:1.05em;color:#333;margin:18px 0 10px;}
+  .section p{line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em;}
+  .section ul,.section ol{padding-left:20px;margin-bottom:14px;}
+  .section li{line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px;}
+  .step-list{margin:16px 0;}
+  .step-item{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start;}
+  .step-num{background:#FF9800;color:white;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85em;flex-shrink:0;margin-top:2px;}
+  .step-content .title{font-weight:700;color:#333;margin-bottom:4px;}
+  .step-content .desc{font-size:0.9em;color:#555;line-height:1.6;}
+  .step-content .tip{font-size:0.82em;color:#FF9800;margin-top:4px;}
+  .equipment-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0;}
+  .equip-card{background:#f5f5f5;border-radius:10px;padding:16px;border-left:4px solid #FF9800;}
+  .equip-card h4{color:#e65100;margin-bottom:8px;}
+  .equip-card p{font-size:0.88em;color:#555;line-height:1.6;}
+  .warning-box{background:#ffebee;border-left:4px solid #f44336;border-radius:8px;padding:16px 20px;margin:16px 0;}
+  .warning-box .label{color:#c62828;font-weight:700;margin-bottom:8px;}
+  .highlight-box{background:#fff8e1;border:1px solid #FFD54F;border-radius:8px;padding:16px 20px;margin:16px 0;}
+  .highlight-box .label{color:#F57F17;font-weight:700;font-size:0.85em;margin-bottom:6px;}
+  .checklist{background:#f5f5f5;border-radius:8px;padding:16px;margin:14px 0;}
+  .checklist-item{display:flex;gap:10px;margin-bottom:8px;font-size:0.9em;align-items:flex-start;}
+  .checklist-item::before{content:"☐";color:#FF9800;font-size:1.1em;flex-shrink:0;}
+  .summary-box{background:linear-gradient(135deg,#fff3e0,#fff8e1);border-radius:12px;padding:24px;margin-top:30px;}
+  .summary-box h3{color:#e65100;margin-bottom:14px;}
+  .summary-box li{margin-bottom:8px;font-size:0.95em;}
+  .nav-footer{display:flex;justify-content:space-between;margin:30px 0 40px;}
+  .nav-btn{background:#FF9800;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}
+  .nav-btn.outline{background:white;color:#FF9800;border:2px solid #FF9800;}
+  @media(max-width:600px){.equipment-grid{grid-template-columns:1fr;}}
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="day-tag">📅 第3周 · Day 15</span>
+  <h1>🔬 验光辅助操作入门</h1>
+  <div class="subtitle">模块：技能 Skills | 今日主题：验光流程认知 · 设备辅助操作 · 顾客准备工作</div>
+</div>
+<div class="container">
+  <div class="objective-box">
+    <h3>🎯 今日学习目标</h3>
+    <ul>
+      <li>了解门店验光的基本流程（电脑验光→综合验光→处方确认）</li>
+      <li>掌握验光前的顾客准备工作（信息收集、消毒、引导）</li>
+      <li>了解主要验光设备的名称和用途</li>
+      <li>明确验光师和销售顾问在验光环节的分工边界</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>⚙️ 第一部分：门店验光设备认知</h2>
+    <div class="equipment-grid">
+      <div class="equip-card">
+        <h4>🖥️ 电脑验光仪（Auto-Refractor）</h4>
+        <p>快速测量眼睛屈光状态，给出初步度数参考值（俗称"电脑验光"）。结果作为综合验光的参考，不能直接作为配镜处方使用。</p>
+      </div>
+      <div class="equip-card">
+        <h4>🔭 综合验光仪（Phoropter）</h4>
+        <p>由验光师操作，通过精细调整让顾客判断清晰度，最终确定精确处方。这是专业验光的核心设备，销售顾问不操作。</p>
+      </div>
+      <div class="equip-card">
+        <h4>📏 瞳距仪（PD Ruler）</h4>
+        <p>测量双眼瞳孔之间的距离（PD值），是镜片加工的必要数据。销售顾问可在培训后协助测量。</p>
+      </div>
+      <div class="equip-card">
+        <h4>💡 裂隙灯（Slit Lamp）</h4>
+        <p>由验光师/眼科医生使用，检查眼前节结构（角膜、晶状体等）。是眼健康筛查的重要工具，非验配人员不操作。</p>
+      </div>
+    </div>
+    <div class="warning-box">
+      <div class="label">⚠️ 重要边界</div>
+      <p>综合验光仪和裂隙灯<strong>由验光师专业操作</strong>，销售顾问不得随意触碰或演示给顾客。如顾客询问，如实说明由专业验光师操作即可。</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📋 第二部分：验光前准备工作（销售顾问负责）</h2>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="title">收集基本信息</div>
+          <div class="desc">询问顾客：是首次配镜还是复查？上次配镜多久了？有没有既往处方？是否有眼部疾病史？
+          </div>
+          <div class="tip">💬 话术："您好，为了给您提供更准确的验光，请问您上次配镜大概是什么时候？"</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="title">填写顾客信息表</div>
+          <div class="desc">协助顾客填写或代为录入：姓名、联系方式、年龄、原处方（如有）、特殊要求（如防蓝光、渐进需求等）。</div>
+          <div class="tip">⚠️ 提醒：信息需准确录入系统，保护顾客隐私</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="title">引导顾客进入验光室</div>
+          <div class="desc">面带微笑，手势引导（手掌向上），说明等候时间："验光室在这边，验光师会为您服务，大约需要15~20分钟。"</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="title">电脑验光辅助</div>
+          <div class="desc">部分门店由销售顾问协助做初步电脑验光（需培训后方可操作）：引导顾客下颌放在托架上，调整好高度，叫顾客看正前方的视标。</div>
+          <div class="tip">⚠️ 须经过门店专项培训后方可独立操作</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="title">等候期间维护顾客体验</div>
+          <div class="desc">顾客等待时：提供饮水、分享视力健康知识、可以初步了解镜架偏好，为后续推荐做准备。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🧹 第三部分：设备清洁与消毒规范</h2>
+    <p>每位顾客使用验光设备前后，须做好消毒工作：</p>
+    <div class="checklist">
+      <div class="checklist-item">电脑验光仪额托、下颌托：每次使用后用酒精棉片擦拭消毒</div>
+      <div class="checklist-item">综合验光仪额托、眼罩：每次使用后由验光师消毒或更换一次性垫片</div>
+      <div class="checklist-item">试戴镜框：顾客试戴后用专用消毒液喷洒，晾干备用</div>
+      <div class="checklist-item">验光室椅子：高频接触部位每日消毒一次</div>
+    </div>
+    <div class="highlight-box">
+      <div class="label">💡 消毒的意义</div>
+      <p>消毒不仅是卫生要求，也是对顾客眼部健康的保护。一旦顾客发现设备未消毒，会严重影响对门店的信任。<strong>每次使用前后消毒，形成习惯。</strong></p>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>📝 今日要点总结</h3>
+    <ul>
+      <li>✅ 电脑验光仪给初步参考，综合验光仪由专业验光师操作</li>
+      <li>✅ 销售顾问负责：信息收集、引导顾客、等候维护、消毒</li>
+      <li>✅ 验光前需了解顾客基本情况（是否首次、眼部病史等）</li>
+      <li>✅ 每次使用后消毒是基本规范，不可省略</li>
+    </ul>
+    <p style="margin-top:14px; color:#e65100; font-weight:600;">🎯 今日任务：在师傅带领下完整走一遍验光前的准备流程，包括填表、引导和设备消毒</p>
+  </div>
+
+    <div class="section">
+    <h2>🔬 电脑验光仪操作详解</h2>
+    <h3>📌 操作前准备</h3>
+    <ul>
+      <li>检查仪器是否正常开机，打印纸是否充足</li>
+      <li>调整椅子高度，使客户下巴自然放置于托架</li>
+      <li>确认房间光线适中，不过亮也不过暗</li>
+    </ul>
+    <h3>📌 测量步骤</h3>
+    <ol style="padding-left:20px;margin-bottom:14px;">
+      <li style="margin-bottom:6px;">嘱咐客户放松，注视仪器内的目标图案（通常是气球/热气球）</li>
+      <li style="margin-bottom:6px;">调整焦距，使目标图案清晰对焦</li>
+      <li style="margin-bottom:6px;">按下测量键，自动测量3次取均值</li>
+      <li style="margin-bottom:6px;">先测右眼，遮盖左眼；再测左眼，遮盖右眼</li>
+      <li style="margin-bottom:6px;">打印数据，核对并签名</li>
+    </ol>
+    <div class="tip-box" style="background:#fff3e0;border-left:4px solid #FF9800;">
+      <div class="label" style="color:#e65100;">💡 注意事项</div>
+      <p>电脑验光仅是初始参考，不能直接作为配镜处方。需要后续进行主觉验光确认。告知客户"这是初步检测，后面还需要您配合进一步确认"。</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📐 视力表使用规范</h2>
+    <ul>
+      <li>视力表距离：国际标准5米（或镜像5米）</li>
+      <li>检查环境：光线充足均匀，无眩光</li>
+      <li>先查裸眼视力，再查矫正视力</li>
+      <li>从较大字符向下，找到能辨认的最小行</li>
+      <li>每行字符辨认率大于50%才计入该行视力</li>
+    </ul>
+    <p>视力记录：如能辨认0.8行但不能全部辨认0.9行，记录为0.8。</p>
+  </div>
+
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="../第2周_光学与产品知识/Day_14_学习内容.html">← Day 14</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_15_练习题.html">今日练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
