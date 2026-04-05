@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 49 练习题 / 第7周周测：综合能力考核</title>
+<style>
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f0f4f0; margin: 0; padding: 20px; }
+  .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  h1 { color: #2c3e50; border-bottom: 3px solid #27ae60; padding-bottom: 12px; }
+  .info-bar { background: #eafaf1; border-radius: 8px; padding: 12px 20px; margin: 16px 0; display: flex; gap: 24px; font-size: 14px; color: #1e8449; flex-wrap: wrap; }
+  h2 { color: #27ae60; margin-top: 30px; }
+  .question { background: #f9fffa; border: 1px solid #a9dfbf; border-radius: 8px; padding: 20px; margin: 16px 0; }
+  .question-num { font-weight: bold; color: #27ae60; font-size: 15px; }
+  .option { padding: 8px 12px; margin: 6px 0; background: #eafaf1; border-radius: 6px; cursor: pointer; border: 1px solid #82e0aa; }
+  .option:hover { background: #c8f7d4; }
+  .fill-input { width: 100%; padding: 10px; border: 1px solid #82e0aa; border-radius: 6px; font-size: 14px; margin-top: 8px; box-sizing: border-box; }
+  .answer-box { background: #eafaf1; border: 1px dashed #27ae60; border-radius: 8px; padding: 14px 18px; margin-top: 10px; display: none; color: #1a5c38; }
+  .btn { background: #27ae60; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; margin: 4px; }
+  .btn:hover { background: #1e8449; }
+  .btn-submit { background: #2980b9; }
+  .btn-submit:hover { background: #1f6fa8; }
+  .section-tag { background: #27ae60; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-right: 8px; }
+  .score-box { background: linear-gradient(135deg, #27ae60, #1e8449); color: #fff; border-radius: 12px; padding: 24px; text-align: center; margin-top: 24px; display: none; }
+  .score-num { font-size: 52px; font-weight: bold; }
+  .week-tag { background: #e74c3c; color: #fff; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-left: 8px; }
+  .data-box { background: #f0f8ff; border: 1px solid #aed6f1; border-radius: 8px; padding: 14px; margin: 10px 0; font-family: monospace; font-size: 14px; }
+  .scenario { background: #fff8f0; border-left: 4px solid #e67e22; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 10px 0; color: #7d4a1a; font-size: 14px; }
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#27ae60;border:2px solid #27ae60}
+
+  /* interactive-options-type-d */
+  .option { cursor: pointer; transition: all 0.2s; }
+  .option.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .option.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .option.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .option.answered    { pointer-events: none !important; cursor: default !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 49 / 第7周周测 <span class="week-tag">WEEK 7 TEST</span></h1>
+  <div class="info-bar">
+    <span>📅 第7周 第7天</span>
+    <span>⏱ 考试时长：45分钟</span>
+    <span>📊 总分：100分</span>
+    <span>🎯 通过线：70分</span>
+    <span>📋 考核范围：Day43-49全部内容</span>
+  </div>
+
+  <!-- 第一部分：单选题 -->
+  <h2><span class="section-tag">A</span>单选题（每题5分，共40分）</h2>
+
+  <div class="question">
+    <div class="question-num">1. 主觉验光中，确认球镜度数的原则是？</div>
+    <div class="option">A. 最小正度数或最大负度数</div>
+    <div class="option">B. 最大正度数或最小负度数</div>
+    <div class="option">C. 以顾客感觉舒适为准，无固定原则</div>
+    <div class="option">D. 以电脑验光结果为准</div>
+    <button class="btn" style="background:#27ae60;" onclick="toggleAnswer('a1')">查看答案</button>
+    <div class="answer-box" id="a1">✅ <strong>答案：B</strong> — 最大正度数或最小负度数原则，确保矫正效果的同时避免过矫，保护调节功能。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">2. 门店日销售额计算公式是？</div>
+    <div class="option">A. 客流量 + 成交率 + 客单价</div>
+    <div class="option">B. 客流量 × 成交率 × 客单价</div>
+    <div class="option">C. 进店人数 ÷ 成交单数</div>
+    <div class="option">D. 总销售额 ÷ 员工人数</div>
+    <button class="btn" style="background:#27ae60;" onclick="toggleAnswer('a2')">查看答案</button>
+    <div class="answer-box" id="a2">✅ <strong>答案：B</strong> — 日销售额 = 客流量 × 成交率 × 客单价，三个乘数同等重要。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">3. 顾客进门说"你们最便宜的多少钱？"，他属于哪种类型？</div>
+    <div class="option">A. 目的明确型</div>
+    <div class="option">B. 随意浏览型</div>
+    <div class="option">C. 价格敏感型</div>
+    <div class="option">D. 品质至上型</div>
+    <button class="btn" style="background:#27ae60;" onclick="toggleAnswer('a3')">查看答案</button>
+    <div class="answer-box" id="a3">✅ <strong>答案：C</strong> — 开口问最低价是价格敏感型顾客的典型特征，应对策略是用"价值分解法"引导关注性价比而非单纯价格。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">4. 顾客试戴后问"这个颜色还有其他的吗？"，这属于？</div>
+    <div class="option">A. 退出信号</div>
+    <div class="option">B. 积极购买信号</div>
+    <div class="option">C. 顾客在随意闲聊</div>
+    <div class="option">D. 顾客对款式不满意</div>
+    <button class="btn" style="background:#27ae60;" onclick="toggleAnswer('a4')">查看答案</button>
+    <div class="answer-box" id="a4">✅ <strong>答案：B</strong> — 问颜色选项说明顾客已对这款有兴趣，只是在寻找最适合自己的那个颜色，这是典型的积极购买信号。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">5. 活动策划7步法中，"利益点设计"应该在哪一步完成？</div>
+    <div class="option">A. 第1步（明确目标之前）</div>
+    <div class="option">B. 第3步（在目标和主题确定后）</div>
+    <div class="option">C. 第5步（传播推广阶段）</div>
+    <div class="option">D. 第7步（复盘总结后）</div>
+    <button class="btn" style="background:#27ae60;" onclick="toggleAnswer('a5')">查看答案</button>
+    <div class="answer-box" id="a5">✅ <strong>答案：B</strong> — 利益点是活动策划的第3步，在明确目标和主题之后，根据目标人群的需求设计他们能得到的价值。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">6. 顾客陪同者不断摇头表示不满意，正确的应对策略是？</div>
+    <div class="option">A. 无视陪同者，只关注主顾客</div>
+    <div class="option">B. 让陪同者不要干涉</div>
+    <div class="option">C. 主动询问陪同者的意见，将其转化为"销售盟友"</div>
+    <div class="option">D. 降价来弥补陪同者的不满</div>
+    <button class="btn" style="background:#27ae60;" onclick="toggleAnswer('a6')">查看答案</button>
+    <div class="answer-box" id="a6">✅ <strong>答案：C</strong> — 他人影响型顾客非常在意陪同者的评价。与其让陪同者成为阻碍，不如主动将其变成助力——当陪同者表达认可，顾客自然更快决定。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">7. 团队协作中，发现同事在接待顾客而店里还有顾客无人照顾，你应该？</div>
+    <div class="option">A. 等同事忙完</div>
+    <div class="option">B. 主动接待无人服务的顾客，灵活补位</div>
+    <div class="option">C. 大声叫同事快点</div>
+    <div class="option">D. 通知店长来处理</div>
+    <button class="btn" style="background:#27ae60;" onclick="toggleAnswer('a7')">查看答案</button>
+    <div class="answer-box" id="a7">✅ <strong>答案：B</strong> — 灵活补位是团队协作的核心要素之一，主动填补服务空缺是优秀员工的本能反应。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">8. 消费心理中，"大家都买这款"这句话利用了哪种心理规律？</div>
+    <div class="option">A. 锚定效应</div>
+    <div class="option">B. 稀缺心理</div>
+    <div class="option">C. 从众心理</div>
+    <div class="option">D. 互惠原则</div>
+    <button class="btn" style="background:#27ae60;" onclick="toggleAnswer('a8')">查看答案</button>
+    <div class="answer-box" id="a8">✅ <strong>答案：C</strong> — 从众心理：当消费者看到"大家都在买"，会觉得自己的选择更有保障，降低购买顾虑。</div>
+  </div>
+
+  <!-- 第二部分：计算题 -->
+  <h2><span class="section-tag">B</span>数据计算题（每题10分，共20分）</h2>
+
+  <div class="question">
+    <div class="question-num">9. 计算以下门店的核心数据指标：</div>
+    <div class="data-box">
+      当日进店人数：95人<br>
+      成交单数：43单<br>
+      当日销售总额：61,420元<br>
+      卖出物品：眼镜44副、护理液12瓶、眼镜布30条、镜片88片
+    </div>
+    <textarea class="fill-input" rows="5" placeholder="计算：成交率=? 客单价=? 连带率（以副/瓶/条为件计）=?"></textarea>
+    <button class="btn" style="background:#27ae60;" onclick="toggleAnswer('a9')">查看答案</button>
+    <div class="answer-box" id="a9">
+      ✅ <strong>答案：</strong><br>
+      • 成交率 = 43 ÷ 95 × 100% = <strong>45.3%</strong><br>
+      • 客单价 = 61,420 ÷ 43 = <strong>1,428.4元/单</strong>（优秀水平）<br>
+      • 总件数 = 44 + 12 + 30 = 86件（镜片通常不单独计件，以副计则44副眼镜含88片，可按门店规则）<br>
+      • 连带率 = 86 ÷ 43 = <strong>2.0</strong>（达到优良水平）
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">10. 某门店本月目标10万元，已完成9周（不对，已过3周），第1周完成28,000元，第2周完成31,500元，第3周完成24,600元。问：前三周累计完成率是多少？若要完成月度目标，第4周需完成多少？</div>
+    <textarea class="fill-input" rows="4" placeholder="写出计算过程..."></textarea>
+    <button class="btn" style="background:#27ae60;" onclick="toggleAnswer('a10')">查看答案</button>
+    <div class="answer-box" id="a10">
+      ✅ <strong>答案：</strong><br>
+      • 前三周累计 = 28,000 + 31,500 + 24,600 = <strong>84,100元</strong><br>
+      • 前三周完成率 = 84,100 ÷ 100,000 × 100% = <strong>84.1%</strong><br>
+      • 第4周需完成 = 100,000 - 84,100 = <strong>15,900元</strong><br>
+      • 分析：前3周周均约28,033元，第4周需15,900元，低于前三周均值，只要保持正常状态即可完成目标。
+    </div>
+  </div>
+
+  <!-- 第三部分：情景综合题 -->
+  <h2><span class="section-tag">C</span>情景综合应答题（每题20分，共40分）</h2>
+
+  <div class="question">
+    <div class="question-num">11. 综合情景题一：全流程销售模拟</div>
+    <div class="scenario">
+      顾客（女，35岁，教师）进门说："我想配副眼镜，最近用电脑多，眼睛很累，之前配的眼镜度数可能不够了。"
+    </div>
+    <textarea class="fill-input" rows="10" placeholder="请写出完整的接待流程：
+①开场问候→②需求挖掘（追问用眼习惯/时长/场景）→③引导验光→④基于验光结果推荐产品→⑤应对可能的价格异议→⑥成交引导"></textarea>
+    <button class="btn" style="background:#27ae60;" onclick="toggleAnswer('a11')">查看参考答案</button>
+    <div class="answer-box" id="a11">
+      ✅ <strong>参考完整流程：</strong><br><br>
+      <strong>①开场：</strong>"您好！欢迎光临，请里面坐。看您提到用电脑多、眼睛疲劳，我先帮您了解一下具体情况，好给您找到最适合的方案。"<br><br>
+      <strong>②需求挖掘：</strong>"请问您现在每天大概用电脑几个小时？主要是工作还是也用手机？您现在戴的眼镜是什么时候配的？有没有出现过眯眼看不清的情况？"<br><br>
+      <strong>③引导验光：</strong>"根据您说的情况，建议我们先做一个全面的验光，看看目前度数有没有变化，这样配镜更精准。验光大概8-10分钟，我带您去验光室。"<br><br>
+      <strong>④产品推荐（假设验光后度数增加）：</strong>"您的度数确实有所增加，而且您每天用电脑时间长，我建议您考虑豪雅锐翔系列——这是专为长时间使用数字设备设计的，能减少眼睛调节负担，长时间用下来眼睛不容易疲劳。"<br><br>
+      <strong>⑤价格异议应对（若顾客觉得贵）：</strong>"我理解价格是个考量因素。这款镜片是1280元，您每天用电脑8-10小时，用3年的话每天不到1.2元，而用眼舒适度对教学工作来说特别重要。我们也有稍便宜的基础款，但防蓝光效果和调节减压效果就弱一些，您看哪个更符合您的需求？"<br><br>
+      <strong>⑥成交引导：</strong>"我帮您把这款镜片配上这副镜架的效果给您看一下。通常3个工作日可以取，您周几方便过来？我帮您预约一下。"
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">12. 综合情景题二：数据分析+改进方案</div>
+    <div class="scenario">
+      你是某眼镜门店本月的销售主任，店长给你看了这份数据：本月目标8万元，实际销售63,400元（达成率79.3%）；成交率32%（行业均值45%）；客单价1,050元（行业均值700元）；人效仅2.1万/人（3人团队）。
+    </div>
+    <textarea class="fill-input" rows="10" placeholder="请写出：①这份数据说明了什么核心问题？②主要问题在哪个指标上？③给出3条可执行的改进建议，并说明预期效果..."></textarea>
+    <button class="btn" style="background:#27ae60;" onclick="toggleAnswer('a12')">查看参考答案</button>
+    <div class="answer-box" id="a12">
+      ✅ <strong>参考分析：</strong><br><br>
+      <strong>①核心问题：</strong>销售额未达标，根本原因是成交率严重偏低（32% vs 均值45%），虽然客单价超过行业水平（1050 vs 700），说明团队在"单次销售质量"上不错，但接待转化效率太低。<br><br>
+      <strong>②主要问题：</strong>成交率是核心短板。进店顾客中有近70%没有成交，是严重的流失。<br><br>
+      <strong>③改进建议：</strong><br>
+      <strong>建议一——话术培训：</strong>针对成交率低，重点排查是"开场拦截不够"还是"异议处理能力弱"还是"成交时机判断差"，组织团队roleplay训练，每周2次；<br>
+      <strong>建议二——流失原因追踪：</strong>对没有成交的顾客，收班前记录离开原因（价格/款式/临时不买/只来咨询），一周后分析主要流失原因，针对性改善；<br>
+      <strong>建议三——优化接待分配：</strong>若某员工成交率特别低，安排与成交率高的员工搭档学习，观察并模仿其话术和节奏；<br>
+      <strong>预期效果：</strong>若成交率从32%提升至40%，保持客单价不变，月销售额预计提升25%，即可超额完成8万目标。
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <button class="btn btn-submit" onclick="submitTest()">📊 提交考卷</button>
+    <button class="btn" onclick="showAllAnswers()">📖 展示全部答案</button>
+    <button class="btn" style="background:#e74c3c;" onclick="resetAll()">🔄 重置考卷</button>
+  </div>
+
+  <div class="score-box" id="scoreBox">
+    <div class="score-num">🎊</div>
+    <h2 style="color:#fff; margin:10px 0;">第7周周测完成！</h2>
+    <p>考核范围：主觉验光 · 高端销售 · 数据分析 · 团队协作 · 顾客心理 · 活动策划</p>
+    <p style="font-size:18px; font-weight:bold; color:#c8f7d4;">恭喜完成第7周全部训练内容！第8周结业冲刺正在等待你！</p>
+  </div>
+</div>
+
+<script>
+function toggleAnswer(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+function showAllAnswers() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'block');
+}
+function submitTest() {
+  document.getElementById('scoreBox').style.display = 'block';
+  document.getElementById('scoreBox').scrollIntoView({ behavior: 'smooth' });
+}
+function resetAll() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.fill-input').forEach(el => el.value = '');
+  document.getElementById('scoreBox').style.display = 'none';
+}
+</script>
+
+<div class="nav-footer" style="max-width:900px;margin:0 auto 20px;padding:0 30px;display:flex;justify-content:space-between;gap:12px">
+  <a href="Day_49_学习内容.html" style="background:#fff;color:#27ae60;border:2px solid #27ae60;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+  <a href="../第8周_结业冲刺与毕业考核/Day_50_学习内容.html" style="background:linear-gradient(135deg,#27ae60,#1e8449);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600">进入第8周 →</a>
+</div>
+
+
+<script>
+/* interactive-options-type-d-js */
+(function(){
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    // 收集该题所有 .option
+    var opts = Array.from(qBlock.querySelectorAll(':scope > .option, :scope > .options > .option'));
+    if(opts.length === 0) return;
+
+    // 找答案框：answer-box
+    var ansBox = qBlock.querySelector('.answer-box');
+    if(!ansBox) return;
+
+    // 从 answer-box 提取答案字母，支持多种格式：
+    // ✅ 正确答案：B / ✅ 答案：B / ✅ <strong>答案：B</strong>
+    var txt = ansBox.textContent || '';
+    var m = txt.match(/(?:\u6b63\u786e)?\u7b54\u6848[:\uff1a]\s*([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    opts.forEach(function(opt){
+      var letter = (opt.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      opt.classList.add('opt-clickable');
+      opt.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        opts.forEach(function(o){ o.classList.add('answered'); });
+        if(letter === correct){
+          opt.classList.add('opt-correct');
+          opt.textContent = '\u2705 ' + opt.textContent;
+        } else {
+          opt.classList.add('opt-wrong');
+          opt.textContent = '\u274c ' + opt.textContent;
+          opts.forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ o.classList.add('opt-reveal'); o.textContent = '\ud83d\udc49 ' + o.textContent; }
+          });
+        }
+        ansBox.style.display = 'block';
+        var btn = qBlock.querySelector('.btn-show, .show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
