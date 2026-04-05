@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 33 - 制单与交付：加工单填写与取镜流程</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 15px; }
+  .meta-bar { background: white; padding: 15px 40px; display: flex; gap: 30px; border-bottom: 1px solid #e8ecf0; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+  .meta-item span.dot { width: 8px; height: 8px; border-radius: 50%; background: #11998e; display: inline-block; }
+  .container { max-width: 960px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 20px; color: #333; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #11998e; }
+  .card h3 { font-size: 16px; color: #444; margin: 18px 0 10px; }
+  .card p { line-height: 1.8; color: #555; margin-bottom: 12px; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { line-height: 1.9; color: #555; margin-bottom: 6px; }
+  .highlight-box { background: #f0fdf9; border-left: 4px solid #11998e; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .highlight-box.yellow { background: #fffbf0; border-color: #f59e0b; }
+  .highlight-box.red { background: #fff5f5; border-color: #ef4444; }
+  .highlight-box.blue { background: #f0f4ff; border-color: #667eea; }
+  .order-form { border: 2px solid #11998e; border-radius: 12px; padding: 24px; margin: 16px 0; background: #fafffe; }
+  .order-form .form-title { text-align: center; font-size: 18px; font-weight: bold; color: #065f46; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #c7f0e8; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-row { margin-bottom: 12px; }
+  .form-label { font-size: 13px; color: #666; margin-bottom: 4px; }
+  .form-value { font-size: 14px; color: #333; font-weight: bold; padding: 6px 12px; background: white; border: 1px solid #c7f0e8; border-radius: 6px; }
+  .data-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 12px 0; }
+  .data-cell { text-align: center; padding: 8px 6px; border: 1px solid #c7f0e8; border-radius: 6px; background: white; }
+  .data-cell .label { font-size: 11px; color: #999; }
+  .data-cell .value { font-size: 14px; font-weight: bold; color: #333; margin-top: 2px; }
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; font-size: 14px; color: #555; display: flex; align-items: center; gap: 10px; }
+  .checklist li::before { content: "☐"; font-size: 16px; color: #11998e; flex-shrink: 0; }
+  .error-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  .error-table th { background: #ef4444; color: white; padding: 10px 14px; text-align: left; font-size: 14px; }
+  .error-table td { padding: 10px 14px; border-bottom: 1px solid #e8ecf0; font-size: 14px; color: #555; }
+  .error-table tr:nth-child(even) td { background: #fff5f5; }
+  .summary-box { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border-radius: 12px; padding: 24px; }
+  .summary-box h3 { font-size: 18px; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 20px; }
+  .summary-box li { line-height: 2; opacity: 0.95; }
+  .nav-bar { background: white; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e8ecf0; margin-top: 30px; }
+  .nav-btn { display: inline-block; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; }
+  .nav-btn.prev { background: #f0fdf9; color: #11998e; border: 1px solid #a7f3d0; }
+  .nav-btn.next { background: #11998e; color: white; }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="week-badge">📍 第5周 · 实战跟岗训练</div>
+  <h1>Day 33 · 制单与交付：加工单填写与取镜流程</h1>
+  <div class="subtitle">细节决定品质——一张完整的加工单是对顾客的承诺</div>
+</div>
+<div class="meta-bar">
+  <div class="meta-item"><span class="dot"></span>学习时长：3小时</div>
+  <div class="meta-item"><span class="dot"></span>重点能力：制单规范 · 质检流程 · 取镜服务</div>
+</div>
+<div class="container">
+
+  <div class="card">
+    <h2>🎯 今日目标</h2>
+    <p>成交之后，最容易出错的环节往往是"制单"。加工单填写错误或遗漏，轻则让顾客多跑一趟，重则损坏昂贵镜片或引发投诉。今天学习<strong>规范的加工单填写要求</strong>、<strong>出货质检标准</strong>和<strong>取镜时的交付服务</strong>。</p>
+  </div>
+
+  <div class="card">
+    <h2>📝 加工单填写规范</h2>
+    <p>以下是标准眼镜加工单的示例，了解每个字段的含义和填写要求：</p>
+
+    <div class="order-form">
+      <div class="form-title">👓 眼镜加工单（示例）</div>
+      <div class="form-grid">
+        <div class="form-row">
+          <div class="form-label">顾客姓名</div>
+          <div class="form-value">张 × ×</div>
+        </div>
+        <div class="form-row">
+          <div class="form-label">联系电话</div>
+          <div class="form-value">138****5678</div>
+        </div>
+        <div class="form-row">
+          <div class="form-label">取镜日期</div>
+          <div class="form-value">2026年3月30日（预计）</div>
+        </div>
+        <div class="form-row">
+          <div class="form-label">制单员工</div>
+          <div class="form-value">李 × ×（工号：A012）</div>
+        </div>
+      </div>
+      <div style="margin-top:16px; font-size:13px; color:#666; margin-bottom:8px;">验光数据：</div>
+      <div class="data-grid">
+        <div class="data-cell"><div class="label">眼别</div><div class="value" style="color:#999;">-</div></div>
+        <div class="data-cell"><div class="label">SPH</div><div class="value" style="color:#999;">球镜</div></div>
+        <div class="data-cell"><div class="label">CYL</div><div class="value" style="color:#999;">柱镜</div></div>
+        <div class="data-cell"><div class="label">AXIS</div><div class="value" style="color:#999;">轴位</div></div>
+        <div class="data-cell"><div class="label">ADD</div><div class="value" style="color:#999;">附加</div></div>
+        <div class="data-cell"><div class="label">PD</div><div class="value" style="color:#999;">瞳距</div></div>
+      </div>
+      <div class="data-grid">
+        <div class="data-cell"><div class="label">-</div><div class="value">R（右）</div></div>
+        <div class="data-cell"><div class="value">-3.50</div></div>
+        <div class="data-cell"><div class="value">-0.50</div></div>
+        <div class="data-cell"><div class="value">180°</div></div>
+        <div class="data-cell"><div class="value">-</div></div>
+        <div class="data-cell"><div class="value">32</div></div>
+      </div>
+      <div class="data-grid">
+        <div class="data-cell"><div class="label">-</div><div class="value">L（左）</div></div>
+        <div class="data-cell"><div class="value">-4.00</div></div>
+        <div class="data-cell"><div class="value">-0.75</div></div>
+        <div class="data-cell"><div class="value">175°</div></div>
+        <div class="data-cell"><div class="value">-</div></div>
+        <div class="data-cell"><div class="value">32</div></div>
+      </div>
+      <div style="margin-top:16px;">
+        <div class="form-row"><div class="form-label">选用镜架</div><div class="form-value">钛合金全框 / 棕色渐变 / 货号：TF-2089</div></div>
+        <div class="form-row"><div class="form-label">选用镜片</div><div class="form-value">1.67 超薄非球面防蓝光镀膜 × 2（左右）</div></div>
+        <div class="form-row"><div class="form-label">特殊要求</div><div class="form-value">无 / 顾客要求铣槽加工</div></div>
+        <div class="form-row"><div class="form-label">实收金额</div><div class="form-value">¥1,280.00（定金¥500）</div></div>
+      </div>
+    </div>
+
+    <div class="highlight-box red">
+      <strong>⚠️ 制单常见错误（必须避免）：</strong>
+      <table class="error-table" style="margin-top:10px;">
+        <tr><th>错误类型</th><th>后果</th><th>预防方法</th></tr>
+        <tr><td>左右眼数据填反</td><td>镜片磨制错误，顾客看不清</td><td>再次核对验光单，左右标注清晰</td></tr>
+        <tr><td>散光轴位漏填</td><td>散光镜片无法定向加工</td><td>有CYL数据时必须同时填AXIS</td></tr>
+        <tr><td>瞳距填写错误</td><td>光学中心偏位，引发头晕</td><td>确认单眼PD还是双眼总PD</td></tr>
+        <tr><td>镜片型号未确认</td><td>加工错误镜片导致返工</td><td>制单时当场与顾客确认所有选项</td></tr>
+        <tr><td>联系方式漏填</td><td>无法通知取镜</td><td>制单完成必查核联系方式字段</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔍 出货质检清单</h2>
+    <p>眼镜加工完成后，<strong>必须先做质检</strong>再通知顾客取镜，避免把有问题的产品交给顾客。</p>
+    <ul class="checklist">
+      <li>外观检查：镜片无气泡、划痕、水迹、脏污，镜架无变形、裂纹</li>
+      <li>中心检测：用焦度计测量镜片光学中心，核对是否与验光单数据一致</li>
+      <li>度数核对：核对球镜度数（±0.25以内为合格），散光度数和轴位（±10°以内为合格）</li>
+      <li>装配检查：镜片是否牢固安装在镜架中，无松动、倾斜</li>
+      <li>瞳距核对：量取光学中心距，核对是否符合顾客瞳距</li>
+      <li>整体平整：镜架两侧是否对称，镜腿开合是否顺畅</li>
+    </ul>
+    <div class="highlight-box yellow">
+      <strong>重要：</strong>质检发现不合格，直接返工，不要让顾客看到有问题的产品，更不能"将就"交付。一次质量问题引发的投诉，成本远超返工成本。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎁 取镜服务规范</h2>
+    <p>取镜是整个销售服务的最后一环，也是建立顾客口碑的重要机会。</p>
+    <h3>取镜交付话术流程</h3>
+    <div class="highlight-box blue">
+      <p><strong>步骤一·问候确认：</strong>"欢迎回来！您的眼镜已经好了，我来帮您取。"</p>
+      <p style="margin-top:8px;"><strong>步骤二·当面呈现：</strong>用干净的绒布擦拭眼镜，双手递给顾客，不要一甩就给。</p>
+      <p style="margin-top:8px;"><strong>步骤三·引导试戴：</strong>"来，戴上看看清楚吗？往远处看一下，再看一下近处。"</p>
+      <p style="margin-top:8px;"><strong>步骤四·微调整形：</strong>根据顾客反馈，检查镜架是否需要调整（松紧、水平、鼻托高低）。</p>
+      <p style="margin-top:8px;"><strong>步骤五·保养叮嘱：</strong>介绍保养注意事项：双手摘戴、避免高温、定期清洗、镜布擦拭。</p>
+      <p style="margin-top:8px;"><strong>步骤六·送客添温情：</strong>"如果戴着有任何不适，随时回来找我们调整，都是免费的。祝您用眼健康！"</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="summary-box">
+      <h3>📌 今日核心要点</h3>
+      <ul>
+        <li>加工单5大必填项：顾客信息、验光数据（左右不能填反）、镜架镜片型号、瞳距、联系方式</li>
+        <li>制单完成后当场与顾客复核确认所有信息</li>
+        <li>出货前必做质检，不合格产品绝不交付</li>
+        <li>取镜是服务的收官，双手递镜、试戴、调整、叮嘱、送客缺一不可</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="background:white;border-radius:12px;padding:30px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)">
+    <h2 style="font-size:20px;color:#333;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid #11998e">✅ 取镜验收标准流程</h2>
+    <ol style="padding-left:20px;line-height:1.8">
+      <li style="margin-bottom:6px;">核对工单：镜片度数、轴向、瞳距与工单一致</li>
+      <li style="margin-bottom:6px;">外观检查：无划痕、气泡、压纹、色差</li>
+      <li style="margin-bottom:6px;">光学检测：焦度计测量确认度数偏差在允许范围内（国标±0.25D）</li>
+      <li style="margin-bottom:6px;">镜架检查：无变形，镜腿开合顺畅，螺丝紧固</li>
+      <li style="margin-bottom:6px;">客户试戴：请客户佩戴并走动，确认舒适度和视力效果</li>
+      <li style="margin-bottom:6px;">使用说明：告知清洁方法、保养注意事项、保修政策</li>
+    </ol>
+    <div style="background:#fff3cd;border-left:4px solid #ffc107;padding:12px 16px;border-radius:0 8px 8px 0;margin-top:14px;color:#856404">
+      ⚠️ 不要省略取镜验收环节。"我看着没问题"不是专业，用焦度计测量数据才是专业。每一步都有意义。
+    </div>
+  </div>
+
+<div class="nav-bar">
+  <a href="Day_32_练习题.html" class="nav-btn prev">← Day 32 练习题</a>
+    <a href="../index.html" class="nav-btn" style="background:#f0fdf9;color:#11998e;border:1px solid #a7f3d0;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:14px;">🏠 首页</a>
+  <span style="color:#999;font-size:13px;">第5周 Day 33 / 35</span>
+  <a href="Day_33_练习题.html" class="nav-btn next">去做练习题 →</a>
+</div>
+
+  </div>
+</body>
+</html>
