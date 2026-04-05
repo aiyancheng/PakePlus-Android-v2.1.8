@@ -1,0 +1,490 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>近视防控的重要性</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1, h2, h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        section {
+            margin-bottom: 40px;
+            padding: 25px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        /* 标题区域 */
+        .header {
+            text-align: center;
+            background-color: #E6F7FF;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        /* 近视成因说明区 */
+        .causes-section {
+            background-color: #f8f9fa;
+        }
+        
+        /* 图表区域 */
+        .chart-section {
+            overflow-x: auto;
+        }
+        
+        .chart-container {
+            margin: 30px 0;
+            min-height: 350px;
+        }
+        
+        .chart-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 250px;
+            margin-bottom: 20px;
+            padding: 0 20px;
+        }
+        
+        .bar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 22%;
+        }
+        
+        .bar {
+            width: 80%;
+            border-radius: 5px 5px 0 0;
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .bar:hover {
+            transform: scale(1.05);
+        }
+        
+        .bar-label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        .bar-value {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+        }
+        
+        .bar-1 {
+            background-color: #3498db;
+            height: 100px;
+        }
+        
+        .bar-2 {
+            background-color: #e74c3c;
+            height: 180px;
+        }
+        
+        .bar-3 {
+            background-color: #f39c12;
+            height: 205px;
+        }
+        
+        .highlight-box {
+            background-color: #fff9e6;
+            border-left: 4px solid #f39c12;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .data-source {
+            text-align: center;
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+        
+        /* 核心观点区 */
+        .core-view {
+            background-color: #E6F7FF;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding: 30px;
+        }
+        
+        /* 护眼小贴士区 */
+        .tips-section {
+            background-color: #E6F7E6;
+        }
+        
+        .tips-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .tips-header h2 {
+            margin-bottom: 0;
+            margin-left: 10px;
+        }
+        
+        .tips-list {
+            padding-left: 30px;
+        }
+        
+        .tips-list li {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        /* 流程图区域 - 修改为图片展示 */
+        .flowchart-section {
+            text-align: center;
+        }
+        
+        .flowchart-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .flowchart-image-container {
+            margin: 30px auto;
+            max-width: 900px;
+        }
+        
+        .flowchart-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            color: #555;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        
+        .process-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+        
+        .process-step {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        /* 底部呼吁语 */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 10px;
+            margin-top: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        /* 返回首页按钮样式 */
+        .back-to-home {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-home:hover {
+            background-color: #34495e;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+            }
+            
+            .process-step {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .bar-chart {
+                padding: 0 10px;
+            }
+            
+            .bar-item {
+                width: 30%;
+            }
+            
+            section {
+                padding: 20px 15px;
+            }
+            
+            .back-to-home {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .bar-item {
+                width: 28%;
+            }
+            
+            .back-to-home {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 标题区域 -->
+    <header class="header">
+        <h1>近视防控的重要性</h1>
+        <p>保护视力，从了解开始</p>
+    </header>
+    
+    <!-- 近视成因说明区 -->
+    <section class="causes-section">
+        <h2>近视的成因</h2>
+        <p>近视主要由<strong>遗传因素、环境因素和用眼习惯</strong>共同作用形成。研究表明，遗传因素约占近视成因的50%，如果父母双方都近视，孩子近视的风险会显著增加。</p>
+        <p>环境因素包括近距离用眼时间过长、户外活动不足、照明条件不佳等。现代生活中，长时间使用电子产品、读书写字姿势不正确等不良用眼习惯也加剧了近视的发生和发展。</p>
+        <p>了解近视的成因是有效防控的第一步，只有明确原因，才能采取针对性的预防措施。</p>
+    </section>
+    
+    <!-- 我国青少年近视现状图表区 -->
+    <section class="chart-section">
+        <h2 class="chart-title">我国青少年近视现状</h2>
+        
+        <div class="chart-container">
+            <div class="bar-chart">
+                <div class="bar-item">
+                    <div class="bar bar-1">
+                        <div class="bar-value">33.6%</div>
+                    </div>
+                    <div class="bar-label">小学生</div>
+                </div>
+                
+                <div class="bar-item">
+                    <div class="bar bar-2">
+                        <div class="bar-value">70.6%</div>
+                    </div>
+                    <div class="bar-label">初中生</div>
+                </div>
+                
+                <div class="bar-item">
+                    <div class="bar bar-3">
+                        <div class="bar-value">80.5%</div>
+                    </div>
+                    <div class="bar-label">高中生</div>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <strong>数据警示：</strong> 高中生近视率已超过80%，这意味着每5名高中生中就有4人近视。近视高发年龄段正逐渐向低龄化发展，近视防控工作刻不容缓。
+            </div>
+            
+            <div class="data-source">
+                数据来源：国家卫健委《全国儿童青少年近视情况调查》（2025年）
+            </div>
+        </div>
+    </section>
+    
+    <!-- 核心观点区 -->
+    <section class="core-view">
+        <p>科学护眼可有效延缓度数加深。通过合理的用眼习惯、充足的户外活动以及适当的医学干预，可以显著减缓近视发展速度。</p>
+    </section>
+    
+    <!-- 护眼小贴士区 -->
+    <section class="tips-section">
+        <div class="tips-header">
+            <div style="font-size: 2rem;">💡</div>
+            <h2>护眼小贴士</h2>
+        </div>
+        
+        <ul class="tips-list">
+            <li><strong>每天至少2小时户外活动：</strong> 自然光线有助于调节眼睛发育，预防近视发生。</li>
+            <li><strong>遵循20-20-20法则：</strong> 每用眼20分钟，远眺20英尺（约6米）外的物体20秒，缓解眼睛疲劳。</li>
+            <li><strong>保持良好的读写姿势：</strong> 保持"一尺一拳一寸"（眼睛离书本一尺，胸口离桌一拳，手指离笔尖一寸）。</li>
+            <li><strong>确保充足光照：</strong> 读书写字时，光线应均匀明亮，避免在过暗或过亮的环境下用眼。</li>
+            <li><strong>控制电子产品使用时间：</strong> 每次使用不超过30分钟，每天累计不超过2小时。</li>
+            <li><strong>均衡营养：</strong> 多摄入富含维生素A、C、E和叶黄素的食物，如胡萝卜、菠菜、蓝莓等。</li>
+            <li><strong>定期检查视力：</strong> 每半年进行一次视力检查，建立视力健康档案。</li>
+        </ul>
+    </section>
+    
+    <!-- 不良用眼习惯演化流程图 -->
+    <section class="flowchart-section">
+        <h2 class="flowchart-title">不良用眼习惯导致视力恶化</h2>
+        
+        <div class="flowchart-image-container">
+            <!-- 这里替换为实际的流程图图片 -->
+            <img src="images/1111.jpg" alt="不良用眼习惯导致视力恶化流程图：展示了从视疲劳到假性近视，再到真性近视，最后到近视加重的四个阶段。第一阶段视疲劳表现为眼睛酸痛；第二阶段假性近视为暂时性视力下降；第三阶段真性近视需要佩戴眼镜矫正；第四阶段近视加深到300度，可能需要滴眼液和眼镜等干预措施。" class="flowchart-image">
+        </div>
+        
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-title">第一阶段：视疲劳</div>
+                <p>长时间近距离用眼，眼睛调节肌肉持续紧张，出现眼睛干涩、酸痛等症状。</p>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-title">第二阶段：假性近视</div>
+                <p>眼睛调节功能紊乱，出现暂时性视力下降，通过休息和治疗可以恢复。</p>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-title">第三阶段：真性近视</div>
+                <p>眼轴变长，光线聚焦在视网膜前，形成不可逆的近视，需要配戴眼镜矫正。</p>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-title">第四阶段：近视加深</div>
+                <p>近视度数不断加深，可能发展为高度近视，增加视网膜脱落、青光眼等眼病风险。</p>
+            </div>
+        </div>
+        
+        <p style="margin-top: 20px; font-style: italic;">预防胜于治疗，养成良好的用眼习惯是避免视力恶化的关键。</p>
+    </section>
+    
+    <!-- 底部呼吁语 -->
+    <footer class="footer">
+        科学用眼，守护光明未来！
+    </footer>
+
+    <!-- 返回首页按钮 -->
+    <a href="index.html" class="back-to-home">
+        <span>🏠</span>
+    </a>
+
+    <script>
+        // 简单的悬停提示效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const bars = document.querySelectorAll('.bar');
+            
+            bars.forEach(bar => {
+                bar.addEventListener('mouseover', function() {
+                    const value = this.querySelector('.bar-value').textContent;
+                    const label = this.parentElement.querySelector('.bar-label').textContent;
+                    
+                    // 创建提示框
+                    let tooltip = document.createElement('div');
+                    tooltip.className = 'tooltip';
+                    tooltip.innerHTML = `<strong>${label}</strong><br>近视率：${value}`;
+                    tooltip.style.position = 'absolute';
+                    tooltip.style.background = 'rgba(0, 0, 0, 0.8)';
+                    tooltip.style.color = 'white';
+                    tooltip.style.padding = '8px 12px';
+                    tooltip.style.borderRadius = '5px';
+                    tooltip.style.zIndex = '100';
+                    tooltip.style.fontSize = '14px';
+                    tooltip.style.top = '-70px';
+                    tooltip.style.left = '50%';
+                    tooltip.style.transform = 'translateX(-50%)';
+                    tooltip.style.whiteSpace = 'nowrap';
+                    
+                    this.appendChild(tooltip);
+                });
+                
+                bar.addEventListener('mouseout', function() {
+                    const tooltip = this.querySelector('.tooltip');
+                    if (tooltip) {
+                        this.removeChild(tooltip);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+
