@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 42 学习内容 — 第6周总结与独立接单能力评估</title>
+<style>
+  body{font-family:'Microsoft YaHei',sans-serif;background:#f5f7fa;margin:0;padding:20px;color:#333}
+  .container{max-width:860px;margin:0 auto;background:#fff;border-radius:12px;padding:36px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+  h1{color:#2980b9;font-size:1.6rem;border-bottom:3px solid #2980b9;padding-bottom:10px}
+  h2{color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9}
+  h3{color:#2980b9;font-size:1rem;margin-top:18px}
+  .card{background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5}
+  .success{background:#d4edda;border-left:4px solid #28a745;padding:10px 14px;border-radius:0 8px 8px 0;color:#155724;margin:10px 0}
+  table{width:100%;border-collapse:collapse;margin:14px 0}
+  th{background:#2980b9;color:#fff;padding:10px 14px;text-align:left}
+  td{padding:10px 14px;border-bottom:1px solid #d0e8f5}
+  tr:nth-child(even) td{background:#eaf4fc}
+  .progress{background:#dee2e6;border-radius:8px;height:16px;margin:6px 0;overflow:hidden}
+  .progress-bar{background:#2980b9;height:100%;border-radius:8px;transition:width .6s}
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#2980b9;border:2px solid #2980b9}
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div style="background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;border-radius:10px;padding:20px 24px;margin-bottom:24px">
+    <div style="font-size:.9rem;opacity:.85">第6周 · Day 42 · 独立接单训练</div>
+    <h1 style="color:#fff;border:none;padding:0;margin:8px 0">🏆 第6周总结与独立接单能力评估</h1>
+    <p style="margin:4px 0;opacity:.9">回顾本周独立接单的成长，准备迈向第7周综合提升</p>
+  </div>
+
+  <h2>📊 本周学习回顾</h2>
+  <table class="structure-table">
+    <tr><th>天次</th><th>核心主题</th><th>关键技能点</th></tr>
+    <tr><td>Day 36</td><td>标准接待流程</td><td>7步接待流程，独立接单卡壳处理</td></tr>
+    <tr><td>Day 37</td><td>价格异议处理</td><td>六大异议技巧，四种成交促进法</td></tr>
+    <tr><td>Day 38</td><td>儿童配镜服务</td><td>散瞳建议，假性近视识别，家长沟通</td></tr>
+    <tr><td>Day 39</td><td>老视配镜服务</td><td>老花镜类型，渐进镜推荐，中老年服务</td></tr>
+    <tr><td>Day 40</td><td>太阳镜&功能镜</td><td>偏光镜、变色镜，交叉销售时机</td></tr>
+    <tr><td>Day 41</td><td>售后服务维护</td><td>回访话术，客户档案，保养知识</td></tr>
+  </table>
+
+  <h2>📈 独立接单能力自测</h2>
+  <div class="card">
+    <p>请对照以下指标，评估本周的独立接单表现：</p>
+    <div>
+      <p><strong>接待流程完整度</strong><span style="float:right">目标：7步全部完成</span></p>
+      <div class="progress"><div class="progress-bar" id="bar1" style="width:0%"></div></div>
+    </div>
+    <div>
+      <p><strong>价格异议应对成功率</strong><span style="float:right">目标：≥60%不降价成交</span></p>
+      <div class="progress"><div class="progress-bar" id="bar2" style="width:0%"></div></div>
+    </div>
+    <div>
+      <p><strong>特殊群体（儿童/老人）服务</strong><span style="float:right">目标：独立应对</span></p>
+      <div class="progress"><div class="progress-bar" id="bar3" style="width:0%"></div></div>
+    </div>
+    <div>
+      <p><strong>交叉销售尝试次数</strong><span style="float:right">目标：每天至少1次</span></p>
+      <div class="progress"><div class="progress-bar" id="bar4" style="width:0%"></div></div>
+    </div>
+    <div style="margin-top:14px;font-size:.9rem;color:#555">
+      <em>请在脑中评估后，与师傅一对一复盘，听取反馈。</em>
+    </div>
+  </div>
+
+  <h2>🎯 进入第7周的核心目标</h2>
+  <div class="success">
+    ✅ 能独立完成95%以上的日常接待<br>
+    ✅ 客单价较入职时提升20%以上<br>
+    ✅ 已建立10位以上客户的跟进档案<br>
+    ✅ 完成至少3次成功的交叉销售<br>
+    ✅ 对儿童和老年客户能专业应对
+  </div>
+
+  <div style="background:linear-gradient(135deg,#eaf4fc,#d0e8f5);border-radius:10px;padding:20px;margin-top:24px">
+    <strong style="color:#1a5276">💪 加油！</strong><br>
+    第7周的综合提升训练将让你从"合格员工"成长为"优秀员工"。<br>
+    今天完成周测后，与师傅深度复盘本周表现，制定第7周的个人成长计划。
+  </div>
+
+  
+  <!-- 扩充：本周能力回顾与第7周备战 -->
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">💡 独立接单核心能力体系</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <p style="line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em">经过第6周的系统训练，一名合格的独立接单员工应具备以下能力：</p>
+    <table class="structure-table" style="width:100%;border-collapse:collapse;margin:14px 0">
+      <tr style="background:#2980b9;color:#fff"><th style="padding:10px 14px;text-align:left">能力维度</th><th style="padding:10px 14px;text-align:left">具体表现</th><th style="padding:10px 14px;text-align:left">自评</th></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">接待流程</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">7步接待全程流畅，无明显卡顿</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□ 达标 □ 需练习</td></tr>
+      <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">需求挖掘</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">能用开放式问题了解客户真实需求</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□ 达标 □ 需练习</td></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">产品推荐</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">能根据需求匹配合适镜片和镜框</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□ 达标 □ 需练习</td></tr>
+      <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">异议处理</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">能应对价格/质量/比较等常见异议</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□ 达标 □ 需练习</td></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">特殊客群</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">儿童/老年客户能专业应对</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□ 达标 □ 需练习</td></tr>
+      <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">交叉销售</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">每天至少尝试1次太阳镜/防蓝光推荐</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□ 达标 □ 需练习</td></tr>
+      <tr><td style="padding:10px 14px">售后服务</td><td style="padding:10px 14px">主动回访，建立客户档案</td><td style="padding:10px 14px">□ 达标 □ 需练习</td></tr>
+    </table>
+  </div>
+
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">📊 本周数据复盘表</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <p style="line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em">请尽量回忆本周（Day 36-41）的实战数据，诚实填写：</p>
+    <table class="structure-table" style="width:100%;border-collapse:collapse;margin:14px 0">
+      <tr style="background:#2980b9;color:#fff"><th style="padding:10px 14px;text-align:left">数据项</th><th style="padding:10px 14px;text-align:left">本周实际</th><th style="padding:10px 14px;text-align:left">与上周对比</th></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">独立接待客户数</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">___人</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□ 增加 □ 持平 □ 减少</td></tr>
+      <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">成单数</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">___单</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□ 增加 □ 持平 □ 减少</td></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">平均客单价</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">¥___</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□ 增加 □ 持平 □ 减少</td></tr>
+      <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">交叉销售成功次数</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">___次</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">—</td></tr>
+      <tr><td style="padding:10px 14px">遇到的最大挑战</td><td style="padding:10px 14px" colspan="2">___________________</td></tr>
+    </table>
+
+    <div style="background:#d1ecf1;border-left:4px solid #17a2b8;padding:10px 14px;border-radius:0 8px 8px 0;color:#0c5460;margin:10px 0">
+      💡 带上这份复盘表，和师傅进行一次30分钟的深度1v1复盘，听取针对你个人的成长建议。
+    </div>
+  </div>
+
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">🚀 第7周预习：综合提升方向</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <p style="line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em">第7周的训练将在第6周基础上进一步提升：</p>
+    <ul style="padding-left:20px;margin-bottom:14px">
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:8px">🎯 <strong>高端产品销售</strong>：名牌镜框、高折射率超薄镜片、定制镜片的推荐逻辑</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:8px">📈 <strong>客单价提升策略</strong>：从普通推荐到价值升级，如何合理引导客户提升消费</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:8px">🤝 <strong>大客户/企业客户开发</strong>：团体配镜、企业客户维护</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:8px">📱 <strong>线上口碑与社群运营</strong>：如何通过社交媒体扩大门店影响力</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:8px">🏆 <strong>综合能力考核</strong>：模拟真实接待场景的全程考核</li>
+    </ul>
+
+    <div style="background:#d4edda;border-left:4px solid #28a745;padding:10px 14px;border-radius:0 8px 8px 0;color:#155724;margin:10px 0">
+      ✅ 完成第6周，你已经从"需要人带"成长为"能独立作战"。第7周目标：成为"被客户主动信任"的专业顾问！
+    </div>
+  </div>
+
+    <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">🎯 本周最佳实践案例分析</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <h3 style="color:#2980b9;font-size:1rem;margin-top:18px">案例一：价格异议的成功化解</h3>
+    <p style="line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em">某员工遇到客户说"网上同款便宜500"，成功应对：</p>
+    <ul style="padding-left:20px;margin-bottom:14px">
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">首先认同：<em>"您说得对，网上确实有更便宜的"</em></li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">然后区分：<em>"但验光和装配需要专业设备，网上镜片参数不一定准确"</em></li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">最后升华：<em>"而且我们提供两年免费调整维护，一副眼镜戴2-3年，总价值其实更划算"</em></li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">结果：客户当场成单，选择了更高端的镜片</li>
+    </ul>
+
+    <h3 style="color:#2980b9;font-size:1rem;margin-top:18px">案例二：儿童配镜的家长沟通</h3>
+    <p style="line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em">小学生家长对防控镜片价格犹豫，员工的处理：</p>
+    <ul style="padding-left:20px;margin-bottom:14px">
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">拿出数据：<em>"临床研究显示可延缓近视进展60%"</em></li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">算账给看：<em>"每年多花500元防控，比将来高度近视去做手术（数万元）划算得多"</em></li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">激活情感：<em>"孩子的眼睛是用一辈子的"</em></li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">结果：家长选择防控镜片，并预约了半年后复查</li>
+    </ul>
+  </div>
+
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">📚 第7周学习预习清单</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <p style="line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em">利用今天周测结束后的时间，预习第7周内容：</p>
+    <ul style="padding-left:20px;margin-bottom:14px">
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:8px">□ 了解高端镜片品牌（蔡司、依视路、豪雅）的产品线和差异</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:8px">□ 思考：如何让客户从普通配镜升级到高端配镜？</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:8px">□ 回顾本周遇到的最困难情况，设想下次如何更好应对</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:8px">□ 整理本周新增客户档案，确保信息完整</li>
+    </ul>
+
+    <div style="background:#d4edda;border-left:4px solid #28a745;padding:10px 14px;border-radius:0 8px 8px 0;color:#155724;margin:10px 0">
+      ✅ 每一周的结束，都是下一周成长的起点。完成周测，做好复盘，带着总结进入第7周！
+    </div>
+  </div>
+
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">💭 成长心态：给自己的一封信</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <p style="line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em">六周前，你还是一个对眼镜行业一无所知的新人；今天，你已经能够独立接单、处理异议、服务特殊客群。</p>
+    <p style="line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em">在眼镜行业，真正的高手不仅仅是"卖眼镜的人"，而是一个<strong>帮助客户守护视力健康的专业顾问</strong>。</p>
+    <p style="line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em">记住三句话：</p>
+    <ul style="padding-left:20px;margin-bottom:14px">
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:8px">🔑 <strong>专业是底气</strong>——你懂越多，客户越信任你</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:8px">❤️ <strong>真诚是基础</strong>——站在客户角度思考，而不只是完成销售</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:8px">📈 <strong>坚持是关键</strong>——每天进步一点点，一年后的你会感谢今天的积累</li>
+    </ul>
+  </div>
+
+
+
+    <div style="background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;border-radius:10px;padding:20px 24px;margin-top:24px;text-align:center">
+    <div style="font-size:1.5rem;margin-bottom:8px">🎉</div>
+    <strong style="font-size:1.1rem">恭喜完成第6周独立接单训练！</strong><br>
+    <p style="margin-top:8px;opacity:.9">完成今日周测，与师傅深度复盘，带上满满收获迈入第7周！</p>
+  </div>
+
+  <!-- 第6周训练完成标记 -->
+  <p style="text-align:center;color:#aaa;font-size:.85rem;margin-top:8px">— 第6周 · 独立接单训练 · 全部完成 —</p>
+  <p style="text-align:center;color:#aaa;font-size:.85rem;margin-bottom:8px">下周目标：成为客户主动信任的专业顾问 💪</p>
+
+<div class="nav-footer">
+    <a href="Day_41_练习题.html" class="nav-btn outline">← Day 41 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_42_练习题.html" class="nav-btn">Day 42 周测 →</a>
+  </div>
+</div>
+</body>
+</html>
