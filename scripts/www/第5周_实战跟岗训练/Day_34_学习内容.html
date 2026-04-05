@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 34 - 客诉处理实战：化危为机的沟通艺术</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 15px; }
+  .meta-bar { background: white; padding: 15px 40px; display: flex; gap: 30px; border-bottom: 1px solid #e8ecf0; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+  .meta-item span.dot { width: 8px; height: 8px; border-radius: 50%; background: #11998e; display: inline-block; }
+  .container { max-width: 960px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 20px; color: #333; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #11998e; }
+  .card h3 { font-size: 16px; color: #444; margin: 18px 0 10px; }
+  .card p { line-height: 1.8; color: #555; margin-bottom: 12px; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { line-height: 1.9; color: #555; margin-bottom: 6px; }
+  .highlight-box { background: #f0fdf9; border-left: 4px solid #11998e; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .highlight-box.yellow { background: #fffbf0; border-color: #f59e0b; }
+  .highlight-box.red { background: #fff5f5; border-color: #ef4444; }
+  .highlight-box.blue { background: #f0f4ff; border-color: #667eea; }
+  .step-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; margin: 16px 0; }
+  .step-box { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border-radius: 10px; padding: 16px 10px; text-align: center; }
+  .step-box .num { font-size: 22px; font-weight: bold; margin-bottom: 4px; }
+  .step-box .name { font-size: 14px; font-weight: bold; margin-bottom: 4px; }
+  .step-box .sub { font-size: 12px; opacity: 0.85; }
+  .scenario-card { border: 1px solid #e8ecf0; border-radius: 10px; padding: 20px; margin: 16px 0; }
+  .scenario-card .scenario-title { font-weight: bold; color: #333; font-size: 15px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+  .wrong-right { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .wrong-box { background: #fff5f5; border: 1px solid #fca5a5; border-radius: 8px; padding: 14px; }
+  .right-box { background: #f0fdf9; border: 1px solid #6ee7b7; border-radius: 8px; padding: 14px; }
+  .box-title { font-size: 13px; font-weight: bold; margin-bottom: 8px; }
+  .wrong-box .box-title { color: #991b1b; }
+  .right-box .box-title { color: #065f46; }
+  .box-content { font-size: 14px; color: #555; line-height: 1.7; }
+  .summary-box { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border-radius: 12px; padding: 24px; }
+  .summary-box h3 { font-size: 18px; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 20px; }
+  .summary-box li { line-height: 2; opacity: 0.95; }
+  .nav-bar { background: white; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e8ecf0; margin-top: 30px; }
+  .nav-btn { display: inline-block; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; }
+  .nav-btn.prev { background: #f0fdf9; color: #11998e; border: 1px solid #a7f3d0; }
+  .nav-btn.next { background: #11998e; color: white; }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="week-badge">📍 第5周 · 实战跟岗训练</div>
+  <h1>Day 34 · 客诉处理实战：化危为机的沟通艺术</h1>
+  <div class="subtitle">投诉不是麻烦，是建立深度信任的最好机会</div>
+</div>
+<div class="meta-bar">
+  <div class="meta-item"><span class="dot"></span>学习时长：3-4小时</div>
+  <div class="meta-item"><span class="dot"></span>重点能力：投诉处理 · 情绪管理 · 危机公关</div>
+</div>
+<div class="container">
+
+  <div class="card">
+    <h2>🎯 今日目标</h2>
+    <p>在第3周，我们学过投诉处理的基本原则。进入实战阶段，今天我们针对眼镜门店最常见的几类投诉，深入演练具体应对话术和处理流程。重点是：<strong>在情绪激动的顾客面前保持冷静，快速安抚，找到双方都能接受的解决方案。</strong></p>
+  </div>
+
+  <div class="card">
+    <h2>🔢 客诉处理黄金5步</h2>
+    <div class="step-grid">
+      <div class="step-box"><div class="num">1</div><div class="name">倾听</div><div class="sub">不打断<br>让顾客说完</div></div>
+      <div class="step-box"><div class="num">2</div><div class="name">共情</div><div class="sub">认可感受<br>不急于辩解</div></div>
+      <div class="step-box"><div class="num">3</div><div class="name">道歉</div><div class="sub">真诚致歉<br>不找借口</div></div>
+      <div class="step-box"><div class="num">4</div><div class="name">解决</div><div class="sub">给出方案<br>超出预期</div></div>
+      <div class="step-box"><div class="num">5</div><div class="name">跟进</div><div class="sub">事后回访<br>确认满意</div></div>
+    </div>
+    <div class="highlight-box yellow">
+      <strong>❌ 最容易犯的错：</strong>顾客还没说完，就急着解释"这不是我们的责任"——这是激化冲突的最快方式。无论是否是门店的问题，<strong>先让顾客感受到被听见</strong>，然后再解决问题。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📋 实战场景演练</h2>
+
+    <div class="scenario-card">
+      <div class="scenario-title">🔴 场景一：顾客反映戴新眼镜头晕，怀疑度数配错了</div>
+      <p style="font-size:14px; color:#666;">这是眼镜门店最常见的投诉，但原因可能多种多样（度数确实有误、新镜适应期、渐进镜初戴不适等）。</p>
+      <div class="wrong-right">
+        <div class="wrong-box">
+          <div class="box-title">❌ 错误应对</div>
+          <div class="box-content">"新眼镜头晕很正常的，适应几天就好了。"<br><br>或："我们的度数肯定没错，是您自己没适应。"</div>
+        </div>
+        <div class="right-box">
+          <div class="box-title">✅ 正确应对</div>
+          <div class="box-content">"非常理解您现在的感受，头晕确实很不舒服。您不用担心，我们现在就来核查一下原因。请问您能告诉我，头晕主要是远看还是近看时出现？走路时还是静止时更明显？……好，请您稍等，我来帮您重新检测一下度数。"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-title">🔴 场景二：顾客刚拿到眼镜，发现镜框有轻微划痕</div>
+      <p style="font-size:14px; color:#666;">可能是加工过程中造成的，也可能是顾客本身对产品要求较高。</p>
+      <div class="wrong-right">
+        <div class="wrong-box">
+          <div class="box-title">❌ 错误应对</div>
+          <div class="box-content">"划痕很小，戴上去根本看不出来的。"<br><br>或："可能是您自己不小心碰到的。"</div>
+        </div>
+        <div class="right-box">
+          <div class="box-title">✅ 正确应对</div>
+          <div class="box-content">"非常抱歉，这是我们质检工作的疏漏，让您拿到了有瑕疵的产品，我向您道歉。我现在立刻给您重新处理——我来看一下这个划痕的程度……如果需要更换镜架，我们免费为您更换，大约需要X天，我到时候联系您来取，可以吗？"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-card">
+      <div class="scenario-title">🔴 场景三：顾客要求退款，说眼镜戴了一周感觉不对</div>
+      <div class="wrong-right">
+        <div class="wrong-box">
+          <div class="box-title">❌ 错误应对</div>
+          <div class="box-content">"眼镜定制加工的，不支持退款。"（直接拒绝，没有解释和替代方案）</div>
+        </div>
+        <div class="right-box">
+          <div class="box-title">✅ 正确应对</div>
+          <div class="box-content">"我非常理解您的感受，配一副眼镜不舒适真的影响很大。我先帮您查清楚原因——是度数、还是镜架调整、还是其他问题？我们会全力帮您解决到满意为止。如果最终核查确实是我们的问题，我们会负责到底。您放心，我们不会让您用不舒服的眼镜。"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box blue">
+      <strong>💡 关键原则：</strong>处理投诉时，先给"情绪价值"（让顾客感受到被重视），再给"解决方案"（功能价值）。顺序颠倒，效果大打折扣。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🆘 遇到超出权限的情况怎么办</h2>
+    <p>有时顾客的要求超出了你的处理权限（如大额退款、特殊赔偿），不要贸然承诺，也不要直接拒绝，而是：</p>
+    <ol>
+      <li>先安抚情绪："您说得我完全理解，这件事确实需要认真对待。"</li>
+      <li>告知升级流程："这个情况需要请我们店长来和您沟通，以便给您一个满意的答复。"</li>
+      <li>快速行动："我现在就联系店长，请您稍等片刻，需要给您倒杯水吗？"</li>
+    </ol>
+    <div class="highlight-box red">
+      <strong>禁止行为：</strong>绝对不能让顾客在不满意的状态下离开，也不能说"这个我处理不了"就不管了——你要做的是"做好桥梁"，让顾客感受到问题正在被跟进解决。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="summary-box">
+      <h3>📌 今日核心要点</h3>
+      <ul>
+        <li>客诉黄金5步：倾听→共情→道歉→解决→跟进</li>
+        <li>不要急于辩解，先让顾客感受到"被听见"</li>
+        <li>给出具体解决方案而非模糊承诺，让顾客有明确预期</li>
+        <li>超出权限时，做好桥梁，快速升级，不让顾客"晾着"</li>
+        <li>投诉处理好了，往往能变成忠实粉丝——化危为机</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="background:white;border-radius:12px;padding:30px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)">
+    <h2 style="font-size:20px;color:#333;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid #11998e">🔄 投诉转化：从危机到机会</h2>
+    <p>研究表明：投诉被妥善处理的客户，比从未投诉的客户忠诚度更高。</p>
+    <h3 style="font-size:16px;color:#444;margin:18px 0 10px">处理投诉的HEART原则</h3>
+    <table class="structure-table" style="width:100%;border-collapse:collapse;margin:14px 0">
+      <tr style="background:#11998e;color:#fff"><th style="padding:10px 14px;text-align:left">字母</th><th style="padding:10px 14px;text-align:left">含义</th><th style="padding:10px 14px;text-align:left">具体行动</th></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0"><strong>H</strong>ear</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">倾听</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">不打断，听完客户所有不满</td></tr>
+      <tr style="background:#f0fff8"><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0"><strong>E</strong>mpathize</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">同理</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">"我理解您的感受……"</td></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0"><strong>A</strong>pologize</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">致歉</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">为不好的体验道歉（不等于承认错误）</td></tr>
+      <tr style="background:#f0fff8"><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0"><strong>R</strong>esolve</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">解决</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">提出具体可行的解决方案</td></tr>
+      <tr><td style="padding:10px 14px"><strong>T</strong>hank</td><td style="padding:10px 14px">感谢</td><td style="padding:10px 14px">"感谢您告诉我们，帮助我们做得更好"</td></tr>
+    </table>
+  </div>
+
+
+
+    <div class="card" style="background:white;border-radius:12px;padding:24px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)">
+    <h2 style="font-size:18px;color:#333;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #11998e">📝 今日总结</h2>
+    <ul style="padding-left:20px;line-height:1.8">
+      <li>HEART原则：倾听→同理→致歉→解决→感谢，五步处理所有投诉</li>
+      <li>情绪管理是投诉处理的第一关，你的冷静是化解冲突的关键</li>
+      <li>记录每次投诉案例，分析原因，防止同类问题再次发生</li>
+      <li>超预期解决投诉，是将投诉客户转化为忠实客户的最佳时机</li>
+    </ul>
+  </div>
+
+
+
+    <p style="text-align:center;color:#2980b9;font-weight:600;margin:12px 0">每一次成功处理投诉，都是你赢得终身客户的机会。</p>
+  <p style="text-align:center;color:#aaa;font-size:.85rem;margin-bottom:12px">— Day 34 · 客诉处理实战 · 完成 —</p>
+
+<div class="nav-bar">
+  <a href="Day_33_练习题.html" class="nav-btn prev">← Day 33 练习题</a>
+    <a href="../index.html" class="nav-btn" style="background:#f0fdf9;color:#11998e;border:1px solid #a7f3d0;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:14px;">🏠 首页</a>
+  <span style="color:#999;font-size:13px;">第5周 Day 34 / 35</span>
+  <a href="Day_34_练习题.html" class="nav-btn next">去做练习题 →</a>
+</div>
+
+  </div>
+</body>
+</html>
