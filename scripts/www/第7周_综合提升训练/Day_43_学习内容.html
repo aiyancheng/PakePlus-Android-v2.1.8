@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 43 学习内容 — 验光技能深化：主觉验光全流程</title>
+<style>
+  body{font-family:'Microsoft YaHei',sans-serif;background:#f5f7fa;margin:0;padding:20px;color:#333}
+  .container{max-width:860px;margin:0 auto;background:#fff;border-radius:12px;padding:36px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+  h1{color:#8e44ad;font-size:1.6rem;border-bottom:3px solid #8e44ad;padding-bottom:10px}
+  h2{color:#6c3483;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #8e44ad}
+  h3{color:#8e44ad;font-size:1rem;margin-top:18px}
+  .card{background:#f5eef8;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #e8daef}
+  .tip{background:#d1ecf1;border-left:4px solid #17a2b8;padding:10px 14px;border-radius:0 8px 8px 0;color:#0c5460;margin:10px 0}
+  .warn{background:#fff3cd;border-left:4px solid #ffc107;padding:10px 14px;border-radius:0 8px 8px 0;color:#856404;margin:10px 0}
+  .key{background:#f9f3ff;border:2px dashed #8e44ad;border-radius:8px;padding:12px 16px;margin:12px 0;color:#6c3483}
+  table{width:100%;border-collapse:collapse;margin:14px 0}
+  th{background:#8e44ad;color:#fff;padding:10px 14px;text-align:left}
+  td{padding:10px 14px;border-bottom:1px solid #e8daef}
+  tr:nth-child(even) td{background:#f5eef8}
+  .step{display:flex;align-items:flex-start;margin:14px 0;gap:14px}
+  .step-num{background:#8e44ad;color:#fff;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0}
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#8e44ad,#6c3483);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#8e44ad;border:2px solid #8e44ad}
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div style="background:linear-gradient(135deg,#8e44ad,#6c3483);color:#fff;border-radius:10px;padding:20px 24px;margin-bottom:24px">
+    <div style="font-size:.9rem;opacity:.85">第7周 · Day 43 · 综合提升训练</div>
+    <h1 style="color:#fff;border:none;padding:0;margin:8px 0">🔬 验光技能深化：主觉验光全流程</h1>
+    <p style="margin:4px 0;opacity:.9">从合格员工到优秀员工的关键——掌握完整的主觉验光技能</p>
+  </div>
+
+  <h2>🌟 本周目标：从合格到优秀</h2>
+  <div class="card">
+    <p>第7周是综合提升周，核心目标是：</p>
+    <ul>
+      <li>🔬 深化验光技能，能独立完成主觉验光</li>
+      <li>📊 理解并解读各类复杂处方</li>
+      <li>🗣️ 提升专业沟通能力，建立客户信任</li>
+      <li>💼 掌握门店运营基础，了解整体业务逻辑</li>
+      <li>🏆 形成个人销售风格，提升客单价</li>
+    </ul>
+  </div>
+
+  <h2>📖 主觉验光（subjective refraction）基础</h2>
+  <div class="card">
+    <p><strong>主觉验光</strong>是通过让被检者反馈主观感受来确定最终处方的验光方法，是配镜处方的核心依据。</p>
+    <div class="key">
+      🔑 关键原则：<strong>最大正镜/最小负镜达到最佳视力</strong><br>
+      即在能看清楚的前提下，给予最少的负度数（近视）或最多的正度数（远视）
+    </div>
+  </div>
+
+  <h2>📋 主觉验光完整步骤</h2>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div>
+      <strong>初始球镜确认</strong>
+      <p>以电脑验光结果为参考，放入综合验光仪。先检查右眼（RE），遮盖左眼。</p>
+      <div class="tip">💡 从电脑验光数据减去约-0.25D开始，因为电脑验光通常偏近视化。</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div>
+      <strong>雾视（Fogging）</strong>
+      <p>在可接受度数上增加+0.75D~+1.00D，使视力模糊到约0.3，让眼睛放松调节。</p>
+      <p>目的：消除调节紧张（尤其是青少年），确保验光结果准确。</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div>
+      <strong>逐步去雾，找最佳球镜</strong>
+      <p>每次增加-0.25D，询问客户视力变化：</p>
+      <ul>
+        <li>"和刚才比，这个是更清楚、更模糊，还是一样？"</li>
+        <li>当客户反映清楚度不再提升时，停止增加负度</li>
+        <li>最佳球镜：达到最好视力（通常1.0）所需的最小负度数</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div>
+      <strong>散光确认（JCC法）</strong>
+      <p>用杰克逊交叉柱镜（JCC）确认散光轴向和度数：</p>
+      <ul>
+        <li>先翻转找准散光轴向（哪个位置两面一样清楚，轴向即正确）</li>
+        <li>再翻转确认散光度数（增加或减少散光度数直到两面一样）</li>
+      </ul>
+      <div class="tip">💡 散光轴向的误差比度数误差对配戴感更影响，轴向要仔细确认。</div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">5</div>
+    <div>
+      <strong>再次精调球镜</strong>
+      <p>散光确认后，球镜可能需要微调。再次用±0.25D确认最终球镜度数。</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">6</div>
+    <div>
+      <strong>平衡双眼（Binocular Balancing）</strong>
+      <p>确保双眼度数平衡，避免一眼过矫导致不适。常用交替遮盖法或棱镜分离法。</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">7</div>
+    <div>
+      <strong>试戴主观确认</strong>
+      <p>将最终处方放入试镜架，让客户走动、看远看近，综合评估舒适度。</p>
+      <div class="warn">⚠️ 如客户有明显不适，特别是头晕，需要重新检查是否存在过矫、散光轴偏差等问题。</div>
+    </div>
+  </div>
+
+  <h2>📊 处方数据解读</h2>
+  <div class="card">
+    <table class="structure-table">
+      <tr><th>符号</th><th>含义</th><th>示例</th></tr>
+      <tr><td>S 或 SPH</td><td>球镜度数（近视为负，远视为正）</td><td>-3.00D（近视300度）</td></tr>
+      <tr><td>C 或 CYL</td><td>柱镜度数（散光度数）</td><td>-0.75D（散光75度）</td></tr>
+      <tr><td>A 或 AXIS</td><td>散光轴向（1-180度）</td><td>180°</td></tr>
+      <tr><td>ADD</td><td>近附加（老视补偿）</td><td>+2.00D</td></tr>
+      <tr><td>PD</td><td>瞳距（毫米）</td><td>64mm（单眼32/32）</td></tr>
+    </table>
+  </div>
+
+  <h2>⚠️ 常见验光误差及原因</h2>
+  <div class="card">
+    <h3>度数偏深（过矫）</h3>
+    <p>原因：客户调节未充分放松，或操作者过快加负度。<br>后果：客户出现眼疲劳、头晕、看近不舒服。</p>
+
+    <h3>散光轴偏差</h3>
+    <p>原因：JCC操作不规范，客户配合不好。<br>后果：戴镜后眩晕感、视物变形。</p>
+
+    <h3>瞳距测量误差</h3>
+    <p>原因：瞳距仪使用不正确，或手工测量误差。<br>后果：棱镜效应，戴镜后眼睛酸涩或复视。</p>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#f5eef8,#e8daef);border-radius:10px;padding:18px 22px;margin-top:24px">
+    <strong style="color:#6c3483">🎯 今日目标</strong><br>
+    在店长/师傅指导下，完整操作一次主觉验光流程，并对比自己的结果与师傅的结果，找出差异原因。
+  </div>
+
+    <h2 style="color:#6c3483;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #8e44ad">🧪 验光实操常见问题解答</h2>
+  <div style="background:#f5eef8;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #e8daef">
+    <h3 style="color:#8e44ad;font-size:1rem;margin-top:18px">Q: 客户说"看哪个都差不多"怎么办？</h3>
+    <p style="line-height:1.8;color:#555;margin-bottom:12px">这通常意味着度数差异在其辨识阈值以下，或客户调节介入。处理方式：</p>
+    <ul style="padding-left:20px;margin-bottom:14px">
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">换用更小的视标行（0.8→1.0）来提高敏感度</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">重新雾视，让眼睛充分放松后再次检查</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">告知客户"不是找最清楚，而是找第一感觉"</li>
+    </ul>
+
+    <h3 style="color:#8e44ad;font-size:1rem;margin-top:18px">Q: 电脑验光和主觉验光结果差很多怎么处理？</h3>
+    <p style="line-height:1.8;color:#555;margin-bottom:12px">差异在±0.50D以内属正常范围。超过此范围需分析：</p>
+    <ul style="padding-left:20px;margin-bottom:14px">
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">客户调节痉挛（假性近视）：主觉验光通过雾视已消除调节，结果更准</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">角膜不规则：电脑验光误差更大，以主觉为准</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">以主觉验光为最终处方参考</li>
+    </ul>
+
+    <h3 style="color:#8e44ad;font-size:1rem;margin-top:18px">Q: 客户不适应新处方（戴了头晕）如何处置？</h3>
+    <ul style="padding-left:20px;margin-bottom:14px">
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">先核实是否真的头晕（区分"眼镜本身问题"和"适应期不适"）</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">检查加工参数：瞳距、瞳高、轴向是否准确</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">若加工无误，考虑适当降低度数（如-0.25D），特别是高度数客户</li>
+    </ul>
+  </div>
+
+  <h2 style="color:#6c3483;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #8e44ad">📋 验光记录单规范填写</h2>
+  <div style="background:#f5eef8;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #e8daef">
+    <p style="line-height:1.8;color:#555;margin-bottom:12px">规范的验光记录是配镜质量的保障，也是处理纠纷的证据：</p>
+    <table class="structure-table" style="width:100%;border-collapse:collapse;margin:14px 0">
+      <tr style="background:#8e44ad;color:#fff"><th style="padding:10px 14px;text-align:left">必填项目</th><th style="padding:10px 14px;text-align:left">注意要点</th></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #e8daef">客户姓名+联系方式</td><td style="padding:10px 14px;border-bottom:1px solid #e8daef">方便回访和档案建立</td></tr>
+      <tr style="background:#f5eef8"><td style="padding:10px 14px;border-bottom:1px solid #e8daef">裸眼视力（戴镜前）</td><td style="padding:10px 14px;border-bottom:1px solid #e8daef">远/近各记录一次</td></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #e8daef">电脑验光数据</td><td style="padding:10px 14px;border-bottom:1px solid #e8daef">原始数据保留，不要修改</td></tr>
+      <tr style="background:#f5eef8"><td style="padding:10px 14px;border-bottom:1px solid #e8daef">主觉验光处方</td><td style="padding:10px 14px;border-bottom:1px solid #e8daef">双眼各项参数+瞳距</td></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #e8daef">矫正视力（戴镜后）</td><td style="padding:10px 14px;border-bottom:1px solid #e8daef">记录最终矫正视力</td></tr>
+      <tr style="background:#f5eef8"><td style="padding:10px 14px">验光师签名</td><td style="padding:10px 14px">对处方负责，不可代签</td></tr>
+    </table>
+    <div style="background:#d1ecf1;border-left:4px solid #17a2b8;padding:10px 14px;border-radius:0 8px 8px 0;color:#0c5460;margin:10px 0">
+      💡 每一步验光都认真记录，不仅保护客户，也保护自己。处理投诉时，完整的验光记录是最好的证据。
+    </div>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#f5eef8,#e8daef);border-radius:10px;padding:20px 24px;margin-top:24px">
+    <strong style="color:#6c3483">📝 今日总结</strong>
+    <ul style="margin-top:10px;padding-left:18px;line-height:2">
+      <li>主觉验光7步骤要熟练，每步都有其目的和注意事项</li>
+      <li>雾视是关键步骤，特别对青少年，不可省略</li>
+      <li>散光轴向比度数更重要，要耐心精确确认</li>
+      <li>验光记录规范填写，是专业性的体现</li>
+    </ul>
+  </div>
+
+
+
+  <div class="nav-footer">
+    <a href="../第6周_独立接单训练/Day_42_练习题.html" class="nav-btn outline">← Day 42 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_43_练习题.html" class="nav-btn">Day 43 练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
