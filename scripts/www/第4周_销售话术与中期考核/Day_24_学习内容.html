@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 24 - 价格异议处理话术</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(0,0,0,0.12); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 15px; }
+  .meta-bar { background: white; padding: 15px 40px; display: flex; gap: 30px; border-bottom: 1px solid #e8ecf0; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+  .meta-item span.dot { width: 8px; height: 8px; border-radius: 50%; background: #f7971e; display: inline-block; }
+  .container { max-width: 960px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 20px; color: #333; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #f7971e; display: flex; align-items: center; gap: 10px; }
+  .card h3 { font-size: 16px; color: #444; margin: 18px 0 10px; }
+  .card p { line-height: 1.8; color: #555; margin-bottom: 12px; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { line-height: 1.9; color: #555; margin-bottom: 4px; }
+  .highlight-box { background: #fff9f0; border-left: 4px solid #f7971e; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .highlight-box.green { background: #f0fdf4; border-color: #22c55e; }
+  .highlight-box.blue { background: #f0f4ff; border-color: #667eea; }
+  .dialogue-box { border: 1px solid #e8ecf0; border-radius: 10px; overflow: hidden; margin: 16px 0; }
+  .dialogue-row { display: flex; }
+  .dialogue-row .role { padding: 12px 16px; min-width: 80px; text-align: center; font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .dialogue-row .role.staff { background: #f7971e; color: white; }
+  .dialogue-row .role.customer { background: #f5f5f5; color: #666; }
+  .dialogue-row .content { padding: 12px 16px; font-size: 14px; color: #444; line-height: 1.7; flex: 1; border-bottom: 1px solid #f0f0f0; }
+  .dialogue-row:last-child .content { border-bottom: none; }
+  .method-box { background: #fff9f0; border: 2px solid #f7971e; border-radius: 10px; padding: 20px; margin: 16px 0; }
+  .method-box .method-title { font-weight: bold; color: #c05200; font-size: 15px; margin-bottom: 10px; }
+  .method-box p { margin: 0; font-size: 14px; color: #555; line-height: 1.8; }
+  .summary-box { background: linear-gradient(135deg, #f7971e, #ffd200); color: white; border-radius: 12px; padding: 24px; margin-top: 8px; }
+  .summary-box h3 { font-size: 18px; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 20px; }
+  .summary-box li { line-height: 2; }
+  .footer { text-align: center; padding: 30px; color: #aaa; font-size: 13px; }
+  .nav-footer { display: flex; justify-content: space-between; margin: 20px 0 40px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #fa709a, #fee140); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #fa709a; border: 2px solid #fa709a; }
+  .nav-btn.outline:hover { background: #fff5f8; }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="week-badge">第4周 · 销售话术与中期考核</div>
+  <h1>Day 24 — 价格异议处理话术</h1>
+  <div class="subtitle">话术模块 · 学会应对"太贵了"，让顾客感受到真正的价值</div>
+</div>
+<div class="meta-bar">
+  <div class="meta-item"><span class="dot"></span>学习时长：约3.5小时</div>
+  <div class="meta-item"><span class="dot"></span>模块：话术（Scripts）</div>
+  <div class="meta-item"><span class="dot"></span>重要性：⭐⭐⭐⭐⭐</div>
+  <div class="meta-item"><span class="dot"></span>核心挑战：价格谈判心理</div>
+</div>
+<div class="container">
+
+  <div class="card">
+    <h2><span>🎯</span>今日学习目标</h2>
+    <ol>
+      <li>理解顾客说"太贵了"背后真实的心理动机</li>
+      <li>掌握5种价格异议处理方法</li>
+      <li>学会"价值塑造"而非"降价妥协"</li>
+      <li>能够对3种常见价格异议场景进行角色扮演</li>
+      <li>了解打折优惠的正确使用时机</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2><span>🧠</span>一、顾客说"太贵了"的真实含义</h2>
+    <p>当顾客说"太贵了"时，<strong>大多数情况下并不是真的买不起</strong>，而是：</p>
+    <ul>
+      <li>① <strong>没感受到产品的价值</strong>（"我不知道为什么这么贵"）</li>
+      <li>② <strong>在砍价试探底线</strong>（"我看你能不能给我优惠"）</li>
+      <li>③ <strong>在货比三家</strong>（"我还没决定在哪买"）</li>
+      <li>④ <strong>预算确实有限</strong>（真的价格敏感）</li>
+    </ul>
+    <div class="highlight-box">
+      <strong>关键：</strong>先判断顾客属于哪种情况，再用对应策略回应。不要一听"贵"就直接降价，这是最常见的新手错误，会让顾客认为你的定价是虚高的，反而失去信任。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span>💡</span>二、5种价格异议处理方法</h2>
+
+    <div class="method-box">
+      <div class="method-title">方法1：认同 + 价值重塑（最常用）</div>
+      <p>先认同顾客的感受，再把价格转化为"投资"和"价值"。<br>
+      <br><strong>话术示例：</strong><br>
+      顾客："这副眼镜也太贵了，1200块？"<br>
+      员工："确实，1200元不是小数目。不过您换个角度算一下，这副镜架用3-5年是完全没问题的，平均下来每天不到1块钱，但这期间您每天的视觉清晰度和佩戴舒适度都得到了保障，您觉得值不值？"</p>
+    </div>
+
+    <div class="method-box">
+      <div class="method-title">方法2：对比法（价值对比）</div>
+      <p>通过与同类产品或生活支出对比，让顾客感受到相对价值。<br>
+      <br><strong>话术示例：</strong><br>
+      "您看，一顿普通的商务午餐可能就要好几百，而这副每天陪您16小时、帮您清晰看世界的眼镜，同样的钱，您觉得哪个更值得？当然，我们也有不同价位的选择，我帮您看看有没有更适合您的。"</p>
+    </div>
+
+    <div class="method-box">
+      <div class="method-title">方法3：拆分法（化大为小）</div>
+      <p>把总价拆分成更小的单位，降低心理负担。<br>
+      <br><strong>话术示例：</strong><br>
+      "这款1.74超薄镜片是1080元，但它的使用寿命在2-3年，您算一下，每个月才三十多块，相当于每天1块钱，买的是2年的清晰舒适视觉，其实非常划算。"</p>
+    </div>
+
+    <div class="method-box">
+      <div class="method-title">方法4：降阶推荐（真心实意地推荐平价款）</div>
+      <p>如果顾客预算确实有限，诚心推荐适合价位的产品，不要强推。<br>
+      <br><strong>话术示例：</strong><br>
+      "好的，我完全理解。那我给您看看这款，品质同样很好，价格在600元左右，很多顾客都很满意。这个价位您觉得舒适吗？"</p>
+    </div>
+
+    <div class="method-box">
+      <div class="method-title">方法5：限时优惠法（配合活动使用）</div>
+      <p>在有促销活动时，用限时优惠创造紧迫感。但要真实，不能虚假。<br>
+      <br><strong>话术示例：</strong><br>
+      "刚好这周我们有个活动，这款镜片可以享受8折优惠，算下来比平时省了200多块。活动到本周日结束，您今天决定的话价格是最合适的。"</p>
+    </div>
+
+    <div class="highlight-box green">
+      <strong>黄金原则：</strong>不轻易打折降价。先用方法1-3塑造价值，顾客仍然坚持时再考虑优惠。主动降价会让顾客认为产品本来就不值这个价，反而损害信任。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span>🎭</span>三、完整情景对话示例</h2>
+    <div class="dialogue-box">
+      <div class="dialogue-row">
+        <div class="role customer">顾客</div>
+        <div class="content">这副钛合金架子要2000多，也太贵了吧，网上同款才几百块。</div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role staff">员工</div>
+        <div class="content">您说的网上价格我理解，确实看起来差距挺大的。不过我想和您分享一个重要的区别：眼镜的核心价值不在镜架，而在镜片的配适和调整服务。网上买的镜架需要您自己配镜片，配出来的度数误差、镜片中心是否对准您的瞳孔、佩戴舒适度，这些都直接影响您的视力健康。我们提供的是包括专业验光、精准加工、售后调整的完整服务。（停顿）您现在戴的眼镜是自己网上配的还是在实体店配的？</div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role customer">顾客</div>
+        <div class="content">上次网上配的，确实戴了一段时间头有点晕。</div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role staff">员工</div>
+        <div class="content">那这个体验说明了问题所在。头晕很可能就是瞳距误差或度数不准导致的。这副钛合金架2000多，配上我们专业的镜片，加上免费的售后调整服务，是一个完整的视力解决方案，不只是一副框架。您觉得有没有道理？如果您有预算考量，我可以帮您在镜片上找一个平衡点。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span>⚠️</span>四、处理价格异议的禁忌</h2>
+    <ul>
+      <li>❌ 立即降价："行行行，给你打9折。"（主动贬值）</li>
+      <li>❌ 强行比较："你比比看，外面都是这个价！"（让顾客反感）</li>
+      <li>❌ 否定顾客："这已经很便宜了。"（不认同顾客感受）</li>
+      <li>❌ 沉默尴尬：顾客说贵，员工不知道说什么（准备不足）</li>
+    </ul>
+  </div>
+
+  <div class="summary-box">
+    <h3>📋 今日知识小结</h3>
+    <ul>
+      <li>顾客说"太贵"有4种原因，先判断原因再回应</li>
+      <li>5种方法：价值重塑 / 对比法 / 拆分法 / 降阶推荐 / 限时优惠</li>
+      <li>黄金原则：先塑造价值，不轻易主动降价</li>
+      <li>4大禁忌：立即降价、强行比较、否定感受、沉默无言</li>
+    </ul>
+  </div>
+
+  <div class="footer">Day 24 · 眼镜门店新员工8周成才培训计划 · 第4周 销售话术与中期考核</div>
+
+    <div class="card">
+    <h2>🎯 话术优化对比练习</h2>
+    <p>同样的内容，不同的表达方式，效果差距巨大：</p>
+    <table class="structure-table" style="width:100%;border-collapse:collapse;margin:14px 0">
+      <thead><tr style="background:#43e97b;color:#fff"><th style="padding:10px 14px;text-align:left">情景</th><th style="padding:10px 14px;text-align:left">弱话术（❌）</th><th style="padding:10px 14px;text-align:left">强话术（✅）</th></tr></thead>
+      <tbody>
+        <tr><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">客户嫌贵</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">"这个价格已经很便宜了"</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">"这副镜片您至少用3年，平均每天只要X元，而且用的是XX品牌，质量有保障"</td></tr>
+        <tr style="background:#f0fff0"><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">客户问能否打折</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">"打折是不行的"</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">"价格这边已经是最优惠了，不过我可以帮您申请一个专属礼品，另外我们有2年免费保养服务"</td></tr>
+        <tr><td style="padding:10px 14px">客户说要考虑</td><td style="padding:10px 14px">"好的，您慢慢考虑"</td><td style="padding:10px 14px">"我理解，这是大事。有什么顾虑我帮您解答？这款库存不多，我帮您暂时预留一下？"</td></tr>
+      </tbody>
+    </table>
+    <div style="background:#e8f5e9;border-left:4px solid #43e97b;padding:12px 16px;border-radius:0 8px 8px 0;margin-top:14px">
+      💡 好的话术不是背稿，而是真心站在客户角度，找到对他们最有价值的角度来表达。
+    </div>
+  </div>
+
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_23_练习题.html">← Day 23 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_24_练习题.html">Day 24 练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
