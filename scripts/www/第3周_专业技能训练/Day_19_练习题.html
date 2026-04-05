@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 19 练习题 - 售后服务与维修技能</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 28px 40px; }
+  .header .badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; margin-bottom: 6px; }
+  .header p { opacity: 0.85; font-size: 14px; }
+  .container { max-width: 860px; margin: 30px auto; padding: 0 20px; }
+  .section { background: white; border-radius: 12px; padding: 28px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .section h2 { font-size: 18px; color: #333; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #f5576c; }
+  .question { margin-bottom: 22px; }
+  .q-text { font-size: 15px; line-height: 1.7; color: #333; font-weight: 500; display: flex; align-items: flex-start; gap: 10px; }
+  .q-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #f5576c; color: white; border-radius: 50%; font-size: 13px; font-weight: bold; flex-shrink: 0; }
+  .options { margin: 12px 0 0 38px; }
+  
+  .option:hover { background: #fff0f3; border-color: #f5576c; }
+  .option input { margin-top: 2px; accent-color: #f5576c; }
+  .option label { cursor: pointer; font-size: 14px; color: #555; }
+  .judge-options { margin: 10px 0 0 38px; display: flex; gap: 20px; }
+  .judge-btn { display: flex; align-items: center; gap: 8px; padding: 8px 20px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+  .judge-btn:hover { border-color: #f5576c; background: #fff0f3; }
+  .judge-btn input { accent-color: #f5576c; }
+  .scenario { background: #fff0f3; border-left: 4px solid #f5576c; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 10px 0 0 38px; font-size: 14px; color: #444; line-height: 1.7; }
+  .answer-area { margin: 12px 0 0 38px; }
+  .answer-area textarea { width: 100%; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; font-size: 14px; resize: vertical; min-height: 100px; font-family: 'Microsoft YaHei', sans-serif; }
+  .answer-area textarea:focus { outline: none; border-color: #f5576c; }
+  .submit-area { text-align: center; padding: 20px 0; }
+  .submit-btn { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; border: none; padding: 14px 50px; border-radius: 30px; font-size: 16px; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; }
+  /* 每题答案按钮 */
+  .show-answer-btn { display: block; margin: 8px 0 4px 38px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .show-answer-btn:hover { border-color: #f5576c; color: #f5576c; background: #fff0f3; }
+  .answer-hint { display: none; margin: 4px 0 8px 38px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #166534; line-height: 1.7; }
+  .scene-answer-btn { display: block; margin: 8px 0 4px 38px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .scene-answer-btn:hover { border-color: #f5576c; color: #f5576c; background: #fff0f3; }
+  .scene-answer { display: none; margin: 4px 0 8px 38px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #166534; line-height: 1.8; }
+  /* 底部导航 */
+  .nav-footer { display: flex; justify-content: space-between; align-items: center; padding: 20px 0 30px; gap: 12px; }
+  .nav-btn { display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.25s; color: white; background: linear-gradient(135deg, #f093fb, #f5576c); }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #f5576c; border: 2px solid #f5576c; }
+  .nav-btn.outline:hover { background: #fff0f3; }
+
+  
+
+
+  /* ── 交互式选项（Day01标准） ── */
+  .options { list-style: none; padding: 0; margin: 12px 0 0 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-size: 0.93em; transition: all 0.2s; line-height: 1.6; }
+  .options li:hover:not(.answered) { border-color: var(--accent, #4CAF50); background: #f1f8e9; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events: none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events: none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
+  .options li.answered    { pointer-events: none !important; cursor: default !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="badge">Day 19 · 练习题</div>
+  <h1>📝 售后服务与维修技能 — 巩固测评</h1>
+  <p>共20题 · 建议完成时间25分钟 · 满分100分</p>
+</div>
+<div class="container">
+
+  <div class="section">
+    <h2>📌 一、单选题（每题4分，共40分）</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">1</span>拧螺丝时，正确的用力方向是？</div>
+          <ul class="options">
+      <li>A. 逆时针拧紧</li>
+      <li>B. 顺时针拧紧</li>
+      <li>C. 随意方向</li>
+      <li>D. 用钳子固定</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：螺丝拧紧方向为顺时针（右旋），这是通用标准。拧眼镜螺丝时力度要适中，感觉有阻力时停止，防止滑丝。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">2</span>鼻托调整时，两侧鼻托间距的调整依据是什么？</div>
+          <ul class="options">
+      <li>A. 按标准规格统一设定</li>
+      <li>B. 根据顾客鼻梁宽度个性化调整</li>
+      <li>C. 越宽越好</li>
+      <li>D. 由顾客自己调整</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：鼻托间距需根据每位顾客的鼻梁宽度个性化调整，确保眼镜佩戴舒适且不易下滑，是个性化服务的重要体现。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">3</span>超声波清洗时，眼镜应该如何放置？</div>
+          <ul class="options">
+      <li>A. 镜片朝上，放在水面以上</li>
+      <li>B. 镜片朝下，浸入水中</li>
+      <li>C. 镜片拆下后单独清洗</li>
+      <li>D. 水槽加满水，完全淹没</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：超声波清洗时镜片朝下放入水中，让超声波振动充分作用于镜片表面，才能有效清除污垢和油脂。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">4</span>螺纹已滑丝（转动但拧不紧）时，正确处理方式是？</div>
+          <ul class="options">
+      <li>A. 继续用力拧，直到拧紧为止</li>
+      <li>B. 用502胶水固定</li>
+      <li>C. 告知顾客需更换同规格螺丝</li>
+      <li>D. 暂时不管，等顾客下次来再说</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：螺纹滑丝后只能更换同规格新螺丝，继续强拧会加重损坏，用胶水固定是错误方法，会导致日后难以拆卸。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">5</span>热整形时，最合适的操作方式是？</div>
+          <ul class="options">
+      <li>A. 加热温度越高越好，这样更容易整形</li>
+      <li>B. 适当加热软化后轻柔调整，冷却定型</li>
+      <li>C. 用力强行掰正，不需要加热</li>
+      <li>D. 泡冷水后再整形</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：热整形需适度加热（约60-80℃）使材料软化，轻柔调整到位，保持姿势等待10-15秒冷却定型，温度过高或强行掰正都会损坏镜架。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">6</span>顾客投诉处理的第一步应该是？</div>
+          <ul class="options">
+      <li>A. 立即解释这不是门店的问题</li>
+      <li>B. 倾听顾客，不打断</li>
+      <li>C. 让顾客先冷静再说</li>
+      <li>D. 直接报价赔偿</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：投诉处理第一步是认真倾听、不打断顾客，让顾客感到被尊重，之后再致歉、核实情况，最后提出解决方案。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">7</span>顾客反映镜片油脂难清洁，员工建议的正确清洁方法是？</div>
+          <ul class="options">
+      <li>A. 用纸巾用力擦</li>
+      <li>B. 用衣角快速擦</li>
+      <li>C. 流水冲洗后用专用镜片布从中心向外旋转擦</li>
+      <li>D. 直接放入清水中浸泡</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：正确清洁方法：流水冲洗去除颗粒→滴镜片清洁液→用专用镜片布从中心向外旋转擦拭，纸巾和衣物会划伤镜片。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">8</span>新员工遇到无法自行解决的投诉时，应该怎么做？</div>
+          <ul class="options">
+      <li>A. 推辞说不知道</li>
+      <li>B. 自行承诺赔偿解决</li>
+      <li>C. 立即请主管或店长介入</li>
+      <li>D. 让顾客改天再来</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：超出新员工权限的投诉应立即请主管介入，不能擅自承诺赔偿，也不能推托。话术："稍等一下，我请我们主管来帮您处理。"</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">9</span>以下哪种眼镜不适合进行热整形？</div>
+          <ul class="options">
+      <li>A. 板材框架</li>
+      <li>B. TR-90框架</li>
+      <li>C. 金属框架</li>
+      <li>D. 有镶钻特殊涂层的框架（需先确认）</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：金属框架不适合热整形，应用手工弯折调整；板材和TR-90适合热整形。有镶钻或特殊涂层的需先确认能否加热。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">10</span>超声波清洗通常建议的清洗时间是多少？</div>
+          <ul class="options">
+      <li>A. 5-10秒</li>
+      <li>B. 30-60秒</li>
+      <li>C. 3-5分钟</li>
+      <li>D. 10分钟以上</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：超声波清洗建议时间为30-60秒，时间过短效果不佳，时间过长（超过2分钟）可能损伤镜片镀膜。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>✅ 二、判断题（每题4分，共20分）</h2>
+    <div class="question">
+      <div class="q-text"><span class="q-num">11</span>拧螺丝时力度越大越好，可以确保不再松动。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">❌ 正确答案：<strong>B（错误）</strong><br>解析：拧螺丝力度过大会导致螺纹滑丝，适中用力感觉有阻力时即停，必要时可使用螺丝固定液防松。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">12</span>售后服务的质量直接影响顾客的复购率和门店口碑。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：优质的售后服务能建立顾客信任，促进复购和口碑传播，是门店长期竞争力的重要组成部分。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">13</span>轻微变形的镜架整形服务通常是免费提供给顾客的。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：螺丝紧固、轻微整形、超声波清洗等基础售后服务通常对顾客免费，这也是吸引顾客回店的重要手段。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">14</span>顾客投诉时员工应该先为门店辩护，再考虑解决方案。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">❌ 正确答案：<strong>B（错误）</strong><br>解析：投诉处理应先倾听、致歉、表示理解，再核查原因并提出解决方案。先辩护会激化矛盾，让顾客感觉被推诿。</div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">15</span>超声波清洗是免费服务，可以主动向顾客推荐。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：超声波清洗是门店免费提供的增值服务，主动推荐可以增加顾客满意度和到店频率，有助于建立长期客户关系。</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🎭 三、情景模拟题（共40分）</h2>
+    <div class="question">
+      <div class="q-text"><span class="q-num">16</span>情景模拟一（20分）：</div>
+      <div class="scenario">
+        一位老顾客走进门店，拿着一副镜架说："这是我上个月在你们这配的眼镜，镜腿突然就断了，我也没有摔过它，这质量也太差了吧！"请写出你的完整处理话术和处理流程（从接待到提出解决方案）。
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="请写出完整的处理话术和流程..."></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        ✅ <strong>参考处理话术与流程：</strong><br>
+        ①<strong>倾听不打断：</strong>"您好，我先看看您的眼镜，您说说具体是什么情况。"（认真听完，不急于辩解）<br>
+        ②<strong>致歉表态：</strong>"非常抱歉给您带来了不便，这肯定影响了您的正常使用，我完全理解您的心情。"<br>
+        ③<strong>查看问题：</strong>仔细检查断裂部位，判断是焊接断裂还是材质疲劳或外力损坏。<br>
+        ④<strong>核查记录：</strong>"我帮您查一下购买记录，确认一下具体情况。"（查找购买信息）<br>
+        ⑤<strong>提出方案：</strong>如属于质量问题，"我们帮您免费维修/更换，大约需要X天，可以吗？"；如确属外力，礼貌说明并提供有偿维修方案。<br>
+        ⑥<strong>后续跟进：</strong>维修期间主动告知进度，取镜时再次检查并致歉感谢。
+      </div>
+    </div>
+    <div class="question">
+      <div class="q-text"><span class="q-num">17</span>情景模拟二（20分）：</div>
+      <div class="scenario">
+        一位新顾客走进门店，说："我的眼镜鼻托坏了，能帮我换一下吗？"请描述你从接待顾客到完成鼻托更换服务的完整流程，包括与顾客的沟通话术。
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="请描述完整的接待和服务流程..."></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        ✅ <strong>参考完整服务流程：</strong><br>
+        ①<strong>热情接待：</strong>"您好，欢迎光临！鼻托换一下没问题，我来帮您看看。"<br>
+        ②<strong>检查评估：</strong>接过眼镜查看鼻托损坏情况（是螺丝松动、鼻托脱落还是鼻托折断），判断维修方式。<br>
+        ③<strong>告知情况：</strong>"您的鼻托是[具体情况]，我帮您[更换新鼻托/重新固定]，这个是免费服务，大概需要2-3分钟，可以吗？"<br>
+        ④<strong>动手操作：</strong>选择匹配规格的鼻托，用螺丝刀取下旧鼻托，安装新鼻托，确认牢固。<br>
+        ⑤<strong>调整试戴：</strong>"您试戴一下，我帮您把间距也调一调，确保佩戴舒适。"根据顾客鼻梁宽度调整两侧鼻托间距。<br>
+        ⑥<strong>超声波清洗推荐：</strong>"顺便帮您做个超声波清洗，把镜片也洗干净，这是免费的。"<br>
+        ⑦<strong>致谢留档：</strong>"好了，您戴着感觉怎么样？以后镜架有什么问题随时来，欢迎下次再来。"
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-area">
+    <button class="submit-btn" onclick="alert('已提交！请交给师傅复盘。')">提交练习题 ✓</button>
+  </div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_19_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_20_学习内容.html">Day 20 学习内容 →</a>
+  </div>
+</div>
+
+
+
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card, .question, .q-block').forEach(function(card){
+    var hint = card.querySelector('.answer-hint, .answer-box');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<[^>]+>)?([A-Da-d正确错误])/i);
+    if(!m) return;
+    var correctRaw = m[1];
+    // 支持汉字"正确"/"错误"和字母A/B/C/D
+    var correct = correctRaw.toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var txt = li.textContent.trim();
+      var letter = (txt.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
