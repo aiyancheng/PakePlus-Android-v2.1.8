@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 37 学习内容 — 价格异议处理与成交技巧</title>
+<style>
+  body{font-family:'Microsoft YaHei',sans-serif;background:#f5f7fa;margin:0;padding:20px;color:#333}
+  .container{max-width:860px;margin:0 auto;background:#fff;border-radius:12px;padding:36px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+  h1{color:#2980b9;font-size:1.6rem;border-bottom:3px solid #2980b9;padding-bottom:10px}
+  h2{color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9}
+  h3{color:#2980b9;font-size:1rem;margin-top:18px}
+  .card{background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5}
+  .tip{background:#d1ecf1;border-left:4px solid #17a2b8;padding:10px 14px;border-radius:0 8px 8px 0;color:#0c5460;margin:10px 0}
+  .warn{background:#fff3cd;border-left:4px solid #ffc107;padding:10px 14px;border-radius:0 8px 8px 0;color:#856404;margin:10px 0}
+  .dialogue{background:#f8f9fa;border-radius:10px;padding:16px 20px;margin:12px 0;border:1px solid #dee2e6}
+  .staff{color:#2980b9;font-weight:600}
+  .customer{color:#e67e22;font-weight:600}
+  .technique{background:#fff;border:2px solid #2980b9;border-radius:10px;padding:16px 20px;margin:14px 0}
+  .technique .name{color:#1a5276;font-size:1.05rem;font-weight:bold;margin-bottom:8px}
+  .nav-footer { display: flex; justify-content: space-between; margin: 24px 0 8px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #43e97b; border: 2px solid #43e97b; }
+  .nav-btn.outline:hover { background: #f0fff8; }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div style="background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;border-radius:10px;padding:20px 24px;margin-bottom:24px">
+    <div style="font-size:.9rem;opacity:.85">第6周 · Day 37 · 独立接单训练</div>
+    <h1 style="color:#fff;border:none;padding:0;margin:8px 0">💰 价格异议处理与成交技巧</h1>
+    <p style="margin:4px 0;opacity:.9">学会用价值代替价格，让客户心甘情愿买单</p>
+  </div>
+
+  <h2>🧠 为什么客户会有价格异议？</h2>
+  <div class="card">
+    <p>客户说"太贵了"，背后通常有三种原因：</p>
+    <ul>
+      <li>🔴 <strong>真实预算不够</strong>：客户确实无法承受这个价位</li>
+      <li>🟡 <strong>感知价值不足</strong>：客户不觉得产品值这个价</li>
+      <li>🟢 <strong>习惯性还价</strong>：客户在试探，看能否获得更好条件</li>
+    </ul>
+    <div class="tip">💡 70%的价格异议属于第②③种，只需要提升感知价值，无需真正降价。</div>
+  </div>
+
+  <h2>🛠️ 六大价格异议处理技巧</h2>
+
+  <div class="technique">
+    <div class="name">① 价值强化法</div>
+    <p>重新强调产品能给客户带来的核心价值，而不是产品本身的特性。</p>
+    <div class="dialogue">
+      <span class="customer">客户：</span>"这副眼镜1800元，有点贵啊。"<br>
+      <span class="staff">员工：</span>"我理解您的感受。这副眼镜您至少会用3-5年，平摊下来每天不到2块钱。而且这款镜片有防蓝光功能，每天保护您用电脑8小时的眼睛。您的眼睛健康是最值得投资的。"
+    </div>
+  </div>
+
+  <div class="technique">
+    <div class="name">② 对比引导法</div>
+    <p>用高价款衬托中价款的性价比，也可用低价款强调高价款的优势。</p>
+    <div class="dialogue">
+      <span class="staff">员工：</span>"其实我们还有一款999元的，但折射率只有1.60，您的度数这么高，镜片会比较厚。这款1580元的折射率1.74，镜片薄一半，戴起来美观多了。您觉得这个差价值吗？"
+    </div>
+  </div>
+
+  <div class="technique">
+    <div class="name">③ 拆分成本法</div>
+    <p>把总价拆分成日均/月均费用，让数字看起来更小。</p>
+    <div class="dialogue">
+      <span class="staff">员工：</span>"2000元的眼镜，使用5年的话，每天的成本还不到1块1。这副眼镜每天陪伴您上班、开车、看书，这个投入真的非常划算。"
+    </div>
+  </div>
+
+  <div class="technique">
+    <div class="name">④ 竞品对比法</div>
+    <p>与同类产品/其他品牌进行客观对比，突出本店优势。</p>
+    <div class="dialogue">
+      <span class="staff">员工：</span>"这款蔡司镜片在其他眼镜店可能要卖2000多，我们现在是代理价，而且我们提供2年的免费清洗保养服务。综合来看，在我们这里配更划算。"
+    </div>
+  </div>
+
+  <div class="technique">
+    <div class="name">⑤ 降档推荐法</div>
+    <p>当客户预算确实有限时，诚恳推荐更实惠的方案，保留客户。</p>
+    <div class="dialogue">
+      <span class="customer">客户：</span>"我真的预算不多，最多800元左右。"<br>
+      <span class="staff">员工：</span>"明白了，我帮您推荐一款性价比很高的选择，680元的非球面镜片，虽然品牌不同，但光学效果非常好，很多客户都非常满意。"
+    </div>
+  </div>
+
+  <div class="technique">
+    <div class="name">⑥ 附加价值法</div>
+    <p>在价格无法让步时，通过增加服务/附赠品提升整体价值感。</p>
+    <div class="dialogue">
+      <span class="staff">员工：</span>"价格这边已经是优惠价了，不过我可以为您额外赠送一个高档镜盒和清洁套装，还有我们的VIP会员卡，以后每次进店保养都打9折。您觉得怎么样？"
+    </div>
+  </div>
+
+  <h2>🎯 成交促进技巧</h2>
+
+  <div class="card">
+    <h3>假设成交法</h3>
+    <p>直接假设客户已经决定购买，引导进入下一步。</p>
+    <p><em>"好的，那我帮您填写工单，请问您的手机号是？"</em></p>
+
+    <h3>二择一法</h3>
+    <p>给客户两个选项，都是你希望的结果。</p>
+    <p><em>"您是选这款金色镜框，还是这款黑色的？"</em></p>
+
+    <h3>紧迫感法</h3>
+    <p>创造合理的紧迫感，促使客户当下决定。</p>
+    <p><em>"这款镜框库存只剩2个了，而且这个尺码很适合您的脸型，建议今天就定下来。"</em></p>
+
+    <h3>关键人物法</h3>
+    <p>帮助犹豫的客户找到理性依据。</p>
+    <p><em>"我们很多医生、教师客户都会选择这款防蓝光镜片，专门为需要长时间用眼的人设计的。"</em></p>
+  </div>
+
+  <div class="warn">
+    ⚠️ 成交注意事项：<br>
+    • 不要过度催促，给客户思考的空间<br>
+    • 不要说竞品的坏话，显得不专业<br>
+    • 不要为了成交做出超权限的承诺
+  </div>
+
+  <div style="background:linear-gradient(135deg,#eaf4fc,#d0e8f5);border-radius:10px;padding:18px 22px;margin-top:24px">
+    <strong style="color:#1a5276">🎯 今日目标</strong><br>
+    在实际接待中尝试运用至少2种价格异议处理技巧，并记录客户的反应。
+  </div>
+
+  <!-- 扩充：心理学角度深度解析 -->
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">🧩 深度解析：客户心理与价格感知</h2>
+  <div class="card">
+    <h3>锚定效应（Anchoring Effect）</h3>
+    <p>人的大脑在做价格判断时，会以第一个听到的数字为"锚"。销售时可主动设置高锚点：</p>
+    <ul>
+      <li>先介绍旗舰款（3000元），再介绍目标款（1800元），客户会觉得1800元更划算</li>
+      <li>报价时先说"市场价2500"，再说"我们今天特价1800"，成交感更强</li>
+      <li>同类产品从高到低展示，而非从低到高</li>
+    </ul>
+
+    <h3>损失厌恶（Loss Aversion）</h3>
+    <p>人们对"损失"的痛苦感是"同等收益"带来的快乐感的2倍。利用这一心理：</p>
+    <div class="dialogue">
+      <span class="staff">员工（错误说法）：</span>"这款镜片有防蓝光功能，很好用。"<br>
+      <span class="staff">员工（正确说法）：</span>"不加防蓝光的话，每天8小时盯屏幕，视疲劳会越来越严重，睡眠质量也会下降——这个损失可不小。"
+    </div>
+
+    <h3>社会证明（Social Proof）</h3>
+    <p>展示其他客户的选择，降低客户的决策风险感：</p>
+    <p><em>"这款是我们门店今年卖得最好的，很多和您一样经常用电脑的客户都选了这个。"</em></p>
+    <p><em>"上个月刚帮一位老师配了这款，她回来说戴着非常舒适，专门来致谢。"</em></p>
+  </div>
+
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">📋 价格谈判实战流程</h2>
+  <div class="card">
+    <table class="structure-table">
+      <tr><th>步骤</th><th>动作</th><th>目的</th></tr>
+      <tr><td>第①步</td><td>先确认需求，再报价</td><td>让客户对产品产生认同感后才谈价格</td></tr>
+      <tr><td>第②步</td><td>报价时坦然，不主动降价</td><td>体现产品价值和自信</td></tr>
+      <tr><td>第③步</td><td>客户提异议时，先认同再解释</td><td>"您说得有道理，确实不便宜……"缓和情绪</td></tr>
+      <tr><td>第④步</td><td>用价值和场景重新定义价格</td><td>从"成本"转化为"投资"</td></tr>
+      <tr><td>第⑤步</td><td>给出最终方案后沉默等待</td><td>让客户自己说话，不要填补沉默</td></tr>
+    </table>
+
+    <div class="warn">
+      ⚠️ 常见失误：<br>
+      • 客户刚说贵，立刻降价——严重损害产品信誉<br>
+      • 不停解释产品特性，忽视客户真实顾虑<br>
+      • 使用"能不能再便宜一点"这类开放式问题，给自己挖坑
+    </div>
+  </div>
+
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">🎭 角色扮演练习</h2>
+  <div class="card">
+    <p>请两人一组，分别扮演"客户"和"员工"，练习以下场景，每个场景练习3分钟：</p>
+    <ol>
+      <li><strong>场景A</strong>：客户看上一副1200元的镜框，说"能不能便宜200？"——运用附加价值法</li>
+      <li><strong>场景B</strong>：客户对比了一家网店，说"网上同款900元，你们凭什么卖1500？"——运用竞品对比法和服务价值强调</li>
+      <li><strong>场景C</strong>：客户说"我先回去考虑一下"（准备离开）——运用紧迫感法和总结价值法挽留</li>
+    </ol>
+    <div class="tip">💡 角色扮演后互相给出反馈：哪句话最有说服力？哪里还可以改进？</div>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#eaf4fc,#d0e8f5);border-radius:10px;padding:20px 24px;margin-top:24px">
+    <strong style="color:#1a5276">📝 今日总结</strong>
+    <ul style="margin-top:10px;padding-left:18px;line-height:2">
+      <li>价格异议的本质是价值感知不足，而非真实价格问题</li>
+      <li>六大技巧灵活运用，核心都是"转移焦点，从价格到价值"</li>
+      <li>成交促进要自然，不是强迫，是帮助客户做出对他有利的决定</li>
+      <li>每次异议处理都是练习机会，记录下来，不断优化话术</li>
+    </ul>
+  </div>
+
+  <div class="nav-footer">
+    <a href="Day_36_练习题.html" class="nav-btn outline">← Day 36 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    <a href="Day_37_练习题.html" class="nav-btn">Day 37 练习题 →</a>
+  </div>
+
+</div>
+</body>
+</html>
