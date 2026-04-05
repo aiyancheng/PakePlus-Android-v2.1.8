@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 41 学习内容 — 售后服务与客户维护</title>
+<style>
+  body{font-family:'Microsoft YaHei',sans-serif;background:#f5f7fa;margin:0;padding:20px;color:#333}
+  .container{max-width:860px;margin:0 auto;background:#fff;border-radius:12px;padding:36px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+  h1{color:#2980b9;font-size:1.6rem;border-bottom:3px solid #2980b9;padding-bottom:10px}
+  h2{color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9}
+  h3{color:#2980b9;font-size:1rem;margin-top:18px}
+  .card{background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5}
+  .tip{background:#d1ecf1;border-left:4px solid #17a2b8;padding:10px 14px;border-radius:0 8px 8px 0;color:#0c5460;margin:10px 0}
+  .success{background:#d4edda;border-left:4px solid #28a745;padding:10px 14px;border-radius:0 8px 8px 0;color:#155724;margin:10px 0}
+  table{width:100%;border-collapse:collapse;margin:14px 0}
+  th{background:#2980b9;color:#fff;padding:10px 14px;text-align:left}
+  td{padding:10px 14px;border-bottom:1px solid #d0e8f5}
+  tr:nth-child(even) td{background:#eaf4fc}
+  .step{display:flex;align-items:flex-start;margin:12px 0;gap:14px}
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#2980b9;border:2px solid #2980b9}
+  .step-num{background:#2980b9;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0}
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div style="background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;border-radius:10px;padding:20px 24px;margin-bottom:24px">
+    <div style="font-size:.9rem;opacity:.85">第6周 · Day 41 · 独立接单训练</div>
+    <h1 style="color:#fff;border:none;padding:0;margin:8px 0">🔧 售后服务与客户维护</h1>
+    <p style="margin:4px 0;opacity:.9">成交不是终点，而是关系的起点</p>
+  </div>
+
+  <h2>💡 售后服务的战略价值</h2>
+  <div class="card">
+    <p>据研究，<strong>开发新客户的成本是维护老客户的5-7倍</strong>。优质的售后服务是提升复购率、获得转介绍的核心手段。</p>
+    <ul>
+      <li>满意的客户平均会向<strong>3-5位</strong>朋友推荐</li>
+      <li>不满意的客户会向<strong>10-20位</strong>朋友抱怨</li>
+      <li>眼镜平均使用<strong>1-2年</strong>就需要更换，售后好=稳定复购</li>
+    </ul>
+  </div>
+
+  <h2>📋 标准售后服务项目</h2>
+  <div class="card">
+    <table class="structure-table">
+      <tr><th>服务项目</th><th>频率/时机</th><th>内容</th></tr>
+      <tr><td>免费清洗</td><td>随时来店</td><td>超声波清洗机清洗，擦干，检查镜片</td></tr>
+      <tr><td>免费整形调整</td><td>随时来店</td><td>调整鼻托、镜腿，恢复正常佩戴角度</td></tr>
+      <tr><td>镜片擦拭指导</td><td>取镜时</td><td>教会客户正确擦镜方法，避免划痕</td></tr>
+      <tr><td>取镜回访</td><td>取镜后3-7天</td><td>电话/微信询问佩戴感受，是否需要调整</td></tr>
+      <tr><td>视力复查提醒</td><td>配镜后3-6个月</td><td>提醒客户回来检查度数是否有变化</td></tr>
+      <tr><td>节日关怀</td><td>重要节假日</td><td>发送节日祝福（需客户授权）</td></tr>
+    </table>
+  </div>
+
+  <h2>📞 取镜后回访话术</h2>
+  <div class="card">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div>
+        <strong>自我介绍</strong><br>
+        "您好，我是XX眼镜店的小李，您上周在我们店配了一副眼镜，请问您现在方便接听吗？"
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div>
+        <strong>询问佩戴感受</strong><br>
+        "戴了几天了，感觉清楚吗？有没有头晕或者不适的感觉？"
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div>
+        <strong>处理问题或强化好感</strong><br>
+        如有问题：邀请来店调整<br>
+        无问题：<em>"太好了！有任何需要都可以来店或者联系我，我们有终身免费清洗服务的。"</em>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div>
+        <strong>转介绍引导</strong><br>
+        "如果您的家人或朋友有配镜需求，欢迎介绍到我们店，我们会给您的朋友一个优惠。"
+      </div>
+    </div>
+  </div>
+
+  <h2>🤝 建立客户档案与关系维护</h2>
+  <div class="card">
+    <h3>客户档案应记录的内容</h3>
+    <ul>
+      <li>基本信息：姓名、电话、年龄</li>
+      <li>配镜记录：日期、处方数据、所选产品及价格</li>
+      <li>偏好记录：品牌偏好、预算区间、特殊需求</li>
+      <li>服务记录：清洗/调整次数，回访情况</li>
+      <li>家庭情况：是否有需要配镜的家庭成员</li>
+    </ul>
+
+    <h3>微信客户运营技巧</h3>
+    <ul>
+      <li>添加客户微信，备注姓名和配镜时间</li>
+      <li>定期在朋友圈发布护眼知识、新品信息（内容有价值，不要纯广告）</li>
+      <li>客户生日/节日发送简短祝福（不要发群发模板，要显得个性化）</li>
+      <li>新品到货时，针对性推送给可能感兴趣的老客户</li>
+    </ul>
+    <div class="tip">💡 一条好的朋友圈 = 上百位客户的再营销，投入产出比极高！</div>
+  </div>
+
+  <h2>⚠️ 眼镜保养知识（告知客户）</h2>
+  <div class="card">
+    <div class="success">
+      ✅ 应用流动水冲洗后，用专用镜布轻擦<br>
+      ✅ 不佩戴时放入镜盒<br>
+      ✅ 双手摘戴眼镜，避免镜框变形<br>
+      ✅ 镜片朝上放置，防止镜片磨损
+    </div>
+    <table class="structure-table">
+      <tr><th>错误行为</th><th>危害</th></tr>
+      <tr><td>用衣角或纸巾擦镜片</td><td>产生细微划痕，影响镜片寿命</td></tr>
+      <tr><td>用热水清洗</td><td>损坏镀膜层</td></tr>
+      <tr><td>单手摘戴</td><td>导致镜框歪斜变形</td></tr>
+      <tr><td>放在阳光下暴晒</td><td>损坏镀膜和镜框材质</td></tr>
+    </table>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#eaf4fc,#d0e8f5);border-radius:10px;padding:18px 22px;margin-top:24px">
+    <strong style="color:#1a5276">🎯 今日目标</strong><br>
+    今天对3位以上已配镜的客户（或模拟练习）进行取镜后回访，并记录每次回访的客户反应。
+  </div>
+
+  
+  <!-- 扩充：售后服务体系 -->
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">📱 客户档案管理系统</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <h3 style="color:#2980b9;font-size:1rem;margin-top:18px">一份好的客户档案应包含</h3>
+    <table class="structure-table" style="width:100%;border-collapse:collapse;margin:14px 0">
+      <tr style="background:#2980b9;color:#fff"><th style="padding:10px 14px;text-align:left">信息类别</th><th style="padding:10px 14px;text-align:left">具体内容</th><th style="padding:10px 14px;text-align:left">用途</th></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">基本信息</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">姓名、联系方式、生日、职业</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">基础联系和生日关怀</td></tr>
+      <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">配镜历史</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">每次的度数、镜片品牌、镜框、价格</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">度数变化追踪、复购参考</td></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">视力状况</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">近视/远视/散光度数，瞳距，特殊需求</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">下次配镜快速参考</td></tr>
+      <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">偏好记录</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">镜框风格（商务/时尚/休闲）、材质偏好</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">个性化推荐依据</td></tr>
+      <tr><td style="padding:10px 14px">回访节点</td><td style="padding:10px 14px">上次配镜日期、下次复查提醒日期</td><td style="padding:10px 14px">主动回访计划</td></tr>
+    </table>
+
+    <div style="background:#d1ecf1;border-left:4px solid #17a2b8;padding:10px 14px;border-radius:0 8px 8px 0;color:#0c5460;margin:10px 0">
+      💡 养成习惯：每接待一位客户，当天就完善档案，趁记忆新鲜。客户离开后补录的信息往往不完整。
+    </div>
+  </div>
+
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">📞 回访话术设计</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <h3 style="color:#2980b9;font-size:1rem;margin-top:18px">取镜后3天回访（适应回访）</h3>
+    <div style="background:#f8f9fa;border-radius:10px;padding:16px 20px;margin:12px 0;border:1px solid #dee2e6">
+      <span style="color:#2980b9;font-weight:600">员工：</span>"您好，王先生，我是XX眼镜店的小李，您上周四取的眼镜，不知道现在戴着感觉怎么样？适应了吗？<br>
+      <em>（等待回应）</em><br>
+      如果有任何不适，比如镜框松了、看某个距离不清楚，随时欢迎来店免费调整。我们希望您戴得舒舒服服的！"
+    </div>
+
+    <h3 style="color:#2980b9;font-size:1rem;margin-top:18px">配镜后6个月复查提醒</h3>
+    <div style="background:#f8f9fa;border-radius:10px;padding:16px 20px;margin:12px 0;border:1px solid #dee2e6">
+      <span style="color:#2980b9;font-weight:600">员工：</span>"您好，李阿姨，我是XX眼镜店小张。您上半年在我们这里配了老花镜，不知道用得顺不顺手？您平时看书看手机清楚吗？<br>
+      半年过去了，老花度数可能略有变化，建议您近期来我们这复查一下视力，顺便帮您的眼镜做个免费清洁保养，这个服务是我们一直提供的！"
+    </div>
+
+    <h3 style="color:#2980b9;font-size:1rem;margin-top:18px">节日关怀回访</h3>
+    <div style="background:#f8f9fa;border-radius:10px;padding:16px 20px;margin:12px 0;border:1px solid #dee2e6">
+      <span style="color:#2980b9;font-weight:600">员工（微信消息）：</span>"[节日] 节快乐！我是XX眼镜店小王，祝您和家人节日愉快、身体健康～ 有需要配镜或保养的，随时来找我，我帮您安排 😊"
+    </div>
+
+    <div style="background:#fff3cd;border-left:4px solid #ffc107;padding:10px 14px;border-radius:0 8px 8px 0;color:#856404;margin:10px 0">
+      ⚠️ 回访注意：时间选择工作日下午2-5点或晚上7-9点；第一句话说明身份；保持简短（1-2分钟）；不要在回访中硬推销产品，主要是关怀。
+    </div>
+  </div>
+
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">🔧 常见售后问题处理</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <table class="structure-table" style="width:100%;border-collapse:collapse;margin:14px 0">
+      <tr style="background:#2980b9;color:#fff"><th style="padding:10px 14px;text-align:left">问题</th><th style="padding:10px 14px;text-align:left">原因分析</th><th style="padding:10px 14px;text-align:left">处理方式</th></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">眼镜松了/夹脸</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">鼻托或镜腿需调整</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">免费上门或到店调整，当场解决</td></tr>
+      <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">镜片有雾/发黄</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">镀膜损伤或老化</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">检查是否在保修期内，说明镀膜维护方法</td></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">戴着头晕</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">度数不准/渐进镜适应期</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">先判断原因，必要时重新验光或调整</td></tr>
+      <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">镜架断裂</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">外力损坏或质量问题</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">区分人为损坏与质量问题，按规定处理</td></tr>
+      <tr><td style="padding:10px 14px">客户不满意要退款</td><td style="padding:10px 14px">多种原因</td><td style="padding:10px 14px">先耐心倾听，按政策处理，必要时升级店长</td></tr>
+    </table>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#eaf4fc,#d0e8f5);border-radius:10px;padding:20px 24px;margin-top:24px">
+    <strong style="color:#1a5276">📝 今日总结</strong>
+    <ul style="margin-top:10px;padding-left:18px;line-height:2">
+      <li>完善的客户档案是长期经营的基础，每次接单就要记录</li>
+      <li>主动回访是建立信任、促进复购的关键动作</li>
+      <li>售后服务的核心是"快速响应+解决问题+留住客户"</li>
+      <li>口碑转介绍往往来自售后体验，不仅仅是产品本身</li>
+    </ul>
+  </div>
+
+  <div class="nav-footer">
+    <a href="Day_40_练习题.html" class="nav-btn outline">← Day 40 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_41_练习题.html" class="nav-btn">Day 41 练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
