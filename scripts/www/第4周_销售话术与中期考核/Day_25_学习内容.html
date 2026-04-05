@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 25 - 促成成交话术</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #5f2c82 0%, #49a09d 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.15); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 15px; }
+  .meta-bar { background: white; padding: 15px 40px; display: flex; gap: 30px; border-bottom: 1px solid #e8ecf0; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+  .meta-item span.dot { width: 8px; height: 8px; border-radius: 50%; background: #5f2c82; display: inline-block; }
+  .container { max-width: 960px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 20px; color: #333; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #5f2c82; display: flex; align-items: center; gap: 10px; }
+  .card h3 { font-size: 16px; color: #444; margin: 18px 0 10px; }
+  .card p { line-height: 1.8; color: #555; margin-bottom: 12px; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { line-height: 1.9; color: #555; margin-bottom: 4px; }
+  .highlight-box { background: #f5f0ff; border-left: 4px solid #5f2c82; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .highlight-box.green { background: #f0fdf4; border-color: #22c55e; }
+  .highlight-box.yellow { background: #fffbf0; border-color: #f59e0b; }
+  .method-card { background: #f5f0ff; border-radius: 10px; padding: 20px; margin: 12px 0; border-left: 4px solid #5f2c82; }
+  .method-card .method-name { font-weight: bold; color: #5f2c82; font-size: 15px; margin-bottom: 10px; }
+  .method-card p { font-size: 14px; color: #555; line-height: 1.8; margin: 0; }
+  .signal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin: 16px 0; }
+  .signal-card { background: #f8f9fc; border-radius: 8px; padding: 14px; border-top: 3px solid #5f2c82; }
+  .signal-card h4 { font-size: 14px; color: #333; margin-bottom: 8px; }
+  .signal-card p { font-size: 13px; color: #666; margin: 0; line-height: 1.5; }
+  .dialogue-box { border: 1px solid #e8ecf0; border-radius: 10px; overflow: hidden; margin: 16px 0; }
+  .dialogue-row { display: flex; }
+  .dialogue-row .role { padding: 12px 16px; min-width: 80px; text-align: center; font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .dialogue-row .role.staff { background: #5f2c82; color: white; }
+  .dialogue-row .role.customer { background: #f5f5f5; color: #666; }
+  .dialogue-row .content { padding: 12px 16px; font-size: 14px; color: #444; line-height: 1.7; flex: 1; border-bottom: 1px solid #f0f0f0; }
+  .dialogue-row:last-child .content { border-bottom: none; }
+  .summary-box { background: linear-gradient(135deg, #5f2c82, #49a09d); color: white; border-radius: 12px; padding: 24px; margin-top: 8px; }
+  .summary-box h3 { font-size: 18px; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 20px; }
+  .summary-box li { line-height: 2; }
+  .footer { text-align: center; padding: 30px; color: #aaa; font-size: 13px; }
+  .nav-footer { display: flex; justify-content: space-between; margin: 20px 0 40px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #fa709a, #fee140); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #fa709a; border: 2px solid #fa709a; }
+  .nav-btn.outline:hover { background: #fff5f8; }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="week-badge">第4周 · 销售话术与中期考核</div>
+  <h1>Day 25 — 促成成交话术</h1>
+  <div class="subtitle">话术模块 · 识别成交信号，掌握临门一脚的技巧，把"想买"变成"我要买"</div>
+</div>
+<div class="meta-bar">
+  <div class="meta-item"><span class="dot"></span>学习时长：约3.5小时</div>
+  <div class="meta-item"><span class="dot"></span>模块：话术（Scripts）</div>
+  <div class="meta-item"><span class="dot"></span>重要性：⭐⭐⭐⭐⭐</div>
+  <div class="meta-item"><span class="dot"></span>核心能力：识别成交信号</div>
+</div>
+<div class="container">
+
+  <div class="card">
+    <h2><span>🎯</span>今日学习目标</h2>
+    <ol>
+      <li>了解成交的心理障碍——为什么顾客"感兴趣但不买"</li>
+      <li>学会识别6种成交信号</li>
+      <li>掌握5种促成成交的话术方法</li>
+      <li>了解成交后的服务延伸话术（提升客单价）</li>
+      <li>能够在角色扮演中自然引导顾客做购买决定</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2><span>🧠</span>一、为什么顾客"看了半天不买"</h2>
+    <p>很多新员工有个困惑：顾客明明很感兴趣，试戴了好几副，聊了很久，最后却说"我回去考虑一下"就走了。</p>
+    <p>原因通常有三个：</p>
+    <ul>
+      <li><strong>①员工没有主动推动：</strong>等顾客自己决定，但顾客在等一个"被允许"做决定的信号</li>
+      <li><strong>②时机没把握好：</strong>顾客已经有了购买欲望，但员工还在继续介绍，反而让顾客犹豫</li>
+      <li><strong>③还有顾虑没消除：</strong>顾客心里还有一个没说出口的担忧</li>
+    </ul>
+    <div class="highlight-box yellow">
+      <strong>关键认知：</strong>促成成交不是"强迫顾客买"，而是<strong>帮助顾客做出他们内心已经想做的决定</strong>。好的成交话术让顾客觉得"这个员工真的帮了我"。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span>📡</span>二、6种成交信号识别</h2>
+    <div class="signal-grid">
+      <div class="signal-card">
+        <h4>🔍 仔细查看细节</h4>
+        <p>顾客开始查看价格标签、材质说明、配件等</p>
+      </div>
+      <div class="signal-card">
+        <h4>🤔 反复试戴同款</h4>
+        <p>同一副镜架试了多次，说明顾客很喜欢</p>
+      </div>
+      <div class="signal-card">
+        <h4>❓ 询问售后问题</h4>
+        <p>"这副保修多久？""坏了怎么修？"（说明已在想买后的事）</p>
+      </div>
+      <div class="signal-card">
+        <h4>💬 询问配送/支付</h4>
+        <p>"可以微信付吗？""今天能取吗？"</p>
+      </div>
+      <div class="signal-card">
+        <h4>👥 询问家人意见</h4>
+        <p>打电话给家人或拍照发给朋友确认</p>
+      </div>
+      <div class="signal-card">
+        <h4>🗣️ 讨论颜色款式</h4>
+        <p>问"有没有黑色的"或"这个颜色好看吗"</p>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <strong>当你观察到这些信号时，立即进入促成话术阶段，不要继续介绍新产品！</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span>🎯</span>三、5种促成成交话术方法</h2>
+
+    <div class="method-card">
+      <div class="method-name">方法1：直接推进法（最自然）</div>
+      <p>观察到顾客有购买意向时，直接提出购买建议。<br>
+      话术："您看这副戴上效果很好，您脸型和这款特别搭。我现在帮您下单加工，您今天下午就可以取，您看可以吗？"</p>
+    </div>
+
+    <div class="method-card">
+      <div class="method-name">方法2：二择一法（给顾客选择感）</div>
+      <p>让顾客在两个你都希望他选的选项中做决定，减少"选还是不选"的纠结。<br>
+      话术："您是选这副黑框，还是这副玳瑁色的？两款都挺适合您的。"</p>
+    </div>
+
+    <div class="method-card">
+      <div class="method-name">方法3：假设成交法（预设顾客已买）</div>
+      <p>把"你要买吗"变成"买了之后怎么做"的对话。<br>
+      话术："好的，我帮您先量一下瞳距，加工的话今天送来，明天下午就可以取了。您方便给我一个联系电话吗？"</p>
+    </div>
+
+    <div class="method-card">
+      <div class="method-name">方法4：最后一个理由法（消除最后顾虑）</div>
+      <p>问顾客还有什么顾虑，一次性消除最后的障碍。<br>
+      话术："您看起来挺喜欢这副的，是还有什么地方让您在考虑呢？我帮您解答一下。"</p>
+    </div>
+
+    <div class="method-card">
+      <div class="method-name">方法5：紧迫感法（适时使用）</div>
+      <p>利用真实的库存稀缺或活动截止制造购买紧迫感。<br>
+      话术："这个款式只剩这一副您这个尺码了，而且本周活动到周日结束，今天定是最合适的。"</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span>💎</span>四、成交后的服务延伸话术（提升客单价）</h2>
+    <p>顾客决定购买后，可以自然地推荐附加产品，提升客单价。<strong>关键是"为顾客着想"而不是"为了多卖"。</strong></p>
+
+    <div class="dialogue-box">
+      <div class="dialogue-row">
+        <div class="role customer">顾客</div>
+        <div class="content">好的，就这副框加那款镜片了，帮我下单。</div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role staff">员工</div>
+        <div class="content">好的，帮您登记信息。对了，您选的是防蓝光镜片，我建议您再配一个专用眼镜盒和镜片清洁布，因为防蓝光膜层比较精细，正确清洁和收纳能让镜片用得更久。我们这边有配套的护理套装，只要68元，您要一起带一个吗？</div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role customer">顾客</div>
+        <div class="content">好吧，那加上吧。</div>
+      </div>
+    </div>
+
+    <div class="highlight-box green">
+      <strong>附加销售的黄金原则：</strong>
+      <ul>
+        <li>只推荐真正对顾客有用的产品</li>
+        <li>推荐语言要以"为您考虑"为出发点，不要让顾客感觉被推销</li>
+        <li>一次推荐1-2件，不要过多，否则顾客会反感</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>📋 今日知识小结</h3>
+    <ul>
+      <li>顾客"看了不买"的三个原因：没推动、时机不对、顾虑没消除</li>
+      <li>6种成交信号：查看细节、反复试戴、问售后、问支付、问家人、讨论颜色</li>
+      <li>5种成交方法：直接推进、二择一、假设成交、消除最后顾虑、紧迫感</li>
+      <li>成交后推荐附加产品要以顾客需求为出发点，不强迫</li>
+    </ul>
+  </div>
+
+  <div class="footer">Day 25 · 眼镜门店新员工8周成才培训计划 · 第4周 销售话术与中期考核</div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_24_练习题.html">← Day 24 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_25_练习题.html">Day 25 练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
