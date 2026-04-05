@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 27 | 投诉处理与危机公关</title>
+<style>
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;margin:0;padding:0}
+  .header{background:linear-gradient(135deg,#ff6b6b,#c0392b);color:#fff;padding:30px 40px;text-align:center}
+  .header h1{margin:0;font-size:28px}
+  .header p{margin:8px 0 0;opacity:.85;font-size:14px}
+  .container{max-width:900px;margin:30px auto;padding:0 20px 40px}
+  .card{background:#fff;border-radius:12px;padding:28px 32px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+  .card h2{color:#c0392b;font-size:20px;border-left:4px solid #c0392b;padding-left:12px;margin-top:0}
+  .card h3{color:#444;font-size:16px;margin:20px 0 8px}
+  .tip{background:#fff3cd;border-left:4px solid #ffc107;border-radius:6px;padding:12px 16px;margin:12px 0;font-size:14px;line-height:1.8}
+  .warn{background:#fde8e8;border-left:4px solid #c0392b;border-radius:6px;padding:12px 16px;margin:12px 0;font-size:14px;line-height:1.8}
+  .success{background:#f6ffed;border-left:4px solid #52c41a;border-radius:6px;padding:12px 16px;margin:12px 0;font-size:14px;line-height:1.8}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+  th{background:#c0392b;color:#fff;padding:10px 14px;text-align:left}
+  td{padding:9px 14px;border-bottom:1px solid #eee}
+  tr:hover td{background:#fff8f8}
+  .step{display:flex;align-items:flex-start;margin:12px 0;padding:14px 16px;background:#fafafa;border-radius:8px;border:1px solid #eee}
+  .step-num{background:#c0392b;color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;margin-right:14px;margin-top:2px}
+  .step-content{flex:1;font-size:14px;line-height:1.8}
+  ul{padding-left:20px;line-height:1.9;font-size:14px}
+  li{margin-bottom:4px}
+  .dialog{background:#e8f4fd;border:1px solid #91d5ff;border-radius:8px;padding:12px 16px;margin:8px 0;font-size:14px;line-height:1.8;font-style:italic}
+  .dialog strong{color:#1890ff;font-style:normal}
+  .wrong-dialog{background:#fde8e8;border:1px solid #ffb3b3;border-radius:8px;padding:12px 16px;margin:8px 0;font-size:14px;line-height:1.8}
+  .wrong-dialog strong{color:#c0392b}
+  .summary-box{background:linear-gradient(135deg,#ff6b6b,#c0392b);color:#fff;border-radius:10px;padding:20px 24px;margin-top:8px}
+  .summary-box h3{margin:0 0 12px;font-size:17px}
+  .summary-box ul{margin:0;padding-left:20px}
+  .summary-box li{margin-bottom:6px;font-size:14px}
+  .nav-footer { display: flex; justify-content: space-between; margin: 20px 0 40px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #fa709a, #fee140); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #fa709a; border: 2px solid #fa709a; }
+  .nav-btn.outline:hover { background: #fff5f8; }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Day 27 · 投诉处理与危机公关</h1>
+  <p>第4周 · 销售话术与中期考核 | 把投诉变成忠诚 · 专业应对负面情绪</p>
+</div>
+<div class="container">
+
+  <div class="card">
+    <h2>🎯 今日学习目标</h2>
+    <ul>
+      <li>了解顾客投诉的心理根源和常见类型</li>
+      <li>掌握"HEARD模型"处理投诉的五步流程</li>
+      <li>学会应对眼镜门店最常见的4类投诉场景</li>
+      <li>了解升级投诉和网络差评的应对原则</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>🧠 一、理解顾客投诉的本质</h2>
+    <h3>1. 投诉是什么？</h3>
+    <div class="tip">💡 <strong>核心认知：</strong>投诉的顾客是还愿意给你机会的顾客。研究表明，投诉被妥善解决后，顾客的忠诚度往往高于从未投诉的顾客。只有4%的不满顾客会说出来，96%的人直接离开不再回来。</div>
+
+    <h3>2. 顾客投诉的三大根本原因</h3>
+    <table class="structure-table">
+      <tr><th>原因</th><th>心理诉求</th><th>应对核心</th></tr>
+      <tr><td>期望落差（产品/服务不符合承诺）</td><td>我要得到我付钱买到的东西</td><td>承认问题，提供解决方案</td></tr>
+      <tr><td>被忽视感（等待太久、无人关注）</td><td>我需要被重视和尊重</td><td>立即关注，表示歉意</td></tr>
+      <tr><td>沟通误解（信息不对称）</td><td>我需要被理解，不被当傻瓜</td><td>耐心倾听，清晰解释</td></tr>
+    </table>
+
+    <h3>3. 绝对不能做的事</h3>
+    <div class="warn">
+      🚫 <strong>禁止行为：</strong><br>
+      • 与顾客争辩是非对错（就算你是对的，赢了道理、输了顾客）<br>
+      • 推卸责任到"这是上级决定"、"这是规定"<br>
+      • 对顾客情绪视而不见，只讲道理<br>
+      • 在公共区域大声讨论（其他顾客会围观）<br>
+      • 让顾客等待时间过长却没有任何跟进
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🔧 二、HEARD模型 —— 投诉处理五步法</h2>
+
+    <div class="step">
+      <div class="step-num">H</div>
+      <div class="step-content"><strong>Hear（倾听）</strong>——让顾客说完，不打断，保持目光接触<br>话术："您说，我在认真听，您慢慢说。"</div>
+    </div>
+    <div class="step">
+      <div class="step-num">E</div>
+      <div class="step-content"><strong>Empathize（共情）</strong>——认同情绪，不评价对错<br>话术："我非常理解您的感受，换作是我也会着急的。"</div>
+    </div>
+    <div class="step">
+      <div class="step-num">A</div>
+      <div class="step-content"><strong>Apologize（道歉）</strong>——为体验道歉（不一定代表承认过失）<br>话术："非常抱歉让您有这样的体验，这让我们很遗憾。"</div>
+    </div>
+    <div class="step">
+      <div class="step-num">R</div>
+      <div class="step-content"><strong>Resolve（解决）</strong>——给出具体解决方案，让顾客选择<br>话术："我为您提供两个方案：①……②……您看哪个方案更适合您？"</div>
+    </div>
+    <div class="step">
+      <div class="step-num">D</div>
+      <div class="step-content"><strong>Diagnose（复盘）</strong>——事后分析原因，防止下次重犯<br>内部动作：记录投诉内容，向店长汇报，优化流程。</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📋 三、眼镜门店常见4类投诉场景</h2>
+
+    <h3>场景1：镜片度数不准，佩戴不舒服</h3>
+    <div class="dialog">
+      <strong>顾客：</strong>"我配的眼镜戴了三天，头晕、眼睛酸，你们是不是做错了？！"<br>
+      <strong>正确应对：</strong>"您先别着急，我非常理解这很不舒服。您先坐下，我现在就帮您重新验光，看是适应期正常反应还是确实有误差。如果是我们的问题，我们一定负责到底，免费重新制作。"
+    </div>
+    <div class="wrong-dialog">
+      <strong>❌ 错误应对：</strong>"新镜片都有适应期的，正常的，你再戴几天看看。"（推托，顾客会觉得被敷衍）
+    </div>
+
+    <h3>场景2：镜框损坏，顾客认为是质量问题</h3>
+    <div class="dialog">
+      <strong>顾客：</strong>"我才买一个月，镜腿就断了，你们卖的是什么烂货！"<br>
+      <strong>正确应对：</strong>"真的很抱歉您遇到了这个情况。我先帮您检查一下断裂的位置，判断是材质问题还是外力造成的——如果是质量问题，我们会免费更换；如果是意外损坏，我们也提供很优惠的维修价格，好吗？"
+    </div>
+
+    <h3>场景3：等待取镜时间过长</h3>
+    <div class="dialog">
+      <strong>顾客：</strong>"你们说好的三天，都第五天了，眼镜在哪里？！"<br>
+      <strong>正确应对：</strong>"非常抱歉！我立刻帮您查询订单进度。（查询后）是加工厂因特殊情况延误了，这是我们的失误，我为您深感抱歉。我现在给您两个选择：①优先安排今天完成，明天上午保证取镜；②如果您急需，我帮您从备货中先找一副相近的临时使用。同时我们会赠送您一套清洁礼品，感谢您的等待。"
+    </div>
+
+    <h3>场景4：价格争议（成交后觉得贵）</h3>
+    <div class="dialog">
+      <strong>顾客：</strong>"我在隔壁店看了，同款镜片比你们便宜100块，你们是不是坑我？"<br>
+      <strong>正确应对：</strong>"我理解您的感受，市场上确实有价格差异。不过您今天购买的是×× 品牌正品，我们有品牌授权证书，镜片享受两年质保，还有我们门店的终身免费调整服务……价格背后代表的是保障。当然，如果您仍有顾虑，我可以请我们店长进一步跟您沟通。"
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🌐 四、网络差评的处理原则</h2>
+    <ul>
+      <li>✅ <strong>24小时内回复</strong>——快速响应表明门店重视顾客反馈</li>
+      <li>✅ <strong>公开回复态度诚恳</strong>——其他潜在顾客都会看到，要展示专业态度</li>
+      <li>✅ <strong>不解释，不辩解</strong>——先致歉、邀请私信联系解决</li>
+      <li>✅ <strong>引导转私信处理</strong>——公开场合解决细节会扩大负面效应</li>
+    </ul>
+    <div class="success">
+      <strong>✅ 差评回复模板：</strong><br>
+      "您好！非常感谢您的反馈，我们对您的体验深感遗憾。您的问题我们非常重视，诚邀您通过私信或致电 [电话] 联系我们，我们会第一时间为您妥善解决。期待能获得再次为您服务的机会。"
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="summary-box">
+      <h3>📋 今日核心要点回顾</h3>
+      <ul>
+        <li>投诉是机会：处理好的投诉顾客忠诚度高于从未投诉的顾客</li>
+        <li>HEARD五步法：倾听→共情→道歉→解决→复盘</li>
+        <li>四大禁忌：争辩、推责、忽视情绪、公开讨论</li>
+        <li>度数不适→立即重验；镜框损坏→先检查判断；延误→道歉+给方案</li>
+        <li>差评：24小时回复，引导私信，态度诚恳</li>
+      </ul>
+    </div>
+  </div>
+
+    <div class="section">
+    <h2>💼 投诉预防：从根源减少投诉</h2>
+    <p>最好的投诉处理，是让投诉不发生。以下环节是投诉高发区：</p>
+    <table class="structure-table" style="width:100%;border-collapse:collapse;margin:14px 0">
+      <thead><tr style="background:#4CAF50;color:#fff"><th style="padding:10px 14px;text-align:left">易出问题环节</th><th style="padding:10px 14px;text-align:left">常见投诉</th><th style="padding:10px 14px;text-align:left">预防措施</th></tr></thead>
+      <tbody>
+        <tr><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">验光</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">度数不准，戴了头晕</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">充分主觉验光，试戴确认，详细记录</td></tr>
+        <tr style="background:#f0fff0"><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">加工</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">参数错误，瞳距偏差</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">工单填写仔细，加工前核对</td></tr>
+        <tr><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">取镜</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">未当场确认，问题发现晚</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">取镜时必须当面试戴确认</td></tr>
+        <tr style="background:#f0fff0"><td style="padding:10px 14px">承诺不兑现</td><td style="padding:10px 14px">说好的服务没做到</td><td style="padding:10px 14px">谨慎承诺，做到才说，超预期兑现</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+    <div class="section">
+    <h2>📝 今日总结</h2>
+    <ul>
+      <li>✅ 投诉是礼物——能收到投诉，说明客户还愿意与你沟通</li>
+      <li>✅ 处理投诉的第一步：控制情绪，不要让自己也变得激动</li>
+      <li>✅ 解决方案要具体、可执行，不能含糊承诺</li>
+      <li>✅ 投诉处理好后，主动跟进客户，确认满意度</li>
+    </ul>
+    <p style="margin-top:12px;color:#4CAF50;font-weight:600">今日任务：与师傅模拟一次投诉场景，练习完整的处理流程。</p>
+  </div>
+
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_26_练习题.html">← Day 26 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_27_练习题.html">Day 27 练习题 →</a>
+  </div>
+
+</div>
+</body>
+</html>
