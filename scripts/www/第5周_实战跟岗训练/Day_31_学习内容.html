@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 31 - 产品讲解实战：FAB法则演练</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 15px; }
+  .meta-bar { background: white; padding: 15px 40px; display: flex; gap: 30px; border-bottom: 1px solid #e8ecf0; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+  .meta-item span.dot { width: 8px; height: 8px; border-radius: 50%; background: #11998e; display: inline-block; }
+  .container { max-width: 960px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 20px; color: #333; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #11998e; }
+  .card h3 { font-size: 16px; color: #444; margin: 18px 0 10px; }
+  .card p { line-height: 1.8; color: #555; margin-bottom: 12px; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { line-height: 1.9; color: #555; margin-bottom: 6px; }
+  .highlight-box { background: #f0fdf9; border-left: 4px solid #11998e; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .highlight-box.yellow { background: #fffbf0; border-color: #f59e0b; }
+  .highlight-box.blue { background: #f0f4ff; border-color: #667eea; }
+  .fab-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 0; }
+  .fab-card { border-radius: 12px; padding: 20px; text-align: center; }
+  .fab-card.f { background: linear-gradient(135deg, #dbeafe, #eff6ff); border: 2px solid #93c5fd; }
+  .fab-card.a { background: linear-gradient(135deg, #dcfce7, #f0fdf4); border: 2px solid #86efac; }
+  .fab-card.b { background: linear-gradient(135deg, #fef9c3, #fffbeb); border: 2px solid #fde047; }
+  .fab-card .letter { font-size: 36px; font-weight: bold; margin-bottom: 8px; }
+  .fab-card.f .letter { color: #1d4ed8; }
+  .fab-card.a .letter { color: #15803d; }
+  .fab-card.b .letter { color: #a16207; }
+  .fab-card .word { font-size: 16px; font-weight: bold; margin-bottom: 8px; }
+  .fab-card .desc { font-size: 13px; color: #666; line-height: 1.6; }
+  .product-example { background: white; border: 1px solid #e8ecf0; border-radius: 10px; padding: 20px; margin: 16px 0; }
+  .product-example .product-name { font-size: 15px; font-weight: bold; color: #333; padding: 10px 16px; border-radius: 8px; margin-bottom: 16px; background: #f5f7fa; }
+  .fab-row { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
+  .fab-tag { min-width: 60px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; text-align: center; flex-shrink: 0; margin-top: 2px; }
+  .fab-tag.f { background: #dbeafe; color: #1d4ed8; }
+  .fab-tag.a { background: #dcfce7; color: #15803d; }
+  .fab-tag.b { background: #fef9c3; color: #a16207; }
+  .fab-row p { font-size: 14px; color: #555; line-height: 1.7; margin: 0; }
+  .summary-box { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border-radius: 12px; padding: 24px; margin-top: 8px; }
+  .summary-box h3 { font-size: 18px; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 20px; }
+  .summary-box li { line-height: 2; opacity: 0.95; }
+  .nav-bar { background: white; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e8ecf0; margin-top: 30px; }
+  .nav-btn { display: inline-block; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; }
+  .nav-btn.prev { background: #f0fdf9; color: #11998e; border: 1px solid #a7f3d0; }
+  .nav-btn.next { background: #11998e; color: white; }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="week-badge">📍 第5周 · 实战跟岗训练</div>
+  <h1>Day 31 · 产品讲解实战：FAB法则演练</h1>
+  <div class="subtitle">让产品介绍有逻辑、有温度、有说服力</div>
+</div>
+<div class="meta-bar">
+  <div class="meta-item"><span class="dot"></span>学习时长：3-4小时</div>
+  <div class="meta-item"><span class="dot"></span>重点能力：产品讲解 · FAB技巧</div>
+</div>
+<div class="container">
+
+  <div class="card">
+    <h2>🎯 今日目标</h2>
+    <p>昨天你学会了"问什么"，今天学"说什么"。产品讲解是销售中最关键的环节之一，说得没有逻辑，顾客听不进去；说得没有针对性，顾客觉得跟自己没关系。今天我们学习<strong>FAB法则</strong>，让每一次产品介绍都有说服力。</p>
+  </div>
+
+  <div class="card">
+    <h2>🔑 FAB法则详解</h2>
+    <div class="fab-grid">
+      <div class="fab-card f">
+        <div class="letter">F</div>
+        <div class="word">Feature（特征）</div>
+        <div class="desc">产品本身的<strong>属性/规格</strong><br>这是什么？有什么参数？<br><em>例：这款镜片采用1.67折射率</em></div>
+      </div>
+      <div class="fab-card a">
+        <div class="letter">A</div>
+        <div class="word">Advantage（优势）</div>
+        <div class="desc">该特征带来的<strong>功能优势</strong><br>比别的好在哪里？<br><em>例：镜片更薄，比1.60薄30%</em></div>
+      </div>
+      <div class="fab-card b">
+        <div class="letter">B</div>
+        <div class="word">Benefit（利益）</div>
+        <div class="desc">顾客<strong>获得的实际好处</strong><br>对我有什么用？<br><em>例：戴起来更轻，整天不会累</em></div>
+      </div>
+    </div>
+    <div class="highlight-box yellow">
+      <strong>⚡ 关键：</strong>大多数初学者只会说F（特征），少数会说到A（优势），只有高手才会把B（利益）说透彻。顾客最关心的永远是B——"这对我有什么用？"
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📦 FAB实战示例</h2>
+
+    <div class="product-example">
+      <div class="product-name">📦 产品一：1.67超薄非球面镜片（适合高度近视顾客）</div>
+      <div class="fab-row">
+        <span class="fab-tag f">F特征</span>
+        <p>1.67高折射率，超薄非球面设计，双面镀增透膜。</p>
+      </div>
+      <div class="fab-row">
+        <span class="fab-tag a">A优势</span>
+        <p>比1.60折射率镜片薄约20-30%，非球面设计消除边缘像差，镀膜提升透光率至99%。</p>
+      </div>
+      <div class="fab-row">
+        <span class="fab-tag b">B利益</span>
+        <p>您的度数比较高，用这款镜片配出来的眼镜，镜片边缘不会显得太厚，外观更好看；重量更轻，长时间佩戴鼻梁不容易酸；视野更清晰，边缘不会有扭曲感。</p>
+      </div>
+    </div>
+
+    <div class="product-example">
+      <div class="product-name">📦 产品二：防蓝光镜片（适合长时间用电脑的顾客）</div>
+      <div class="fab-row">
+        <span class="fab-tag f">F特征</span>
+        <p>镜片镀有专业防蓝光膜层，过滤380-450nm蓝紫光，透光率≥92%。</p>
+      </div>
+      <div class="fab-row">
+        <span class="fab-tag a">A优势</span>
+        <p>有效阻隔屏幕发出的高能短波蓝光，同时保证日常可见光正常通过。</p>
+      </div>
+      <div class="fab-row">
+        <span class="fab-tag b">B利益</span>
+        <p>您每天要用电脑6-8小时，这款镜片能显著减少眼睛的疲劳感，下班后眼睛酸涩、干燥的情况会明显改善。晚上看手机时也更舒适，睡眠质量也会好一些。</p>
+      </div>
+    </div>
+
+    <div class="product-example">
+      <div class="product-name">📦 产品三：钛合金镜架（适合注重轻便、运动的顾客）</div>
+      <div class="fab-row">
+        <span class="fab-tag f">F特征</span>
+        <p>纯钛材质，重量仅6-8克，配合硅胶鼻托和防滑镜腿设计。</p>
+      </div>
+      <div class="fab-row">
+        <span class="fab-tag a">A优势</span>
+        <p>比普通金属框轻60%，钛金属抗腐蚀、抗形变，鼻托和镜腿防滑设计增加佩戴稳定性。</p>
+      </div>
+      <div class="fab-row">
+        <span class="fab-tag b">B利益</span>
+        <p>您平时运动较多，这款几乎感觉不到重量，运动时也不会轻易滑落。而且钛架不容易生锈变形，用几年都跟新的一样，性价比很高。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎭 今日实战任务</h2>
+    <p>选择门店中你熟悉的 <strong>2-3 款产品</strong>，按FAB格式准备好讲解内容，并在今天的跟岗中，在带教老师的陪同下，尝试向至少 1 位顾客进行产品讲解。</p>
+
+    <div class="highlight-box blue">
+      <strong>讲解技巧提示：</strong>
+      <ul style="margin-top:8px;">
+        <li>先说F特征（让顾客明白你在说什么）</li>
+        <li>再说A优势（让顾客知道产品的技术价值）</li>
+        <li>最后说B利益（联系顾客的具体情况说"对您的好处"）</li>
+        <li>B要与之前问询到的需求<strong>精准对接</strong>，不要泛泛而谈</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="summary-box">
+      <h3>📌 今日核心要点</h3>
+      <ul>
+        <li>FAB法则：特征→优势→利益，顾客最关心的是B（利益）</li>
+        <li>B（利益）要与顾客具体需求对接，而不是背诵通用话术</li>
+        <li>讲解时语速适中，说完一个FAB后停顿，观察顾客反应</li>
+        <li>今日任务：准备2-3款产品的FAB，完成至少1次实战讲解</li>
+      </ul>
+    </div>
+  </div>
+
+    <!-- 补充 -->
+  <div class="card" style="background:white;border-radius:12px;padding:24px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)">
+    <h2 style="font-size:18px;color:#333;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #11998e">📝 今日总结</h2>
+    <ul style="padding-left:20px;line-height:1.8">
+      <li>FAB法则是产品介绍的骨架，情感化表达是灵魂</li>
+      <li>每个产品推介前，先想：客户最在乎什么？</li>
+      <li>练习是关键，今天就找机会向一位客户完整演练一遍</li>
+    </ul>
+  </div>
+
+  <div class="card" style="background:white;border-radius:12px;padding:30px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)">
+    <h2 style="font-size:20px;color:#333;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid #11998e">🎭 FAB实战升级：情感化表达</h2>
+    <p>技术FAB只说产品，情感FAB连接客户内心。对比：</p>
+    <table class="structure-table" style="width:100%;border-collapse:collapse;margin:14px 0">
+      <tr style="background:#11998e;color:#fff"><th style="padding:10px 14px;text-align:left">层次</th><th style="padding:10px 14px;text-align:left">示例</th></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">技术FAB</td><td style="padding:10px 14px;border-bottom:1px solid #e0f0e0">"这款镜片折射率1.67，比普通镜片薄40%"</td></tr>
+      <tr style="background:#f0fff8"><td style="padding:10px 14px">情感FAB</td><td style="padding:10px 14px">"这款镜片和您现在的相比，薄了将近一半。想象一下，朋友同事看到您的眼镜，根本猜不到您是高度近视——这种自信，是普通镜片给不了的。"</td></tr>
+    </table>
+    <div style="background:#e8f5f0;border-left:4px solid #11998e;padding:12px 16px;border-radius:0 8px 8px 0;margin-top:14px">
+      💡 情感FAB的关键：用客户能感受到的具体场景替代抽象参数，让他们自己想象拥有产品后的美好状态。
+    </div>
+  </div>
+
+<div class="nav-bar">
+  <a href="Day_30_练习题.html" class="nav-btn prev">← Day 30 练习题</a>
+    <a href="../index.html" class="nav-btn" style="background:#f0fdf9;color:#11998e;border:1px solid #a7f3d0;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:14px;">🏠 首页</a>
+  <span style="color:#999;font-size:13px;">第5周 Day 31 / 35</span>
+  <a href="Day_31_练习题.html" class="nav-btn next">去做练习题 →</a>
+</div>
+</div>
+</body>
+</html>
