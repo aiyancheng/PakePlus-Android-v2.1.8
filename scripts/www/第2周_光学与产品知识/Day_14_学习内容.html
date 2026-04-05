@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 14 | 第2周周测 — 光学与产品知识综合</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}
+  .header{background:linear-gradient(135deg,#1565c0,#0d47a1);padding:40px 30px;color:white;}
+  .day-tag{background:rgba(255,255,255,0.2);color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}
+  .header h1{font-size:2em;margin-bottom:8px;}
+  .header .subtitle{opacity:0.9;}
+  .container{max-width:900px;margin:30px auto;padding:0 20px;}
+  .review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0;}
+  .review-card{background:white;border-radius:10px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.07);border-top:3px solid #2196F3;}
+  .review-card h4{color:#1565c0;margin-bottom:8px;font-size:0.92em;}
+  .review-card ul{padding-left:16px;}
+  .review-card li{font-size:0.8em;line-height:1.7;color:#555;}
+  .section-title{font-size:1.2em;color:#1565c0;font-weight:700;margin:32px 0 14px;padding-left:12px;border-left:4px solid #2196F3;}
+  .question-card{background:white;border-radius:12px;padding:26px;margin-bottom:22px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+  .q-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .q-num{background:#2196F3;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9em;flex-shrink:0;}
+  .q-type{background:#e3f2fd;color:#1565c0;padding:3px 12px;border-radius:12px;font-size:0.8em;font-weight:600;}
+  .q-score{color:#999;font-size:0.82em;}
+  .question-text{font-size:1em;color:#333;font-weight:600;line-height:1.6;margin-bottom:16px;}
+  .options li{padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;margin-bottom:8px;font-size:0.93em;list-style:none;}
+  .answer-area{width:100%;min-height:90px;border:2px solid #e0e0e0;border-radius:8px;padding:12px;font-family:inherit;font-size:0.93em;resize:vertical;}
+  .answer-hint{background:#f9f9f9;border-left:3px solid #9E9E9E;padding:10px 14px;margin-top:12px;font-size:0.85em;color:#666;display:none;}
+  .show-answer-btn{background:none;border:1px solid #9E9E9E;color:#666;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.82em;margin-top:10px;}
+  .rx-box{background:#f5f5f5;border-radius:8px;padding:16px;margin:12px 0;font-size:0.9em;}
+  .score-box{background:linear-gradient(135deg,#e3f2fd,#e8f5ff);border-radius:12px;padding:20px;margin:24px 0;}
+  .score-box h3{color:#1565c0;margin-bottom:12px;}
+  .score-table{width:100%;border-collapse:collapse;}
+  .score-table th{background:#2196F3;color:white;padding:8px 12px;text-align:left;font-size:0.88em;}
+  .score-table td{padding:8px 12px;border-bottom:1px solid #e0e0e0;font-size:0.86em;}
+  .nav-footer{display:flex;justify-content:space-between;margin:30px 0 50px;}
+  .nav-btn{background:#2196F3;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}
+  .nav-btn.outline{background:white;color:#2196F3;border:2px solid #2196F3;}
+  @media(max-width:600px){.review-grid{grid-template-columns:1fr;}}
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="day-tag">📅 第2周 · Day 14 — 周测日</span>
+  <h1>🏆 第2周周测：光学与产品知识综合</h1>
+  <div class="subtitle">内容覆盖：Day 08–13 全部学习内容 | 总分：100分 | 及格：70分</div>
+</div>
+<div class="container">
+
+  <h2 style="font-size:1.2em;color:#333;margin:24px 0 14px;">📚 本周学习内容速览</h2>
+  <div class="review-grid">
+    <div class="review-card"><h4>Day 08 眼睛结构</h4><ul><li>角膜、晶状体、视网膜</li><li>近视/远视/散光原理</li><li>老花眼与调节力</li></ul></div>
+    <div class="review-card"><h4>Day 09 镜架知识</h4><ul><li>6种主要材质</li><li>镜架6大部件</li><li>脸型与镜架搭配</li></ul></div>
+    <div class="review-card"><h4>Day 10 镜片材质</h4><ul><li>折射率1.50~1.74</li><li>树脂vs玻璃片</li><li>四种镀膜功能</li></ul></div>
+    <div class="review-card"><h4>Day 11 功能镜片</h4><ul><li>变色片/渐进片</li><li>太阳镜/偏光片</li><li>近视防控镜片</li></ul></div>
+    <div class="review-card"><h4>Day 12 处方解读</h4><ul><li>S/C/A/ADD/PD含义</li><li>处方→折射率推荐</li><li>镜框选择禁区</li></ul></div>
+    <div class="review-card"><h4>Day 13 品牌陈列</h4><ul><li>高/中高/中端品牌定位</li><li>陈列4大原则</li><li>以需求为中心推荐</li></ul></div>
+  </div>
+
+  <div class="section-title">第一部分：综合选择题（每题8分，共40分）</div>
+
+  <div class="question-card"><div class="q-header"><div class="q-num">1</div><span class="q-type">综合题</span><span class="q-score">8分</span></div>
+  <div class="question-text">一位顾客说"我看远清楚，看近越来越模糊"，且他今年48岁，最可能是什么情况？</div>
+  <ul class="options"><li>A. 近视加深</li><li>B. 散光恶化</li><li>C. 老花眼，晶状体弹性减退</li><li>D. 角膜病变</li></ul>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 正确答案：C。48岁出现看近模糊是典型老花症状，晶状体老化调节力下降。</div></div>
+
+  <div class="question-card"><div class="q-header"><div class="q-num">2</div><span class="q-type">综合题</span><span class="q-score">8分</span></div>
+  <div class="question-text">顾客近视800度，最适合推荐哪种镜框+镜片搭配？</div>
+  <ul class="options">
+    <li>A. 无框 + 1.56折射率</li>
+    <li>B. 全框 + 1.74折射率</li>
+    <li>C. 半框 + 1.60折射率</li>
+    <li>D. 任意镜框均可，折射率无所谓</li>
+  </ul>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 正确答案：B。800度高度近视选1.74折射率最薄，全框镜架对高度数镜片承重和保护最好。</div></div>
+
+  <div class="question-card"><div class="q-header"><div class="q-num">3</div><span class="q-type">综合题</span><span class="q-score">8分</span></div>
+  <div class="question-text">顾客是一名司机，希望配一副太阳镜，最适合推荐？</div>
+  <ul class="options"><li>A. 变色镜片</li><li>B. 偏光太阳镜</li><li>C. 普通深色固定色太阳镜</li><li>D. 防蓝光镜片</li></ul>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 正确答案：B。偏光镜片消除路面反射眩光，驾驶安全性最好；变色片车内效果差。</div></div>
+
+  <div class="question-card"><div class="q-header"><div class="q-num">4</div><span class="q-type">综合题</span><span class="q-score">8分</span></div>
+  <div class="question-text">镜架材质中，弹性最好、抗摔、适合运动的是？</div>
+  <ul class="options"><li>A. 纯钛</li><li>B. 板材</li><li>C. TR-90（记忆板材）</li><li>D. 不锈钢</li></ul>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 正确答案：C。TR-90弹性极好、抗摔耐用，是运动场景首选材质。</div></div>
+
+  <div class="question-card"><div class="q-header"><div class="q-num">5</div><span class="q-type">综合题</span><span class="q-score">8分</span></div>
+  <div class="question-text">处方单上显示"C: -1.50 A: 90"，表示？</div>
+  <ul class="options"><li>A. 近视150度，轴向90</li><li>B. 散光150度，轴向90度方向</li><li>C. 远视150度</li><li>D. 老花附加150度</li></ul>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 正确答案：B。C=柱镜（散光），A=轴向，表示150度散光，轴向在90度方向。</div></div>
+
+  <div class="section-title">第二部分：处方综合解读（30分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">6</div><span class="q-type">综合解读</span><span class="q-score">30分</span></div>
+  <div class="rx-box"><strong>顾客处方：</strong><br>R: S -2.50 | C -0.75 | A 180°<br>L: S -3.00 | C -1.00 | A 175°<br>PD: 62mm | ADD: +1.50<br>顾客年龄：46岁，职业：会计，每天对着电脑8小时</div>
+  <div class="question-text">请为这位顾客提供完整的配镜建议（包括：镜片类型、折射率、镀膜选择、镜架注意事项）</div>
+  <textarea class="answer-area" style="min-height:120px;" placeholder="请写出完整配镜建议……"></textarea>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 参考：①镜片类型：渐进多焦点镜片（有ADD，46岁老花，需兼顾远近）②折射率：建议1.60（近视300度，渐进片需1.60以上，厚薄适中）③镀膜：防蓝光（每天对电脑8小时）+减反膜（基础清晰度）④镜架：全框，高度≥28mm（渐进片要求），适合专业职场风格⑤说明适应期（1~2周）</div></div>
+
+  <div class="section-title">第三部分：实操评估（30分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">7</div><span class="q-type">实操评估</span><span class="q-score">30分</span></div>
+  <div class="question-text">带教师傅现场考核（口头）：<br>① 说出近视、远视、散光各自的光学成因（10分）<br>② 在陈列区指出3种不同材质的镜架（10分）<br>③ 向师傅推荐一套镜框+镜片方案（给定条件：近视450度，上班族，预算中等）（10分）</div>
+
+  <div class="score-box">
+    <h3>📊 第2周周测评分记录</h3>
+    <table class="score-table">
+      <thead><tr><th>部分</th><th>满分</th><th>得分</th><th>备注</th></tr></thead>
+      <tbody>
+        <tr><td>第一部分：综合选择题</td><td>40分</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分</td><td></td></tr>
+        <tr><td>第二部分：处方综合解读</td><td>30分</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分</td><td></td></tr>
+        <tr><td>第三部分：实操评估</td><td>30分</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分</td><td></td></tr>
+        <tr style="background:#e3f2fd;"><td><strong>合计</strong></td><td><strong>100分</strong></td><td><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分</strong></td><td>及格线70分</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="color:#666;font-size:0.88em;margin-top:8px;">📝 带教师傅签字确认：___________________&nbsp;&nbsp; 日期：___________</p></div>
+
+    <div class="section">
+    <h2>🚀 进入第3周：专业技能训练预览</h2>
+        <p>第2周，你建立了眼镜行业的光学知识体系。第3周将进入真正的技能实操训练：</p>
+    <table class="rule-table">
+      <thead><tr><th>第3周主题</th><th>学习目标</th></tr></thead>
+      <tbody>
+        <tr><td>验光仪器操作</td><td>能独立操作电脑验光仪，记录数据</td></tr>
+        <tr><td>综合验光仪使用</td><td>了解综合验光仪的各个旋钮功能</td></tr>
+        <tr><td>镜框调整技术</td><td>能对常见镜框进行基础调整</td></tr>
+        <tr><td>接待话术实践</td><td>能完整走完接待流程，不卡顿</td></tr>
+        <tr><td>处方单解读</td><td>快速准确读懂常见处方格式</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box"><div class="label">💡 第3周心理准备</div><p>第3周会有很多动手操作，可能会犯错，这是正常的。记住：在真实接待中犯错的代价，远大于在练习中犯错的代价。所以要大胆练习，遇到问题立即向师傅请教。</p></div>
+
+  </div>
+
+
+    <!-- 第2周完成标记 -->
+  <p style="text-align:center;color:#2196F3;font-weight:600;margin:16px 0">恭喜完成第2周学习！下周将进入实操技能训练阶段。</p>
+  <p style="text-align:center;color:#aaa;font-size:.85rem;margin-bottom:16px">— 第2周 · 光学与产品知识 · 全部完成 —</p>
+
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_13_学习内容.html">← Day 13</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="../第3周_专业技能训练/Day_15_学习内容.html">进入第3周 →</a>
+  </div>
+</div>
+
+<style id="interactive-options-style">
+.options li{cursor:pointer;transition:background 0.2s,border-color 0.2s;}
+.options li:hover{background:#f0f7ff;border-color:#90caf9;}
+.options li.correct{background:#e8f5e9!important;border-color:#4caf50!important;color:#2e7d32;font-weight:600;}
+.options li.wrong{background:#ffebee!important;border-color:#ef9a9a!important;color:#b71c1c;}
+.options li.highlight{background:#fff9c4!important;border-color:#f9a825!important;}
+.options li.done{cursor:default;}
+.show-answer-btn{display:none!important;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+<script id="interactive-options-type-a-js">
+(function(){
+  document.querySelectorAll('.question-card').forEach(function(card){
+    var opts=card.querySelectorAll('.options li');
+    if(!opts.length) return;
+    var hint=card.querySelector('.answer-hint');
+    var answered=false;
+    function getCorrect(){
+      if(!hint) return null;
+      var t=hint.innerHTML||hint.textContent;
+      var m=t.match(/正确答案[:：][\s]*(?:<strong>)?([A-Da-d])/i);
+      return m?m[1].toUpperCase():null;
+    }
+    opts.forEach(function(li,idx){
+      li.addEventListener('click',function(){
+        if(answered)return;
+        answered=true;
+        var letters=['A','B','C','D','E'];
+        var chosen=letters[idx];
+        var correct=getCorrect();
+        opts.forEach(function(o){o.classList.add('done');});
+        if(correct&&chosen===correct){
+          li.classList.add('correct');
+          li.textContent='✅ '+li.textContent;
+        } else {
+          li.classList.add('wrong');
+          li.textContent='❌ '+li.textContent;
+          if(correct){
+            var ci=letters.indexOf(correct);
+            if(ci>=0&&opts[ci]){opts[ci].classList.add('highlight');opts[ci].textContent='👉 '+opts[ci].textContent;}
+          }
+        }
+        if(hint){hint.style.display='block';hint.style.marginTop='12px';}
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
