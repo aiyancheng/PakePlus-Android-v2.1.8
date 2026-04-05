@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 21 - 第3周综合周测</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 15px; }
+  .meta-bar { background: white; padding: 15px 40px; display: flex; gap: 30px; border-bottom: 1px solid #e8ecf0; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+  .meta-item span.dot { width: 8px; height: 8px; border-radius: 50%; background: #a18cd1; display: inline-block; }
+  .container { max-width: 960px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 20px; color: #333; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #a18cd1; display: flex; align-items: center; gap: 10px; }
+  .card h3 { font-size: 16px; color: #444; margin: 18px 0 10px; }
+  .card p { line-height: 1.8; color: #555; margin-bottom: 12px; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { line-height: 1.9; color: #555; margin-bottom: 4px; }
+  .highlight-box { background: #f6f2ff; border-left: 4px solid #a18cd1; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .highlight-box.green { background: #f0fdf4; border-color: #22c55e; }
+  .highlight-box.yellow { background: #fffbf0; border-color: #f59e0b; }
+  .highlight-box.red { background: #fff5f5; border-color: #ef4444; }
+  .table-wrap { overflow-x: auto; margin: 16px 0; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #a18cd1; color: white; padding: 10px 14px; text-align: left; font-size: 14px; }
+  td { padding: 10px 14px; border-bottom: 1px solid #e8ecf0; font-size: 14px; color: #555; }
+  tr:nth-child(even) { background: #f8f9fc; }
+  .test-info { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin: 16px 0; }
+  .info-card { background: #f6f2ff; border-radius: 10px; padding: 16px; text-align: center; }
+  .info-card .num { font-size: 28px; font-weight: bold; color: #a18cd1; }
+  .info-card .label { font-size: 13px; color: #777; margin-top: 4px; }
+  .week-summary { background: linear-gradient(135deg, #a18cd1, #fbc2eb); border-radius: 12px; padding: 24px; color: white; margin: 16px 0; }
+  .week-summary h3 { font-size: 18px; margin-bottom: 14px; }
+  .week-summary ul { padding-left: 20px; }
+  /* 底部导航 */
+  .nav-footer { display: flex; justify-content: space-between; align-items: center; padding: 20px 0 30px; gap: 12px; }
+  .nav-btn { display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.25s; color: white; background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #a18cd1; border: 2px solid #a18cd1; }
+  .nav-btn.outline:hover { background: #f6f2ff; }
+  .week-summary li { line-height: 2; opacity: 0.95; }
+  .next-week { background: #f0fdf4; border: 2px solid #22c55e; border-radius: 10px; padding: 20px; margin: 16px 0; }
+  .next-week h3 { color: #166534; margin-bottom: 12px; }
+  .next-week ul { padding-left: 20px; }
+  .next-week li { line-height: 1.9; color: #166534; }
+  .footer { text-align: center; padding: 30px; color: #aaa; font-size: 13px; }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="week-badge">第3周 · 专业技能训练</div>
+  <h1>Day 21 — 第3周综合周测</h1>
+  <div class="subtitle">周测日 · 全面检验技能掌握程度，为第4周销售话术学习奠定基础</div>
+</div>
+
+<div class="meta-bar">
+  <div class="meta-item"><span class="dot"></span>学习时长：约4小时（含理论测试+实操考核）</div>
+  <div class="meta-item"><span class="dot"></span>性质：阶段性考核</div>
+  <div class="meta-item"><span class="dot"></span>重要性：⭐⭐⭐⭐⭐</div>
+  <div class="meta-item"><span class="dot"></span>形式：笔试 + 实操 + 复盘</div>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2><span>📋</span>周测基本信息</h2>
+    <div class="test-info">
+      <div class="info-card"><div class="num">60</div><div class="label">分钟（笔试）</div></div>
+      <div class="info-card"><div class="num">60</div><div class="label">分钟（实操）</div></div>
+      <div class="info-card"><div class="num">100</div><div class="label">满分</div></div>
+      <div class="info-card"><div class="num">70</div><div class="label">合格线</div></div>
+    </div>
+    <div class="highlight-box yellow">
+      <strong>考核说明：</strong>本周测分为理论笔试（50分）和实操考核（50分）两部分。理论笔试由员工独立完成，实操考核由师傅打分。两项分数合计即为最终成绩。
+    </div>
+  </div>
+
+  <!-- 理论回顾 -->
+  <div class="card">
+    <h2><span>📚</span>一、第3周知识体系回顾</h2>
+    <p>在周测前，请用20分钟快速回顾本周重点知识：</p>
+
+    <h3>Day 15 · 验光辅助</h3>
+    <ul>
+      <li>电脑验光仪的基本操作步骤</li>
+      <li>验光数据的基本解读（球镜/柱镜/轴位）</li>
+      <li>如何向顾客解释验光流程</li>
+    </ul>
+
+    <h3>Day 16 · 镜架调整与整形</h3>
+    <ul>
+      <li>标准佩戴状态的六要素（水平/角度/鼻距等）</li>
+      <li>各类问题的调整工具和手法</li>
+      <li>热整形的操作要点和注意事项</li>
+    </ul>
+
+    <h3>Day 17 · 商品陈列</h3>
+    <ul>
+      <li>六大功能区及其陈列目的</li>
+      <li>五大陈列原则（分类/整齐/颜色/价格/信息）</li>
+      <li>三时段日常维护SOP</li>
+    </ul>
+
+    <h3>Day 18 · 收银与库存</h3>
+    <ul>
+      <li>收银6步标准流程</li>
+      <li>四大支付方式的操作要点</li>
+      <li>库存管理四大原则及异常处理</li>
+    </ul>
+
+    <h3>Day 19 · 售后维修</h3>
+    <ul>
+      <li>常见维修操作（螺丝/鼻托/整形）</li>
+      <li>超声波清洗流程</li>
+      <li>投诉处理5步流程</li>
+    </ul>
+  </div>
+
+  <!-- 实操考核标准 -->
+  <div class="card">
+    <h2><span>🛠️</span>二、实操考核项目（师傅打分，50分）</h2>
+    <div class="table-wrap">
+      <table class="structure-table">
+        <tr>
+          <th>考核项目</th>
+          <th>分值</th>
+          <th>考核方式</th>
+          <th>合格标准</th>
+        </tr>
+        <tr>
+          <td>镜架调整操作</td>
+          <td>15分</td>
+          <td>给一副轻微变形的镜架，要求在5分钟内完成调整</td>
+          <td>调整后两侧平衡，佩戴舒适，无损坏镜架</td>
+        </tr>
+        <tr>
+          <td>收银操作模拟</td>
+          <td>15分</td>
+          <td>模拟一笔含折扣的交易，选择任意支付方式完成</td>
+          <td>6步流程完整，金额准确，话术规范</td>
+        </tr>
+        <tr>
+          <td>售后维修处理</td>
+          <td>10分</td>
+          <td>处理一副螺丝松动的眼镜</td>
+          <td>操作正确，力度适当，完成后检验合格</td>
+        </tr>
+        <tr>
+          <td>投诉情景模拟</td>
+          <td>10分</td>
+          <td>师傅扮演不满顾客，员工处理投诉</td>
+          <td>5步流程执行到位，顾客情绪安抚成功</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 周总结 -->
+  <div class="week-summary">
+    <h3>🏆 第3周学习成就总结</h3>
+    <ul>
+      <li>完成了验光辅助、镜架调整、商品陈列、收银操作、售后维修5大技能的系统学习</li>
+      <li>从"只有理论"升级为"动手实操"，是从学员到员工的关键跨越</li>
+      <li>掌握了门店日常运营所需的全部基础技能</li>
+      <li>已具备独立处理常见顾客需求的能力</li>
+    </ul>
+  </div>
+
+  <!-- 下周预告 -->
+  <div class="next-week">
+    <h3>🚀 第4周预告：销售话术与中期考核</h3>
+    <ul>
+      <li>Day 22：顾客接待与开场话术（如何开门见山打招呼）</li>
+      <li>Day 23：产品介绍话术（如何让顾客爱上你推荐的产品）</li>
+      <li>Day 24：价格异议处理话术（"太贵了"怎么办？）</li>
+      <li>Day 25：促成成交话术（临门一脚的技巧）</li>
+      <li>Day 26：服务延伸话术（如何提升客单价与顾客满意度）</li>
+      <li>Day 27：综合话术演练（全流程角色扮演）</li>
+      <li>Day 28：<strong>第4周周测 + 中期综合考核</strong>（前4周全面考核）</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span>💬</span>三、本周成长复盘（与师傅共同完成）</h2>
+    <p>请诚实回答以下问题，这是你持续成长的关键：</p>
+    <ol>
+      <li style="margin-bottom:12px;"><strong>本周最大的收获是什么？</strong>（写下1-2个最有价值的学习）</li>
+      <li style="margin-bottom:12px;"><strong>本周最大的挑战是什么？</strong>（哪个技能点让你最头疼？）</li>
+      <li style="margin-bottom:12px;"><strong>如果重来一遍，你会怎样改变学习方式？</strong></li>
+      <li><strong>下周最想提升的能力是什么？</strong>（说出具体目标）</li>
+    </ol>
+    <div class="highlight-box green">
+      <strong>师傅寄语建议：</strong>恭喜你完成了第3周的技能训练！这一周你从"知道"走向了"能做"，这是整个培训中最重要的跨越之一。下周你将进入话术训练阶段，有了技能加上话术，你就具备了独立服务顾客的全套能力。加油！
+    </div>
+  </div>
+
+  <div class="footer">Day 21 · 眼镜门店新员工8周成才培训计划 · 第3周 专业技能训练 — 圆满结束</div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_20_练习题.html">← 返回 Day 20 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="../第4周_销售话术与中期考核/Day_22_学习内容.html">Day 22 学习内容 →</a>
+  </div>
+</div>
+
+</body>
+</html>
