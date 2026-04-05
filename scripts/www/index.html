@@ -1,11 +1,1020 @@
+
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PakePlus</title>
-    </head>
-    <body>
-        PakePlus
-    </body>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>屈光度计算器 - 眼科视光学辅助工具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        // Tailwind 自定义配置
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#6366f1',
+                        accent: '#f97316',
+                        neutral: '#f8fafc',
+                        dark: '#1e293b',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        error: '#ef4444'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    screens: {
+                        'xs': '360px',
+                        'sm': '640px',
+                        'md': '768px',
+                        'lg': '1024px',
+                        'xl': '1280px',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .tab-active {
+                @apply bg-primary text-white;
+            }
+            .card-shadow {
+                @apply shadow-md hover:shadow-lg transition-shadow duration-300;
+            }
+            .input-style {
+                @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all;
+            }
+            .btn-style {
+                @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2;
+            }
+            .btn-primary {
+                @apply btn-style bg-primary text-white hover:bg-primary/90 active:scale-95;
+            }
+            .btn-secondary {
+                @apply btn-style bg-gray-100 text-dark hover:bg-gray-200 active:scale-95;
+            }
+            .btn-success {
+                @apply btn-style bg-success text-white hover:bg-success/90 active:scale-95;
+            }
+            .btn-warning {
+                @apply btn-style bg-warning text-white hover:bg-warning/90 active:scale-90;
+            }
+            .btn-error {
+                @apply btn-style bg-error text-white hover:bg-error/90 active:scale-95;
+            }
+            .btn-outline {
+                @apply btn-style bg-transparent border border-gray-300 text-gray-700 hover:bg-gray-50 active:scale-95;
+            }
+            .option-btn {
+                @apply border-2 rounded-lg p-4 text-center transition-all duration-200;
+            }
+            .animate-fadeIn {
+                @apply animate-opacity transition-opacity duration-500;
+            }
+            .header-gradient {
+                @apply bg-gradient-to-r from-primary/90 to-secondary/90 text-white;
+            }
+            .sidebar-hidden {
+                transform: translateX(-100%);
+            }
+            .sidebar-visible {
+                transform: translateX(0);
+            }
+            .pulse-animation {
+                animation: pulse 2s infinite;
+            }
+            @keyframes pulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.7; }
+            }
+        }
+    </style>
+    <style>
+        /* 全局样式重置，解决不同浏览器默认样式差异 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* 滚动条优化，提升不同系统显示效果 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* 动画效果补充 */
+        .animate-opacity {
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        /* 防止文本选择 */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* 允许输入框选择文本 */
+        input, textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+        
+        /* 侧边栏过渡效果 */
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        /* 主内容区过渡效果 */
+        #main-content {
+            transition: margin-left 0.3s ease-in-out;
+        }
+        
+        /* 侧边栏显示/隐藏按钮 */
+        #toggle-sidebar {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 50;
+            transition: left 0.3s ease-in-out;
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            #sidebar {
+                width: 100%;
+            }
+            #main-content {
+                margin-left: 0 !important;
+            }
+            #toggle-sidebar {
+                left: 10px;
+                top: 10px;
+            }
+            .sidebar-hidden {
+                transform: translateX(-100%);
+            }
+            .sidebar-visible {
+                transform: translateX(0);
+            }
+        }
+        
+        /* 打印样式优化 */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            
+            body {
+                font-family: "Microsoft YaHei", sans-serif;
+                margin: 0;
+                padding: 0;
+                color: #333;
+                font-size: 12px;
+            }
+            
+            .print-container {
+                max-width: 800px;
+                margin: 0 auto;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 10px 15px;
+                margin-bottom: 5px;
+            }
+            
+            /* 标题样式 */
+            .title {
+                background-color: #f0f7ff;
+                text-align: center;
+                padding: 15px;
+                font-size: 18px;
+                font-weight: bold;
+                color: #007bff;
+                border-bottom: 2px solid #e0ecff;
+            }
+            .title small {
+                font-size: 12px;
+                font-weight: normal;
+                color: #666;
+                display: block;
+                margin-top: 5px;
+            }
+
+            /* 患者信息区：一行三列 */
+            .patient-info {
+                background-color: #f8faff;
+                display: flex;
+                gap: 15px;
+                align-items: center;
+            }
+            .patient-info .item {
+                flex: 1;
+            }
+            .patient-info label {
+                font-weight: bold;
+                font-size: 14px;
+                margin-right: 5px;
+            }
+            .patient-info .value {
+                font-size: 14px;
+            }
+            .patient-info .note {
+                font-size: 12px;
+                color: #666;
+                display: block;
+            }
+
+            /* 计算说明区 */
+            .calc-desc {
+                background-color: #f0f8ff;
+                font-size: 13px;
+                line-height: 1.5;
+            }
+            .calc-desc strong {
+                color: #007bff;
+            }
+
+            /* 左右眼参数区：左右分栏 */
+            .eye-params {
+                display: flex;
+                gap: 5px;
+            }
+            .eye-col {
+                flex: 1;
+                padding: 10px 15px;
+                border-radius: 4px;
+            }
+            .right-eye {
+                background-color: #e6f3ff;
+            }
+            .left-eye {
+                background-color: #f5e6ff;
+            }
+            .eye-col h3 {
+                margin: 0 0 10px 0;
+                font-size: 15px;
+                color: #007bff;
+            }
+            .eye-col .param-item {
+                margin-bottom: 10px;
+            }
+            .eye-col label {
+                font-size: 13px;
+                display: block;
+                margin-bottom: 3px;
+            }
+            .eye-col .value {
+                font-size: 14px;
+                font-weight: 500;
+            }
+            .eye-col .unit {
+                font-size: 12px;
+                color: #666;
+                margin-left: 5px;
+            }
+
+            /* 计算结果区 */
+            .calc-result {
+                background-color: #f0fff0;
+                padding: 15px;
+            }
+            .result-row {
+                display: flex;
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+            .result-col {
+                flex: 1;
+                text-align: center;
+                background-color: #fff;
+                padding: 10px;
+                border-radius: 4px;
+            }
+            .result-col .label {
+                font-size: 13px;
+                color: #666;
+            }
+            .result-col .value {
+                font-size: 20px;
+                font-weight: bold;
+                color: #007bff;
+                margin: 5px 0;
+            }
+            .result-col .desc {
+                font-size: 12px;
+                color: #666;
+            }
+            .detail-analysis {
+                font-size: 13px;
+                line-height: 1.6;
+            }
+            .detail-analysis div {
+                margin-bottom: 5px;
+            }
+            
+            /* 合并患者信息和结果区域 */
+            .info-result-container {
+                display: flex;
+                flex-direction: column;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            
+            .info-section {
+                background-color: #f8faff;
+                padding: 15px;
+                border-bottom: 1px solid #ccc;
+            }
+            
+            .result-section {
+                padding: 15px;
+            }
+        }
+        
+        /* 打印模板样式 */
+        .print-template {
+            display: none;
+        }
+        
+        @media screen {
+            .print-template {
+                position: absolute;
+                left: -9999px;
+            }
+        }
+    </style>
+    <script>
+        // ==================== 常量和数据定义 (移至外部作用域以提高性能) ====================
+        const MODIFICATION_RULES = {
+            2.6: [
+                {minLT:3.1, maxLT:3.1, value:-1.125},
+                {minLT:3.2, maxLT:3.5, value:-1.25},
+                {minLT:3.6, maxLT:3.6, value:-1.375},
+                {minLT:3.7, maxLT:4.0, value:-1.50},
+                {minLT:4.1, maxLT:4.1, value:-1.625},
+                {minLT:4.2, maxLT:4.5, value:-1.75},
+                {minLT:4.6, maxLT:4.6, value:-1.875},
+                {minLT:4.7, maxLT:5.0, value:-2.00}
+            ],
+            2.7: [
+                {minLT:3.1, maxLT:3.1, value:-0.75},
+                {minLT:3.2, maxLT:3.2, value:-0.875},
+                {minLT:3.3, maxLT:3.6, value:-1.00},
+                {minLT:3.7, maxLT:3.7, value:-1.125},
+                {minLT:3.8, maxLT:4.1, value:-1.25},
+                {minLT:4.2, maxLT:4.2, value:-1.375},
+                {minLT:4.3, maxLT:4.6, value:-1.50},
+                {minLT:4.7, maxLT:4.7, value:-1.625},
+                {minLT:4.8, maxLT:5.0, value:-1.75}
+            ],
+            2.8: [
+                {minLT:3.1, maxLT:3.2, value:-0.50},
+                {minLT:3.3, maxLT:3.3, value:-0.625},
+                {minLT:3.4, maxLT:3.7, value:-0.75},
+                {minLT:3.8, maxLT:3.8, value:-0.875},
+                {minLT:3.9, maxLT:4.2, value:-1.00},
+                {minLT:4.3, maxLT:4.3, value:-1.125},
+                {minLT:4.4, maxLT:4.7, value:-1.25},
+                {minLT:4.8, maxLT:4.8, value:-1.375},
+                {minLT:4.9, maxLT:5.0, value:-1.50}
+            ],
+            2.9: [
+                {minLT:3.1, maxLT:3.3, value:-0.25},
+                {minLT:3.4, maxLT:3.4, value:-0.375},
+                {minLT:3.5, maxLT:3.8, value:-0.50},
+                {minLT:3.9, maxLT:3.9, value:-0.625},
+                {minLT:4.0, maxLT:4.3, value:-0.75},
+                {minLT:4.4, maxLT:4.4, value:-0.875},
+                {minLT:4.5, maxLT:4.8, value:-1.00},
+                {minLT:4.9, maxLT:4.9, value:-1.125},
+                {minLT:5.0, maxLT:5.0, value:-1.50}
+            ],
+            3.0: [
+                {minLT:3.1, maxLT:3.4, value:0.00},
+                {minLT:3.5, maxLT:3.5, value:-0.125},
+                {minLT:3.6, maxLT:3.9, value:-0.25},
+                {minLT:4.0, maxLT:4.0, value:-0.375},
+                {minLT:4.1, maxLT:4.4, value:-0.50},
+                {minLT:4.5, maxLT:4.5, value:-0.625},
+                {minLT:4.6, maxLT:4.9, value:-0.75},
+                {minLT:5.0, maxLT:5.0, value:-0.875}
+            ],
+            3.1: [
+                {minLT:3.1, maxLT:3.5, value:0.25},
+                {minLT:3.6, maxLT:4.0, value:0.00},
+                {minLT:4.1, maxLT:4.5, value:-0.25},
+                {minLT:4.6, maxLT:5.0, value:-0.50}
+            ],
+            3.2: [
+                {minLT:3.1, maxLT:3.2, value:0.75},
+                {minLT:3.2, maxLT:3.2, value:0.625},
+                {minLT:3.3, maxLT:3.6, value:0.50},
+                {minLT:3.7, maxLT:3.7, value:0.375},
+                {minLT:3.8, maxLT:4.1, value:0.25},
+                {minLT:4.2, maxLT:4.2, value:0.125},
+                {minLT:4.3, maxLT:4.6, value:0.00},
+                {minLT:4.7, maxLT:4.7, value:-0.125},
+                {minLT:4.8, maxLT:5.0, value:-0.25}
+            ],
+            3.3: [
+                {minLT:3.1, maxLT:3.2, value:+1.00},
+                {minLT:3.3, maxLT:3.3, value:+0.875},
+                {minLT:3.4, maxLT:3.7, value:+0.75},
+                {minLT:3.8, maxLT:3.8, value:+0.625},
+                {minLT:3.9, maxLT:4.2, value:+0.50},
+                {minLT:4.3, maxLT:4.3, value:+0.375},
+                {minLT:4.4, maxLT:4.7, value:+0.25},
+                {minLT:4.8, maxLT:4.8, value:+0.125},
+                {minLT:4.9, maxLT:5.0, value:+0.00}
+            ],
+            3.4: [
+                {minLT:3.1, maxLT:3.3, value:+1.25},
+                {minLT:3.4, maxLT:3.4, value:+1.125},
+                {minLT:3.5, maxLT:3.8, value:+1.00},
+                {minLT:3.9, maxLT:3.9, value:+0.875},
+                {minLT:4.0, maxLT:4.3, value:+0.75},
+                {minLT:4.4, maxLT:4.4, value:+0.625},
+                {minLT:4.5, maxLT:4.7, value:+0.25},
+                {minLT:4.8, maxLT:4.8, value:+0.125},
+                {minLT:4.9, maxLT:5.0, value:-0.25}
+            ],
+            3.5: [
+                {minLT:3.1, maxLT:3.4, value:+1.50},
+                {minLT:3.5, maxLT:3.5, value:+1.375},
+                {minLT:3.6, maxLT:3.9, value:+1.25},
+                {minLT:4.0, maxLT:4.0, value:+1.125},
+                {minLT:4.1, maxLT:4.4, value:+1.00},
+                {minLT:4.5, maxLT:4.5, value:+0.875},
+                {minLT:4.6, maxLT:4.9, value:+0.75},
+                {minLT:5.0, maxLT:5.0, value:+0.625}
+            ],
+            3.6: [
+                {minLT:3.1, maxLT:3.1, value:+1.875},
+                {minLT:3.2, maxLT:3.5, value:+1.75},
+                {minLT:3.6, maxLT:3.6, value:+1.625},
+                {minLT:3.7, maxLT:4.0, value:+1.50},
+                {minLT:4.1, maxLT:4.1, value:+1.375},
+                {minLT:4.2, maxLT:4.5, value:+1.25},
+                {minLT:4.6, maxLT:4.6, value:+1.125},
+                {minLT:4.7, maxLT:5.0, value:+1.00}
+            ],
+            3.7: [
+                {minLT:3.1, maxLT:3.1, value:+2.25},
+                {minLT:3.2, maxLT:3.2, value:+2.125},
+                {minLT:3.3, maxLT:3.6, value:+2.00},
+                {minLT:3.7, maxLT:3.7, value:+1.875},
+                {minLT:3.8, maxLT:4.1, value:+1.75},
+                {minLT:4.2, maxLT:4.2, value:+1.625},
+                {minLT:4.3, maxLT:4.6, value:+1.50},
+                {minLT:4.7, maxLT:4.7, value:+1.125},
+                {minLT:4.8, maxLT:5.0, value:+1.00}
+            ],
+            3.8: [
+                {minLT:3.1, maxLT:3.2, value:+2.50},
+                {minLT:3.3, maxLT:3.3, value:+2.375},
+                {minLT:3.4, maxLT:3.7, value:+2.25},
+                {minLT:3.8, maxLT:3.8, value:+2.125},
+                {minLT:3.9, maxLT:4.2, value:+2.00},
+                {minLT:4.3, maxLT:4.3, value:+1.875},
+                {minLT:4.4, maxLT:4.7, value:+1.75},
+                {minLT:4.8, maxLT:4.8, value:+1.625},
+                {minLT:4.9, maxLT:5.0, value:+1.50}
+            ],
+            3.9: [
+                {minLT:3.1, maxLT:3.3, value:+2.75},
+                {minLT:3.4, maxLT:3.4, value:+2.625},
+                {minLT:3.5, maxLT:3.8, value:+2.50},
+                {minLT:3.9, maxLT:3.9, value:+2.375},
+                {minLT:4.0, maxLT:4.3, value:+2.25},
+                {minLT:4.4, maxLT:4.4, value:+2.125},
+                {minLT:4.5, maxLT:4.8, value:+2.00},
+                {minLT:4.9, maxLT:4.9, value:+1.875},
+                {minLT:5.0, maxLT:5.0, value:+1.75}
+            ]
+        };
+
+        const AGE_DATA = {
+            6: {hyperopia: 1.38, al: 22.46},
+            7: {hyperopia: 1.38, al: 22.56},
+            8: {hyperopia: 1.25, al: 22.78},
+            9: {hyperopia: 0.88, al: 22.95},
+            10: {hyperopia: 0.75, al: 23.13},
+            11: {hyperopia: 0.63, al: 23.26},
+            12: {hyperopia: 0.50, al: 23.32},
+            13: {hyperopia: 0.50, al: 23.36},
+            14: {hyperopia: 0.38, al: 23.37},
+            15: {hyperopia: 0.31, al: 23.39},
+            16: {hyperopia: 0.25,  al: 23.41 },
+            17: {hyperopia: 0.12,  al: 23.46 },
+            18: {hyperopia: 0.00,  al: 23.5 }
+        };
+
+        // ==================== 辅助函数 ====================
+        function validateInput(value, min, max, name) {
+            if (value === null || value === undefined || value === '') {
+                throw new Error(`${name}不能为空`);
+            }
+            if (isNaN(value)) {
+                throw new Error(`${name}必须是数字`);
+            }
+            if (value < min || value > max) {
+                throw new Error(`${name}必须在 ${min}-${max} 范围内`);
+            }
+            return true;
+        }
+
+        function getModification(AD, LT) {
+            const adKey = parseFloat(AD.toFixed(1));
+            const ltValue = parseFloat(LT.toFixed(1));
+            
+            const rules = MODIFICATION_RULES[adKey];
+            if (!rules) return 0;
+            for (const rule of rules) {
+                if (ltValue >= rule.minLT && ltValue <= rule.maxLT) {
+                    return rule.value;
+                }
+            }
+            return 0; // 如果没有匹配规则，则返回0
+        }
+
+        function calculateEye(age, K1, AL, AD, LT) {
+            try {
+                validateInput(age, 6, 18, '年龄');
+                validateInput(K1, 30, 50, '角膜曲率');
+                validateInput(AL, 18, 30, '眼轴长度');
+                validateInput(AD, 2.0, 5.0, '前房深度');
+                validateInput(LT, 3.0, 6.0, '晶体厚度');
+                
+                // 确保年龄在有效范围内
+                age = Math.min(Math.max(age, 6), 18);
+                
+                // 获取年龄对应的数据
+                const ageInfo = AGE_DATA[Math.floor(age)];
+                
+                // 计算修正值
+                const modification = getModification(AD, LT);
+                
+                // 计算屈光度
+                const term1 = ageInfo.hyperopia;
+                const term2 = 43.05 - K1;
+                // 修复：原代码错误地使用了 K1 而非 AL
+                const term3 = (ageInfo.al - AL) * 2.5;
+                
+                const refraction = modification + term1 + term2 + term3;
+                return refraction.toFixed(2);
+            } catch (error) {
+                throw error; // 将验证错误抛出给主函数处理
+            }
+        }
+
+        // ==================== 主要业务逻辑函数 ====================
+        function calculateRefraction() {
+            try {
+                const commonAge = parseInt(document.getElementById('commonAge').value);
+                if (isNaN(commonAge)) {
+                    alert('请输入有效的年龄');
+                    return;
+                }
+
+                const params = {};
+                const requiredParams = ['R_K1', 'R_AL', 'R_AD', 'R_LT', 'L_K1', 'L_AL', 'L_AD', 'L_LT'];
+                for (const id of requiredParams) {
+                    const val = parseFloat(document.getElementById(id).value);
+                    if (isNaN(val)) {
+                        alert(`请完善${id.startsWith('R') ? '右' : '左'}眼的所有参数`);
+                        return;
+                    }
+                    params[id] = val;
+                }
+
+                const R_result = calculateEye(commonAge, params.R_K1, params.R_AL, params.R_AD, params.R_LT);
+                const L_result = calculateEye(commonAge, params.L_K1, params.L_AL, params.L_AD, params.L_LT);
+                
+                document.getElementById('R_result').textContent = `${R_result} D`;
+                document.getElementById('L_result').textContent = `${L_result} D`;
+                
+                document.getElementById('R_params').textContent = `年龄:${commonAge}, K1:${params.R_K1}, AL:${params.R_AL}`;
+                document.getElementById('L_params').textContent = `年龄:${commonAge}, K1:${params.L_K1}, AL:${params.L_AL}`;
+                
+                const diff = Math.abs(parseFloat(R_result) - parseFloat(L_result)).toFixed(2);
+                document.getElementById('refraction_diff').textContent = `${diff} D`;
+                
+                let recommendation = '';
+                if (Math.abs(parseFloat(R_result)) > 6 || Math.abs(parseFloat(L_result)) > 6) {
+                    recommendation = '高度近视/远视';
+                } else if (diff > 2.5) {
+                    recommendation = '屈光参差需关注';
+                } else if (parseFloat(R_result) > 0 || parseFloat(L_result) > 0) {
+                    recommendation = '轻度远视';
+                } else {
+                    recommendation = '正常范围';
+                }
+                document.getElementById('recommendation').textContent = recommendation;
+
+                document.getElementById('refractionResult').classList.remove('hidden');
+                
+                const resultDiv = document.getElementById('refractionResult');
+                resultDiv.classList.add('pulse-animation');
+                setTimeout(() => resultDiv.classList.remove('pulse-animation'), 2000);
+            } catch (error) {
+                alert(`计算错误: ${error.message}`);
+            }
+        }
+
+        function fillExampleData() {
+            document.getElementById('patientName').value = '小明';
+            document.getElementById('commonAge').value = 11;
+            document.getElementById('patientPhone').value = '13574610303';
+            
+            document.getElementById('R_K1').value = 42.47;
+            document.getElementById('R_AL').value = 24.48;
+            document.getElementById('R_AD').value = 3.7;
+            document.getElementById('R_LT').value = 3.63;
+            
+            document.getElementById('L_K1').value = 41.99;
+            document.getElementById('L_AL').value = 24.73;
+            document.getElementById('L_AD').value = 3.7;
+            document.getElementById('L_LT').value = 3.61;
+            
+            setTimeout(calculateRefraction, 100);
+        }
+
+        function clearAllData() {
+            if (confirm('确定要清空所有数据吗？')) {
+                document.getElementById('patientName').value = '';
+                document.getElementById('commonAge').value = '';
+                document.getElementById('patientPhone').value = '';
+                
+                ['R_K1', 'R_AL', 'R_AD', 'R_LT', 'L_K1', 'L_AL', 'L_AD', 'L_LT'].forEach(id => {
+                    document.getElementById(id).value = '';
+                });
+                
+                document.getElementById('refractionResult').classList.add('hidden');
+            }
+        }
+
+        function fillPrintTemplate() {
+            const patientName = document.getElementById('patientName').value || '未知';
+            const commonAge = document.getElementById('commonAge').value || '18';
+            const patientPhone = document.getElementById('patientPhone').value || '未知';
+            const R_result = document.getElementById('R_result').textContent || '0.00 D';
+            const L_result = document.getElementById('L_result').textContent || '0.00 D';
+            const R_K1 = document.getElementById('R_K1').value || '0.00';
+            const R_AL = document.getElementById('R_AL').value || '0.00';
+            const R_AD = document.getElementById('R_AD').value || '0.0';
+            const R_LT = document.getElementById('R_LT').value || '0.0';
+            const L_K1 = document.getElementById('L_K1').value || '0.00';
+            const L_AL = document.getElementById('L_AL').value || '0.00';
+            const L_AD = document.getElementById('L_AD').value || '0.0';
+            const L_LT = document.getElementById('L_LT').value || '0.0';
+
+            document.getElementById('printName').textContent = patientName;
+            document.getElementById('printAge').textContent = commonAge;
+            document.getElementById('printPhone').textContent = patientPhone;
+            document.getElementById('printRResult').textContent = R_result;
+            document.getElementById('printLResult').textContent = L_result;
+            document.getElementById('printRK1').textContent = R_K1;
+            document.getElementById('printRAL').textContent = R_AL;
+            document.getElementById('printRAD').textContent = R_AD;
+            document.getElementById('printRLT').textContent = R_LT;
+            document.getElementById('printLK1').textContent = L_K1;
+            document.getElementById('printLAL').textContent = L_AL;
+            document.getElementById('printLAD').textContent = L_AD;
+            document.getElementById('printLLT').textContent = L_LT;
+            document.getElementById('printRParams').textContent = `右眼参数： 年龄:${commonAge}, K1:${R_K1}, AL:${R_AL}`;
+            document.getElementById('printLParams').textContent = `左眼参数： 年龄:${commonAge}, K1:${L_K1}, AL:${L_AL}`;
+            document.getElementById('printDiff').textContent = document.getElementById('refraction_diff').textContent || '0.00';
+            document.getElementById('printRecommendation').textContent = document.getElementById('recommendation').textContent || '未计算';
+        }
+
+        function printResult() {
+            fillPrintTemplate();
+            window.print();
+        }
+
+        // ==================== UI 控制函数 ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="number"], input[type="text"]');
+            inputs.forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        calculateRefraction();
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body class="font-inter bg-gradient-to-br from-blue-50 to-indigo-100 text-dark min-h-screen">
+    <!-- 主内容区 -->
+    <div id="main-content" class="min-h-screen">
+        <div class="container mx-auto px-4 py-6 md:py-8 max-w-7xl">
+            <div class="bg-white rounded-lg md:rounded-xl p-4 md:p-6 card-shadow">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl md:text-4xl font-bold text-primary mb-2 flex items-center justify-center">
+                        <i class="fa fa-calculator mr-3"></i>屈光度计算器
+                    </h1>
+                    <p class="text-gray-600">基于眼轴长度、角膜曲率等参数的精确屈光度计算</p>
+                </div>
+
+                <!-- 患者信息 -->
+                <div class="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-lg p-5 border border-cyan-200 mb-6">
+                    <h3 class="text-xl font-semibold mb-4 text-dark flex items-center">
+                        <i class="fa fa-user text-primary mr-2"></i>患者信息
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">姓名</label>
+                            <input type="text" id="patientName" class="input-style" placeholder="请输入患者姓名">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">年龄</label>
+                            <input type="number" id="commonAge" step="1" min="6" max="18" class="input-style" placeholder="输入周岁年龄">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">联系电话</label>
+                            <input type="tel" id="patientPhone" class="input-style" placeholder="请输入联系电话">
+                        </div>
+                    </div>
+                    <div class="flex gap-3 mt-4">
+                        <button onclick="fillExampleData()" class="btn-secondary flex-1">
+                            <i class="fa fa-magic mr-2"></i>实例填充
+                        </button>
+                        <button onclick="clearAllData()" class="btn-error flex-1">
+                            <i class="fa fa-trash mr-2"></i>清空数据
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 rounded-lg p-4 mb-6 border border-blue-200">
+                    <h3 class="text-lg font-semibold mb-2 text-blue-800 flex items-center">
+                        <i class="fa fa-lightbulb-o mr-2 text-blue-600"></i>计算说明
+                    </h3>
+                    <p class="text-sm text-gray-700">
+                        本计算器使用先进的屈光度预测算法，结合年龄、角膜曲率、眼轴长度、前房深度、晶体厚度等参数，
+                        精确计算出您的屈光度。适用于儿童近视防控、成人验光配镜等场景。
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-5 border border-blue-200">
+                        <h3 class="text-xl font-semibold mb-4 text-dark flex items-center">
+                            <i class="fa fa-eye text-primary mr-2"></i>右眼参数
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">角膜曲率 (K1)</label>
+                                <input type="number" id="R_K1" step="0.01" class="input-style" placeholder="输入角膜曲率">
+                                <div class="text-xs text-gray-500 mt-1">单位：D，正常范围约40-45D</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">眼轴长度 (AL)</label>
+                                <input type="number" id="R_AL" step="0.01" class="input-style" placeholder="输入眼轴长度">
+                                <div class="text-xs text-gray-500 mt-1">单位：mm，正常范围约22-25mm</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">前房深度 (AD)</label>
+                                <input type="number" id="R_AD" step="0.1" min="2.6" max="3.9" class="input-style" placeholder="2.6-3.9">
+                                <div class="text-xs text-gray-500 mt-1">单位：mm，正常范围2.6-3.9mm</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">晶体厚度 (LT)</label>
+                                <input type="number" id="R_LT" step="0.1" min="3.1" max="5.0" class="input-style" placeholder="3.1-5.0">
+                                <div class="text-xs text-gray-500 mt-1">单位：mm，正常范围3.1-5.0mm</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-5 border border-purple-200">
+                        <h3 class="text-xl font-semibold mb-4 text-dark flex items-center">
+                            <i class="fa fa-eye text-secondary mr-2"></i>左眼参数
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">角膜曲率 (K1)</label>
+                                <input type="number" id="L_K1" step="0.01" class="input-style" placeholder="输入角膜曲率">
+                                <div class="text-xs text-gray-500 mt-1">单位：D，正常范围约40-45D</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">眼轴长度 (AL)</label>
+                                <input type="number" id="L_AL" step="0.01" class="input-style" placeholder="输入眼轴长度">
+                                <div class="text-xs text-gray-500 mt-1">单位：mm，正常范围约22-25mm</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">前房深度 (AD)</label>
+                                <input type="number" id="L_AD" step="0.1" min="2.6" max="3.9" class="input-style" placeholder="2.6-3.9">
+                                <div class="text-xs text-gray-500 mt-1">单位：mm，正常范围2.6-3.9mm</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">晶体厚度 (LT)</label>
+                                <input type="number" id="L_LT" step="0.1" min="3.1" max="5.0" class="input-style" placeholder="3.1-5.0">
+                                <div class="text-xs text-gray-500 mt-1">单位：mm，正常范围3.1-5.0mm</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <button onclick="calculateRefraction()" class="btn-primary px-8 py-3 text-lg">
+                        <i class="fa fa-cogs mr-2"></i>开始精确计算
+                    </button>
+                    </div>
+
+                </div>
+
+                <div id="refractionResult" class="mt-8 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-5 border border-green-200 hidden">
+                    <h3 class="text-xl font-semibold mb-4 text-green-700 flex items-center">
+                        <i class="fa fa-bar-chart mr-2"></i>计算结果
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg p-4 shadow-sm border border-green-100 text-center">
+                            <div class="text-sm text-gray-600 mb-1">右眼屈光度</div>
+                            <div id="R_result" class="text-3xl font-bold text-primary">--</div>
+                            <div class="text-xs text-gray-500 mt-1">球镜度数</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 shadow-sm border border-green-100 text-center">
+                            <div class="text-sm text-gray-600 mb-1">左眼屈光度</div>
+                            <div id="L_result" class="text-3xl font-bold text-secondary">--</div>
+                            <div class="text-xs text-gray-500 mt-1">球镜度数</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-white rounded-lg p-4 border border-gray-200">
+                        <h4 class="font-semibold text-gray-800 mb-3">详细分析</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div class="flex justify-between py-1">
+                                <span class="text-gray-600">右眼参数:</span>
+                                <span id="R_params" class="font-medium">-</span>
+                            </div>
+                            <div class="flex justify-between py-1">
+                                <span class="text-gray-600">左眼参数:</span>
+                                <span id="L_params" class="font-medium">-</span>
+                            </div>
+                            <div class="flex justify-between py-1">
+                                <span class="text-gray-600">屈光差异:</span>
+                                <span id="refraction_diff" class="font-medium">-</span>
+                            </div>
+                            <div class="flex justify-between py-1">
+                                <span class="text-gray-600">建议:</span>
+                                <span id="recommendation" class="font-medium">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 bg-yellow-50 rounded-lg p-4 border border-yellow-200 no-print">
+                    <h4 class="font-semibold text-yellow-800 mb-2 flex items-center">
+                        <i class="fa fa-exclamation-triangle mr-2"></i>重要提醒
+                    </h4>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• 本计算结果仅供参考，不能替代专业眼科视光学专家的诊断</li>
+                        <li>• 如需配镜或治疗，请咨询专业眼科视光学专家</li>
+                        <li>• 计算精度受测量准确性影响，请确保数据准确</li>
+                        <li>• 建议定期进行专业眼科检查</li>
+                    </ul>
+                </div>
+            </div>
+
+            <footer class="mt-8 text-center text-gray-500 text-sm py-4 no-print">
+                <p>© 2026 专业眼科视光学辅助平台 | 数据隐私保护 | 技术支持：高级验光技师闫胜君工作室</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- 打印模板 -->
+    <div id="printTemplate" class="print-template">
+        <div class="print-container info-result-container">
+            <div class="section title">
+                专业屈光度计算器
+                <small>基于眼轴长度、角膜曲率等参数的精确屈光度计算</small>
+            </div>
+
+            <div class="info-section">
+                <h4 style="margin:0 0 10px; font-size:16px; color:#007bff;">患者信息</h4>
+                <div class="patient-info">
+                    <div class="item">
+                        <label>姓名：</label>
+                        <span id="printName" class="value">-</span>
+                    </div>
+                    <div class="item">
+                        <label>年龄：</label>
+                        <span id="printAge" class="value">-</span>
+                        <span class="note">左右眼共同成年年龄</span>
+                    </div>
+                    <div class="item">
+                        <label>联系电话：</label>
+                        <span id="printPhone" class="value">-</span>
+                    </div>
+                </div>
+                
+                <div class="result-row" style="margin-top: 15px;">
+                    <div class="result-col">
+                        <div class="label">右眼屈光度</div>
+                        <div class="value"><span id="printRResult">-- D</span></div>
+                        <div class="desc">球镜度数</div>
+                    </div>
+                    <div class="result-col">
+                        <div class="label">左眼屈光度</div>
+                        <div class="value"><span id="printLResult">-- D</span></div>
+                        <div class="desc">球镜度数</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section calc-desc">
+                <strong>计算说明：</strong>
+                本计算程序使用先进的屈光预测算法，结合年龄、角膜曲率、眼轴长度、前房深度、晶体厚度等参数，精确计算出您的屈光度，适用于儿童近视防控、成人验光配镜等场景。
+            </div>
+
+            <div class="eye-params">
+                <div class="eye-col right-eye section">
+                    <h3>右眼参数</h3>
+                    <div class="param-item">
+                        <label>角膜曲率(K1)</label>
+                        <span id="printRK1" class="value">--</span>
+                        <span class="unit">单位：D，正常范围40-45D</span>
+                    </div>
+                    <div class="param-item">
+                        <label>眼轴长度(AL)</label>
+                        <span id="printRAL" class="value">--</span>
+                        <span class="unit">单位：mm，正常范围22-25mm</span>
+                    </div>
+                    <div class="param-item">
+                        <label>前房深度(AD)</label>
+                        <span id="printRAD" class="value">--</span>
+                        <span class="unit">单位：mm，正常范围2.6-3.8mm</span>
+                    </div>
+                    <div class="param-item">
+                        <label>晶体厚度(LT)</label>
+                        <span id="printRLT" class="value">--</span>
+                        <span class="unit">单位：mm，正常范围3.1-5.0mm</span>
+                    </div>
+                </div>
+
+                <div class="eye-col left-eye section">
+                    <h3>左眼参数</h3>
+                    <div class="param-item">
+                        <label>角膜曲率(K1)</label>
+                        <span id="printLK1" class="value">--</span>
+                        <span class="unit">单位：D，正常范围40-45D</span>
+                    </div>
+                    <div class="param-item">
+                        <label>眼轴长度(AL)</label>
+                        <span id="printLAL" class="value">--</span>
+                        <span class="unit">单位：mm，正常范围22-25mm</span>
+                    </div>
+                    <div class="param-item">
+                        <label>前房深度(AD)</label>
+                        <span id="printLAD" class="value">--</span>
+                        <span class="unit">单位：mm，正常范围2.6-3.8mm</span>
+                    </div>
+                    <div class="param-item">
+                        <label>晶体厚度(LT)</label>
+                        <span id="printLLT" class="value">--</span>
+                        <span class="unit">单位：mm，正常范围3.1-5.0mm</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section calc-result">
+                <div class="detail-analysis">
+                    <div><strong>详细分析</strong></div>
+                    <div id="printRParams">右眼参数： --</div>
+                    <div id="printLParams">左眼参数： --</div>
+                    <div>屈光差异：<span id="printDiff">--</span> D &nbsp;&nbsp; 建议: <span id="printRecommendation">--</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
