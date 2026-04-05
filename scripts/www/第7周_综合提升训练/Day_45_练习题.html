@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 45 练习题：店面数据管理与业绩分析</title>
+<style>
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+  .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  h1 { color: #2c3e50; border-bottom: 3px solid #e67e22; padding-bottom: 12px; }
+  .info-bar { background: #fff5ec; border-radius: 8px; padding: 12px 20px; margin: 16px 0; display: flex; gap: 30px; font-size: 14px; color: #c0541a; flex-wrap: wrap; }
+  h2 { color: #e67e22; margin-top: 30px; }
+  .question { background: #fdfaf7; border: 1px solid #fcd9b5; border-radius: 8px; padding: 20px; margin: 16px 0; }
+  .question-num { font-weight: bold; color: #e67e22; font-size: 15px; }
+  .option { padding: 8px 12px; margin: 6px 0; background: #fff7f0; border-radius: 6px; cursor: pointer; border: 1px solid #f8cba0; }
+  .option:hover { background: #fde8cc; }
+  .fill-input { width: 100%; padding: 10px; border: 1px solid #f5b47c; border-radius: 6px; font-size: 14px; margin-top: 8px; box-sizing: border-box; }
+  .answer-box { background: #eafaf1; border: 1px dashed #27ae60; border-radius: 8px; padding: 14px 18px; margin-top: 10px; display: none; color: #1a5c38; }
+  .btn { background: #e67e22; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; margin: 4px; }
+  .btn:hover { background: #d35400; }
+  .btn-show { background: #27ae60; }
+  .btn-show:hover { background: #1e8449; }
+  .section-tag { background: #e67e22; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-right: 8px; }
+  .data-box { background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 8px; padding: 16px; margin: 12px 0; font-family: monospace; font-size: 14px; }
+  .formula-hint { background: #e8f4fd; border: 1px solid #aed6f1; border-radius: 6px; padding: 10px 14px; margin: 8px 0; font-size: 13px; color: #1a5276; }
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#8e44ad,#6c3483);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#8e44ad;border:2px solid #8e44ad}
+
+  /* interactive-options-type-d */
+  .option { cursor: pointer; transition: all 0.2s; }
+  .option.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .option.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .option.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .option.answered    { pointer-events: none !important; cursor: default !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 45 练习题：店面数据管理与业绩分析</h1>
+  <div class="info-bar">
+    <span>📅 第7周 第3天</span>
+    <span>⏱ 建议用时：30分钟</span>
+    <span>📊 主题：数据分析实战</span>
+    <span>💯 总分：100分</span>
+  </div>
+
+  <!-- 计算题 -->
+  <h2><span class="section-tag">A</span>数据计算题（每题10分，共30分）</h2>
+
+  <div class="question">
+    <div class="question-num">1. 根据以下数据，计算该门店当日各项指标：</div>
+    <div class="data-box">
+      当日路过人数：200人<br>
+      进店人数：80人<br>
+      成交单数：36单<br>
+      当日总销售额：46,800元
+    </div>
+    <div class="formula-hint">💡 公式提示：进店率 = 进店人数 ÷ 路过人数；成交率 = 成交单数 ÷ 进店人数；客单价 = 总销售额 ÷ 成交单数</div>
+    <textarea class="fill-input" rows="4" placeholder="请写出：进店率=? 成交率=? 客单价=?"></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a1')">查看答案</button>
+    <div class="answer-box" id="a1">✅ <strong>答案：</strong><br>• 进店率 = 80 ÷ 200 × 100% = <strong>40%</strong><br>• 成交率 = 36 ÷ 80 × 100% = <strong>45%</strong><br>• 客单价 = 46,800 ÷ 36 = <strong>1,300元/单</strong><br><br>分析：成交率45%属于中等水平，客单价1300元较好，整体数据表现良好。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">2. 某门店2月销售额28,000元，3月销售额35,600元，计算环比增长率。若3月计划目标为38,000元，计算目标达成率。</div>
+    <textarea class="fill-input" rows="4" placeholder="请写出计算过程和结论..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a2')">查看答案</button>
+    <div class="answer-box" id="a2">✅ <strong>答案：</strong><br>• 环比增长率 = (35,600 - 28,000) ÷ 28,000 × 100% = 7,600 ÷ 28,000 × 100% = <strong>27.1%</strong><br>• 目标达成率 = 35,600 ÷ 38,000 × 100% = <strong>93.7%</strong>（差2,400元达标）<br><br>结论：增长幅度较大（+27.1%），但未完成月度目标，距目标差2,400元，下月需重点关注。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">3. 某门店本月共成交120单，卖出镜架130副、镜片260片、护理液18瓶、眼镜布35条，计算连带率。</div>
+    <div class="formula-hint">💡 连带率 = 总销售件数 ÷ 成交单数</div>
+    <textarea class="fill-input" rows="3" placeholder="写出计算过程..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a3')">查看答案</button>
+    <div class="answer-box" id="a3">✅ <strong>答案：</strong><br>总销售件数 = 130 + 260 + 18 + 35 = 443件<br>连带率 = 443 ÷ 120 = <strong>3.69</strong><br><br>注：眼镜行业镜片通常以"片"计数，若以"副"计算则：130+130+18+35=313件，连带率=313÷120=2.6。实际门店多以"件"计，老师会告知本店规则。</div>
+  </div>
+
+  <!-- 单选题 -->
+  <h2><span class="section-tag">B</span>单选题（每题8分，共40分）</h2>
+
+  <div class="question">
+    <div class="question-num">4. 某店本月客流增加了20%，但销售额却下降了5%，最可能的原因是？</div>
+    <div class="option">A. 客单价大幅下降</div>
+    <div class="option">B. 成交率大幅下降</div>
+    <div class="option">C. 客单价或成交率下降幅度超过客流增长的贡献</div>
+    <div class="option">D. 产品质量下降</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a4')">查看答案</button>
+    <div class="answer-box" id="a4">✅ <strong>答案：C</strong><br>销售额=客流×成交率×客单价，客流虽增20%，但若成交率或客单价下滑幅度较大，综合结果仍可能是负增长。需同时拆解三个指标才能找到真正原因。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">5. 用ABCD法分析月报，其中"B（Breakdown）拆解分析"最应该关注什么？</div>
+    <div class="option">A. 与目标对比差距</div>
+    <div class="option">B. 哪个品类、员工、时段拖累了整体业绩</div>
+    <div class="option">C. 下月改进方向</div>
+    <div class="option">D. 与其他门店的对比</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a5')">查看答案</button>
+    <div class="answer-box" id="a5">✅ <strong>答案：B</strong><br>拆解分析的目的是找出具体的"薄弱环节"，而非仅停留在总数层面。把整体数据拆到品类、人员、时段维度，才能定位问题根源。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">6. 发现门店某员工的成交率（38%）远低于其他同事（平均55%），最合理的行动是？</div>
+    <div class="option">A. 立即批评该员工</div>
+    <div class="option">B. 先观察该员工的接待过程，找出具体薄弱环节，再针对性辅导</div>
+    <div class="option">C. 调整该员工的排班，让其少接待顾客</div>
+    <div class="option">D. 先看该员工接待的是否多为不购买意图的顾客</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a6')">查看答案</button>
+    <div class="answer-box" id="a6">✅ <strong>答案：B（D也有一定道理，但B更完整）</strong><br>数据只告诉你"问题在哪"，不告诉你"为什么"。需要实际观察接待过程，找到具体薄弱点（是开场不够好？还是报价时顾客流失？还是产品推荐不准？），才能针对性辅导。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">7. 以下哪种行为最有助于提升复购率？</div>
+    <div class="option">A. 每次都给顾客打折优惠</div>
+    <div class="option">B. 建立顾客档案，定期回访关心眼镜使用情况，及时推送保养提醒</div>
+    <div class="option">C. 让顾客加店长微信</div>
+    <div class="option">D. 多开展团购活动</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a7')">查看答案</button>
+    <div class="answer-box" id="a7">✅ <strong>答案：B</strong><br>复购来自于持续的关系维护和价值感知。主动回访、关心使用体验、及时提供保养提醒，能让顾客感受到被重视，从而形成忠诚度，是最可持续的复购驱动方式。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">8. 门店连带率从1.2提升到1.8，意味着什么？</div>
+    <div class="option">A. 客流量增加了50%</div>
+    <div class="option">B. 每笔订单平均多卖了0.6件商品，整体销售额在成交单数不变的情况下提升了50%</div>
+    <div class="option">C. 成交率提升了</div>
+    <div class="option">D. 顾客满意度提升了50%</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a8')">查看答案</button>
+    <div class="answer-box" id="a8">✅ <strong>答案：B</strong><br>连带率从1.2→1.8，意味着平均每单多卖0.6件。若客单价按件计算，且商品单价相同，则销售额=连带率×单价×单数，销售额相当于提升了1.8÷1.2=1.5倍，即增长50%。</div>
+  </div>
+
+  <!-- 简答题 -->
+  <h2><span class="section-tag">C</span>简答分析题（共30分）</h2>
+
+  <div class="question">
+    <div class="question-num">9. 【综合分析题，30分】根据以下门店数据，写出你的完整分析报告（问题诊断+改进建议）：</div>
+    <div class="data-box">
+      本月数据（目标：月销售额10万元）<br>
+      ─────────────────────<br>
+      实际销售额：84,600元<br>
+      进店人数：420人<br>
+      成交单数：151单<br>
+      连带率：1.4<br>
+      复购顾客：28人<br>
+      员工共3人
+    </div>
+    <textarea class="fill-input" rows="10" placeholder="请写出：①各项指标计算 ②与正常水平对比分析 ③主要问题 ④改进建议..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a9')">查看参考答案</button>
+    <div class="answer-box" id="a9">
+      ✅ <strong>参考分析报告：</strong><br><br>
+      <strong>①计算各项指标：</strong><br>
+      • 目标达成率 = 84,600 ÷ 100,000 = 84.6%（未达标，差15,400元）<br>
+      • 成交率 = 151 ÷ 420 = 35.9%（偏低，行业参考40-60%）<br>
+      • 客单价 = 84,600 ÷ 151 = 560元（偏低，参考600-1500元）<br>
+      • 复购率 = 28 ÷ 151 = 18.5%（处于正常范围20%附近，略低）<br>
+      • 人效 = 84,600 ÷ 3 = 28,200元/人（偏低，参考3-8万）<br><br>
+      <strong>②主要问题：</strong><br>
+      成交率偏低（35.9%）和客单价偏低（560元）是导致销售额未达标的双重原因。<br><br>
+      <strong>③改进建议：</strong><br>
+      • 成交率提升：加强接待话术培训，重点改善需求挖掘和异议处理环节；<br>
+      • 客单价提升：推行套餐销售，培训连带推荐技巧，目标将连带率从1.4提升至1.8；<br>
+      • 复购率：建立顾客档案，对购镜超6个月的顾客进行主动回访关怀；<br>
+      • 整体目标：若将成交率提升至45%、客单价提升至700元，月销售额预计可达132,300元，超额完成目标。
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <button class="btn" onclick="showAllAnswers()">📖 展示全部答案</button>
+    <button class="btn" style="background:#e74c3c;" onclick="resetAll()">🔄 重置练习</button>
+  </div>
+
+  <div class="nav-footer">
+    <a href="Day_45_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_46_学习内容.html" class="nav-btn">Day 46 学习内容 →</a>
+  </div>
+</div>
+
+<script>
+function toggleAnswer(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+function showAllAnswers() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'block');
+}
+function resetAll() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.fill-input').forEach(el => el.value = '');
+}
+</script>
+
+<script>
+/* interactive-options-type-d-js */
+(function(){
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    // 收集该题所有 .option
+    var opts = Array.from(qBlock.querySelectorAll(':scope > .option, :scope > .options > .option'));
+    if(opts.length === 0) return;
+
+    // 找答案框：answer-box
+    var ansBox = qBlock.querySelector('.answer-box');
+    if(!ansBox) return;
+
+    // 从 answer-box 提取答案字母，支持多种格式：
+    // ✅ 正确答案：B / ✅ 答案：B / ✅ <strong>答案：B</strong>
+    var txt = ansBox.textContent || '';
+    var m = txt.match(/(?:\u6b63\u786e)?\u7b54\u6848[:\uff1a]\s*([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    opts.forEach(function(opt){
+      var letter = (opt.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      opt.classList.add('opt-clickable');
+      opt.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        opts.forEach(function(o){ o.classList.add('answered'); });
+        if(letter === correct){
+          opt.classList.add('opt-correct');
+          opt.textContent = '\u2705 ' + opt.textContent;
+        } else {
+          opt.classList.add('opt-wrong');
+          opt.textContent = '\u274c ' + opt.textContent;
+          opts.forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ o.classList.add('opt-reveal'); o.textContent = '\ud83d\udc49 ' + o.textContent; }
+          });
+        }
+        ansBox.style.display = 'block';
+        var btn = qBlock.querySelector('.btn-show, .show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
