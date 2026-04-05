@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 29 练习题 - 跟岗观摩总结</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 14px; }
+  .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 18px; color: #333; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #11998e; }
+  .q-block { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px dashed #e8ecf0; }
+  .q-block:last-child { border-bottom: none; margin-bottom: 0; }
+  .q-num { display: inline-block; background: #11998e; color: white; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-size: 13px; margin-right: 8px; flex-shrink: 0; }
+  .q-title { font-size: 15px; color: #333; margin-bottom: 16px; line-height: 1.7; display: flex; align-items: flex-start; gap: 8px; }
+  .options { padding-left: 36px; }
+  
+  .option:hover { border-color: #11998e; background: #f0fdf9; }
+  .option input { margin-top: 2px; flex-shrink: 0; accent-color: #11998e; }
+  .option label { font-size: 14px; color: #555; cursor: pointer; line-height: 1.6; }
+  .textarea-box { width: 100%; margin-top: 8px; padding: 12px 16px; border: 1px solid #e8ecf0; border-radius: 8px; font-size: 14px; font-family: 'Microsoft YaHei', sans-serif; resize: vertical; min-height: 100px; color: #444; line-height: 1.7; }
+  .textarea-box:focus { outline: none; border-color: #11998e; box-shadow: 0 0 0 3px rgba(17,153,142,0.1); }
+  .answer-box { background: #f0fdf9; border: 1px solid #a7f3d0; border-radius: 8px; padding: 14px 18px; margin-top: 12px; display: none; }
+  .answer-hint { display: none; border-radius: 8px; padding: 14px 18px; margin-top: 12px; border: 1px solid #a7f3d0; background: #f0fdf9; }
+  .answer-box .label { color: #065f46; font-weight: bold; font-size: 13px; margin-bottom: 6px; }
+  .answer-box p { font-size: 14px; color: #444; line-height: 1.7; }
+  .show-answer-btn { background: none; border: 1px solid #11998e; color: #11998e; padding: 6px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; margin-top: 10px; }
+  .show-answer-btn:hover { background: #f0fdf9; }
+  .submit-area { text-align: center; margin-top: 30px; }
+  .submit-btn { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border: none; padding: 14px 48px; border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(17,153,142,0.3); }
+  .score-box { display: none; background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border-radius: 12px; padding: 30px; text-align: center; margin-top: 20px; }
+  .score-box .score { font-size: 48px; font-weight: bold; }
+  .score-box p { font-size: 16px; opacity: 0.9; margin-top: 8px; }
+  .nav-bar { background: white; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e8ecf0; margin-top: 30px; }
+  .nav-btn { display: inline-block; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; }
+  .nav-btn.prev { background: #f0fdf9; color: #11998e; border: 1px solid #a7f3d0; }
+  .nav-btn.next { background: #11998e; color: white; }
+
+  
+
+
+  /* ── 交互式选项（Day01标准） ── */
+  .options { list-style: none; padding: 0; margin: 12px 0 0 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-size: 0.93em; transition: all 0.2s; line-height: 1.6; }
+  .options li:hover:not(.answered) { border-color: var(--accent, #4CAF50); background: #f1f8e9; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events: none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events: none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
+  .options li.answered    { pointer-events: none !important; cursor: default !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="week-badge">📝 第5周 · 练习题</div>
+  <h1>Day 29 练习题 · 跟岗观摩总结</h1>
+  <div class="subtitle">检验今日跟岗学习成果 · 共 6 题</div>
+</div>
+
+<div class="container">
+  <div class="card">
+    <h2>🧠 知识巩固（单选题）</h2>
+
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">1</span>跟岗第一天，以下哪种行为是<strong>正确</strong>的？</div>
+          <ul class="options">
+      <li>A. 主动上前接待顾客，展示自己的能力</li>
+      <li>B. 全程跟随带教老师，以观察记录为主</li>
+      <li>C. 在角落里安静等候，不影响正常接待</li>
+      <li>D. 频繁向带教老师提问，充分利用学习机会</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a1')">查看答案</button>
+      <div class="answer-hint" id="a1">
+        <div class="label">✅ 正确答案：B</div>
+        <p>跟岗第一天的核心任务是"观察和学习"，跟随带教老师近距离观察接待全程，做好记录。不要主动接客（会干扰服务节奏），也不要躲在角落（会失去学习机会），提问应选在顾客离开后的空档期。</p>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">2</span>观察带教老师接待顾客时，最值得重点学习的"危机时刻"是？</div>
+          <ul class="options">
+      <li>A. 顾客一进门就表示很感兴趣</li>
+      <li>B. 顾客顺利试戴并表示满意</li>
+      <li>C. 顾客突然变得不耐烦或提出刁难问题</li>
+      <li>D. 顾客主动询问促销活动</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a2')">查看答案</button>
+      <div class="answer-hint" id="a2">
+        <div class="label">✅ 正确答案：C</div>
+        <p>顺利的接待过程人人都会，但遇到异议、投诉、不满时的应对才是核心技能。老师如何化解这些"危机时刻"，正是你最需要学习的内容。</p>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">3</span>跟岗记录应该在什么时候完成？</div>
+          <ul class="options">
+      <li>A. 下班回家后，凭记忆整理</li>
+      <li>B. 每接待完一位顾客，在休息间隙立即记录</li>
+      <li>C. 一天结束后集中整理</li>
+      <li>D. 第二天早上来了再补记</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a3')">查看答案</button>
+      <div class="answer-hint" id="a3">
+        <div class="label">✅ 正确答案：B</div>
+        <p>趁热打铁是记忆的最佳策略。每完成一次接待观摩，利用顾客离开后的间隙立即记录，能保留最完整、最准确的细节信息。时间越长，记忆越模糊。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>✍️ 实践反思（简答题）</h2>
+
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">4</span>今天跟岗观摩中，你记录了几位顾客的接待过程？选择其中最令你印象深刻的一位，简要描述她/他的特征、需求，以及带教老师的接待亮点。</div>
+      <textarea class="textarea-box" placeholder="请结合今天的实际观摩内容作答，尽量具体...（参考字数：150字以上）"></textarea>
+      <button class="show-answer-btn" onclick="toggleAnswer('a4')">查看参考方向</button>
+      <div class="answer-hint" id="a4" style="background:#fffbf0; border-color:#fbbf24;">
+        <div class="label" style="color:#92400e;">📌 参考方向</div>
+        <p>好的回答应包含：顾客特征描述（年龄/着装/进门状态）、主要需求（配镜/换镜/验光）、老师的1-2个接待亮点（如特别的开场白、处理异议的方式）以及你从中学到的东西。</p>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">5</span>理论学习和实际观摩之间，你发现了哪些"出入"？例如：你以为某个环节应该这样做，但老师实际是那样做的。</div>
+      <textarea class="textarea-box" placeholder="写出至少1-2个理论与实际的差异点，以及你认为为什么会有差异..."></textarea>
+    </div>
+
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">6</span>今天跟岗结束后，你明天最想向带教老师请教的问题是什么？请写出完整的问题，并说明你为什么想了解这个问题。</div>
+      <textarea class="textarea-box" placeholder="写出你的疑问和疑问的背景，展现你的思考深度..."></textarea>
+    </div>
+  </div>
+
+  <div class="submit-area">
+    <button class="submit-btn" onclick="submitQuiz()">提交练习</button>
+    <div class="score-box" id="scoreBox">
+      <div class="score">完成！✓</div>
+      <p>跟岗日记已记录 · 明日继续深入实战</p>
+    </div>
+  </div>
+</div>
+
+<div class="nav-bar">
+  <a href="Day_29_学习内容.html" class="nav-btn prev">← 返回学习内容</a>
+    <a href="../index.html" class="nav-btn" style="background:#f0fdf9;color:#11998e;border:1px solid #a7f3d0;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:14px;">🏠 首页</a>
+    
+  <span style="color:#999;font-size:13px;">Day 29 练习题</span>
+  <a href="Day_30_学习内容.html" class="nav-btn next">Day 30 →</a>
+</div>
+
+<script>
+function toggleAnswer(id) {
+  const box = document.getElementById(id);
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+function submitQuiz() {
+  document.getElementById('scoreBox').style.display = 'block';
+  document.querySelector('.submit-btn').style.display = 'none';
+  document.getElementById('scoreBox').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card, .question, .q-block').forEach(function(card){
+    var hint = card.querySelector('.answer-hint, .answer-box');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<[^>]+>)?([A-Da-d正确错误])/i);
+    if(!m) return;
+    var correctRaw = m[1];
+    // 支持汉字"正确"/"错误"和字母A/B/C/D
+    var correct = correctRaw.toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var txt = li.textContent.trim();
+      var letter = (txt.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
