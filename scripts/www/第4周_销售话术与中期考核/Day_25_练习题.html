@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 25 练习题 | 促成成交话术</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #5f2c82 0%, #49a09d 100%); color: white; padding: 28px 40px; }
+  .header .badge { background: rgba(0,0,0,0.12); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; margin-bottom: 6px; }
+  .header p { font-size: 14px; opacity: 0.9; }
+  .container { max-width: 860px; margin: 30px auto; padding: 0 20px; }
+  .section { background: white; border-radius: 12px; padding: 28px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .section h2 { font-size: 18px; color: #333; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #5f2c82; }
+  .question { margin-bottom: 22px; }
+  .q-text { font-size: 15px; line-height: 1.7; color: #333; font-weight: 500; display: flex; align-items: flex-start; gap: 10px; }
+  .q-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #5f2c82; color: white; border-radius: 50%; font-size: 13px; font-weight: bold; flex-shrink: 0; }
+  .options { margin: 12px 0 0 38px; }
+  
+  .option:hover { background: #f8f5ff; border-color: #5f2c82; }
+  .option input { margin-top: 2px; accent-color: #5f2c82; }
+  .option label { cursor: pointer; font-size: 14px; color: #555; }
+  .judge-options { margin: 10px 0 0 38px; display: flex; gap: 20px; }
+  .judge-btn { display: flex; align-items: center; gap: 8px; padding: 8px 20px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+  .judge-btn:hover { border-color: #5f2c82; background: #f8f5ff; }
+  .judge-btn input { accent-color: #5f2c82; }
+  .scenario { background: #fff8e1; border-left: 4px solid #5f2c82; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 10px 0 0 38px; font-size: 14px; color: #444; line-height: 1.7; }
+  .answer-area { margin: 12px 0 0 38px; }
+  .answer-area textarea { width: 100%; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; font-size: 14px; resize: vertical; min-height: 120px; font-family: 'Microsoft YaHei', sans-serif; }
+  .answer-area textarea:focus { outline: none; border-color: #5f2c82; }
+  .show-answer-btn { display: block; margin: 8px 0 4px 38px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .show-answer-btn:hover { border-color: #5f2c82; color: #5f2c82; background: #f8f5ff; }
+  .answer-hint { display: none; margin: 4px 0 8px 38px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #166534; line-height: 1.7; }
+  .scene-answer-btn { display: block; margin: 8px 0 4px 38px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .scene-answer-btn:hover { border-color: #5f2c82; color: #5f2c82; background: #f8f5ff; }
+  .scene-answer { display: none; margin: 4px 0 8px 38px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #166534; line-height: 1.8; }
+  .nav-footer { display: flex; justify-content: space-between; align-items: center; padding: 20px 0 30px; gap: 12px; }
+  .nav-btn { display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.25s; color: white; background: linear-gradient(135deg, #5f2c82, #49a09d); }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #5f2c82; border: 2px solid #5f2c82; }
+  .nav-btn.outline:hover { background: #f8f5ff; }
+
+  
+
+
+  /* ── 交互式选项（Day01标准） ── */
+  .options { list-style: none; padding: 0; margin: 12px 0 0 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-size: 0.93em; transition: all 0.2s; line-height: 1.6; }
+  .options li:hover:not(.answered) { border-color: var(--accent, #4CAF50); background: #f1f8e9; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events: none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events: none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
+  .options li.answered    { pointer-events: none !important; cursor: default !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="badge">Day 25 · 练习题</div>
+  <h1>促成成交话术 · 技能检测</h1>
+  <p>第4周 · 销售话术与中期考核</p>
+</div>
+<div class="container">
+
+  <!-- 单选题 -->
+  <div class="section">
+    <h2>📝 单选题</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">1</span><span>顾客说"我再想想"，最恰当的应对是：</span></div>
+          <ul class="options">
+      <li>A. "好的，想好了再来找我"</li>
+      <li>B. "您是担心价格还是款式呢？我帮您再说明一下"</li>
+      <li>C. "这款今天有优惠，明天就没有了"</li>
+      <li>D. "没关系，不急"</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：B</strong><br>解析："我再想想"通常意味着顾客有未消除的顾虑。选项B通过提问找出真实障碍，是专业的促成技巧。A和D是消极应对，C是不真实的促销说法，容易破坏信任。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">2</span><span>"假设成交法"的核心是：</span></div>
+          <ul class="options">
+      <li>A. 假装打折让顾客感到占便宜</li>
+      <li>B. 以顾客已决定购买为前提，直接讨论后续细节</li>
+      <li>C. 虚构库存紧张制造紧迫感</li>
+      <li>D. 让顾客签承诺书</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：B</strong><br>解析：假设成交法是一种心理引导技巧，销售员假设顾客已经决定购买，转而讨论"配什么镜片""什么颜色"等细节，帮助顾客自然进入购买流程。A、C都是欺骗性行为，D不适用。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">3</span><span>顾客已多次试戴某款镜架，来回比较，此时最适合使用：</span></div>
+          <ul class="options">
+      <li>A. 沉默等待法</li>
+      <li>B. 二选一法（"您更喜欢黑色还是玳瑁色？"）</li>
+      <li>C. 直接报价并等待</li>
+      <li>D. 继续介绍其他款式转移注意力</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：B</strong><br>解析：顾客多次试戴说明已有兴趣但难以决定。二选一法缩小了选择范围，帮助顾客做决定，是最有效的促成技巧之一。沉默等待和直接报价都是被动策略，再介绍其他款式会让顾客更迷茫。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">4</span><span>顾客表示"朋友说这个品牌不好"，处理该异议时首先应：</span></div>
+          <ul class="options">
+      <li>A. 反驳顾客朋友的观点</li>
+      <li>B. 先表示理解，再询问具体顾虑，提供事实依据</li>
+      <li>C. 推荐另一个品牌</li>
+      <li>D. 告诉顾客朋友的信息是错的</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：B</strong><br>解析：处理第三方异议不能直接反驳，这样会让顾客产生防御心理。正确做法是先共情理解，再探明顾虑的具体内容，然后用事实数据（如品牌资质、顾客评价）来消除疑虑。A和D都会引起顾客反感。</div>
+    </div>
+  </div>
+
+  <!-- 判断题 -->
+  <div class="section">
+    <h2>✅ 判断题</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">5</span><span>促成成交时应直接问顾客："你到底买不买？"</span></div>
+          <ul class="options">
+      <li>A. ✔ 正确</li>
+      <li>B. ✘ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：B（错误）</strong><br>解析："你到底买不买"这种强迫式提问会给顾客施加压力，容易引发反感，导致顾客直接拒绝甚至离店。促成话术应采用引导式、选择式语言，而非施压式直白提问。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">6</span><span>顾客付款后要立即感谢，并告知售后服务政策，建立长期信任。</span></div>
+          <ul class="options">
+      <li>A. ✔ 正确</li>
+      <li>B. ✘ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：A（正确）</strong><br>解析：成交后的收尾工作非常重要。及时感谢、告知售后政策（免费调整期、镜片保换等），能让顾客对门店产生信任感，有助于复购和口碑传播，是销售的最后一个关键环节。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">7</span><span>"限时优惠"是一种合理的促成话术，但需确保信息真实，不可虚假宣传。</span></div>
+          <ul class="options">
+      <li>A. ✔ 正确</li>
+      <li>B. ✘ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：A（正确）</strong><br>解析：利用真实的限时优惠创造购买紧迫感是合法且有效的销售技巧。但"明天就没有了""仅剩最后一件"等虚假信息属于欺骗消费者，一旦顾客发现将严重损害门店信誉，应杜绝。</div>
+    </div>
+  </div>
+
+  <!-- 情景模拟 -->
+  <div class="section">
+    <h2>🎭 情景模拟题</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">8</span><span>请写出你的完整应对话术（至少含：认同情绪 → 价值强调 → 促成动作）：</span></div>
+      <div class="scenario">
+        <strong>情景：</strong>顾客在试戴一款售价1280元的钛合金镜架，已经看了20分钟，表情有些纠结。他说："感觉挺好看的，就是有点贵……"
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="示例：'您的感觉很准，这款确实是我们的主打款……'  写出完整的一段销售话术"></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        <strong>✅ 参考答案要点：</strong><br><br>
+        ① <strong>认同情绪：</strong>"我完全理解，1280元确实是一笔投入，您考虑这么久说明很认真对待。"<br><br>
+        ② <strong>价值强调：</strong>"不过这款是纯钛材质，重量只有8克，佩戴一整天都不会有压迫感；而且钛合金耐腐蚀，用个3-5年完全没问题，平均每天不到1块钱……这比很多便宜的合金架长期下来反而更划算。"<br><br>
+        ③ <strong>促成动作（二选一法）：</strong>"您觉得黑色还是枪色更适合您的风格？我帮您包装起来。"
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">9</span><span>请写出成交后的收尾话术（包含：感谢 + 承诺 + 售后告知 + 邀请再访）：</span></div>
+      <div class="scenario">
+        <strong>情景：</strong>顾客配好镜、付完款，正准备离开时说："希望戴着没问题啊。"
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="写出成交后完整的收尾话术，体现专业和温度"></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        <strong>✅ 参考答案要点：</strong><br><br>
+        ① <strong>感谢：</strong>"感谢您选择我们！放心，您是我们的贵客，我会一直跟进的。"<br><br>
+        ② <strong>承诺：</strong>"这副眼镜我们已经严格按您的度数和瞳距制作，您放心佩戴。"<br><br>
+        ③ <strong>售后告知：</strong>"如果取镜后有不舒服，三天内随时回来免费调整；镜片也享受一年内正常使用划伤免费更换服务，这是我们的标准承诺。"<br><br>
+        ④ <strong>邀请再访：</strong>"欢迎带朋友来，我们常年有老顾客优惠活动。祝您用眼舒适！👋"
+      </div>
+    </div>
+  </div>
+
+  <!-- 综合应用 -->
+  <div class="section">
+    <h2>🌟 综合应用题</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">10</span><span>请写出"三步促成成交法"的完整流程，并各举一个眼镜门店的实际话术例子：</span></div>
+      <div class="answer-area">
+        <textarea style="min-height:130px" placeholder="第一步：……  话术举例：……&#10;第二步：……  话术举例：……&#10;第三步：……  话术举例：……"></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        <strong>✅ 参考答案：</strong><br><br>
+        <strong>第一步：识别购买信号</strong><br>
+        判断顾客已进入决策阶段（反复试戴、问价格、问售后）<br>
+        话术示例："您戴这款效果真的很好，周围人一眼就会注意到您气质的变化。"<br><br>
+        <strong>第二步：消除最后顾虑</strong><br>
+        主动问出最后一个障碍并针对性解决<br>
+        话术示例："您还有什么顾虑吗？价格、款式或者其他方面？我都可以帮您说明。"<br><br>
+        <strong>第三步：给出成交动作</strong><br>
+        用假设成交或二选一法推进成交<br>
+        话术示例："那我帮您配镜片吧，您近视度数是多少？散光有吗？"
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部导航 -->
+  <div class="nav-footer">
+    <a href="Day_25_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_26_学习内容.html" class="nav-btn">Day 26 学习内容 →</a>
+  </div>
+</div>
+
+
+
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card, .question, .q-block').forEach(function(card){
+    var hint = card.querySelector('.answer-hint, .answer-box');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<[^>]+>)?([A-Da-d正确错误])/i);
+    if(!m) return;
+    var correctRaw = m[1];
+    // 支持汉字"正确"/"错误"和字母A/B/C/D
+    var correct = correctRaw.toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var txt = li.textContent.trim();
+      var letter = (txt.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
