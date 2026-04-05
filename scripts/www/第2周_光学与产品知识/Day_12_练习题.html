@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Day 12 练习题</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}.header{background:linear-gradient(135deg,#e3f2fd,#bbdefb);padding:36px 30px;border-bottom:3px solid #2196F3;}.day-tag{background:#2196F3;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}.header h1{font-size:1.8em;color:#1565c0;margin-bottom:8px;}.container{max-width:860px;margin:30px auto;padding:0 20px;}.section-title{font-size:1.15em;color:#1565c0;font-weight:700;margin:32px 0 14px;padding-left:12px;border-left:4px solid #2196F3;}.question-card{background:white;border-radius:12px;padding:26px;margin-bottom:22px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}.q-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}.q-num{background:#2196F3;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9em;flex-shrink:0;}.q-type{background:#e3f2fd;color:#1565c0;padding:3px 12px;border-radius:12px;font-size:0.8em;font-weight:600;}.q-score{color:#999;font-size:0.82em;}.question-text{font-size:1em;color:#333;font-weight:600;line-height:1.6;margin-bottom:16px;}.options li{padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;margin-bottom:8px;font-size:0.93em;list-style:none;}.answer-area{width:100%;min-height:80px;border:2px solid #e0e0e0;border-radius:8px;padding:12px;font-family:inherit;font-size:0.93em;resize:vertical;}.answer-hint{background:#f9f9f9;border-left:3px solid #9E9E9E;padding:10px 14px;margin-top:12px;font-size:0.85em;color:#666;display:none;}.show-answer-btn{background:none;border:1px solid #9E9E9E;color:#666;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.82em;margin-top:10px;}.rx-box{background:#f5f5f5;border-radius:8px;padding:16px;margin:12px 0;font-size:0.9em;}.nav-footer{display:flex;justify-content:space-between;margin:30px 0 50px;}.nav-btn{background:#2196F3;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}.nav-btn.outline{background:white;color:#2196F3;border:2px solid #2196F3;}
+  /* interactive-options-type-a */
+  .options li { cursor: pointer; transition: all 0.2s; }
+  .options li:hover { border-color: #4CAF50 !important; background: #f1f8e9 !important; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .options li.answered    { pointer-events: none !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header"><span class="day-tag">📝 第2周 · Day 12 练习题</span><h1>验光处方解读 — 巩固测评</h1><div style="color:#555;">总分：100分</div></div>
+<div class="container">
+  <div class="section-title">选择题（每题10分，共30分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">1</div><span class="q-type">单选题</span><span class="q-score">10分</span></div><div class="question-text">处方单上"C: -1.50"代表什么意思？</div><ul class="options"><li>A. 近视150度</li><li>B. 远视150度</li><li>C. 散光150度</li><li>D. 老花150度</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：C。C代表柱镜（散光度数），-1.50表示150度散光。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">2</div><span class="q-type">单选题</span><span class="q-score">10分</span></div><div class="question-text">顾客处方有ADD +2.00，这意味着？</div><ul class="options"><li>A. 顾客有200度近视</li><li>B. 顾客有200度散光</li><li>C. 顾客需要老花附加度数+2.00，适合配渐进片</li><li>D. 顾客右眼比左眼好200度</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：C。ADD是老花附加度数，表示配渐进片时看近区域需要附加的正度数。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">3</div><span class="q-type">单选题</span><span class="q-score">10分</span></div><div class="question-text">顾客希望配一副渐进片，以下哪种镜框最合适？</div><ul class="options"><li>A. 镜框高度20mm的细框</li><li>B. 镜框高度25mm的半框</li><li>C. 镜框高度32mm的全框</li><li>D. 无框眼镜</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：C。渐进片需要镜框高度≥28mm，以保证看近区域有足够空间。无框高度数也不适合。</div></div>
+
+  <div class="section-title">处方解读题（40分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">4</div><span class="q-type">处方解读</span><span class="q-score">40分</span></div>
+  <div class="rx-box">
+    <strong>处方单：</strong><br>
+    R（右眼）：S: -5.50 | C: -0.50 | A: 90<br>
+    L（左眼）：S: -6.00 | C: -0.75 | A: 85<br>
+    PD: 65mm | ADD: -
+  </div>
+  <div class="question-text">请根据以上处方单回答：<br>① 该顾客的视力情况（近视/远视/散光情况）<br>② 推荐什么折射率的镜片？为什么？<br>③ 选择镜架时需要注意什么？</div>
+  <textarea class="answer-area" style="min-height:120px;" placeholder="请写出解读与推荐……"></textarea>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 参考答案：①右眼近视550度+散光50度，左眼近视600度+散光75度，属于高度近视，散光程度较轻②推荐1.74折射率（度数600度，属高度近视，1.74可以将镜片厚度压到最低，提升舒适度和美观）③高度近视注意：建议选全框眼镜（无框打孔对高度数镜片承重差）；镜框尺寸不宜过大（越大镜片边缘越厚）</div></div>
+
+  <div class="section-title">实操任务（30分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">5</div><span class="q-type">实操任务</span><span class="q-score">30分</span></div>
+  <div class="question-text">向带教师傅展示：找到一张真实的处方单（或师傅提供的示例），读出每项数据的含义，并给出配镜建议（折射率 + 镜框注意事项）。</div>
+  <div style="background:#fff8e1;border-radius:8px;padding:12px;margin-top:10px;border-left:4px solid #FF9800;font-size:0.88em;color:#555;">师傅评分：数据读取正确（10分）+ 度数判断正确（10分）+ 推荐合理（10分）= 30分</div></div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_12_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_13_学习内容.html">Day 13 →</a>
+  </div>
+</div>
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card').forEach(function(card){
+    var hint = card.querySelector('.answer-hint');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    // 兼容两种格式：
+    // 1. 正确答案：<strong>B</strong>
+    // 2. 正确答案：B。或 正确答案：B（错误）
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<strong>)?([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var letter = (li.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
