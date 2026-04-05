@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 02 | 职业形象与服务理念</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', Arial, sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); padding: 40px 30px; border-bottom: 3px solid #4CAF50; }
+  .header .day-tag { background: #4CAF50; color: white; display: inline-block; padding: 4px 16px; border-radius: 20px; font-size: 0.85em; margin-bottom: 12px; }
+  .header h1 { font-size: 2em; color: #2e7d32; margin-bottom: 8px; }
+  .header .subtitle { color: #555; font-size: 1em; }
+  .meta-bar { background: white; padding: 14px 30px; display: flex; gap: 30px; border-bottom: 1px solid #eee; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 0.88em; color: #666; }
+  .meta-item strong { color: #333; }
+  .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+  .objective-box { background: #e8f5e9; border-left: 5px solid #4CAF50; border-radius: 8px; padding: 20px 24px; margin-bottom: 30px; }
+  .objective-box h3 { color: #2e7d32; margin-bottom: 12px; font-size: 1.1em; }
+  .objective-box ul { padding-left: 18px; }
+  .objective-box li { margin-bottom: 8px; font-size: 0.95em; line-height: 1.6; }
+  .section { background: white; border-radius: 12px; padding: 28px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+  .section h2 { font-size: 1.3em; color: #2e7d32; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 2px solid #e8f5e9; }
+  .section h3 { font-size: 1.05em; color: #333; margin: 18px 0 10px; }
+  .section p { line-height: 1.8; color: #555; margin-bottom: 12px; font-size: 0.95em; }
+  .section ul, .section ol { padding-left: 20px; margin-bottom: 14px; }
+  .section li { line-height: 1.8; color: #555; font-size: 0.95em; margin-bottom: 4px; }
+  .highlight-box { background: #fff8e1; border: 1px solid #FFD54F; border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
+  .highlight-box .label { color: #F57F17; font-weight: 700; font-size: 0.85em; margin-bottom: 6px; }
+  .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .do-box { background: #e8f5e9; border-radius: 10px; padding: 16px; }
+  .dont-box { background: #ffebee; border-radius: 10px; padding: 16px; }
+  .do-box h4 { color: #2e7d32; margin-bottom: 10px; }
+  .dont-box h4 { color: #c62828; margin-bottom: 10px; }
+  .do-box li, .dont-box li { font-size: 0.88em; line-height: 1.6; margin-bottom: 4px; }
+  .image-standard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 16px 0; }
+  .image-item { background: #f5f5f5; border-radius: 10px; padding: 16px; text-align: center; }
+  .image-item .icon { font-size: 2em; margin-bottom: 8px; }
+  .image-item .title { font-size: 0.88em; font-weight: 700; margin-bottom: 6px; }
+  .image-item .desc { font-size: 0.78em; color: #666; line-height: 1.5; }
+  .service-step { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
+  .step-num { background: #4CAF50; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85em; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+  .step-content { flex: 1; }
+  .step-content .step-title { font-weight: 700; color: #333; margin-bottom: 4px; }
+  .step-content .step-desc { font-size: 0.9em; color: #555; line-height: 1.6; }
+  .summary-box { background: linear-gradient(135deg, #e8f5e9, #f1f8e9); border-radius: 12px; padding: 24px; margin-top: 30px; }
+  .summary-box h3 { color: #2e7d32; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 18px; }
+  .summary-box li { margin-bottom: 8px; font-size: 0.95em; }
+  .nav-footer { display: flex; justify-content: space-between; margin-top: 30px; margin-bottom: 40px; }
+  .nav-btn { background: #4CAF50; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 0.9em; }
+  .nav-btn.outline { background: white; color: #4CAF50; border: 2px solid #4CAF50; }
+  @media (max-width: 600px) { .do-dont, .image-standard { grid-template-columns: 1fr; } }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="day-tag">📅 第1周 · Day 02</span>
+  <h1>👔 职业形象塑造与服务理念</h1>
+  <div class="subtitle">模块：文化 Culture | 今日主题：外在形象标准 · 服务心态 · 顾客体验</div>
+</div>
+
+<div class="meta-bar">
+  <div class="meta-item">⏱ <strong>建议学习时长：</strong>2小时</div>
+  <div class="meta-item">🎯 <strong>学习方式：</strong>阅读 + 镜前练习 + 实践</div>
+  <div class="meta-item">📝 <strong>配套练习：</strong>Day_02_练习题.html</div>
+</div>
+
+<div class="container">
+
+  <div class="objective-box">
+    <h3>🎯 今日学习目标</h3>
+    <ul>
+      <li>掌握门店员工职业形象的具体标准（仪容、仪表、仪态）</li>
+      <li>理解"服务不只是态度，更是能力"的理念</li>
+      <li>能够描述什么是让顾客感到"宾至如归"的服务体验</li>
+      <li>了解服务的5个关键时刻</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>👔 第一部分：职业形象标准</h2>
+    <p>形象是无声的名片。顾客进店看到你的第一眼，就已经开始了对这家门店的判断。<strong>专业、整洁、亲切</strong>的形象，能让顾客在第一秒产生信任感。</p>
+
+    <div class="image-standard">
+      <div class="image-item">
+        <div class="icon">💆</div>
+        <div class="title">头发发型</div>
+        <div class="desc">整洁干净，不遮眼，长发束起，男员工不留奇异发型</div>
+      </div>
+      <div class="image-item">
+        <div class="icon">👗</div>
+        <div class="title">工装穿着</div>
+        <div class="desc">统一工装，保持平整，工牌佩戴于左胸，不私自改动</div>
+      </div>
+      <div class="image-item">
+        <div class="icon">💄</div>
+        <div class="title">妆容/面容</div>
+        <div class="desc">女员工淡妆为主，男员工面容整洁，禁止浓妆或奇异妆容</div>
+      </div>
+      <div class="image-item">
+        <div class="icon">👟</div>
+        <div class="title">鞋子/配饰</div>
+        <div class="desc">干净整洁的工作鞋，避免夸张饰品，手表/手链低调简洁</div>
+      </div>
+    </div>
+
+    <h3>🧍 仪态标准</h3>
+    <div class="do-dont">
+      <div class="do-box">
+        <h4>✅ 应该做到</h4>
+        <ul>
+          <li>站立时挺胸抬头，双手自然交叠于前</li>
+          <li>与顾客交流时保持微笑，眼神专注</li>
+          <li>走路步伐适中，不奔跑不拖拉</li>
+          <li>引导顾客时手掌向上指示方向</li>
+          <li>坐姿端正，不跷二郎腿</li>
+        </ul>
+      </div>
+      <div class="dont-box">
+        <h4>❌ 需要避免</h4>
+        <ul>
+          <li>倚靠墙壁或陈列柜</li>
+          <li>在店内大声喧哗、嬉闹</li>
+          <li>在顾客面前玩手机</li>
+          <li>与同事长时间聊天忽视顾客</li>
+          <li>双手抱胸或插兜与顾客交流</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>❤️ 第二部分：服务理念 — 什么是好服务</h2>
+    <p>很多人以为"好服务"就是笑脸迎人、态度好。这固然重要，但还不够。</p>
+    <p><strong>真正的好服务 = 读懂顾客需求 + 提供专业解决方案 + 让顾客感受到被重视</strong></p>
+
+    <div class="highlight-box">
+      <div class="label">💡 服务的三个层次</div>
+      <ol style="padding-left:18px; margin-top:8px;">
+        <li style="margin-bottom:8px;"><strong>基础服务</strong>：礼貌、及时、准确（这是最低要求，做不到顾客会不满）</li>
+        <li style="margin-bottom:8px;"><strong>满意服务</strong>：超出顾客预期，解决了他真正的问题</li>
+        <li style="margin-bottom:8px;"><strong>感动服务</strong>：让顾客感受到被当作"人"而不是"消费者"对待，产生情感连接</li>
+      </ol>
+    </div>
+
+    <h3>🌟 5个关键服务时刻</h3>
+    <div class="service-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">第一印象（顾客进门3秒内）</div>
+        <div class="step-desc">顾客刚走进门就开始判断这家店。微笑、点头、主动问候——这3秒决定了后续体验的基调。</div>
+      </div>
+    </div>
+    <div class="service-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">需求了解（问出真实需求）</div>
+        <div class="step-desc">不要急着介绍产品，先问问顾客的情况：为谁配镜？视力状况如何？有没有特别的需求？听懂了再推荐，才是专业。</div>
+      </div>
+    </div>
+    <div class="service-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">专业建议（帮顾客做对选择）</div>
+        <div class="step-desc">根据顾客需求，诚实地推荐最适合的方案，而不是最贵的。顾客感受到你在"帮他"，不是"卖给他"。</div>
+      </div>
+    </div>
+    <div class="service-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <div class="step-title">等候体验（等待中也是服务）</div>
+        <div class="step-desc">验光、配镜需要时间。这段等待时间要主动关注顾客：提供饮水、介绍保养知识、聊聊视力健康话题。</div>
+      </div>
+    </div>
+    <div class="service-step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <div class="step-title">送别服务（离店也要留下美好）</div>
+        <div class="step-desc">取镜时完整讲解保养方法，笑着送别，邀请复购和推荐。"最后一步"决定了顾客的整体感受和是否愿意回来。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🪞 第三部分：今日实践 — 镜前演练</h2>
+    <p>带教师傅将带你进行以下练习：</p>
+    <ol>
+      <li style="margin-bottom:10px;"><strong>站姿练习</strong>：对着门店镜子练习标准站姿，师傅给出反馈</li>
+      <li style="margin-bottom:10px;"><strong>微笑练习</strong>：用"笑眼不笑嘴"的方式，练习自然、真诚的微笑</li>
+      <li style="margin-bottom:10px;"><strong>问候语练习</strong>：练习标准迎客语："您好，欢迎光临！请问今天有什么可以帮到您的？"</li>
+      <li style="margin-bottom:10px;"><strong>引导手势</strong>：练习向顾客示意就座/展示商品的规范手势</li>
+    </ol>
+  </div>
+
+  <div class="summary-box">
+    <h3>📝 今日要点总结</h3>
+    <ul>
+      <li>✅ 职业形象标准：头发、工装、妆容、仪态四个维度，专业整洁</li>
+      <li>✅ 服务三层次：基础服务→满意服务→感动服务</li>
+      <li>✅ 5个关键服务时刻：第一印象、需求了解、专业建议、等候体验、送别服务</li>
+      <li>✅ 好服务不只是态度，更要读懂需求、提供真正有帮助的解决方案</li>
+    </ul>
+    <p style="margin-top:14px; color:#2e7d32; font-weight:600;">🎯 今日任务：在师傅面前完整练习一次迎客问候语和规范站姿</p>
+  </div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_01_学习内容.html">← Day 01</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_02_练习题.html">今日练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
