@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 16 | 镜架调整与整形技术</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}
+  .header{background:linear-gradient(135deg,#fff3e0,#ffe0b2);padding:40px 30px;border-bottom:3px solid #FF9800;}
+  .day-tag{background:#FF9800;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}
+  .header h1{font-size:2em;color:#e65100;margin-bottom:8px;}
+  .container{max-width:900px;margin:30px auto;padding:0 20px;}
+  .objective-box{background:#fff3e0;border-left:5px solid #FF9800;border-radius:8px;padding:20px 24px;margin-bottom:30px;}
+  .objective-box h3{color:#e65100;margin-bottom:10px;}
+  .objective-box li{margin-bottom:6px;font-size:0.95em;}
+  .section{background:white;border-radius:12px;padding:28px;margin-bottom:24px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+  .section h2{font-size:1.3em;color:#e65100;margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid #fff3e0;}
+  .section h3{font-size:1.05em;color:#333;margin:18px 0 10px;}
+  .section p{line-height:1.8;color:#555;margin-bottom:12px;font-size:0.95em;}
+  .section ul,.section ol{padding-left:20px;margin-bottom:14px;}
+  .section li{line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px;}
+  .problem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0;}
+  .problem-card{background:#f5f5f5;border-radius:10px;padding:16px;border-left:4px solid #FF9800;}
+  .problem-card h4{color:#e65100;margin-bottom:8px;}
+  .problem-card .symptom{font-size:0.85em;color:#888;margin-bottom:8px;}
+  .problem-card .fix{font-size:0.88em;color:#333;line-height:1.6;}
+  .tools-box{background:#e3f2fd;border-radius:10px;padding:18px;margin:16px 0;border-left:4px solid #2196F3;}
+  .tools-box h4{color:#1565c0;margin-bottom:10px;}
+  .tools-box li{font-size:0.9em;line-height:1.7;margin-bottom:4px;}
+  .warning-box{background:#ffebee;border-left:4px solid #f44336;border-radius:8px;padding:16px 20px;margin:16px 0;}
+  .warning-box .label{color:#c62828;font-weight:700;margin-bottom:8px;}
+  .step-list{margin:16px 0;}
+  .step-item{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
+  .step-num{background:#FF9800;color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.82em;flex-shrink:0;margin-top:2px;}
+  .step-content .title{font-weight:700;color:#333;margin-bottom:4px;font-size:0.95em;}
+  .step-content .desc{font-size:0.88em;color:#555;line-height:1.6;}
+  .summary-box{background:linear-gradient(135deg,#fff3e0,#fff8e1);border-radius:12px;padding:24px;margin-top:30px;}
+  .summary-box h3{color:#e65100;margin-bottom:14px;}
+  .summary-box li{margin-bottom:8px;font-size:0.95em;}
+  .nav-footer{display:flex;justify-content:space-between;margin:30px 0 40px;}
+  .nav-btn{background:#FF9800;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}
+  .nav-btn.outline{background:white;color:#FF9800;border:2px solid #FF9800;}
+  @media(max-width:600px){.problem-grid{grid-template-columns:1fr;}}
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="day-tag">📅 第3周 · Day 16</span>
+  <h1>🔧 镜架调整与整形技术</h1>
+  <div class="subtitle">模块：技能 Skills | 今日主题：常见配戴问题 · 调整工具 · 整形步骤</div>
+</div>
+<div class="container">
+  <div class="objective-box">
+    <h3>🎯 今日学习目标</h3>
+    <ul>
+      <li>能识别6种常见的镜架配戴问题</li>
+      <li>掌握主要调整工具的名称和使用场景</li>
+      <li>能在师傅指导下完成基础的鼻托调整和腿弯调整</li>
+      <li>了解不同材质镜架的调整注意事项</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🛠️ 第一部分：调整工具认知</h2>
+    <div class="tools-box">
+      <h4>🔧 常用调整工具</h4>
+      <ul>
+        <li><strong>镜架调整钳</strong>：专用钳具，分鼻托调整钳、腿弯调整钳、框形调整钳等类型</li>
+        <li><strong>螺丝刀（眼镜专用）</strong>：紧固松动的螺丝，型号有十字和一字</li>
+        <li><strong>加热机/热风枪</strong>：加热板材、TR-90镜架，使其软化后方可调整</li>
+        <li><strong>超声波清洗机</strong>：清洗镜架、去除污垢和皮肤油脂</li>
+        <li><strong>镜片检测仪（焦度计）</strong>：检测镜片度数是否与处方一致</li>
+      </ul>
+    </div>
+    <div class="warning-box">
+      <div class="label">⚠️ 调整前必看</div>
+      <ul style="padding-left:18px;">
+        <li>板材/TR-90镜架必须加热后才能调整，不可生硬弯折，否则镜架断裂</li>
+        <li>金属镜架可直接用钳具调整，但用力要均匀缓慢</li>
+        <li>调整前先询问顾客哪里不舒服，对症调整</li>
+        <li>新手必须在师傅监督下操作，不可独立调整贵重镜架</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🔍 第二部分：常见配戴问题与调整方法</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <h4>😣 镜架下滑（鼻托滑）</h4>
+        <div class="symptom">症状：眼镜往下滑，经常需要推上去</div>
+        <div class="fix">调整：收紧两侧鼻托，使鼻托与鼻翼贴合更紧；或调整腿弯增加耳后摩擦</div>
+      </div>
+      <div class="problem-card">
+        <h4>😖 单侧压鼻（鼻托偏）</h4>
+        <div class="symptom">症状：一侧鼻梁酸痛，受力不均</div>
+        <div class="fix">调整：检查两侧鼻托高度是否对称，调整低的一侧鼻托向上</div>
+      </div>
+      <div class="problem-card">
+        <h4>👂 耳后压痛</h4>
+        <div class="symptom">症状：戴一段时间后耳后、耳上方疼痛</div>
+        <div class="fix">调整：调整腿弯位置，使弯曲点对应耳后软组织，减少硬性压迫</div>
+      </div>
+      <div class="problem-card">
+        <h4>🔲 镜面歪斜（左右不对称）</h4>
+        <div class="symptom">症状：镜面水平不一，一高一低</div>
+        <div class="fix">调整：调整铰链角度使两腿等高；对照顾客面部调整至水平</div>
+      </div>
+      <div class="problem-card">
+        <h4>😒 镜框太宽（松动）</h4>
+        <div class="symptom">症状：眼镜戴上晃动，不稳固</div>
+        <div class="fix">调整：收紧镜腿（向内调），适当减小张开角度</div>
+      </div>
+      <div class="problem-card">
+        <h4>😣 镜框夹头（太紧）</h4>
+        <div class="symptom">症状：戴上后两侧太紧，头部感到压迫</div>
+        <div class="fix">调整：向外展开镜腿，增大张开角度，注意均匀调整</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>👨‍🔧 第三部分：标准调整流程</h2>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="title">询问症状</div>
+          <div class="desc">"您哪里戴着不舒服？" 明确是下滑、压鼻、歪斜还是太紧/太松。</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="title">观察诊断</div>
+          <div class="desc">让顾客戴上眼镜，观察从正面、侧面的状态，找出问题所在。</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="title">加热（板材/TR-90）</div>
+          <div class="desc">板材镜架放入加热机约30秒使其软化，金属镜架跳过此步骤。</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="title">实施调整</div>
+          <div class="desc">使用专用钳具缓慢调整，小幅度多次调整，不可一次用力过猛。</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="title">试戴确认</div>
+          <div class="desc">让顾客戴上，询问是否有改善："现在感觉怎么样？还有哪里不舒服？"</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <div class="title">清洁归还</div>
+          <div class="desc">调整完毕后用超声波清洗或手动擦拭，双手递还给顾客，说明保养建议。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>📝 今日要点总结</h3>
+    <ul>
+      <li>✅ 板材/TR-90必须加热后调整，金属架可直接用钳</li>
+      <li>✅ 6种常见问题：下滑/压鼻偏/耳后痛/歪斜/太宽/太紧</li>
+      <li>✅ 调整流程：询问→观察→加热（如需）→调整→试戴确认→清洁归还</li>
+      <li>✅ 小幅度多次调整，不可一次用力过大</li>
+    </ul>
+    <p style="margin-top:14px; color:#e65100; font-weight:600;">🎯 今日任务：在师傅指导下，调整一副镜架的鼻托（解决下滑问题），完成全流程</p>
+  </div>
+
+    <div class="section">
+    <h2>🔧 常见镜架问题与解决方案</h2>
+    <table class="structure-table" style="width:100%;border-collapse:collapse;margin:14px 0">
+      <thead><tr style="background:#FF9800;color:#fff"><th style="padding:10px 14px;text-align:left">问题</th><th style="padding:10px 14px;text-align:left">原因</th><th style="padding:10px 14px;text-align:left">解决方法</th></tr></thead>
+      <tbody>
+        <tr><td style="padding:10px 14px;border-bottom:1px solid #ffe0b2">镜架歪斜</td><td style="padding:10px 14px;border-bottom:1px solid #ffe0b2">两腿不对称</td><td style="padding:10px 14px;border-bottom:1px solid #ffe0b2">调整镜腿张开角度至对称</td></tr>
+        <tr style="background:#fff3e0"><td style="padding:10px 14px;border-bottom:1px solid #ffe0b2">鼻梁压鼻</td><td style="padding:10px 14px;border-bottom:1px solid #ffe0b2">鼻托间距过窄</td><td style="padding:10px 14px;border-bottom:1px solid #ffe0b2">用专用工具调宽鼻托间距</td></tr>
+        <tr><td style="padding:10px 14px;border-bottom:1px solid #ffe0b2">镜腿夹耳</td><td style="padding:10px 14px;border-bottom:1px solid #ffe0b2">镜腿弯曲点太前</td><td style="padding:10px 14px;border-bottom:1px solid #ffe0b2">加热后将弯曲点向后移</td></tr>
+        <tr style="background:#fff3e0"><td style="padding:10px 14px">镜片松动</td><td style="padding:10px 14px">螺丝松弛</td><td style="padding:10px 14px">用眼镜螺丝刀拧紧，或更换新螺丝</td></tr>
+      </tbody>
+    </table>
+    <div class="tip-box" style="background:#fff3e0;border-left:4px solid #FF9800;">
+      <div class="label" style="color:#e65100;">⚠️ 材质注意</div>
+      <p>板材（醋酸纤维）镜架：需用热风枪加热软化后调整，不可冷折，否则容易断裂。金属镜架：可直接调整，力度要小，分多次完成，避免突然用力折断。</p>
+    </div>
+  </div>
+
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_15_学习内容.html">← Day 15</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_16_练习题.html">今日练习题 →</a>
+  </div>
+</div>
+</body>
+</html>
