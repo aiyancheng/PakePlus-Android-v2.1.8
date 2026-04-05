@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 33 练习题 - 制单规范与取镜服务</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; margin-bottom: 8px; }
+  .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 18px; color: #333; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #11998e; }
+  .q-block { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px dashed #e8ecf0; }
+  .q-block:last-child { border-bottom: none; }
+  .q-num { display: inline-block; background: #11998e; color: white; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-size: 13px; margin-right: 8px; }
+  .q-title { font-size: 15px; color: #333; margin-bottom: 16px; line-height: 1.7; display: flex; align-items: flex-start; gap: 8px; }
+  .options { padding-left: 36px; }
+  
+  .option:hover { border-color: #11998e; background: #f0fdf9; }
+  .option input { margin-top: 2px; accent-color: #11998e; }
+  .option label { font-size: 14px; color: #555; cursor: pointer; line-height: 1.6; }
+  .answer-hint { display: none; border-radius: 8px; padding: 14px 18px; margin-top: 12px; border: 1px solid #a7f3d0; background: #f0fdf9; }
+  .answer-box { background: #f0fdf9; border: 1px solid #a7f3d0; border-radius: 8px; padding: 14px 18px; margin-top: 12px; display: none; }
+  .answer-box .label { color: #065f46; font-weight: bold; font-size: 13px; margin-bottom: 6px; }
+  .answer-box p { font-size: 14px; color: #444; line-height: 1.7; }
+  .show-answer-btn { background: none; border: 1px solid #11998e; color: #11998e; padding: 6px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; margin-top: 10px; }
+  .textarea-box { width: 100%; margin-top: 8px; padding: 12px 16px; border: 1px solid #e8ecf0; border-radius: 8px; font-size: 14px; font-family: 'Microsoft YaHei', sans-serif; resize: vertical; min-height: 100px; color: #444; line-height: 1.7; }
+  .submit-btn { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border: none; padding: 14px 48px; border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; }
+  .nav-bar { background: white; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e8ecf0; margin-top: 30px; }
+  .nav-btn { display: inline-block; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; }
+  .nav-btn.prev { background: #f0fdf9; color: #11998e; border: 1px solid #a7f3d0; }
+  .nav-btn.next { background: #11998e; color: white; }
+
+  
+
+
+  /* ── 交互式选项（Day01标准） ── */
+  .options { list-style: none; padding: 0; margin: 12px 0 0 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-size: 0.93em; transition: all 0.2s; line-height: 1.6; }
+  .options li:hover:not(.answered) { border-color: var(--accent, #4CAF50); background: #f1f8e9; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events: none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events: none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
+  .options li.answered    { pointer-events: none !important; cursor: default !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="week-badge">📝 第5周 · 练习题</div>
+  <h1>Day 33 练习题 · 制单规范与取镜服务</h1>
+</div>
+<div class="container">
+  <div class="card">
+    <h2>🧠 单选题</h2>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">1</span>加工单中，有散光（CYL有数值）时，以下哪个字段也必须同时填写？</div>
+          <ul class="options">
+      <li>A. ADD（近附加度数）</li>
+      <li>B. AXIS（散光轴位）</li>
+      <li>C. VA（视力）</li>
+      <li>D. PH（孔径高度）</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a1')">查看答案</button>
+      <div class="answer-hint" id="a1"><div class="label">✅ 正确答案：B</div><p>散光镜片必须按照特定方向（轴位）加工，否则散光无法矫正。有CYL数值时，AXIS轴位是必填项。如果只填了散光度数但没有轴位，加工师无法加工，或会加工出错误方向的散光镜片。</p></div>
+    </div>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">2</span>取镜时，发现质检不合格，正确的处理方式是？</div>
+          <ul class="options">
+      <li>A. 告诉顾客"有一点小问题，将就戴吧"</li>
+      <li>B. 先交给顾客，让顾客自己发现再来投诉</li>
+      <li>C. 直接返工，通知顾客推迟取镜时间并致歉</li>
+      <li>D. 让顾客降低期望，接受现有的成品</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a2')">查看答案</button>
+      <div class="answer-hint" id="a2"><div class="label">✅ 正确答案：C</div><p>质量不合格的产品绝不能交付。正确做法是立即安排返工，主动联系顾客说明情况、诚恳致歉，并给出新的取镜时间。这样处理反而能提升顾客对门店质量把控的信任感。</p></div>
+    </div>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">3</span>递眼镜给顾客时，以下哪种方式最规范？</div>
+          <ul class="options">
+      <li>A. 放在柜台上让顾客自己拿</li>
+      <li>B. 先用干净的绒布擦拭，双手递给顾客</li>
+      <li>C. 单手递出，动作要快，节省时间</li>
+      <li>D. 直接把眼镜袋递给顾客</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a3')">查看答案</button>
+      <div class="answer-hint" id="a3"><div class="label">✅ 正确答案：B</div><p>双手递物是服务礼仪的基本要求，体现尊重。先用绒布擦拭是为了让顾客看到干净整洁的产品，留下好印象。这个细节虽小，但能让顾客感受到被重视和专业对待。</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>✍️ 实操题</h2>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">4</span>挑错题：以下加工单中有3处明显错误，请找出并说明原因。<br><br>
+        右眼（R）：SPH -4.50，CYL -1.00（无AXIS数据）<br>
+        左眼（L）：SPH -3.25，CYL +0.50，AXIS 90°<br>
+        瞳距PD：640<br>
+        联系电话：（空白）<br>
+        镜片：1.67防蓝光
+      </div>
+      <textarea class="textarea-box" placeholder="找出3处错误，并说明每处错误的影响和正确做法..."></textarea>
+      <button class="show-answer-btn" onclick="toggleAnswer('a4')">查看参考答案</button>
+      <div class="answer-hint" id="a4">
+        <div class="label">📌 参考答案</div>
+        <p><strong>错误1：</strong>右眼有散光（CYL -1.00）但AXIS（轴位）没有填写。影响：散光镜片无法定向加工，会导致散光矫正无效。</p>
+        <p style="margin-top:6px;"><strong>错误2：</strong>CYL通常写负数（表示近视散光），左眼填写了+0.50，需核实是否为正视散光或填写错误，应与验光单核对确认。</p>
+        <p style="margin-top:6px;"><strong>错误3：</strong>联系电话为空白。影响：眼镜加工完成后无法通知顾客取镜。必须填写有效联系方式。（PD填640也有争议，通常应为64mm，需确认是单眼还是双眼瞳距及数值单位。）</p>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">5</span>写出完整的取镜服务话术（从顾客进门到送顾客离开的完整台词）。</div>
+      <textarea class="textarea-box" style="min-height:140px;" placeholder="请按照取镜6步流程，写出每一步的话术..."></textarea>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin: 20px 0 30px;">
+    <button class="submit-btn">提交练习</button>
+  </div>
+</div>
+<div class="nav-bar">
+  <a href="Day_33_学习内容.html" class="nav-btn prev">← 返回学习内容</a>
+    <a href="../index.html" class="nav-btn" style="background:#f0fdf9;color:#11998e;border:1px solid #a7f3d0;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:14px;">🏠 首页</a>
+    
+  <span style="color:#999;font-size:13px;">Day 33 练习题</span>
+  <a href="Day_34_学习内容.html" class="nav-btn next">Day 34 →</a>
+</div>
+<script>
+function toggleAnswer(id) {
+  const box = document.getElementById(id);
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+</script>
+
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card, .question, .q-block').forEach(function(card){
+    var hint = card.querySelector('.answer-hint, .answer-box');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<[^>]+>)?([A-Da-d正确错误])/i);
+    if(!m) return;
+    var correctRaw = m[1];
+    // 支持汉字"正确"/"错误"和字母A/B/C/D
+    var correct = correctRaw.toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var txt = li.textContent.trim();
+      var letter = (txt.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
