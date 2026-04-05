@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 37 练习题 — 价格异议处理</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', Arial, sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 30px 40px; }
+  .header .day-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 16px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 1.7em; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 14px; }
+  .container { max-width: 860px; margin: 30px auto; padding: 0 20px; }
+  .intro-box { background: #e8fff3; border-left: 5px solid #43e97b; border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; font-size: 0.93em; line-height: 1.7; }
+  .section-title { font-size: 1.1em; color: #1b5e20; font-weight: 700; margin: 28px 0 12px; padding-left: 12px; border-left: 4px solid #43e97b; }
+  .question-card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+  .q-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .q-num { background: #43e97b; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9em; flex-shrink: 0; }
+  .q-type { background: #e8fff3; color: #1b5e20; padding: 3px 12px; border-radius: 12px; font-size: 0.8em; font-weight: 600; }
+  .question-text { font-size: 1em; color: #333; font-weight: 600; line-height: 1.6; margin-bottom: 14px; }
+  .options { list-style: none; padding: 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; font-size: 0.93em; }
+  .answer-area { width: 100%; min-height: 100px; border: 2px solid #e0e0e0; border-radius: 8px; padding: 12px; font-family: inherit; font-size: 0.93em; resize: vertical; outline: none; }
+  .answer-area:focus { border-color: #43e97b; }
+  .show-answer-btn { background: none; border: 1px solid #9E9E9E; color: #666; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.82em; margin-top: 10px; }
+  .show-answer-btn:hover { background: #f5f5f5; }
+  .answer-hint { background: #f0fff8; border-left: 3px solid #43e97b; padding: 12px 16px; margin-top: 12px; font-size: 0.88em; color: #444; border-radius: 0 6px 6px 0; display: none; line-height: 1.7; }
+  .scenario-box { background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 14px 18px; margin-bottom: 14px; font-size: 0.93em; line-height: 1.8; border-left: 4px solid #ffb300; }
+  .scenario-box .scene-label { color: #e65100; font-weight: 700; margin-bottom: 6px; }
+  .nav-footer { display: flex; justify-content: space-between; margin: 30px 0 50px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #43e97b, #38f9d7); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #43e97b; border: 2px solid #43e97b; }
+  .nav-btn.outline:hover { background: #f0fff8; }
+
+  /* interactive-options-type-a */
+  .options li { cursor: pointer; transition: all 0.2s; }
+  .options li:hover { border-color: #4CAF50 !important; background: #f1f8e9 !important; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .options li.answered    { pointer-events: none !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="day-tag">📝 第6周 · Day 37 练习题</span>
+  <h1>价格异议处理与成交技巧 — 巩固测评</h1>
+  <div class="subtitle">总分：100分 | 建议完成时间：20分钟</div>
+</div>
+
+<div class="container">
+  <div class="intro-box">
+    💡 <strong>做题提示：</strong>价格异议是每天都会遇到的场景，每道题都值得认真思考。完成后对照答案，找出今天实战中可以改进的话术。
+  </div>
+
+  <div class="section-title">第一部分：单选题（每题 10 分，共 50 分）</div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">1</div><span class="q-type">单选题</span></div>
+    <div class="question-text">客户说"太贵了"，最常见的真实原因是？</div>
+    <ul class="options">
+      <li>A. 客户真的没有钱</li>
+      <li>B. 感知价值不足或习惯性还价</li>
+      <li>C. 客户不喜欢这家门店</li>
+      <li>D. 产品质量有问题</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：根据销售数据分析，约70%客户说"太贵了"并非因为真的买不起，而是：① 感知价值不足（觉得产品不值这个价）② 习惯性还价（试探能否获得更好条件）。只有约30%是真实预算不足。这意味着大多数时候我们只需要提升客户的感知价值，而不必急于降价。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">2</div><span class="q-type">单选题</span></div>
+    <div class="question-text">"这副眼镜用5年，每天才花不到1块钱"属于哪种异议处理技巧？</div>
+    <ul class="options">
+      <li>A. 对比引导法</li>
+      <li>B. 竞品对比法</li>
+      <li>C. 拆分成本法</li>
+      <li>D. 降档推荐法</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：拆分成本法是将总价除以使用时长（年/月/天），让客户看到"小数字"，从而降低价格的心理门槛。例如1800元眼镜使用5年 = 每天约1元。这个技巧对于决策金额较大的耐用品特别有效。要注意使用时要先确认客户认可这款产品，否则会让客户觉得在被迫说服。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">3</div><span class="q-type">单选题</span></div>
+    <div class="question-text">"您是选金色镜框还是黑色镜框？"这句话使用的成交技巧是？</div>
+    <ul class="options">
+      <li>A. 假设成交法</li>
+      <li>B. 二择一法</li>
+      <li>C. 紧迫感法</li>
+      <li>D. 关键人物法</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：二择一法是将"买不买"的问题转变为"选哪个"的问题，绕过客户是否购买的决策点，直接进入"选哪个"的具体决策。两个选项对你来说都是成功的结果。这个技巧在客户基本认可产品但迟迟不下决定时最有效，使用时要自然，不能让客户感到被操控。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">4</div><span class="q-type">单选题</span></div>
+    <div class="question-text">客户预算确实有限，无法承受推荐款，正确做法是？</div>
+    <ul class="options">
+      <li>A. 继续坚持推原来的产品</li>
+      <li>B. 告知店里没有更便宜的了</li>
+      <li>C. 诚恳推荐更实惠的方案，满足客户基本需求</li>
+      <li>D. 让客户回家考虑后再来</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：真实预算不足的客户如果得到尊重和帮助，往往会成为忠实回头客，还会带来转介绍。A选项会让客户感到压力最终离开；B可能是谎话；D让客户离开，很可能再也不回来。正确做法是降档推荐法——诚恳地告诉客户"在您的预算范围内，这款性价比最高"，让客户感到被尊重。</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">5</div><span class="q-type">单选题</span></div>
+    <div class="question-text">以下哪种成交行为是错误的？</div>
+    <ul class="options">
+      <li>A. 假设成交，直接填写工单</li>
+      <li>B. 给客户两个选项让他选择</li>
+      <li>C. 为了成交，承诺超出门店政策的退款条件</li>
+      <li>D. 增加赠品提升价值感</li>
+    </ul>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：超出门店政策的承诺是极其危险的行为。一旦承诺无法兑现，轻则客户投诉，重则门店承担损失，员工也会受到处罚。当你的权限无法满足客户需求时，应该说"这件事我需要请示店长，给您一个准确答复"，而不是随口承诺。A、B、D都是合法有效的成交技巧。</div>
+  </div>
+
+  <div class="section-title">第二部分：情景应对题（每题 25 分，共 50 分）</div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">6</div><span class="q-type">情景应对</span></div>
+    <div class="scenario-box">
+      <div class="scene-label">📍 情景：高度近视客户的价格异议</div>
+      <p>客户张先生，近视800度，来店配眼镜。你推荐了一款1.74超薄镜片+进口镜框，总价2200元。张先生说："这也太贵了吧，我在网上看同类镜片才600多。"</p>
+    </div>
+    <div class="question-text">请写出你应对这一情况的完整话术（包含价值强化+竞品对比两个角度）：</div>
+    <textarea class="answer-area" placeholder="先回应客户感受：……&#10;价值强化：……&#10;竞品对比：……&#10;最后引导成交：……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">
+      ✅ 参考答案：<br>
+      <strong>回应感受</strong>："张先生，我理解您的感受，网上确实有便宜的镜片。"<br>
+      <strong>价值强化</strong>："不过您是800度的高度近视，镜片的光学质量直接影响您的视觉清晰度和舒适度。这款1.74折射率的镜片边缘厚度比1.60的薄将近一半，戴起来不会有'瓶底'的感觉，长时间佩戴也不会头晕。"<br>
+      <strong>竞品对比</strong>："网上600多的镜片通常是国产品牌或折射率较低的款式，售后也缺乏保障。我们提供的是蔡司/依视路品牌，附带2年保质服务，如果出现光度偏差可以免费重配。"<br>
+      <strong>引导成交</strong>："您的眼睛需要长期佩戴，这个一次性投入平摊到每天其实非常划算。要不要我先帮您试戴一下，感受一下镜片的轻薄度？"<br>
+      <strong>关键技巧</strong>：先承认差异存在（建立诚信），再突出价值差距，最后用行动引导（试戴）。
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-header"><div class="q-num">7</div><span class="q-type">情景应对</span></div>
+    <div class="scenario-box">
+      <div class="scene-label">📍 情景：犹豫不决的客户</div>
+      <p>客户李女士看中了一款1380元的眼镜，试戴效果也很好，但一直说"再想想，我去其他家看看"。</p>
+    </div>
+    <div class="question-text">你会用什么技巧留住客户？请写出具体话术：</div>
+    <textarea class="answer-area" placeholder="使用的技巧：……&#10;具体话术：……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">
+      ✅ 参考答案（可组合使用多种技巧）：<br>
+      <strong>技巧1-紧迫感法</strong>："李女士，这款镜框的这个尺码库存只剩2个了，而且它特别适合您的脸型，不一定随时都有货。"<br>
+      <strong>技巧2-假设成交法</strong>："您之前也说戴着很舒适，款式也满意，那我先帮您把号码留好，您确认一下是要今天做还是…"<br>
+      <strong>技巧3-附加价值法</strong>："如果今天在我们这里配，我可以额外赠送一个高档镜盒和VIP会员卡，以后来保养都打折。这个优惠不是每位客户都有的。"<br>
+      <strong>技巧4-同理心法</strong>："我完全理解您想多比较，这是很明智的。不过我们已经帮您做了专业验光，处方数据也在这里，其他家验光的数据可能有出入。您今天的眼睛已经适应了我们这里的检测，配出来的效果是最准确的。"
+    </div>
+  </div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_37_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_38_学习内容.html">Day 38 学习内容 →</a>
+  </div>
+</div>
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card').forEach(function(card){
+    var hint = card.querySelector('.answer-hint');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    // 兼容两种格式：
+    // 1. 正确答案：<strong>B</strong>
+    // 2. 正确答案：B。或 正确答案：B（错误）
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<strong>)?([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var letter = (li.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
