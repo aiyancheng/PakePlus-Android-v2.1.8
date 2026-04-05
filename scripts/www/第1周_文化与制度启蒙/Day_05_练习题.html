@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Day 05 练习题</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}.header{background:linear-gradient(135deg,#e8f5e9,#c8e6c9);padding:36px 30px;border-bottom:3px solid #4CAF50;}.day-tag{background:#4CAF50;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}.header h1{font-size:1.8em;color:#2e7d32;margin-bottom:8px;}.container{max-width:860px;margin:30px auto;padding:0 20px;}.section-title{font-size:1.15em;color:#2e7d32;font-weight:700;margin:32px 0 14px;padding-left:12px;border-left:4px solid #4CAF50;}.question-card{background:white;border-radius:12px;padding:26px;margin-bottom:22px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}.q-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}.q-num{background:#4CAF50;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9em;flex-shrink:0;}.q-type{background:#e8f5e9;color:#2e7d32;padding:3px 12px;border-radius:12px;font-size:0.8em;font-weight:600;}.q-score{color:#999;font-size:0.82em;}.question-text{font-size:1em;color:#333;font-weight:600;line-height:1.6;margin-bottom:16px;}.options li{padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;margin-bottom:8px;font-size:0.93em;list-style:none;}.answer-area{width:100%;min-height:80px;border:2px solid #e0e0e0;border-radius:8px;padding:12px;font-family:inherit;font-size:0.93em;resize:vertical;}.answer-hint{background:#f9f9f9;border-left:3px solid #9E9E9E;padding:10px 14px;margin-top:12px;font-size:0.85em;color:#666;display:none;}.show-answer-btn{background:none;border:1px solid #9E9E9E;color:#666;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.82em;margin-top:10px;}.scenario-box{background:#e3f2fd;border-radius:8px;padding:14px;margin-bottom:12px;border-left:4px solid #2196F3;font-size:0.92em;line-height:1.7;}.nav-footer{display:flex;justify-content:space-between;margin:30px 0 50px;}.nav-btn{background:#4CAF50;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}.nav-btn.outline{background:white;color:#4CAF50;border:2px solid #4CAF50;}
+  /* interactive-options-type-a */
+  .options li { cursor: pointer; transition: all 0.2s; }
+  .options li:hover { border-color: #4CAF50 !important; background: #f1f8e9 !important; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .options li.answered    { pointer-events: none !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header"><span class="day-tag">📝 第1周 · Day 05 练习题</span><h1>奖惩制度与安全规定 — 巩固测评</h1><div style="color:#555;">总分：100分</div></div>
+<div class="container">
+  <div class="section-title">选择题（每题15分，共45分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">1</div><span class="q-type">单选题</span><span class="q-score">15分</span></div><div class="question-text">门店"服务之星"奖励的触发条件是？</div><ul class="options"><li>A. 当月销售额最高</li><li>B. 顾客主动表扬或留下好评截图</li><li>C. 全月无迟到</li><li>D. 提出改善建议被采纳</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：B。服务之星由顾客主动表扬触发，体现服务质量。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">2</div><span class="q-type">单选题</span><span class="q-score">15分</span></div><div class="question-text">发现门店内验光仪设备出现异常故障，应该怎么处理？</div><ul class="options"><li>A. 自己尝试修复，省得麻烦店长</li><li>B. 继续使用，等到明显影响工作再说</li><li>C. 立即停止使用，粘贴故障标识，通知店长联系维修</li><li>D. 告知顾客设备坏了，让顾客改天再来</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：C。设备故障要立即停用、标注、上报，不可自行拆修或继续使用。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">3</div><span class="q-type">单选题</span><span class="q-score">15分</span></div><div class="question-text">以下哪种行为会导致即时解除劳动合同？</div><ul class="options"><li>A. 迟到3次</li><li>B. 工作时间使用私人手机2次</li><li>C. 私自修改价签或挪用货款</li><li>D. 忘记打卡1次</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：C。私自修改价签或挪用货款属于最严重违规，即时解除并追究责任。</div></div>
+
+  <div class="section-title">情景题（55分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">4</div><span class="q-type">情景题</span><span class="q-score">25分</span></div>
+  <div class="scenario-box">📍 你在门店工作时，突然闻到轻微烟味，不确定是否起火，但烟感报警器还没响。此时门店内有3位顾客正在等待。</div>
+  <div class="question-text">请写出你的处置步骤（至少4步）。</div>
+  <textarea class="answer-area" placeholder="请写出处置步骤……"></textarea>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 参考步骤：①保持冷静，不要在顾客面前慌乱②立即通知店长并查看烟味来源③告知顾客有异常情况，请顾客先向安全出口方向移动④检查是否真实起火——如确认火情，启动报警、疏散顾客、拨打119⑤所有人从安全出口撤离，不乘电梯</div></div>
+
+  <div class="question-card"><div class="q-header"><div class="q-num">5</div><span class="q-type">简答题</span><span class="q-score">30分</span></div>
+  <div class="question-text">请列举门店3种奖励类型，并说明各自的触发条件。</div>
+  <textarea class="answer-area" placeholder="请列举……"></textarea>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 参考答案（举其中3种即可）：①月度优秀员工：服务评分高、销售达标、出勤完整、无投诉 ②销售冠军：当月个人销售额第一 ③服务之星：顾客主动表扬或好评截图 ④学习达人：培训考核全部优秀 ⑤创新建议奖：提出被采纳的改善建议</div></div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_05_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_06_学习内容.html">Day 06 →</a>
+  </div>
+</div>
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card').forEach(function(card){
+    var hint = card.querySelector('.answer-hint');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    // 兼容两种格式：
+    // 1. 正确答案：<strong>B</strong>
+    // 2. 正确答案：B。或 正确答案：B（错误）
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<strong>)?([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var letter = (li.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
