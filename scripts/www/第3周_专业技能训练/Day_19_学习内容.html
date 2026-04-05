@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 19 - 售后服务与维修技能</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 15px; }
+  .meta-bar { background: white; padding: 15px 40px; display: flex; gap: 30px; border-bottom: 1px solid #e8ecf0; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+  .meta-item span.dot { width: 8px; height: 8px; border-radius: 50%; background: #f5576c; display: inline-block; }
+  .container { max-width: 960px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 20px; color: #333; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #f5576c; display: flex; align-items: center; gap: 10px; }
+  .card h3 { font-size: 16px; color: #444; margin: 18px 0 10px; }
+  .card p { line-height: 1.8; color: #555; margin-bottom: 12px; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { line-height: 1.9; color: #555; margin-bottom: 4px; }
+  .highlight-box { background: #fff0f3; border-left: 4px solid #f5576c; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .highlight-box.green { background: #f0fdf4; border-color: #22c55e; }
+  .highlight-box.blue { background: #f0f4ff; border-color: #667eea; }
+  .highlight-box.yellow { background: #fffbf0; border-color: #f59e0b; }
+  .step-list { counter-reset: step; list-style: none; padding-left: 0; }
+  .step-list li { counter-increment: step; padding: 12px 16px 12px 52px; position: relative; margin-bottom: 10px; background: #f8f9fc; border-radius: 8px; }
+  .step-list li::before { content: counter(step); position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 26px; height: 26px; background: #f5576c; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; }
+  .table-wrap { overflow-x: auto; margin: 16px 0; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #f5576c; color: white; padding: 10px 14px; text-align: left; font-size: 14px; }
+  td { padding: 10px 14px; border-bottom: 1px solid #e8ecf0; font-size: 14px; color: #555; }
+  tr:nth-child(even) { background: #f8f9fc; }
+  .tip-box { background: #ffe8ec; border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
+  .tip-box .tip-title { font-weight: bold; color: #c0392b; margin-bottom: 8px; }
+  .service-flow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 16px 0; }
+  .flow-step { background: #f5576c; color: white; padding: 10px 18px; border-radius: 8px; font-size: 14px; text-align: center; flex: 1; min-width: 100px; }
+  .flow-arrow { color: #f5576c; font-size: 20px; font-weight: bold; }
+  .dialogue-box { border: 1px solid #e8ecf0; border-radius: 10px; overflow: hidden; margin: 16px 0; }
+  .dialogue-row { display: flex; gap: 0; }
+  .dialogue-row .role { background: #f5576c; color: white; padding: 12px 16px; min-width: 80px; text-align: center; font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+  .dialogue-row .content { padding: 12px 16px; font-size: 14px; color: #444; line-height: 1.6; flex: 1; border-bottom: 1px solid #f0f0f0; }
+  .dialogue-row:last-child .content { border-bottom: none; }
+  .summary-box { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; border-radius: 12px; padding: 24px; margin-top: 8px; }
+  .summary-box h3 { font-size: 18px; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 20px; }
+  .summary-box li { line-height: 2; opacity: 0.95; }
+  .footer { text-align: center; padding: 30px; color: #aaa; font-size: 13px; }
+  .nav-footer { display: flex; justify-content: space-between; margin: 20px 0 40px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #f7971e, #ffd200); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #f7971e; border: 2px solid #f7971e; }
+  .nav-btn.outline:hover { background: #fffbf0; }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="week-badge">第3周 · 专业技能训练</div>
+  <h1>Day 19 — 售后服务与维修技能</h1>
+  <div class="subtitle">技能模块 · 掌握常见眼镜维修技能，提供专业售后，赢得顾客信任与复购</div>
+</div>
+
+<div class="meta-bar">
+  <div class="meta-item"><span class="dot"></span>学习时长：约3.5小时</div>
+  <div class="meta-item"><span class="dot"></span>模块：技能（Skills）+ 话术（Scripts）</div>
+  <div class="meta-item"><span class="dot"></span>重要性：⭐⭐⭐⭐⭐</div>
+  <div class="meta-item"><span class="dot"></span>实操要求：工具使用需师傅现场指导</div>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2><span>🎯</span>今日学习目标</h2>
+    <ol>
+      <li>了解眼镜门店常见售后服务类型及处理原则</li>
+      <li>掌握镜架螺丝松动、镜脚变形、鼻托更换等常见维修操作</li>
+      <li>学会镜片清洁与护理建议的标准话术</li>
+      <li>掌握处理顾客投诉的基本方法与流程</li>
+      <li>能够独立处理3种以上常见的简单售后问题</li>
+    </ol>
+  </div>
+
+  <!-- 一、售后服务概述 -->
+  <div class="card">
+    <h2><span>🌟</span>一、售后服务的价值与类型</h2>
+    <p>眼镜是顾客每天佩戴的物品，很容易出现各种使用问题。<strong>优质的售后服务是建立顾客忠诚度的最强武器</strong>，很多门店的回头客和口碑都来自于出色的售后体验。</p>
+
+    <h3>眼镜门店常见售后服务类型</h3>
+    <div class="table-wrap">
+      <table class="structure-table">
+        <tr>
+          <th>服务类型</th>
+          <th>具体内容</th>
+          <th>处理人员</th>
+          <th>是否收费</th>
+        </tr>
+        <tr>
+          <td><strong>免费维修</strong></td>
+          <td>螺丝紧固、鼻托调整、镜脚校正</td>
+          <td>销售员/技师</td>
+          <td>通常免费</td>
+        </tr>
+        <tr>
+          <td><strong>镜架整形</strong></td>
+          <td>变形镜架的热整形校正</td>
+          <td>技师为主</td>
+          <td>轻微变形免费</td>
+        </tr>
+        <tr>
+          <td><strong>配件更换</strong></td>
+          <td>鼻托、镜脚、螺丝更换</td>
+          <td>销售员/技师</td>
+          <td>小配件免费/收料钱</td>
+        </tr>
+        <tr>
+          <td><strong>镜片更换</strong></td>
+          <td>镜片破损、度数变化重新配镜</td>
+          <td>验光师+技师</td>
+          <td>收费</td>
+        </tr>
+        <tr>
+          <td><strong>清洗保养</strong></td>
+          <td>超声波清洗、镜片清洁护理</td>
+          <td>销售员</td>
+          <td>通常免费</td>
+        </tr>
+        <tr>
+          <td><strong>投诉处理</strong></td>
+          <td>质量问题、服务投诉</td>
+          <td>主管/店长</td>
+          <td>按情况处理</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 二、常见维修操作 -->
+  <div class="card">
+    <h2><span>🔧</span>二、常见维修操作详解</h2>
+
+    <h3>① 螺丝松动/脱落的处理</h3>
+    <p><strong>所需工具：</strong>眼镜螺丝刀（小号一字和十字）、备用螺丝盒</p>
+    <ol class="step-list">
+      <li>先检查镜架，判断是哪个部位的螺丝出现问题（镜框、镜腿连接处等）</li>
+      <li>选择合适尺寸的螺丝刀，对准螺丝槽</li>
+      <li>顺时针旋转拧紧，力度适中，不能过紧（过紧会导致镜片崩裂）</li>
+      <li>若螺丝已脱落，从备用螺丝盒中选择相同规格的螺丝安装</li>
+      <li>安装完成后检查镜腿开合是否顺畅，镜片是否牢固</li>
+    </ol>
+    <div class="highlight-box yellow">
+      <strong>注意：</strong>拧螺丝时如果感觉螺纹已滑丝（螺丝转动但拧不紧），不要强行操作，应告知顾客需要更换同规格螺丝。
+    </div>
+
+    <h3>② 鼻托调整与更换</h3>
+    <p><strong>鼻托调整（不需要工具）：</strong></p>
+    <ul>
+      <li>用手指轻轻拨动鼻托支杆，调整两侧鼻托间距，使其与顾客鼻梁吻合</li>
+      <li>鼻托应与鼻翼贴合，不能悬空或压入过深</li>
+      <li>调整后让顾客戴上，确认舒适度</li>
+    </ul>
+    <p style="margin-top:12px;"><strong>鼻托更换：</strong></p>
+    <ol class="step-list">
+      <li>用小螺丝刀拆下旧鼻托螺丝，取下破损的鼻托</li>
+      <li>选择相同规格、颜色的新鼻托</li>
+      <li>对准孔位，用螺丝固定，不宜过紧</li>
+      <li>安装后再次调整角度，贴合顾客鼻梁</li>
+    </ol>
+
+    <h3>③ 镜脚变形校正（热整形）</h3>
+    <p>板材、TR-90等材质的镜脚变形后，可通过热整形恢复。</p>
+    <ol class="step-list">
+      <li>用热风机（或热水）对变形部位加热20-30秒，使材料软化</li>
+      <li>趁热用手轻柔地施力，将镜脚调整到正确形状</li>
+      <li>保持形状，等待10-15秒冷却定型</li>
+      <li>检查两侧镜脚长度是否对称，佩戴时是否稳定</li>
+    </ol>
+    <div class="highlight-box">
+      <strong>重要：</strong>热整形时温度不能过高，金属镜架不适合热整形（应用镜架整形钳），有镶钻或特殊涂层的镜架须向技师确认能否热整形，以免损坏。
+    </div>
+  </div>
+
+  <!-- 三、清洗保养 -->
+  <div class="card">
+    <h2><span>✨</span>三、眼镜清洗与保养服务</h2>
+
+    <h3>超声波清洗机操作</h3>
+    <ol class="step-list">
+      <li>检查清洗机水槽内是否有足量清水（约七分满）</li>
+      <li>将顾客眼镜放入清洗网篮，确保镜片朝下浸入水中</li>
+      <li>设定清洗时间（通常30-60秒），启动机器</li>
+      <li>清洗完毕后取出，用气枪吹干水分或用专用镜片布轻轻擦拭</li>
+      <li>递给顾客时说："为您清洗完毕，您看清晰度是否满意？"</li>
+    </ol>
+
+    <h3>向顾客传授日常护理知识（话术）</h3>
+    <div class="dialogue-box">
+      <div class="dialogue-row">
+        <div class="role">顾客</div>
+        <div class="content">我的镜片总是有油脂，怎么清洁比较好？</div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role">员工</div>
+        <div class="content">您好！镜片清洁建议用流水冲洗后，再用我们专用的镜片清洁布擦拭，从镜片中心向外圈轻轻旋转擦，<strong>不建议用衣角或纸巾</strong>擦，因为那些材质会产生细小划痕，时间长了镜片就模糊了。我们这里可以帮您做超声波深度清洗，完全免费，需要做一下吗？</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 四、投诉处理 -->
+  <div class="card">
+    <h2><span>💬</span>四、顾客投诉处理基本流程</h2>
+
+    <div class="service-flow">
+      <div class="flow-step">①倾听<br>不打断</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">②致歉<br>表示理解</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">③确认<br>问题核查</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">④提出<br>解决方案</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">⑤跟进<br>确认满意</div>
+    </div>
+
+    <h3>处理投诉的标准话术</h3>
+    <div class="dialogue-box">
+      <div class="dialogue-row">
+        <div class="role">顾客</div>
+        <div class="content">我上周配的眼镜，戴了几天眼睛很不舒服，度数肯定有问题！</div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role">员工</div>
+        <div class="content">您好！非常感谢您告诉我们这个情况，也非常抱歉给您带来不舒适的体验。请问是头晕、眼胀这类感觉，还是看东西有重影？<em>（倾听顾客描述，不打断、不辩解）</em></div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role">顾客</div>
+        <div class="content">就是头晕，看远处还凑合，看近处就难受。</div>
+      </div>
+      <div class="dialogue-row">
+        <div class="role">员工</div>
+        <div class="content">明白了，这种情况我们一定帮您解决。我先请您重新做一次复查验光，确认是验光数据的问题还是适应期的正常反应。如果是我们的问题，我们会免费为您重新加工。您看现在方便做一下复查吗？</div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>原则：</strong>新员工遇到无法自行解决的投诉，应立即请主管或店长介入，不要独自处理复杂纠纷，以免激化矛盾。
+    </div>
+  </div>
+
+  <!-- 实操任务 -->
+  <div class="card">
+    <h2><span>🛠️</span>五、今日实操任务</h2>
+    <ol class="step-list">
+      <li>在师傅指导下，学习使用眼镜螺丝刀，完成一次螺丝紧固操作练习</li>
+      <li>练习鼻托的手工调整，体验不同鼻距的调整手感</li>
+      <li>观摩超声波清洗机的完整使用流程，自行操作一次</li>
+      <li>与同事进行角色扮演：一人扮演"投诉顾客"，一人扮演"处理员工"，练习投诉处理话术</li>
+    </ol>
+  </div>
+
+  <div class="summary-box">
+    <h3>📋 今日知识小结</h3>
+    <ul>
+      <li>售后服务是赢得顾客忠诚的最强武器，优质售后直接带来复购和口碑</li>
+      <li>常见维修：螺丝紧固（不可过紧）、鼻托更换（选同规格）、热整形（温度适中）</li>
+      <li>超声波清洗4步：检查水量→放入眼镜→启动→取出擦干</li>
+      <li>投诉处理5步：倾听→致歉→确认→提方案→跟进</li>
+      <li>复杂投诉立即请主管介入，不独自处理纠纷</li>
+    </ul>
+  </div>
+
+  <div class="footer">Day 19 · 眼镜门店新员工8周成才培训计划 · 第3周 专业技能训练</div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_18_练习题.html">← Day 18 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_19_练习题.html">Day 19 练习题 →</a>
+  </div>
+</div>
+
+</body>
+</html>
