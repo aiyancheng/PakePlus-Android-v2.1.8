@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 39 练习题 — 老视配镜专项</title>
+<style>
+  body{font-family:'Microsoft YaHei',sans-serif;background:#f5f7fa;margin:0;padding:20px;color:#333}
+  .container{max-width:860px;margin:0 auto;background:#fff;border-radius:12px;padding:36px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+  h1{color:#2980b9;font-size:1.5rem;border-bottom:3px solid #2980b9;padding-bottom:10px}
+  h2{color:#1a5276;font-size:1.1rem;margin-top:28px}
+  .question{background:#eaf4fc;border-left:4px solid #2980b9;padding:14px 18px;margin:14px 0;border-radius:0 8px 8px 0}
+  .question p{margin:6px 0;font-weight:600}
+  .options label{display:block;padding:6px 10px;margin:4px 0;background:#d6eaf8;border-radius:6px;cursor:pointer}
+  .options label:hover{background:#aed6f1}
+  textarea{width:100%;box-sizing:border-box;padding:10px;border:2px solid #2980b9;border-radius:8px;font-size:.95rem;font-family:inherit;min-height:80px;resize:vertical}
+  .show-answer-btn{background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-size:.9rem;cursor:pointer;margin-top:10px;transition:all .2s}
+  .show-answer-btn:hover{opacity:.85}
+  .answer-hint{display:none;background:#e8f5e9;border-left:4px solid #27ae60;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:8px;color:#1a5276;font-size:.95rem}
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#2980b9;border:2px solid #2980b9}
+
+  /* interactive-options-type-e */
+  .options label { cursor: pointer; transition: all 0.2s; }
+  .options label.opt-correct { background: #d4edda !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options label.opt-wrong   { background: #f8d7da !important; color: #721c24 !important; pointer-events:none; }
+  .options label.opt-reveal  { background: #fff3cd !important; color: #856404 !important; pointer-events:none; }
+  .options label.answered    { pointer-events: none !important; cursor: default !important; }
+  .options input[type=radio] { display: none; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 39 练习题 — 老视配镜专项</h1>
+
+  <h2>一、单选题</h2>
+
+  <div class="question">
+    <p>1. 老视（老花）的本质原因是：</p>
+    <div class="options" id="q1">
+      <label><input type="radio" name="q1" value="A"> A. 眼球变形导致光线聚焦异常</label>
+      <label><input type="radio" name="q1" value="B"> B. 晶状体弹性下降，调节能力退化</label>
+      <label><input type="radio" name="q1" value="C"> C. 角膜曲率发生变化</label>
+      <label><input type="radio" name="q1" value="D"> D. 视神经衰退</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：老视是随年龄增长，晶状体逐渐硬化失去弹性，睫状肌调节力下降，导致近处调焦困难的生理现象。这不是疾病，而是正常的老龄化过程，几乎人人都会经历，一般从40岁左右开始。</div>
+  </div>
+
+  <div class="question">
+    <p>2. 一位50岁的客户，通常老视度数约为：</p>
+    <div class="options" id="q2">
+      <label><input type="radio" name="q2" value="A"> A. +0.50D</label>
+      <label><input type="radio" name="q2" value="B"> B. +1.00D</label>
+      <label><input type="radio" name="q2" value="C"> C. +2.00D</label>
+      <label><input type="radio" name="q2" value="D"> D. +3.50D</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：老视度数随年龄规律增长：40岁约+1.00D，45岁约+1.50D，50岁约+2.00D，55岁约+2.50D，60岁以上约+3.00D。这是经验参考值，实际配镜需以验光结果为准。</div>
+  </div>
+
+  <div class="question">
+    <p>3. 渐进多焦点镜片的最大优势是：</p>
+    <div class="options" id="q3">
+      <label><input type="radio" name="q3" value="A"> A. 价格最便宜</label>
+      <label><input type="radio" name="q3" value="B"> B. 没有适应期，戴上就能看清</label>
+      <label><input type="radio" name="q3" value="C"> C. 无分界线，一副镜片实现远中近连续视觉</label>
+      <label><input type="radio" name="q3" value="D"> D. 适合所有年龄段佩戴</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：渐进多焦点镜片从上到下度数逐渐变化，上方看远、中间看中距离、下方看近，外观无分界线，美观自然。最大优势是一副眼镜满足全程视力需求。缺点是有1-2周的适应期，且外围区域有周边像差。</div>
+  </div>
+
+  <div class="question">
+    <p>4. 客户反馈刚配的渐进镜"走路有点晕"，正确处理是：</p>
+    <div class="options" id="q4">
+      <label><input type="radio" name="q4" value="A"> A. 立刻帮客户更换普通单光镜</label>
+      <label><input type="radio" name="q4" value="B"> B. 重新检查度数是否有误</label>
+      <label><input type="radio" name="q4" value="C"> C. 告知属正常适应期（约1-2周），同时检查配镜参数是否准确</label>
+      <label><input type="radio" name="q4" value="D"> D. 告知客户是镜片质量问题，申请更换</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：渐进镜初戴者出现轻微的头晕、下楼梯不稳感是正常现象，因为眼睛需要适应镜片不同区域的度数。正确做法：①安抚客户，解释适应期约1-2周；②核查瞳距、瞳高等配镜参数是否准确；③建议先在室内走动适应，逐渐过渡到户外。</div>
+  </div>
+
+  <div class="question">
+    <p>5. 接待中老年客户时，以下哪种做法是错误的？</p>
+    <div class="options" id="q5">
+      <label><input type="radio" name="q5" value="A"> A. 语速放慢，音量适当调大</label>
+      <label><input type="radio" name="q5" value="B"> B. 用生活化比喻解释专业知识</label>
+      <label><input type="radio" name="q5" value="C"> C. 背对客户操作电脑，快速完成验光</label>
+      <label><input type="radio" name="q5" value="D"> D. 有耐心，允许客户反复确认</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：中老年客户需要更多的关注和尊重。背对客户快速操作电脑会让老人感觉被忽视和不受尊重。正确做法是面向客户、保持眼神交流、讲解每一步在做什么，让老人感到安心和被重视。</div>
+  </div>
+
+  <h2>二、简答题</h2>
+
+  <div class="question">
+    <p>6. 一位62岁的大爷，已有近视-3.00D，现在看近也不清楚了。他问你配一副眼镜能不能同时看远和看近。请写出你的推荐方案及理由：</p>
+    <textarea id="q6" placeholder="方案1：……（适合情况、优缺点）&#10;方案2：……（适合情况、优缺点）&#10;你的推荐：……&#10;推荐理由：……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 参考答案要点：<br>
+    <strong>方案1：渐进多焦点镜片</strong>（推荐）<br>
+    处方：近视-3.00D（看远）+ 老视ADD约+2.50D（62岁参考值），无分界线，一副搞定，外出方便；适应期约1-2周，价格较高。<br><br>
+    <strong>方案2：两副眼镜</strong><br>
+    一副看远（-3.00D），一副专用老花镜（老花度数≈近视度数-老视ADD，即-3.00+2.50=-0.50D）；价格相对低，但需要频繁换镜。<br><br>
+    <strong>推荐话术</strong>："大爷，您现在外出需要看路、看路牌，回到家还要看手机、看书，如果配渐进镜，一副眼镜就全搞定了，非常方便。虽然价格贵一点，但不用来回换眼镜，生活质量更高。如果主要是在家用，两副眼镜方案也很实惠。"</div>
+  </div>
+
+  <div class="nav-footer">
+    <a href="Day_39_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_40_学习内容.html" class="nav-btn">Day 40 学习内容 →</a>
+  </div>
+</div>
+
+<script>
+/* interactive-options-type-e-js */
+(function(){
+  // 找所有 .question div（每道题一个）
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    var optionsDiv = qBlock.querySelector('.options');
+    if(!optionsDiv) return;
+    var labels = optionsDiv.querySelectorAll('label');
+    if(labels.length === 0) return;
+    var hint = qBlock.querySelector('.answer-hint');
+    if(!hint) return;
+    var m = hint.innerHTML.match(/\u6b63\u786e\u7b54\u6848[:\uff1a]\s*<strong>([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+    labels.forEach(function(label){
+      // 提取 value 或文本里的字母
+      var inp = label.querySelector('input');
+      var letter = inp ? inp.value.toUpperCase() : (label.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      label.addEventListener('click', function(e){
+        e.preventDefault();
+        if(answered) return;
+        answered = true;
+        labels.forEach(function(l){ l.classList.add('answered'); });
+        if(letter === correct){
+          label.classList.add('opt-correct');
+          label.textContent = '\u2705 ' + label.textContent;
+        } else {
+          label.classList.add('opt-wrong');
+          label.textContent = '\u274c ' + label.textContent;
+          labels.forEach(function(l){
+            var raw = l.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var il = l.querySelector('input');
+            var oL = il ? il.value.toUpperCase() : (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ l.classList.add('opt-reveal'); l.textContent = '\ud83d\udc49 ' + l.textContent; }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = qBlock.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
