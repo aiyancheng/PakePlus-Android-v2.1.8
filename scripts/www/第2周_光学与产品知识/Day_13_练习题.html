@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Day 13 练习题</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:'Microsoft YaHei',Arial,sans-serif;background:#f5f7fa;color:#333;}.header{background:linear-gradient(135deg,#e3f2fd,#bbdefb);padding:36px 30px;border-bottom:3px solid #2196F3;}.day-tag{background:#2196F3;color:white;display:inline-block;padding:4px 16px;border-radius:20px;font-size:0.85em;margin-bottom:12px;}.header h1{font-size:1.8em;color:#1565c0;margin-bottom:8px;}.container{max-width:860px;margin:30px auto;padding:0 20px;}.section-title{font-size:1.15em;color:#1565c0;font-weight:700;margin:32px 0 14px;padding-left:12px;border-left:4px solid #2196F3;}.question-card{background:white;border-radius:12px;padding:26px;margin-bottom:22px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}.q-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}.q-num{background:#2196F3;color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9em;flex-shrink:0;}.q-type{background:#e3f2fd;color:#1565c0;padding:3px 12px;border-radius:12px;font-size:0.8em;font-weight:600;}.q-score{color:#999;font-size:0.82em;}.question-text{font-size:1em;color:#333;font-weight:600;line-height:1.6;margin-bottom:16px;}.options li{padding:10px 16px;border:2px solid #e0e0e0;border-radius:8px;margin-bottom:8px;font-size:0.93em;list-style:none;}.answer-area{width:100%;min-height:80px;border:2px solid #e0e0e0;border-radius:8px;padding:12px;font-family:inherit;font-size:0.93em;resize:vertical;}.answer-hint{background:#f9f9f9;border-left:3px solid #9E9E9E;padding:10px 14px;margin-top:12px;font-size:0.85em;color:#666;display:none;}.show-answer-btn{background:none;border:1px solid #9E9E9E;color:#666;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.82em;margin-top:10px;}.scenario-box{background:#e3f2fd;border-radius:8px;padding:14px;margin-bottom:12px;border-left:4px solid #2196F3;font-size:0.92em;line-height:1.7;}.nav-footer{display:flex;justify-content:space-between;margin:30px 0 50px;}.nav-btn{background:#2196F3;color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-size:0.9em;}.nav-btn.outline{background:white;color:#2196F3;border:2px solid #2196F3;}
+  /* interactive-options-type-a */
+  .options li { cursor: pointer; transition: all 0.2s; }
+  .options li:hover { border-color: #4CAF50 !important; background: #f1f8e9 !important; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .options li.answered    { pointer-events: none !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header"><span class="day-tag">📝 第2周 · Day 13 练习题</span><h1>品牌知识与产品陈列 — 巩固测评</h1><div style="color:#555;">总分：100分</div></div>
+<div class="container">
+  <div class="section-title">选择题（每题12分，共48分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">1</div><span class="q-type">单选题</span><span class="q-score">12分</span></div><div class="question-text">向顾客推荐镜架品牌时，最重要的依据是什么？</div><ul class="options"><li>A. 该品牌利润率最高</li><li>B. 以顾客的需求和预算为中心</li><li>C. 只推荐知名度最高的品牌</li><li>D. 先推最贵的，再降价</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：B。推荐以顾客需求为中心，才能建立信任，实现长期销售。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">2</div><span class="q-type">单选题</span><span class="q-score">12分</span></div><div class="question-text">陈列区商品的展示高度，最佳位置是离地面多高？</div><ul class="options"><li>A. 50~80cm（低柜区域）</li><li>B. 90~160cm（眼部视线区）</li><li>C. 160cm以上（高柜区域）</li><li>D. 没有标准，随意摆放</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：B。90~160cm是成人视线最容易看到、触及的黄金展示区域，新款和主推款应放在这里。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">3</div><span class="q-type">单选题</span><span class="q-score">12分</span></div><div class="question-text">顾客试戴一副展示镜架后放下，你应该立刻做什么？</div><ul class="options"><li>A. 继续介绍其他产品，等顾客走后统一整理</li><li>B. 将镜架归位并用眼镜布清洁</li><li>C. 拿去后台消毒，需要等一段时间才能再展示</li><li>D. 不用理会，顾客自己会放回去</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：B。顾客试戴后立即归位并清洁，保持陈列整洁，也体现对商品和顾客的尊重。</div></div>
+  <div class="question-card"><div class="q-header"><div class="q-num">4</div><span class="q-type">单选题</span><span class="q-score">12分</span></div><div class="question-text">镜片品牌"蔡司（ZEISS）"的主要定位是？</div><ul class="options"><li>A. 经济实惠，适合大众市场</li><li>B. 德国精工品质，高端定位</li><li>C. 专注近视防控，适合青少年</li><li>D. 主打轻薄折射率</li></ul><button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button><div class="answer-hint">✅ 正确答案：B。蔡司是德国知名光学品牌，以精工品质见长，高端定位。</div></div>
+
+  <div class="section-title">实操任务（52分）</div>
+  <div class="question-card"><div class="q-header"><div class="q-num">5</div><span class="q-type">实操任务</span><span class="q-score">30分</span></div>
+  <div class="question-text">在陈列区完成以下任务（由师傅现场评分）：<br>① 找出门店最贵的3副镜架，说出品牌和适合人群（10分）<br>② 找出性价比最高的3副镜架，说出推荐理由（10分）<br>③ 找出1副不符合陈列规范的摆放，指出问题并纠正（10分）</div>
+  <div style="background:#fff8e1;border-radius:8px;padding:12px;margin-top:10px;border-left:4px solid #FF9800;font-size:0.88em;color:#555;">师傅根据现场完成质量打分，记录在带教手册</div></div>
+
+  <div class="question-card"><div class="q-header"><div class="q-num">6</div><span class="q-type">情景题</span><span class="q-score">22分</span></div>
+  <div class="scenario-box">📍 一位30岁的上班族顾客，月入普通，想配一副好看耐用的眼镜，预算约300~500元镜架。他说"听说Ray-Ban很好，你们有吗？"</div>
+  <div class="question-text">如果门店Ray-Ban价格超出他预算很多，你如何应对这个情况？（不损害品牌印象，同时找到适合他的选择）</div>
+  <textarea class="answer-area" placeholder="请写出应对方案……"></textarea>
+  <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+  <div class="answer-hint">✅ 参考应对："Ray-Ban确实是经典品牌，我们店里也有，不过价位稍微高一些（约在___元）。如果您的预算在300~500元，我可以给您推荐几款同样设计感很强、品质也很好的选择——比如___（门店同价位品牌），既耐用好看，价格也在您的范围内。您先试试看？"</div></div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_13_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_14_学习内容.html">Day 14（第2周周测）→</a>
+  </div>
+</div>
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card').forEach(function(card){
+    var hint = card.querySelector('.answer-hint');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    // 兼容两种格式：
+    // 1. 正确答案：<strong>B</strong>
+    // 2. 正确答案：B。或 正确答案：B（错误）
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<strong>)?([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var letter = (li.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.style.cursor = 'pointer';
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
