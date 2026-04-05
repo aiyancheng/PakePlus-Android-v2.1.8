@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 50 练习题：8周知识总复习</title>
+<style>
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f0f0f5; margin: 0; padding: 20px; }
+  .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  h1 { color: #2c3e50; border-bottom: 3px solid #2c3e50; padding-bottom: 12px; }
+  .info-bar { background: #f0f0f8; border-radius: 8px; padding: 12px 20px; margin: 16px 0; display: flex; gap: 24px; font-size: 14px; color: #34495e; flex-wrap: wrap; }
+  h2 { color: #2c3e50; margin-top: 30px; }
+  .question { background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 20px; margin: 16px 0; }
+  .question-num { font-weight: bold; color: #2c3e50; font-size: 15px; }
+  .option { padding: 8px 12px; margin: 6px 0; background: #f0f0f8; border-radius: 6px; cursor: pointer; border: 1px solid #ced4da; }
+  .option:hover { background: #dee2f5; }
+  .fill-input { width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; margin-top: 8px; box-sizing: border-box; }
+  .answer-box { background: #eafaf1; border: 1px dashed #27ae60; border-radius: 8px; padding: 14px 18px; margin-top: 10px; display: none; color: #1a5c38; }
+  .btn { background: #2c3e50; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; margin: 4px; }
+  .btn:hover { background: #1a252f; }
+  .btn-show { background: #27ae60; }
+  .btn-show:hover { background: #1e8449; }
+  .section-tag { background: #2c3e50; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-right: 8px; }
+  .week-label { background: #3498db; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-right: 6px; }
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#2c3e50,#1a252f);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#2c3e50;border:2px solid #2c3e50}
+
+  /* interactive-options-type-d */
+  .option { cursor: pointer; transition: all 0.2s; }
+  .option.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .option.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .option.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .option.answered    { pointer-events: none !important; cursor: default !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 50 练习题：8周知识综合总复习</h1>
+  <div class="info-bar">
+    <span>📅 第8周 第1天</span>
+    <span>⏱ 建议用时：40分钟</span>
+    <span>📚 范围：第1-7周全部核心内容</span>
+    <span>💯 总分：100分</span>
+  </div>
+
+  <h2><span class="section-tag">A</span>跨周知识单选题（每题5分，共50分）</h2>
+
+  <div class="question">
+    <div class="question-num">1. <span class="week-label">第2周</span>近视眼的光学特征是？</div>
+    <div class="option">A. 眼轴过短，平行光线成像落在视网膜后方</div>
+    <div class="option">B. 眼轴过长，平行光线成像落在视网膜前方</div>
+    <div class="option">C. 角膜各子午线曲率不一致</div>
+    <div class="option">D. 晶状体调节能力下降</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a1')">查看答案</button>
+    <div class="answer-box" id="a1">✅ <strong>答案：B</strong> — 近视眼轴过长（或角膜/晶状体曲率过大），导致平行光线在视网膜前方聚焦，用凹透镜（负度数）矫正。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">2. <span class="week-label">第3周</span>验光时，"散光表"（放射线图）主要用于检测什么？</div>
+    <div class="option">A. 检测双眼视力差异</div>
+    <div class="option">B. 检测散光的轴向和度数</div>
+    <div class="option">C. 检测调节能力</div>
+    <div class="option">D. 检测眼压</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a2')">查看答案</button>
+    <div class="answer-box" id="a2">✅ <strong>答案：B</strong> — 散光表（时钟表/放射线图）是主觉验光中检测散光轴向的基础工具，顾客看最清晰的线条方向加90°即为散光轴向。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">3. <span class="week-label">第4周</span>FABE介绍法中，"B"代表什么？</div>
+    <div class="option">A. Brand（品牌）</div>
+    <div class="option">B. Benefit（顾客利益/好处）</div>
+    <div class="option">C. Budget（价格预算）</div>
+    <div class="option">D. Buy（购买决定）</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a3')">查看答案</button>
+    <div class="answer-box" id="a3">✅ <strong>答案：B</strong> — FABE = Feature（特点）→ Advantage（优势）→ Benefit（顾客利益）→ Evidence（证据/案例），最终落脚点是对顾客有什么好处。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">4. <span class="week-label">第5周</span>用HEAT法处理顾客投诉，第一步应该做什么？</div>
+    <div class="option">A. 立即道歉并打折</div>
+    <div class="option">B. 倾听顾客诉说，保持全神贯注（Hear them out）</div>
+    <div class="option">C. 查清楚是谁的错</div>
+    <div class="option">D. 告诉顾客这不是我们的问题</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a4')">查看答案</button>
+    <div class="answer-box" id="a4">✅ <strong>答案：B</strong> — HEAT = H(Hear倾听)→E(Empathize同理心)→A(Apologize道歉)→T(Take action行动)，第一步是让顾客充分表达，感受被重视。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">5. <span class="week-label">第6周</span>为儿童配镜时，以下哪点最需要特别注意？</div>
+    <div class="option">A. 优先选择最时尚的镜框</div>
+    <div class="option">B. 考虑鼻梁发育未完成，选择适合儿童脸型的轻量镜架，并重视散瞳验光</div>
+    <div class="option">C. 为省事直接用电脑验光数据配镜</div>
+    <div class="option">D. 儿童度数变化快，配便宜的就好</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a5')">查看答案</button>
+    <div class="answer-box" id="a5">✅ <strong>答案：B</strong> — 儿童配镜的关键：①建议散瞳验光（去除调节影响）②选轻量镜架（鼻梁未发育完全）③关注近视防控（选择防控镜片）④建立定期复查习惯。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">6. <span class="week-label">第7周</span>门店成交率的计算公式是？</div>
+    <div class="option">A. 总销售额 ÷ 进店人数</div>
+    <div class="option">B. 成交单数 ÷ 进店人数 × 100%</div>
+    <div class="option">C. 成交单数 ÷ 总销售额</div>
+    <div class="option">D. 进店人数 ÷ 路过人数 × 100%</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a6')">查看答案</button>
+    <div class="answer-box" id="a6">✅ <strong>答案：B</strong> — 成交率 = 成交单数 ÷ 接待（进店）人数 × 100%，行业参考值40-60%。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">7. <span class="week-label">第4周</span>镜片的"折射率"越高，意味着什么？</div>
+    <div class="option">A. 镜片越重</div>
+    <div class="option">B. 镜片越厚</div>
+    <div class="option">C. 同等度数下镜片可以磨得更薄</div>
+    <div class="option">D. 镜片防蓝光效果更好</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a7')">查看答案</button>
+    <div class="answer-box" id="a7">✅ <strong>答案：C</strong> — 折射率越高，同等度数下镜片越薄，尤其适合高度数顾客。常见折射率：1.50（标准）→1.60→1.67→1.74（超薄）。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">8. <span class="week-label">第7周</span>消费决策的"购后评估阶段"，门店最应该做什么？</div>
+    <div class="option">A. 不需要管，顾客买了就结束了</div>
+    <div class="option">B. 主动回访，关心使用体验，提供适应期指导，建立长期关系</div>
+    <div class="option">C. 等顾客主动来投诉再处理</div>
+    <div class="option">D. 发优惠券催促再次购买</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a8')">查看答案</button>
+    <div class="answer-box" id="a8">✅ <strong>答案：B</strong> — 购后阶段是建立顾客忠诚度的关键时机。主动回访关心使用感受，提供适应期（尤其渐进镜1-2周适应期）指导，将一次性顾客转化为长期客户。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">9. <span class="week-label">第6周</span>老视（老花眼）的成因是？</div>
+    <div class="option">A. 眼轴增长导致</div>
+    <div class="option">B. 晶状体老化弹性降低，调节功能减退，看近处困难</div>
+    <div class="option">C. 角膜曲率不规则</div>
+    <div class="option">D. 视网膜退化</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a9')">查看答案</button>
+    <div class="answer-box" id="a9">✅ <strong>答案：B</strong> — 老视是生理性老化现象（非疾病），晶状体弹性降低+睫状肌调节力下降，导致近点后退，看近处模糊。通常40岁后开始出现，用凸透镜（正度数）矫正。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">10. <span class="week-label">综合</span>一名优秀的眼镜门店销售顾问，最核心的竞争力是什么？</div>
+    <div class="option">A. 能言善道，能说会道</div>
+    <div class="option">B. 专业知识扎实 + 真诚关心顾客需求 + 持续学习改进</div>
+    <div class="option">C. 熟悉所有产品的价格，会打折</div>
+    <div class="option">D. 有丰富的人脉关系网络</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a10')">查看答案</button>
+    <div class="answer-box" id="a10">✅ <strong>答案：B</strong> — 顶尖销售顾问的核心竞争力三角：专业度（让顾客信任你的建议）+ 真诚度（让顾客感受到你在为他着想）+ 成长力（持续精进不断提升）。</div>
+  </div>
+
+  <h2><span class="section-tag">B</span>综合应用简答题（每题25分，共50分）</h2>
+
+  <div class="question">
+    <div class="question-num">11. 【综合知识串联】一位52岁的阿姨来配老花眼镜，但她说自己还有300度的近视。请回答：</div>
+    <p>①她可能有哪些配镜选择？各有什么优缺点？</p>
+    <p>②验光时需要特别注意什么？</p>
+    <p>③你会怎么推荐，话术是什么？</p>
+    <textarea class="fill-input" rows="10" placeholder="请分点回答..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a11')">查看参考答案</button>
+    <div class="answer-box" id="a11">
+      ✅ <strong>参考答案：</strong><br><br>
+      <strong>①配镜选择：</strong><br>
+      • <strong>两副眼镜（近视镜+老花镜）：</strong>优点-各自清晰度最好；缺点-换来换去麻烦<br>
+      • <strong>渐进多焦镜：</strong>优点-一副眼镜远中近都能看；缺点-需适应期（1-2周），有周边变形，价格较高<br>
+      • <strong>双焦点镜：</strong>优点-比渐进便宜；缺点-有明显分界线，外观不美观<br><br>
+      <strong>②验光注意事项：</strong><br>
+      • 分别测量远用度数（近视矫正）和近用加光度（ADD值）<br>
+      • 确认主视眼<br>
+      • 如顾客之前没有做过老花验光，需要先确认ADD度数（通常从+1.00开始试戴）<br>
+      • 老年人眼部可能有其他问题，如有异常建议就医<br><br>
+      <strong>③推荐话术：</strong>"阿姨，您300度近视加老花，最方便的方案是渐进多焦点镜，上半区看远、下半区看近，出门买菜、看手机都不用换镜子了。很多和您差不多情况的阿姨用了都特别满意，只需要1-2周适应一下。当然如果您不着急，两副眼镜来回换也是可以的，我来帮您分析一下两种方案的优劣……"
+    </div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">12. 【全流程应用】设计一个完整的"黄金30分钟"接待流程，描述从顾客进门到成交的每个关键节点（可以设定一个场景）：</div>
+    <textarea class="fill-input" rows="12" placeholder="设定场景（顾客背景）→进门接待→需求挖掘→验光引导→产品推荐→异议处理→成交收单→送客话术
+每个环节写出关键话术或行动..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a12')">查看参考答案</button>
+    <div class="answer-box" id="a12">
+      ✅ <strong>参考流程（场景：25岁男生，第一次配镜）：</strong><br><br>
+      <strong>进门接待（0-2分钟）：</strong>"您好，欢迎光临！请问您是来配镜还是只看看？"——开放式问候，不急于推产品。<br><br>
+      <strong>需求挖掘（2-8分钟）：</strong>"是第一次配镜呀，挺好的！我先问您几个问题更好帮您。主要是看电脑和手机用？还是开车看远用？有没有感觉眼睛疲劳的情况？"<br><br>
+      <strong>验光引导（8-20分钟）：</strong>"第一次配镜建议我们先做个全面验光，这样度数最准确。我带您去验光室，大概10分钟就好。"<br><br>
+      <strong>产品推荐（20-28分钟）：</strong>"您度数400度，右眼有50度散光。基于您用电脑多的情况，我推荐这款防蓝光非球面镜片，减少屏幕蓝光的同时成像也更清晰……"（FABE介绍）<br><br>
+      <strong>异议处理（若有）：</strong>"您觉得1000元有点贵，我来帮您算一下每天的成本……"（价值分解法）<br><br>
+      <strong>成交收单（28-30分钟）：</strong>"好的！我帮您下单。取镜时间大概3个工作日，您方便周几来？我预约一下。"（推进而非询问是否购买）<br><br>
+      <strong>送客话术：</strong>"好的，您的单子我帮您保管好，取镜时我带您调试确认合适再离开。有任何问题随时联系我们！"
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <button class="btn" onclick="showAllAnswers()">📖 展示全部答案</button>
+    <button class="btn" style="background:#e74c3c;" onclick="resetAll()">🔄 重置练习</button>
+  </div>
+</div>
+
+<script>
+function toggleAnswer(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+function showAllAnswers() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'block');
+}
+function resetAll() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.fill-input').forEach(el => el.value = '');
+}
+</script>
+<div class="nav-footer" style="max-width:960px;margin:28px auto 10px;padding:0 20px">
+  <a href="Day_50_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+  <a href="Day_51_学习内容.html" class="nav-btn">Day 51 学习内容 →</a>
+</div>
+
+<script>
+/* interactive-options-type-d-js */
+(function(){
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    // 收集该题所有 .option
+    var opts = Array.from(qBlock.querySelectorAll(':scope > .option, :scope > .options > .option'));
+    if(opts.length === 0) return;
+
+    // 找答案框：answer-box
+    var ansBox = qBlock.querySelector('.answer-box');
+    if(!ansBox) return;
+
+    // 从 answer-box 提取答案字母，支持多种格式：
+    // ✅ 正确答案：B / ✅ 答案：B / ✅ <strong>答案：B</strong>
+    var txt = ansBox.textContent || '';
+    var m = txt.match(/(?:\u6b63\u786e)?\u7b54\u6848[:\uff1a]\s*([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    opts.forEach(function(opt){
+      var letter = (opt.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      opt.classList.add('opt-clickable');
+      opt.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        opts.forEach(function(o){ o.classList.add('answered'); });
+        if(letter === correct){
+          opt.classList.add('opt-correct');
+          opt.textContent = '\u2705 ' + opt.textContent;
+        } else {
+          opt.classList.add('opt-wrong');
+          opt.textContent = '\u274c ' + opt.textContent;
+          opts.forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ o.classList.add('opt-reveal'); o.textContent = '\ud83d\udc49 ' + o.textContent; }
+          });
+        }
+        ansBox.style.display = 'block';
+        var btn = qBlock.querySelector('.btn-show, .show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
