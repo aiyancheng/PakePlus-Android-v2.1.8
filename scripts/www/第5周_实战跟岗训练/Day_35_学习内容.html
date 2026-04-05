@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 35 学习内容 — 跟岗总结与成长复盘</title>
+<style>
+  body{font-family:'Microsoft YaHei',sans-serif;background:#f5f7fa;margin:0;padding:20px;color:#333}
+  .container{max-width:860px;margin:0 auto;background:#fff;border-radius:12px;padding:36px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+  h1{color:#e67e22;font-size:1.6rem;border-bottom:3px solid #e67e22;padding-bottom:10px}
+  h2{color:#d35400;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #e67e22}
+  h3{color:#e67e22;font-size:1rem;margin-top:20px}
+  .card{background:#fff8f0;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #fde8c8}
+  .tip{background:#d1ecf1;border-left:4px solid #17a2b8;padding:10px 14px;border-radius:0 8px 8px 0;color:#0c5460;margin:10px 0;font-size:.95rem}
+  .warn{background:#fff3cd;border-left:4px solid #ffc107;padding:10px 14px;border-radius:0 8px 8px 0;color:#856404;margin:10px 0;font-size:.95rem}
+  .success{background:#d4edda;border-left:4px solid #28a745;padding:10px 14px;border-radius:0 8px 8px 0;color:#155724;margin:10px 0;font-size:.95rem}
+  table{width:100%;border-collapse:collapse;margin:14px 0}
+  th{background:#e67e22;color:#fff;padding:10px 14px;text-align:left}
+  td{padding:10px 14px;border-bottom:1px solid #fde8c8}
+  tr:nth-child(even) td{background:#fff8f0}
+  .badge{display:inline-block;background:#e67e22;color:#fff;border-radius:20px;padding:3px 12px;font-size:.85rem;margin:3px}
+  .step{display:flex;align-items:flex-start;margin:12px 0;gap:14px}
+  .step-num{background:#e67e22;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0}
+  .review-box{background:linear-gradient(135deg,#fff3e0,#ffe0b2);border-radius:12px;padding:20px 24px;margin:16px 0}
+  .star{color:#f39c12;font-size:1.2rem}
+  .nav-footer { display: flex; justify-content: space-between; margin: 20px 0 40px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #4facfe; border: 2px solid #4facfe; }
+  .nav-btn.outline:hover { background: #f0f9ff; }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div style="background:linear-gradient(135deg,#e67e22,#d35400);color:#fff;border-radius:10px;padding:20px 24px;margin-bottom:24px">
+    <div style="font-size:.9rem;opacity:.85">第5周 · Day 35 · 实战跟岗训练</div>
+    <h1 style="color:#fff;border:none;padding:0;margin:8px 0">🏆 跟岗总结与成长复盘</h1>
+    <p style="margin:4px 0;opacity:.9">回顾本周收获，找到成长方向，为独立接单做好准备</p>
+  </div>
+
+  <h2>📊 本周学习回顾</h2>
+  <p>经过第5周的实战跟岗训练，你已经完整体验了眼镜门店的服务全流程。让我们一起梳理本周的核心收获：</p>
+
+  <table class="structure-table">
+    <tr><th>天次</th><th>核心主题</th><th>关键技能</th></tr>
+    <tr><td><strong>Day 29</strong></td><td>全流程观摩</td><td>接待礼仪、服务流程顺序</td></tr>
+    <tr><td><strong>Day 30</strong></td><td>需求挖掘实战</td><td>开放式提问、倾听技巧</td></tr>
+    <tr><td><strong>Day 31</strong></td><td>FAB产品讲解</td><td>特征-优势-利益转化表达</td></tr>
+    <tr><td><strong>Day 32</strong></td><td>验光流程实操</td><td>电脑验光、试镜、处方解读</td></tr>
+    <tr><td><strong>Day 33</strong></td><td>制单与交付</td><td>工单填写规范、取镜服务</td></tr>
+    <tr><td><strong>Day 34</strong></td><td>客诉处理实战</td><td>HEART模型、情绪管理</td></tr>
+  </table>
+
+  <h2>🔍 自我评估框架</h2>
+  <div class="card">
+    <h3>五维能力自评</h3>
+    <p>请诚实地对以下5个维度进行1-5分的自我评估：</p>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div><strong>专业知识</strong>：镜片知识、验光基础、处方解读 <br><span class="star">☆☆☆☆☆</span> <small>（1=入门，5=熟练）</small></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div><strong>接待能力</strong>：问候礼仪、需求挖掘、沟通表达 <br><span class="star">☆☆☆☆☆</span></div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div><strong>产品推介</strong>：FAB讲解、差异化介绍、价格引导 <br><span class="star">☆☆☆☆☆</span></div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div><strong>操作规范</strong>：制单流程、取镜交付、设备使用 <br><span class="star">☆☆☆☆☆</span></div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div><strong>应变处理</strong>：客诉应对、异议处理、临场反应 <br><span class="star">☆☆☆☆☆</span></div>
+    </div>
+  </div>
+
+  <h2>💡 成长复盘方法——4F复盘法</h2>
+  <div class="card">
+    <div class="step">
+      <div class="step-num">F1</div>
+      <div>
+        <strong>Facts（事实）</strong>：这周发生了什么？<br>
+        例：我跟着师傅接待了多少位客户？遇到了哪些具体情况？
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">F2</div>
+      <div>
+        <strong>Feelings（感受）</strong>：我的感受是什么？<br>
+        例：哪些环节让我感到自信？哪些让我感到紧张或困惑？
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">F3</div>
+      <div>
+        <strong>Findings（发现）</strong>：我学到了什么？<br>
+        例：什么技巧最有效？什么误区需要避免？
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">F4</div>
+      <div>
+        <strong>Future（计划）</strong>：下周我要改进什么？<br>
+        例：独立接单时，我要重点加强哪3项能力？
+      </div>
+    </div>
+  </div>
+
+  <h2>📝 跟岗总结报告模板</h2>
+  <div class="card">
+    <h3>参考格式</h3>
+    <p><strong>姓名</strong>：___&emsp;&emsp;<strong>日期</strong>：2026年___月___日&emsp;&emsp;<strong>指导师傅</strong>：___</p>
+    
+    <p><strong>一、本周跟岗概况</strong></p>
+    <p>本周我共参与接待客户___名，独立辅助完成___项服务，完整观摩___次全流程。</p>
+    
+    <p><strong>二、最大收获（3条）</strong></p>
+    <p>1. ______________________________________<br>
+    2. ______________________________________<br>
+    3. ______________________________________</p>
+    
+    <p><strong>三、仍需改进的地方（2条）</strong></p>
+    <p>1. ______________________________________<br>
+    2. ______________________________________</p>
+    
+    <p><strong>四、下周独立接单目标</strong></p>
+    <p>我计划独立完成___次标准接待，重点提升___方面能力。</p>
+  </div>
+
+  <h2>🚀 进入第6周的准备清单</h2>
+  <div class="success">
+    ✅ 我已熟悉店内所有镜框与镜片的基本参数<br>
+    ✅ 我能流利说出FAB产品介绍话术<br>
+    ✅ 我知道验光单各数据的含义及选镜指导原则<br>
+    ✅ 我能规范填写销售工单<br>
+    ✅ 我了解基本的客诉处理流程
+  </div>
+
+  <div class="warn">
+    ⚠️ 独立接单注意事项：<br>
+    • 超出权限的事项（大额退款/质量纠纷）及时汇报店长<br>
+    • 不确定的技术问题不要猜测，要查资料或请教师傅<br>
+    • 遇到情绪激动客户先稳定情绪，不要硬碰
+  </div>
+
+  <div class="review-box">
+    <h3 style="margin-top:0;color:#d35400">🎯 本周金句</h3>
+    <p style="font-size:1.1rem;color:#e67e22"><em>"跟岗学习的目标不是模仿，而是理解。<br>当你理解了每个动作背后的原因，你才能灵活应对各种情况。"</em></p>
+    <p style="color:#777;font-size:.9rem">—— 加油，下周你将正式独立接单！</p>
+  </div>
+
+    <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">📊 第5周技能达标检验</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <p style="line-height:1.8;color:#555;margin-bottom:12px">检验自己本周实践效果：</p>
+    <table class="structure-table" style="width:100%;border-collapse:collapse;margin:14px 0">
+      <tr style="background:#2980b9;color:#fff"><th style="padding:10px 14px;text-align:left">技能点</th><th style="padding:10px 14px;text-align:left">本周实践了吗？</th><th style="padding:10px 14px;text-align:left">自评</th></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">FAB产品介绍</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□是 □否</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□流畅 □卡顿 □未尝试</td></tr>
+      <tr style="background:#eaf4fc"><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">协助验光接待</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□是 □否</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□流畅 □卡顿 □未尝试</td></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">工单填写与取镜</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□是 □否</td><td style="padding:10px 14px;border-bottom:1px solid #d0e8f5">□流畅 □卡顿 □未尝试</td></tr>
+      <tr style="background:#eaf4fc"><td style="padding:10px 14px">处理一次投诉/异议</td><td style="padding:10px 14px">□是 □否</td><td style="padding:10px 14px">□成功 □部分成功 □失败</td></tr>
+    </table>
+  </div>
+
+  <h2 style="color:#1a5276;font-size:1.15rem;margin-top:32px;padding-left:10px;border-left:4px solid #2980b9">🚀 进入第6周：独立接单训练</h2>
+  <div style="background:#eaf4fc;border-radius:10px;padding:18px 22px;margin:14px 0;border:1px solid #d0e8f5">
+    <p style="line-height:1.8;color:#555;margin-bottom:12px">第5周你完成了跟岗实战，第6周将正式进入独立接单训练：</p>
+    <ul style="padding-left:20px;margin-bottom:14px">
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">你将独立接待客户，而不只是协助</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">遇到困难可以求助，但要先独立尝试</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">每天记录成功和失败案例，持续改进</li>
+      <li style="line-height:1.8;color:#555;font-size:0.95em;margin-bottom:4px">目标：完成至少10次完整的独立接单</li>
+    </ul>
+    <div style="background:#d4edda;border-left:4px solid #28a745;padding:10px 14px;border-radius:0 8px 8px 0;color:#155724;margin:10px 0">
+      ✅ 跟岗是学习，独立接单是成长。从今天起，开始真正的蜕变！
+    </div>
+  </div>
+
+
+
+    <!-- 额外补充 -->
+  <div style="background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;border-radius:10px;padding:20px 24px;margin-top:16px;text-align:center">
+    <p style="font-size:1.1rem;font-weight:600;margin-bottom:8px">🌟 第5周跟岗训练圆满完成！</p>
+    <p style="opacity:.9">你已经完成了从观察到参与的第一步。下周，独立面对每一位客户，展现你的成长！</p>
+  </div>
+
+
+
+    <p style="text-align:center;color:#2980b9;font-weight:600;margin:12px 0">五周积累，是独立接单的底气。带上自信，迎接第6周！</p>
+  <p style="text-align:center;color:#aaa;font-size:.85rem;margin-bottom:12px">— Day 35 · 第5周总结 · 完成 —</p>
+
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_34_练习题.html">← Day 34 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_35_练习题.html">Day 35 周测 →</a>
+  </div>
+</div>
+</body>
+</html>
