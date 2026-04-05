@@ -1,0 +1,1022 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title> 中国近视前期管理专家共识(2025)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9ff;
+            color: #333;
+            line-height: 1.7;
+            padding: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="3" fill="%232a9af3" opacity="0.08"/></svg>');
+            font-size: 17px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 8px 30px rgba(26, 108, 204, 0.12);
+            overflow: hidden;
+            margin-top: 15px;
+            margin-bottom: 25px;
+            position: relative;
+            border-radius: 12px;
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, #1a6dcc, #2a9af3, #1a6dcc);
+            z-index: 10;
+        }
+        
+        header {
+            background: linear-gradient(rgba(26, 108, 204, 0.85), rgba(42, 154, 243, 0.9)), url('https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #ffcc00;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            line-height: 1.3;
+        }
+        
+        .subtitle {
+            font-size: 1.6rem;
+            opacity: 0.95;
+            font-weight: 300;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .header-image {
+            max-width: 900px;
+            margin: 30px auto 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header-image img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .intro {
+            padding: 45px 40px;
+            text-align: center;
+            background-color: #f0f7ff;
+            border-bottom: 1px solid #e0eeff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .intro h2 {
+            color: #1a6dcc;
+            margin-bottom: 25px;
+            font-size: 2.2rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .intro h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background-color: #ffcc00;
+        }
+        
+        .intro p {
+            font-size: 1.3rem;
+            max-width: 900px;
+            margin: 20px auto;
+            color: #444;
+            text-align: left;
+        }
+        
+        .highlight {
+            background-color: #fff9e6;
+            padding: 30px;
+            margin: 35px auto;
+            max-width: 900px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.1);
+        }
+        
+        .highlight p {
+            font-size: 1.3rem;
+            color: #d48806;
+            font-weight: 600;
+        }
+        
+        .highlight::before {
+            content: "!";
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            width: 30px;
+            height: 30px;
+            background-color: #ffcc00;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .main-content {
+            padding: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 35px;
+            margin-bottom: 35px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e8f2ff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 150, 0.12);
+        }
+        
+        .card h3 {
+            color: #1a6dcc;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            line-height: 1.4;
+        }
+        
+        .card h3 i {
+            margin-right: 15px;
+            color: #2a9af3;
+            width: 50px;
+            height: 50px;
+            background-color: #e6f7ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .card:hover .card-image img {
+            transform: scale(1.05);
+        }
+        
+        .card ul, .card ol {
+            padding-left: 25px;
+            margin-bottom: 18px;
+        }
+        
+        .card li {
+            margin-bottom: 12px;
+            padding-left: 5px;
+            position: relative;
+            text-align: left;
+        }
+        
+        .card li::before {
+            content: "•";
+            color: #2a9af3;
+            font-weight: bold;
+            position: absolute;
+            left: -15px;
+        }
+        
+        .card p {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+        
+        .definition-box {
+            background-color: #e6f7ff;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+        }
+        
+        .definition-box h4 {
+            color: #1a6dcc;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .definition-icon {
+            position: absolute;
+            top: -15px;
+            right: 15px;
+            width: 50px;
+            height: 50px;
+            background-color: #1a6dcc;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f7ff 100%);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+            border: 2px dashed #1a6dcc;
+            position: relative;
+        }
+        
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #1a6dcc;
+            line-height: 1;
+            margin-bottom: 12px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-text {
+            font-size: 1.3rem;
+            color: #555;
+        }
+        
+        .stat-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #2a9af3;
+            font-size: 1.8rem;
+            opacity: 0.5;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .info-item {
+            background-color: #f8fbff;
+            border-radius: 10px;
+            padding: 25px;
+        }
+        
+        .info-item h4 {
+            color: #1a6dcc;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+        
+        .info-item p {
+            color: #555;
+            font-size: 1.1rem;
+            text-align: left;
+        }
+        
+        .faq {
+            margin: 60px 0 40px;
+        }
+        
+        .faq h3 {
+            color: #1a6dcc;
+            margin-bottom: 35px;
+            text-align: center;
+            font-size: 2.2rem;
+            position: relative;
+        }
+        
+        .faq h3::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: #ffcc00;
+        }
+        
+        .faq-item {
+            margin-bottom: 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+        }
+        
+        .faq-question {
+            font-weight: 700;
+            color: #333;
+            padding: 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9ff;
+            transition: background-color 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .faq-question:hover {
+            background-color: #eef5ff;
+        }
+        
+        .faq-answer {
+            color: #555;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background-color: white;
+        }
+        
+        .faq-answer.open {
+            max-height: 500px;
+            padding: 25px;
+        }
+        
+        .faq-answer p, .faq-answer ol, .faq-answer ul {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        footer {
+            background-color: #0a2a5a;
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, #1a6dcc, #2a9af3, #1a6dcc);
+        }
+        
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer-logo {
+            font-size: 3rem;
+            color: #ffcc00;
+            margin-bottom: 25px;
+        }
+        
+        .contact-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .contact-icon:hover {
+            background-color: #1a6dcc;
+            transform: translateY(-5px);
+        }
+        
+        .floating-visuals {
+            position: absolute;
+            z-index: 1;
+            opacity: 0.1;
+        }
+        
+        .visual-1 {
+            top: 10%;
+            left: 5%;
+            font-size: 4rem;
+            color: #1a6dcc;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .visual-2 {
+            top: 15%;
+            right: 8%;
+            font-size: 3rem;
+            color: #2a9af3;
+            animation: float 8s ease-in-out infinite 1s;
+        }
+        
+        .visual-3 {
+            bottom: 20%;
+            left: 10%;
+            font-size: 3.5rem;
+            color: #1a6dcc;
+            animation: float 7s ease-in-out infinite 0.5s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        /* 优化桌面显示 */
+        @media (min-width: 1200px) {
+            .container {
+                margin-top: 25px;
+                margin-bottom: 35px;
+            }
+            
+            .main-content {
+                padding: 40px;
+            }
+            
+            .card {
+                padding: 40px;
+                margin-bottom: 40px;
+            }
+            
+            .intro {
+                padding: 60px 50px;
+            }
+            
+            .intro p {
+                font-size: 1.4rem;
+            }
+            
+            h1 {
+                font-size: 3.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.7rem;
+            }
+            
+            .card h3 {
+                font-size: 2rem;
+            }
+            
+            .info-grid {
+                gap: 30px;
+            }
+            
+            .faq h3 {
+                font-size: 2.4rem;
+            }
+        }
+        
+        /* 12寸平板电脑优化 */
+        @media (max-width: 1200px) and (min-width: 992px) {
+            .container {
+                max-width: 95%;
+                margin-top: 15px;
+                margin-bottom: 25px;
+            }
+            
+            .main-content {
+                padding: 35px;
+            }
+            
+            .card {
+                padding: 35px;
+                margin-bottom: 35px;
+            }
+            
+            .card-image {
+                height: 220px;
+            }
+            
+            .header-image img {
+                height: 220px;
+            }
+            
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .intro p, .highlight p {
+                font-size: 1.3rem;
+            }
+            
+            .card h3 {
+                font-size: 1.8rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stat-number {
+                font-size: 3.5rem;
+            }
+            
+            .faq h3 {
+                font-size: 2.2rem;
+            }
+            
+            .faq-question {
+                padding: 22px;
+                font-size: 1.15rem;
+            }
+        }
+        
+        /* 11寸平板电脑优化 */
+        @media (max-width: 991px) and (min-width: 768px) {
+            .container {
+                max-width: 95%;
+                margin-top: 10px;
+                margin-bottom: 20px;
+            }
+            
+            .main-content {
+                padding: 25px;
+            }
+            
+            .card {
+                padding: 30px;
+                margin-bottom: 30px;
+            }
+            
+            .card-image {
+                height: 200px;
+            }
+            
+            .header-image img {
+                height: 200px;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+            
+            .subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .intro p, .highlight p {
+                font-size: 1.2rem;
+            }
+            
+            .card h3 {
+                font-size: 1.6rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 3.2rem;
+            }
+            
+            .faq h3 {
+                font-size: 2rem;
+            }
+            
+            .faq-question {
+                padding: 20px;
+                font-size: 1.1rem;
+            }
+        }
+        
+        /* 小尺寸平板和手机优化 */
+        @media (max-width: 767px) {
+            h1 {
+                font-size: 2.1rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .header-image img {
+                height: 180px;
+            }
+            
+            .card {
+                padding: 22px;
+            }
+            
+            .card-image {
+                height: 180px;
+            }
+            
+            .stat-number {
+                font-size: 3rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .faq-question {
+                padding: 18px;
+                font-size: 1.05rem;
+            }
+        }
+        
+        /* 确保触摸友好 */
+        button, .action-button, .faq-question, .contact-icon {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        /* 优化文本选择 */
+        ::selection {
+            background-color: rgba(26, 108, 204, 0.2);
+            color: #1a6dcc;
+        }
+        
+        /* 返回首页按钮样式 */
+        .back-to-home {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #1a6dcc;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-home:hover {
+            background-color: #2a9af3;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h2>《中国近视前期管理专家共识(2025年)》</h2>
+                <p class="subtitle">让我们共同守护孩子的明亮未来</p>
+            </div>
+            
+            <div class="floating-visuals visual-1">
+                <i class="fas fa-glasses"></i>
+            </div>
+            <div class="floating-visuals visual-2">
+                <i class="fas fa-sun"></i>
+            </div>
+        </header>
+        
+        <section class="intro">
+            <p>我国儿童青少年近视率居高不下，近视低龄化问题日益突出。2025年最新发布的《中国近视前期管理专家共识》明确指出：<strong>近视前期是预防近视发生的关键窗口期</strong>，而建立儿童屈光档案是这一时期最重要的防控措施。</p>
+            <h3> 研究显示：在近视前期进行有效干预，可使近视发生率降低50%以上！</h3>
+        </section>
+    
+        <div class="floating-visuals visual-3">
+           <i class="fas fa-child"></i>
+        </div>
+   
+        <div class="main-content">
+            <!-- 什么是近视前期？ -->
+            <div class="card">
+                <h3><i class="fas fa-question-circle"></i> 什么是近视前期？</h3>
+                
+                <div class="card-image">
+                    <img src="images/R-C.jpg" alt="儿童视力检查">
+                </div>
+                
+                <p>根据2025年专家共识，<strong>近视前期</strong>是指儿童尚未发展成近视，但已经存在近视风险的阶段。具体表现为：</p>
+                <ul>
+                    <li>远视储备低于同龄儿童正常值</li>
+                    <li>眼轴长度增长过快</li>
+                    <li>父母双方或一方有高度近视</li>
+                    <li>每日户外活动时间不足</li>
+                    <li>长时间近距离用眼</li>
+                </ul>
+                
+                <div class="definition-box">
+                    <div class="definition-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h4>远视储备</h4>
+                    <p>儿童出生时眼球较小，具有生理性远视，这就是"远视储备"。随着生长发育，远视储备逐渐消耗，过度消耗将导致近视提前发生。</p>
+                    <p><strong>3岁儿童应有+2.00D～+2.50D的远视储备</strong>，如果远视储备低于相应年龄的正常值，就属于近视前期，需要重点关注。</p>
+                </div>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h4><i class="fas fa-exclamation-triangle"></i> 近视前期预警信号</h4>
+                        <p>经常揉眼睛、眨眼；看东西时眯眼、歪头；看电视、看书距离过近；经常抱怨头痛、眼疲劳；学习成绩下降；对光敏感。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 为什么要建立屈光档案？ -->
+            <div class="card">
+                <h3><i class="fas fa-folder-plus"></i> 为什么要建立屈光档案？</h3>
+                
+                <div class="card-image">
+                    <img src="images/tuichi.jpg" alt="儿童档案资料">
+                </div>
+                
+                <p>建立屈光档案是近视前期管理的核心措施，其重要性体现在：</p>
+                <ol>
+                    <li><strong>早期预警：</strong>通过定期检查，及时发现远视储备不足、眼轴增长过快等近视先兆</li>
+                    <li><strong>个性化干预：</strong>根据档案数据制定针对性的预防方案</li>
+                    <li><strong>动态监测：</strong>跟踪孩子视力发育过程，评估干预措施效果</li>
+                    <li><strong>科学预测：</strong>基于数据预测近视发生风险，提前采取强化措施</li>
+                </ol>
+                
+                <div class="stat-box">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-number">86%</div>
+                    <div class="stat-text">建立屈光档案并定期检查的儿童，其近视发生时间平均推迟2.3年</div>
+                </div>
+            </div>
+            
+            <!-- 屈光档案包含哪些内容？ -->
+            <div class="card">
+                <h3><i class="fas fa-tasks"></i> 屈光档案包含哪些内容？</h3>
+                
+                <div class="card-image">
+                    <img src="images/dangan.jpg" alt="眼科检查设备">
+                </div>
+                
+                <p>完整的儿童屈光档案应包括以下核心数据：</p>
+                <ul>
+                    <li><strong>基础信息：</strong>年龄、身高、体重、父母屈光状态</li>
+                    <li><strong>视力检查：</strong>裸眼视力、矫正视力</li>
+                    <li><strong>屈光状态：</strong>电脑验光、睫状肌麻痹验光（散瞳验光）</li>
+                    <li><strong>眼生物学测量：</strong>眼轴长度、角膜曲率、前房深度</li>
+                    <li><strong>视功能检查：</strong>调节功能、集合功能、双眼视功能</li>
+                    <li><strong>眼健康检查：</strong>眼位、眼球运动、眼前节及眼底检查</li>
+                </ul>
+                <p>专家共识建议：儿童应从3岁开始建立屈光档案，每6-12个月复查更新。</p>
+            </div>
+            
+            <!-- 儿童视力检查时间表 -->
+            <div class="card">
+                <h3><i class="fas fa-calendar-alt"></i> 儿童视力检查时间表</h3>
+                
+                <ul>
+                    <li><strong>新生儿期：</strong>眼病筛查</li>
+                    <li><strong>6-12个月：</strong>首次屈光筛查</li>
+                    <li><strong>3岁：</strong>建立屈光档案关键期</li>
+                    <li><strong>3-6岁：</strong>每年一次全面检查</li>
+                    <li><strong>小学期间：</strong>每6个月检查一次</li>
+                    <li><strong>中学期间：</strong>每6个月检查一次</li>
+                </ul>
+                <p>近视高风险儿童应增加检查频率至每3-6个月一次。</p>
+            </div>
+            
+            <!-- 家长如何配合建立屈光档案？ -->
+            <div class="card">
+                <h3><i class="fas fa-handshake"></i> 家长如何配合建立屈光档案？</h3>
+                
+                <div class="card-image">
+                    <img src="images/peihe.jpg" alt="家长与孩子互动">
+                </div>
+                
+                <p>作为家长，您在孩子近视防控中扮演着不可替代的角色：</p>
+                <ol>
+                    <li><strong>主动参与：</strong>主动向学校或医疗机构询问屈光档案建立事宜</li>
+                    <li><strong>定期检查：</strong>按照建议频率（每6-12个月）带孩子进行专业眼健康检查</li>
+                    <li><strong>数据记录：</strong>妥善保管每次检查结果，形成连续性的档案资料</li>
+                    <li><strong>家庭观察：</strong>关注孩子用眼行为，及时发现眯眼、歪头、揉眼等异常</li>
+                    <li><strong>生活方式管理：</strong>确保孩子每日户外活动时间≥2小时，控制近距离用眼时间</li>
+                </ol>
+                
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h4><i class="fas fa-mobile-alt"></i> 电子屏幕使用建议</h4>
+                        <p>遵循"20-20-20"原则：每使用20分钟电子屏幕，看20英尺（约6米）外物体20秒。2-5岁每天≤1小时，6岁以上每天≤2小时（学习除外）。</p>
+                    </div>
+                    <div class="info-item">
+                        <h4><i class="fas fa-apple-alt"></i> 营养与近视预防</h4>
+                        <p>均衡饮食，增加富含维生素A、C、E的食物，如深色蔬菜、水果、鱼类等。避免过多糖分摄入，高糖饮食可能促进近视发展。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 常见问题解答 -->
+            <section class="faq">
+                <h3>家长常见问题解答</h3>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>孩子视力1.0，还需要建立屈光档案吗？</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>需要！</strong>视力1.0并不代表没有近视风险。许多近视前期的儿童视力仍然正常，但远视储备已不足。只有通过专业检查（如眼轴测量、散瞳验光）才能发现潜在风险。建立屈光档案可以监测远视储备消耗速度，提前预警。</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>散瞳验光对孩子眼睛有害吗？</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>散瞳验光是安全必要的儿童眼检查。</strong>儿童眼睛调节力强，不散瞳无法获得准确的屈光度数。专家共识明确指出，散瞳验光是建立屈光档案的必要步骤。使用的睫状肌麻痹剂在指导下使用是安全的，药效过后即可恢复。</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>近视前期有哪些有效的干预措施？</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>根据2025年专家共识，近视前期的干预措施包括：</p>
+                        <ol>
+                            <li><strong>增加户外活动：</strong>每天至少2小时白天户外活动</li>
+                            <li><strong>减少近距离用眼：</strong>遵循"20-20-20"原则（每20分钟看20英尺外20秒）</li>
+                            <li><strong>改善用眼环境：</strong>保持充足光照，正确坐姿</li>
+                            <li><strong>医学干预：</strong>低浓度阿托品、角膜塑形镜等（需在医生指导下使用）</li>
+                            <li><strong>营养均衡：</strong>增加深色蔬菜、水果、鱼类等摄入</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>家长近视会遗传给孩子吗？</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>近视有一定的遗传倾向，尤其是高度近视。父母双方都近视的孩子，近视风险显著增加。但更重要的是，近视的发生受环境和行为因素影响更大。即使有遗传风险，通过建立屈光档案和科学干预，完全可以延缓或避免近视的发生。</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>建立屈光档案需要多少费用？</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>屈光档案的建立费用因地区和专业机构而异，一般包括初诊检查费和后续复查费。许多地区的公共卫生项目提供免费或补贴的儿童视力筛查。</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer id="contact">
+            <div class="footer-content">
+                <h3>让我们一起行动！</h3>
+                <p>本文基于《中国近视前期管理专家共识(2025年)》编制，内容仅供参考，具体诊疗请遵循专业人士指导。</p>
+                <p style="margin-top: 24px; font-size: 0.9rem; opacity: 0.8;">守护孩子的明亮未来 | 高级验光技师闫胜君工作室</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 返回首页按钮 -->
+    <a href="index.html" class="back-to-home">
+        <span>🏠</span>
+    </a>
+
+    <script>
+        // FAQ切换功能
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            answer.classList.toggle('open');
+            
+            if (answer.classList.contains('open')) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+        
+        // 页面加载时打开第一个FAQ
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstFAQ = document.querySelector('.faq-question');
+            if (firstFAQ) {
+                toggleFAQ(firstFAQ);
+            }
+            
+            // 为所有卡片添加悬停效果
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // 动画浮动的视觉效果
+            const visuals = document.querySelectorAll('.floating-visuals');
+            visuals.forEach((visual, index) => {
+                visual.style.animationDelay = `${index * 0.5}s`;
+            });
+            
+            // 添加触摸设备优化
+            if ('ontouchstart' in window) {
+                document.body.classList.add('touch-device');
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
