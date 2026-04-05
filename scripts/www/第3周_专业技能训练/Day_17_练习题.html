@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 17 练习题 - 商品陈列与货区管理</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 28px 40px; }
+  .header .badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; margin-bottom: 6px; }
+  .header p { opacity: 0.85; font-size: 14px; }
+  .container { max-width: 860px; margin: 30px auto; padding: 0 20px; }
+  .section { background: white; border-radius: 12px; padding: 28px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .section h2 { font-size: 18px; color: #333; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #667eea; }
+  .question { margin-bottom: 22px; }
+  .question .q-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #667eea; color: white; border-radius: 50%; font-size: 13px; font-weight: bold; margin-right: 8px; flex-shrink: 0; }
+  .question .q-text { font-size: 15px; line-height: 1.7; color: #333; font-weight: 500; display: flex; align-items: flex-start; }
+  .options { margin: 12px 0 0 36px; }
+  
+  .option:hover { background: #f0f4ff; border-color: #667eea; }
+  .option input[type="radio"], .option input[type="checkbox"] { margin-top: 2px; accent-color: #667eea; }
+  .option label { cursor: pointer; font-size: 14px; color: #555; line-height: 1.6; }
+  .answer-area { margin: 12px 0 0 36px; }
+  .answer-area textarea { width: 100%; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; font-size: 14px; color: #333; resize: vertical; min-height: 100px; font-family: 'Microsoft YaHei', sans-serif; }
+  .answer-area textarea:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 2px rgba(102,126,234,0.15); }
+  .scenario { background: #f0f4ff; border-left: 4px solid #667eea; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 10px 0 0 36px; font-size: 14px; color: #444; line-height: 1.7; }
+  .scenario strong { color: #667eea; }
+  .judge-options { margin: 10px 0 0 36px; display: flex; gap: 20px; }
+  .judge-btn { display: flex; align-items: center; gap: 8px; padding: 8px 20px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+  .judge-btn:hover { border-color: #667eea; background: #f0f4ff; }
+  .judge-btn input { accent-color: #667eea; }
+  .submit-area { text-align: center; padding: 20px 0; }
+  .submit-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 14px 50px; border-radius: 30px; font-size: 16px; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: opacity 0.2s; }
+  .submit-btn:hover { opacity: 0.88; }
+  .score-bar { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+  .score-item { background: white; border-radius: 10px; padding: 14px 24px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .score-item .num { font-size: 28px; font-weight: bold; color: #667eea; }
+  .score-item .label { font-size: 12px; color: #888; margin-top: 4px; }
+  /* 每题答案按钮 */
+  .show-answer-btn { display: block; margin: 8px 0 4px 36px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .show-answer-btn:hover { border-color: #667eea; color: #667eea; background: #f0f4ff; }
+  .answer-hint { display: none; margin: 4px 0 8px 36px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #166534; line-height: 1.7; }
+  /* 底部导航 */
+  .nav-footer { display: flex; justify-content: space-between; align-items: center; padding: 20px 0 30px; gap: 12px; }
+  .nav-btn { display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.25s; color: white; background: linear-gradient(135deg, #667eea, #764ba2); }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #667eea; border: 2px solid #667eea; }
+  .nav-btn.outline:hover { background: #f5f7ff; }
+
+  
+
+
+  /* ── 交互式选项（Day01标准） ── */
+  .options { list-style: none; padding: 0; margin: 12px 0 0 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-size: 0.93em; transition: all 0.2s; line-height: 1.6; }
+  .options li:hover:not(.answered) { border-color: var(--accent, #4CAF50); background: #f1f8e9; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events: none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events: none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
+  .options li.answered    { pointer-events: none !important; cursor: default !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">Day 17 · 练习题</div>
+  <h1>📝 商品陈列与货区管理 — 巩固测评</h1>
+  <p>共20题 · 建议完成时间25分钟 · 满分100分</p>
+</div>
+
+<div class="container">
+  <div class="score-bar">
+    <div class="score-item"><div class="num">10</div><div class="label">单选题（×4分）</div></div>
+    <div class="score-item"><div class="num">5</div><div class="label">判断题（×4分）</div></div>
+    <div class="score-item"><div class="num">2</div><div class="label">情景题（×10分）</div></div>
+  </div>
+
+  <!-- 单选题 -->
+  <div class="section">
+    <h2>📌 一、单选题（每题4分，共40分）</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">1</span>在眼镜门店陈列中，顾客视线高度（距地面90-150cm）的展示位置被称为什么？</div>
+          <ul class="options">
+      <li>A. 特价区</li>
+      <li>B. 黄金区域</li>
+      <li>C. 陈列死角</li>
+      <li>D. 促销区</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：顾客视线高度（90-150cm）被称为黄金区域，是最容易被关注的展示位置，应陈列主推产品。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">2</span>以下哪个区域的主要陈列目的是"吸引路过顾客进店"？</div>
+          <ul class="options">
+      <li>A. 验光接待区</li>
+      <li>B. 收银服务区</li>
+      <li>C. 橱窗展示区</li>
+      <li>D. 功能镜片区</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：橱窗展示区位于门店入口或临街面，主要功能是吸引路过的顾客进店。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">3</span>同一展柜内的镜架分类原则是什么？</div>
+          <ul class="options">
+      <li>A. 多种分类维度同时使用，展示更多产品</li>
+      <li>B. 随意摆放，顾客找喜欢的</li>
+      <li>C. 只选择一种分类维度，避免混乱</li>
+      <li>D. 按员工喜好排列</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：同一展柜只选择一种分类维度（如性别/材质/价位），避免混乱，让顾客更容易找到心仪产品。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">4</span>展柜保持饱满度的标准是多少以上？</div>
+          <ul class="options">
+      <li>A. 50%</li>
+      <li>B. 60%</li>
+      <li>C. 70%</li>
+      <li>D. 80%</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>D</strong><br>解析：展柜饱满度应保持在80%以上，既不显得空旷，又留有一定空间，不会显得拥挤杂乱。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">5</span>颜色渐变原则中，从左到右颜色应该如何排列？</div>
+          <ul class="options">
+      <li>A. 由深到浅</li>
+      <li>B. 由浅到深</li>
+      <li>C. 随机排列</li>
+      <li>D. 深浅交替</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：颜色渐变原则：从左到右由浅到深排列，视觉效果更整齐、更有层次感。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">6</span>开店前例行检查展柜时，以下哪项不是必须完成的工作？</div>
+          <ul class="options">
+      <li>A. 检查展架是否有倒落移位</li>
+      <li>B. 用软布擦拭展柜玻璃</li>
+      <li>C. 检查灯光是否正常</li>
+      <li>D. 统计当日营业额</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>D</strong><br>解析：统计当日营业额是收银工作，不属于开店前展柜例行检查的工作项目。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">7</span>价格梯度原则中，高端产品应该放在哪里？</div>
+          <ul class="options">
+      <li>A. 门店入口处</li>
+      <li>B. 店内较深处或专属展柜</li>
+      <li>C. 收银台旁边</li>
+      <li>D. 和普通产品混放</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：高端产品放在店内较深处或专属展柜，体现品质感，也能引导顾客深入浏览门店。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">8</span>镜架陈列信息完整原则中，以下哪项信息不属于必须展示的内容？</div>
+          <ul class="options">
+      <li>A. 产品名称或货号</li>
+      <li>B. 售价</li>
+      <li>C. 材质说明</li>
+      <li>D. 生产工厂地址</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>D</strong><br>解析：生产工厂地址不是陈列信息必须展示的内容；产品名称/货号、售价、材质是必要信息。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">9</span>闭店前，高价值产品应该如何处理？</div>
+          <ul class="options">
+      <li>A. 继续放在展柜上</li>
+      <li>B. 放入保险柜或上锁展柜</li>
+      <li>C. 带回家保管</li>
+      <li>D. 打包放在门口</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：闭店前高价值产品必须放入保险柜或上锁展柜，确保财产安全，这是门店安全管理的基本要求。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">10</span>收银服务区陈列眼镜护理用品的主要目的是什么？</div>
+          <ul class="options">
+      <li>A. 让柜台看起来更丰富</li>
+      <li>B. 收银同时触发附加销售</li>
+      <li>C. 方便员工自用</li>
+      <li>D. 作为礼品赠送顾客</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：收银台旁陈列护理用品，顾客结账时视线自然落在产品上，可触发附加销售，提升客单价。</div>
+    </div>
+  </div>
+
+  <!-- 判断题 -->
+  <div class="section">
+    <h2>✅ 二、判断题（每题4分，共20分）</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">11</span>陈列工作只在开店前需要做，营业期间无需维护。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">❌ 正确答案：<strong>B（错误）</strong><br>解析：陈列维护需要全天持续进行，顾客试戴后的复原、灯光检查、整洁维护等都需要随时处理。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">12</span>颜色鲜艳的镜架款式应放在显眼位置，起到吸引眼球的作用。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：颜色鲜艳的款式视觉冲击力强，放在显眼位置可有效吸引顾客目光，增加关注度。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">13</span>展柜玻璃上的指纹和雾气对顾客购物体验没有影响，不需要频繁清洁。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">❌ 正确答案：<strong>B（错误）</strong><br>解析：展柜玻璃上的指纹和雾气会遮挡商品，直接影响顾客观看体验和门店整洁形象，需要频繁清洁。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">14</span>顾客试戴后没有放回原位的镜架，员工需要及时复原至展架标准位置。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：顾客试戴后的复位是陈列维护的重要工作，保持展架整齐有序才能给顾客良好的购物体验。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">15</span>研究表明，零售门店中有超过70%的购买决策是在门店内产生的，因此陈列对销售非常重要。</div>
+          <ul class="options">
+      <li>A. ✅ 正确</li>
+      <li>B. ❌ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ 正确答案：<strong>A（正确）</strong><br>解析：研究证实70%以上的购买决策在门店内临时产生，良好的陈列能直接影响顾客的购买意愿。</div>
+    </div>
+  </div>
+
+  <!-- 情景题 -->
+  <div class="section">
+    <h2>🎭 三、情景应用题（每题10分，共20分）</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">16</span>情景分析题：</div>
+      <div class="scenario">
+        小王是新入职的销售员，今天负责整理一个镜架展柜。他发现展柜里有男款和女款镜架混放、有几副镜架没有价格标签、展架间距不等、还有一盏展柜灯坏了。请问小王应该按照什么顺序和方法来处理这些问题？请分点写出你的整改方案。
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="请写出你的整改方案（分步骤描述）..."></textarea>
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">17</span>思考题：</div>
+      <div class="scenario">
+        门店最近决定主推一款新到的中高端板材镜架（售价1280元），以提升客单价。根据今天学习的陈列知识，你会建议把这款镜架放在哪个位置？应该如何陈列才能让它更吸引顾客注意？请从位置选择、信息展示、周边陈列搭配三个角度回答。
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="请从位置选择、信息展示、周边陈列搭配三个角度回答..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- 实操自评 -->
+  <div class="section">
+    <h2>🛠️ 四、今日实操自评（共20分）</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">18</span>今天是否完成了师傅指派的展柜整理实操任务？</div>
+          <ul class="options">
+      <li>A. 已完成，并得到师傅验收通过（20分）</li>
+      <li>B. 已完成，但师傅提出了需要改进的地方（15分）</li>
+      <li>C. 完成了一部分，明天继续补完（10分）</li>
+      <li>D. 未完成（0分）</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">📋 本题为<strong>实操自评</strong>，请如实选择。没有标准"正确答案"，建议选A（完成并验收通过）为目标。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">19</span>整理完展柜后，是否拍照记录了"整理前后"的对比？</div>
+          <ul class="options">
+      <li>A. ✅ 是</li>
+      <li>B. ❌ 否</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">📋 本题为<strong>实操自评</strong>，建议选A。拍照对比记录是培养陈列意识和积累学习素材的好习惯。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">20</span>今日学习收获与疑问（请填写，不计分但很重要）：</div>
+      <div class="answer-area">
+        <textarea placeholder="请写下今天最大的收获是什么？有哪些还不理解的地方需要向师傅请教？"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="submit-area">
+    <button class="submit-btn" onclick="alert('练习题已提交！请交给师傅检查，共同复盘今日学习成果。')">提交练习题 ✓</button>
+  </div>
+
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_17_学习内容.html">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_18_学习内容.html">Day 18 学习内容 →</a>
+  </div>
+</div>
+
+
+
+
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card, .question, .q-block').forEach(function(card){
+    var hint = card.querySelector('.answer-hint, .answer-box');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<[^>]+>)?([A-Da-d正确错误])/i);
+    if(!m){
+      // 自评题等无标准答案的题目：点击标记选中 + 显示提示
+      var selfAnswered = false;
+      optsList.querySelectorAll('li').forEach(function(li){
+        li.style.cursor = 'pointer';
+        li.addEventListener('click', function(){
+          if(selfAnswered) return;
+          selfAnswered = true;
+          optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+          hint.style.display = 'block';
+          var btn = card.querySelector('.show-answer-btn');
+          if(btn) btn.style.display = 'none';
+        });
+      });
+      return;
+    }
+    var correctRaw = m[1];
+    // 支持汉字"正确"/"错误"和字母A/B/C/D
+    var correct = correctRaw.toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var txt = li.textContent.trim();
+      var letter = (txt.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
