@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 38 练习题 — 儿童配镜专项</title>
+<style>
+  body{font-family:'Microsoft YaHei',sans-serif;background:#f5f7fa;margin:0;padding:20px;color:#333}
+  .container{max-width:860px;margin:0 auto;background:#fff;border-radius:12px;padding:36px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+  h1{color:#2980b9;font-size:1.5rem;border-bottom:3px solid #2980b9;padding-bottom:10px}
+  h2{color:#1a5276;font-size:1.1rem;margin-top:28px}
+  .question{background:#eaf4fc;border-left:4px solid #2980b9;padding:14px 18px;margin:14px 0;border-radius:0 8px 8px 0}
+  .question p{margin:6px 0;font-weight:600}
+  .options label{display:block;padding:6px 10px;margin:4px 0;background:#d6eaf8;border-radius:6px;cursor:pointer}
+  .options label:hover{background:#aed6f1}
+  textarea{width:100%;box-sizing:border-box;padding:10px;border:2px solid #2980b9;border-radius:8px;font-size:.95rem;font-family:inherit;min-height:80px;resize:vertical}
+  .show-answer-btn{background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-size:.9rem;cursor:pointer;margin-top:10px;transition:all .2s}
+  .show-answer-btn:hover{opacity:.85}
+  .answer-hint{display:none;background:#e8f5e9;border-left:4px solid #27ae60;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:8px;color:#1a5276;font-size:.95rem}
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#2980b9,#1a5276);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#2980b9;border:2px solid #2980b9}
+
+  /* interactive-options-type-e */
+  .options label { cursor: pointer; transition: all 0.2s; }
+  .options label.opt-correct { background: #d4edda !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .options label.opt-wrong   { background: #f8d7da !important; color: #721c24 !important; pointer-events:none; }
+  .options label.opt-reveal  { background: #fff3cd !important; color: #856404 !important; pointer-events:none; }
+  .options label.answered    { pointer-events: none !important; cursor: default !important; }
+  .options input[type=radio] { display: none; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 38 练习题 — 儿童配镜专项</h1>
+
+  <h2>一、单选题</h2>
+
+  <div class="question">
+    <p>1. 12岁以下儿童首次配镜，最规范的做法是：</p>
+    <div class="options" id="q1">
+      <label><input type="radio" name="q1" value="A"> A. 直接用电脑验光仪测量后配镜</label>
+      <label><input type="radio" name="q1" value="B"> B. 建议到眼科医院做散瞳验光，凭处方来配镜</label>
+      <label><input type="radio" name="q1" value="C"> C. 先试戴几款，以看清楚为标准</label>
+      <label><input type="radio" name="q1" value="D"> D. 根据家长描述的情况估算度数</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：儿童尤其12岁以下调节能力强，不散瞳验光误差大，容易把"假性近视"配成真近视。正规做法是先到眼科医院做睫状肌麻痹散瞳验光，获取真实处方后再到门店配镜。</div>
+  </div>
+
+  <div class="question">
+    <p>2. 假性近视最主要的特征是：</p>
+    <div class="options" id="q2">
+      <label><input type="radio" name="q2" value="A"> A. 视力特别差，度数很高</label>
+      <label><input type="radio" name="q2" value="B"> B. 散瞳后度数明显降低甚至消失</label>
+      <label><input type="radio" name="q2" value="C"> C. 只有看近处不清楚</label>
+      <label><input type="radio" name="q2" value="D"> D. 孩子经常揉眼睛</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：假性近视（调节性近视）是睫状肌长时间紧张痉挛导致的，其本质是调节问题而非眼轴变长，散瞳后睫状肌放松，度数会明显降低甚至消失。这是区分真假近视的关键依据。</div>
+  </div>
+
+  <div class="question">
+    <p>3. 儿童镜框材质首选：</p>
+    <div class="options" id="q3">
+      <label><input type="radio" name="q3" value="A"> A. 纯钛金属，轻巧高档</label>
+      <label><input type="radio" name="q3" value="B"> B. 板材，颜色丰富</label>
+      <label><input type="radio" name="q3" value="C"> C. TR-90弹性材质，耐摔安全</label>
+      <label><input type="radio" name="q3" value="D"> D. 记忆金属，有弹性</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：儿童活泼好动，镜框安全第一。TR-90是一种超轻弹性热塑性聚合物，耐摔、不易碎、不含金属，即使镜框受到冲击也不会产生尖锐碎片伤人，是儿童镜框的首选材质。</div>
+  </div>
+
+  <div class="question">
+    <p>4. 家长问"配了眼镜度数会越来越深吗"，正确回应是：</p>
+    <div class="options" id="q4">
+      <label><input type="radio" name="q4" value="A"> A. "是的，戴了眼镜度数一般都会增长"</label>
+      <label><input type="radio" name="q4" value="B"> B. "不会的，配镜后度数就不会增长了"</label>
+      <label><input type="radio" name="q4" value="C"> C. "不配镜看不清楚才会度数加快增长，科学配镜+注意用眼才是关键"</label>
+      <label><input type="radio" name="q4" value="D"> D. "这个问题很难说，每个孩子情况不同"</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>C</strong><br>解析：度数增长与戴镜与否关系不大，主要受遗传、用眼习惯（近距离用眼时间）、户外活动时间等因素影响。不配镜让孩子长期眯眼、凑近看，反而会加快近视进展。科学配镜配合良好用眼习惯才是正确做法。</div>
+  </div>
+
+  <div class="question">
+    <p>5. 儿童配镜后，建议复查频率为：</p>
+    <div class="options" id="q5">
+      <label><input type="radio" name="q5" value="A"> A. 每年一次</label>
+      <label><input type="radio" name="q5" value="B"> B. 每3-6个月复查一次</label>
+      <label><input type="radio" name="q5" value="C"> C. 感觉看不清了再来</label>
+      <label><input type="radio" name="q5" value="D"> D. 每2年一次</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>B</strong><br>解析：儿童眼睛处于发育阶段，近视度数可能增长较快。每3-6个月复查一次，可及时发现度数变化、适时更换镜片，避免度数过深影响学习和眼部健康，同时也是门店维护儿童客户关系的重要手段。</div>
+  </div>
+
+  <h2>二、判断题</h2>
+
+  <div class="question">
+    <p>6. 3岁儿童视力0.5-0.6是正常的，属于生理性远视阶段。（&nbsp;&nbsp;&nbsp;）</p>
+    <div class="options" id="q6">
+      <label><input type="radio" name="q6" value="T"> ✔ 正确</label>
+      <label><input type="radio" name="q6" value="F"> ✘ 错误</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>正确</strong><br>解析：儿童视力是逐渐发育完善的。3岁时视力0.5-0.6属于正常范围，且处于生理性远视阶段（约+2.00D）。家长看到孩子视力不足1.0就担心是近视，需要给予专业解释：这是正常的发育过程，不是近视。</div>
+  </div>
+
+  <div class="question">
+    <p>7. OK镜（角膜塑形镜）可以在门店直接销售配戴，无需医生处方。（&nbsp;&nbsp;&nbsp;）</p>
+    <div class="options" id="q7">
+      <label><input type="radio" name="q7" value="T"> ✔ 正确</label>
+      <label><input type="radio" name="q7" value="F"> ✘ 错误</label>
+    </div>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 正确答案：<strong>错误</strong><br>解析：OK镜（角膜塑形镜）属于三类医疗器械，需要眼科医生处方才能配戴。在门店销售时必须严格要求家长提供医院处方，擅自推荐配戴OK镜是违规行为，且风险极大——操作不当可能导致角膜感染等严重后果。</div>
+  </div>
+
+  <h2>三、应用题</h2>
+
+  <div class="question">
+    <p>8. 一位妈妈带着9岁的孩子来配镜，孩子视力检查结果近视175度。妈妈很担心，问你"要不要配近视防控镜？有什么区别？"<br>请写出你的完整回答：</p>
+    <textarea id="q8" placeholder="先了解孩子情况：……&#10;解释普通镜片和防控镜片的区别：……&#10;给出推荐意见：……"></textarea>
+    <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+    <div class="answer-hint">✅ 参考答案要点：<br>
+    ① <strong>先了解情况</strong>：询问孩子度数增长情况（如去年多少度），了解用眼习惯（每天用眼时间、户外活动）；<br>
+    ② <strong>解释区别</strong>：普通单光镜片只负责矫正视力；近视防控镜片（如离焦镜）采用特殊设计，减少周边视网膜离焦，有研究显示可减缓近视增长速度约30-60%；<br>
+    ③ <strong>给出建议</strong>：如孩子度数增长较快（每年超过75度）或父母都是高度近视，推荐防控镜；若度数稳定，普通镜片+良好用眼习惯也可以；<br>
+    ④ <strong>关键话术</strong>："任何镜片都要配合好的用眼习惯，多做户外活动、每40分钟休息一下，才能真正控制近视增长。"</div>
+  </div>
+
+  <div class="nav-footer">
+    <a href="Day_38_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_39_学习内容.html" class="nav-btn">Day 39 学习内容 →</a>
+  </div>
+</div>
+
+<script>
+/* interactive-options-type-e-js */
+(function(){
+  // 找所有 .question div（每道题一个）
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    var optionsDiv = qBlock.querySelector('.options');
+    if(!optionsDiv) return;
+    var labels = optionsDiv.querySelectorAll('label');
+    if(labels.length === 0) return;
+    var hint = qBlock.querySelector('.answer-hint');
+    if(!hint) return;
+    var m = hint.innerHTML.match(/\u6b63\u786e\u7b54\u6848[:\uff1a]\s*<strong>([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+    labels.forEach(function(label){
+      // 提取 value 或文本里的字母
+      var inp = label.querySelector('input');
+      var letter = inp ? inp.value.toUpperCase() : (label.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      label.addEventListener('click', function(e){
+        e.preventDefault();
+        if(answered) return;
+        answered = true;
+        labels.forEach(function(l){ l.classList.add('answered'); });
+        if(letter === correct){
+          label.classList.add('opt-correct');
+          label.textContent = '\u2705 ' + label.textContent;
+        } else {
+          label.classList.add('opt-wrong');
+          label.textContent = '\u274c ' + label.textContent;
+          labels.forEach(function(l){
+            var raw = l.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var il = l.querySelector('input');
+            var oL = il ? il.value.toUpperCase() : (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ l.classList.add('opt-reveal'); l.textContent = '\ud83d\udc49 ' + l.textContent; }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = qBlock.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
