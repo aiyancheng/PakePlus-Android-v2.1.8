@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 27 练习题 | 投诉处理与危机公关</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #c0392b 0%, #f39c12 100%); color: white; padding: 28px 40px; }
+  .header .badge { background: rgba(0,0,0,0.12); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; margin-bottom: 6px; }
+  .header p { font-size: 14px; opacity: 0.9; }
+  .container { max-width: 860px; margin: 30px auto; padding: 0 20px; }
+  .section { background: white; border-radius: 12px; padding: 28px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .section h2 { font-size: 18px; color: #333; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #c0392b; }
+  .question { margin-bottom: 22px; }
+  .q-text { font-size: 15px; line-height: 1.7; color: #333; font-weight: 500; display: flex; align-items: flex-start; gap: 10px; }
+  .q-num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: #c0392b; color: white; border-radius: 50%; font-size: 13px; font-weight: bold; flex-shrink: 0; }
+  .options { margin: 12px 0 0 38px; }
+  
+  .option:hover { background: #fff5f5; border-color: #c0392b; }
+  .option input { margin-top: 2px; accent-color: #c0392b; }
+  .option label { cursor: pointer; font-size: 14px; color: #555; }
+  .judge-options { margin: 10px 0 0 38px; display: flex; gap: 20px; }
+  .judge-btn { display: flex; align-items: center; gap: 8px; padding: 8px 20px; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+  .judge-btn:hover { border-color: #c0392b; background: #fff5f5; }
+  .judge-btn input { accent-color: #c0392b; }
+  .scenario { background: #fff8e1; border-left: 4px solid #c0392b; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 10px 0 0 38px; font-size: 14px; color: #444; line-height: 1.7; }
+  .answer-area { margin: 12px 0 0 38px; }
+  .answer-area textarea { width: 100%; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; font-size: 14px; resize: vertical; min-height: 120px; font-family: 'Microsoft YaHei', sans-serif; }
+  .answer-area textarea:focus { outline: none; border-color: #c0392b; }
+  .show-answer-btn { display: block; margin: 8px 0 4px 38px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .show-answer-btn:hover { border-color: #c0392b; color: #c0392b; background: #fff5f5; }
+  .answer-hint { display: none; margin: 4px 0 8px 38px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #166534; line-height: 1.7; }
+  .scene-answer-btn { display: block; margin: 8px 0 4px 38px; background: none; border: 1px solid #bbb; border-radius: 6px; padding: 5px 14px; font-size: 13px; color: #666; cursor: pointer; font-family: 'Microsoft YaHei', sans-serif; transition: all 0.2s; }
+  .scene-answer-btn:hover { border-color: #c0392b; color: #c0392b; background: #fff5f5; }
+  .scene-answer { display: none; margin: 4px 0 8px 38px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #166534; line-height: 1.8; }
+  .nav-footer { display: flex; justify-content: space-between; align-items: center; padding: 20px 0 30px; gap: 12px; }
+  .nav-btn { display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.25s; color: white; background: linear-gradient(135deg, #c0392b, #f39c12); }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #c0392b; border: 2px solid #c0392b; }
+  .nav-btn.outline:hover { background: #fff5f5; }
+
+  
+
+
+  /* ── 交互式选项（Day01标准） ── */
+  .options { list-style: none; padding: 0; margin: 12px 0 0 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-size: 0.93em; transition: all 0.2s; line-height: 1.6; }
+  .options li:hover:not(.answered) { border-color: var(--accent, #4CAF50); background: #f1f8e9; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events: none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events: none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
+  .options li.answered    { pointer-events: none !important; cursor: default !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="badge">Day 27 · 练习题</div>
+  <h1>投诉处理与危机公关 · 技能检测</h1>
+  <p>第4周 · 销售话术与中期考核</p>
+</div>
+<div class="container">
+
+  <!-- 单选题 -->
+  <div class="section">
+    <h2>📝 单选题</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">1</span><span>HEARD投诉处理模型中，第一步"H"代表：</span></div>
+          <ul class="options">
+      <li>A. Help（帮助）</li>
+      <li>B. Hear（倾听）</li>
+      <li>C. Handle（处理）</li>
+      <li>D. Hold（安抚）</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：B（Hear - 倾听）</strong><br>解析：HEARD模型是投诉处理的五步法：H=Hear（倾听）、E=Empathize（共情）、A=Apologize（道歉）、R=Resolve（解决）、D=Diagnose（复盘诊断）。第一步是让顾客把话说完，不打断、认真听，这是所有投诉处理的基础。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">2</span><span>顾客激动投诉时，最应优先做的是：</span></div>
+          <ul class="options">
+      <li>A. 立即解释原因，证明不是门店的错</li>
+      <li>B. 先安抚情绪，让顾客感到被倾听和尊重</li>
+      <li>C. 请顾客等待，去叫店长来处理</li>
+      <li>D. 告诉顾客这是行业通行做法</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：B</strong><br>解析：处理投诉时"情绪第一，事实第二"。顾客激动时急于解释只会激化矛盾；先稳定情绪，让顾客感到被理解和尊重，才能进入理性沟通阶段。A是在顾客激动时争辩，C是推卸责任，D是敷衍，都是错误做法。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">3</span><span>处理网络差评时，正确的做法是：</span></div>
+          <ul class="options">
+      <li>A. 删除差评，不予回应</li>
+      <li>B. 公开争辩，为门店澄清</li>
+      <li>C. 24小时内公开致歉并邀请私信联系解决</li>
+      <li>D. 等顾客自己删除</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：C</strong><br>解析：网络差评具有公开性，处理方式会被更多潜在顾客看到。24小时内回复显示门店重视服务；公开致歉体现诚意；引导私信联系是将问题转移到私下妥善解决的专业做法。A无法操作且显得心虚；B会引发更大舆情；D是放任。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">4</span><span>顾客反映新配眼镜佩戴头晕，首先应：</span></div>
+          <ul class="options">
+      <li>A. 告诉顾客这是正常适应期，不用管</li>
+      <li>B. 安慰情绪，立即安排重新验光检查</li>
+      <li>C. 让顾客再戴两周看看再说</li>
+      <li>D. 要求顾客出示购买凭证</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：B</strong><br>解析：头晕可能是正常适应期，也可能是度数有误或轴位偏差导致的。专业做法是先安慰顾客情绪，然后立即安排重新验光，对比原始处方。A是武断判断；C是拖延处理；D是先查凭证会让顾客产生被质疑的感觉，进一步激化矛盾。</div>
+    </div>
+  </div>
+
+  <!-- 判断题 -->
+  <div class="section">
+    <h2>✅ 判断题</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">5</span><span>顾客投诉时，即使他说错了，也不应该在现场当面纠正他。</span></div>
+          <ul class="options">
+      <li>A. ✔ 正确</li>
+      <li>B. ✘ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：A（正确）</strong><br>解析：当顾客情绪激动时，现场当面纠正他的错误，只会让顾客感到被否定，进而加剧冲突。正确的做法是先共情安抚，待情绪平稳后再委婉提供正确信息。赢得理论胜利但失去顾客信任是得不偿失的。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">6</span><span>顾客投诉后，应记录在案并向店长汇报，以便复盘改进。</span></div>
+          <ul class="options">
+      <li>A. ✔ 正确</li>
+      <li>B. ✘ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：A（正确）</strong><br>解析：投诉记录是门店质量管理的重要工具。通过记录投诉内容、处理方式和顾客反馈，可以分析共性问题，改进服务流程，防止同类问题再次发生。这是HEARD模型最后一步"D（复盘）"的核心要求。</div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">7</span><span>处理完投诉后，应主动跟进顾客满意度，确认问题已解决。</span></div>
+          <ul class="options">
+      <li>A. ✔ 正确</li>
+      <li>B. ✘ 错误</li>
+    </ul>
+      <button class="show-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="answer-hint">✅ <strong>正确答案：A（正确）</strong><br>解析：处理完投诉不代表事情结束。主动跟进（如1-2天后发微信询问"您好，上次的问题处理后一切都好吗？"）是专业服务的体现，能将投诉顾客转化为忠实顾客。研究表明，投诉被妥善解决后顾客的忠诚度往往高于从未投诉的顾客。</div>
+    </div>
+  </div>
+
+  <!-- 情景模拟 -->
+  <div class="section">
+    <h2>🎭 情景模拟题</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">8</span><span>请写出你的完整应对流程（至少包含：安抚情绪→引导到旁边→确认问题→给方案）：</span></div>
+      <div class="scenario">
+        <strong>情景：</strong>顾客在门店大声喊："你们这眼镜质量太差了！买了才两个月就坏了！我要退款！"旁边有其他顾客在看。
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="写出完整的处理流程和话术，注意控制现场氛围"></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        <strong>✅ 参考答案要点：</strong><br><br>
+        ① <strong>安抚情绪（降低音量，保持微笑）：</strong><br>
+        "您好，我非常理解您的心情，眼镜用了两个月就出现问题，这真的很让人着急……"<br><br>
+        ② <strong>引导到旁边（避免公众围观）：</strong><br>
+        "来，我们去这边坐下来，我认真听您说，好吗？"（轻声引导到较私密的位置）<br><br>
+        ③ <strong>确认问题（专业了解情况）：</strong><br>
+        "您能告诉我是哪个部位损坏了吗？平时使用有没有磕碰或掉落过？我帮您仔细检查一下。"<br><br>
+        ④ <strong>给出方案（两种情况分别处理）：</strong><br>
+        "如果检查后是材质问题导致的自然损坏，我们会为您免费维修或更换，这是我们的服务承诺；如果是外力导致，我们也有优惠维修价格，我帮您好好处理。您放心，我们会负责到底的。"
+      </div>
+    </div>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">9</span><span>请写出一条专业的公开回复（控制在120字以内）：</span></div>
+      <div class="scenario">
+        <strong>情景：</strong>门店收到一条网络差评："这家店服务态度太差，等了很久都没人理我，绝对不会再来了！"
+      </div>
+      <div class="answer-area">
+        <textarea placeholder="写出公开差评回复，体现诚意和专业度"></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        <strong>✅ 参考答案：</strong><br><br>
+        "您好！非常感谢您的反馈，对于您所描述的等待体验，我们深感抱歉。我们一直致力于为每位顾客提供及时、贴心的服务，显然这次未能做到，这是我们的不足。诚邀您通过私信或致电联系我们，我们会认真倾听并妥善处理。期待能有机会再次为您服务。"<br><br>
+        <strong>评分要点：</strong><br>
+        ✅ 及时致歉，不辩解<br>
+        ✅ 承认不足，不推卸责任<br>
+        ✅ 引导私信处理（保护双方隐私）<br>
+        ✅ 语气专业有诚意<br>
+        ✅ 字数控制在120字以内
+      </div>
+    </div>
+  </div>
+
+  <!-- 综合应用 -->
+  <div class="section">
+    <h2>🌟 综合应用题</h2>
+
+    <div class="question">
+      <div class="q-text"><span class="q-num">10</span><span>请用HEARD模型，写出处理以下投诉的完整流程：<br><small style="font-size:13px;color:#666;font-weight:400">顾客投诉：配镜3天了眼睛还是很酸，怀疑度数做错了，情绪非常激动。</small></span></div>
+      <div class="answer-area">
+        <textarea style="min-height:140px" placeholder="H（倾听）：……&#10;E（共情）：……&#10;A（道歉）：……&#10;R（解决）：……&#10;D（复盘）：……"></textarea>
+      </div>
+      <button class="scene-answer-btn" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">查看参考答案</button>
+      <div class="scene-answer">
+        <strong>✅ 参考答案（HEARD模型）：</strong><br><br>
+        <strong>H（Hear 倾听）：</strong><br>
+        请顾客坐下，认真听他描述症状，不打断，不解释，点头表示在听。<br><br>
+        <strong>E（Empathize 共情）：</strong><br>
+        "我完全理解，眼睛酸胀真的很不舒服，配了眼镜还出现这个情况，换我也会非常着急。"<br><br>
+        <strong>A（Apologize 道歉）：</strong><br>
+        "非常抱歉您有这样的体验，不管是什么原因，让您有这种感受我们都深感遗憾，我们来认真查一下原因。"<br><br>
+        <strong>R（Resolve 解决）：</strong><br>
+        "我现在帮您重新验光，对比原始处方，如果有误差我们立即免费重做；如果度数准确，我来给您解释适应期的正常反应，并教您缓解方法。"<br><br>
+        <strong>D（Diagnose 复盘）：</strong><br>
+        事后记录本次投诉内容和处理结果，检查加工流程是否存在问题，向店长汇报并讨论改进措施，防止同类情况再发生。
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部导航 -->
+  <div class="nav-footer">
+    <a href="Day_27_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_28_中期考核.html" class="nav-btn">Day 28 中期考核 →</a>
+  </div>
+</div>
+
+
+
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card, .question, .q-block').forEach(function(card){
+    var hint = card.querySelector('.answer-hint, .answer-box');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<[^>]+>)?([A-Da-d正确错误])/i);
+    if(!m) return;
+    var correctRaw = m[1];
+    // 支持汉字"正确"/"错误"和字母A/B/C/D
+    var correct = correctRaw.toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var txt = li.textContent.trim();
+      var letter = (txt.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
