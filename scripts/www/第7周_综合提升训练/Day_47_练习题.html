@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 47 练习题：顾客心理与消费行为分析</title>
+<style>
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f0fa; margin: 0; padding: 20px; }
+  .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  h1 { color: #2c3e50; border-bottom: 3px solid #8e44ad; padding-bottom: 12px; }
+  .info-bar { background: #f5eaff; border-radius: 8px; padding: 12px 20px; margin: 16px 0; display: flex; gap: 30px; font-size: 14px; color: #6c3483; flex-wrap: wrap; }
+  h2 { color: #8e44ad; margin-top: 30px; }
+  .question { background: #fdf9ff; border: 1px solid #e8d5f5; border-radius: 8px; padding: 20px; margin: 16px 0; }
+  .question-num { font-weight: bold; color: #8e44ad; font-size: 15px; }
+  .option { padding: 8px 12px; margin: 6px 0; background: #f5eaff; border-radius: 6px; cursor: pointer; border: 1px solid #d2b4de; }
+  .option:hover { background: #e8d5f5; }
+  .fill-input { width: 100%; padding: 10px; border: 1px solid #d2b4de; border-radius: 6px; font-size: 14px; margin-top: 8px; box-sizing: border-box; }
+  .answer-box { background: #eafaf1; border: 1px dashed #27ae60; border-radius: 8px; padding: 14px 18px; margin-top: 10px; display: none; color: #1a5c38; }
+  .btn { background: #8e44ad; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-size: 14px; margin: 4px; }
+  .btn:hover { background: #7d3c98; }
+  .btn-show { background: #27ae60; }
+  .btn-show:hover { background: #1e8449; }
+  .section-tag { background: #8e44ad; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-right: 8px; }
+  .scenario { background: #fff8f0; border-left: 4px solid #e67e22; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 10px 0; font-style: italic; color: #7d4a1a; font-size: 14px; }
+  .nav-footer{display:flex;justify-content:space-between;margin:28px 0 10px;gap:12px}
+  .nav-btn{background:linear-gradient(135deg,#8e44ad,#6c3483);color:#fff;padding:12px 28px;border-radius:30px;text-decoration:none;font-size:.95em;font-weight:600;transition:all .2s;text-align:center}
+  .nav-btn:hover{opacity:.85;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+  .nav-btn.outline{background:#fff;color:#8e44ad;border:2px solid #8e44ad}
+
+  /* interactive-options-type-d */
+  .option { cursor: pointer; transition: all 0.2s; }
+  .option.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events:none; }
+  .option.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events:none; }
+  .option.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events:none; }
+  .option.answered    { pointer-events: none !important; cursor: default !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📝 Day 47 练习题：顾客心理与消费行为分析</h1>
+  <div class="info-bar">
+    <span>📅 第7周 第5天</span>
+    <span>⏱ 建议用时：30分钟</span>
+    <span>🧠 主题：顾客心理与应对</span>
+    <span>💯 总分：100分</span>
+  </div>
+
+  <h2><span class="section-tag">A</span>类型识别题（每题10分，共40分）</h2>
+  <p style="color:#666; font-size:14px;">阅读以下顾客描述，判断属于哪种类型，并写出你的应对策略（目的明确/犹豫不决/价格敏感/品质至上/他人影响/随意浏览）</p>
+
+  <div class="question">
+    <div class="question-num">1. 判断顾客类型并写出应对策略：</div>
+    <div class="scenario">李先生（45岁）进门后就说："我想配一副渐进多焦点镜片，我在网上查过了，下加光+2.25，之前用蔡司的，这次也想用蔡司，你们有吗？"</div>
+    <textarea class="fill-input" rows="4" placeholder="类型是：_____ 应对策略：..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a1')">查看答案</button>
+    <div class="answer-box" id="a1">✅ <strong>类型：目的明确型</strong><br><br>应对策略：快速确认需求（"好的，您之前用的是蔡司哪个系列？我帮您找最匹配的"），直接引导至蔡司渐进系列产品，重点介绍参数匹配度，避免过多铺垫，尊重他已有的品牌认知，快速高效完成成交。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">2. 判断顾客类型并写出应对策略：</div>
+    <div class="scenario">一位20岁女生，进门后反复拿起三四款镜架试戴，每次试完都说"感觉都还好…但不知道选哪个"，已经在店里待了40分钟还没决定。</div>
+    <textarea class="fill-input" rows="4" placeholder="类型是：_____ 应对策略：..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a2')">查看答案</button>
+    <div class="answer-box" id="a2">✅ <strong>类型：犹豫不决型</strong><br><br>应对策略：帮她缩小选择范围。"我看您试了这么多款，其实有两款特别适合您的脸型，一款是这个方框、更有气场；另一款是这个细圆框、更温柔。您平时穿衣风格更偏哪种？"——给出明确建议，用她的生活场景来帮她做决定，而不是继续让她比较。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">3. 判断顾客类型并写出应对策略：</div>
+    <div class="scenario">一对夫妻进店，妻子在选眼镜，但每选一款都先看丈夫，问"你觉得这个好看吗？"，丈夫说好才愿意继续。丈夫表现得有些无聊，在旁边刷手机。</div>
+    <textarea class="fill-input" rows="4" placeholder="类型是：_____ 应对策略：..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a3')">查看答案</button>
+    <div class="answer-box" id="a3">✅ <strong>类型：他人影响型</strong><br><br>应对策略：把丈夫变成"销售同盟"。主动跟丈夫互动："这位大哥，您觉得您太太戴这款气质怎么样？"——让丈夫产生参与感，一旦丈夫表达认可，妻子就会更快决定。同时给丈夫找点事做（如介绍产品特点），避免他无聊离场造成时间压力。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">4. 判断顾客类型并写出应对策略：</div>
+    <div class="scenario">一位大爷进来，第一句话就是："你们这里最便宜的眼镜多少钱？100块以内有没有？"，你告诉他最低要200多，他立刻说："这么贵！我去别家看看。"</div>
+    <textarea class="fill-input" rows="4" placeholder="类型是：_____ 应对策略：..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a4')">查看答案</button>
+    <div class="answer-box" id="a4">✅ <strong>类型：价格敏感型</strong><br><br>应对策略：不争辩"贵不贵"，而是转向"值不值"——"大爷，您别急走，我理解您对价格的考量。我们200多的这款已经是同类产品里最实惠的了，镜片是国产正规品牌，有质保，用个两三年没问题。您如果买100块的，很可能半年就花了，反而不合算。我给您算一下..."——用长期使用成本的角度帮他重新衡量性价比。</div>
+  </div>
+
+  <h2><span class="section-tag">B</span>单选题（每题8分，共40分）</h2>
+
+  <div class="question">
+    <div class="question-num">5. 顾客正反复拿起同一款镜架，主动问"这个多久能取到？"，这属于什么信号？</div>
+    <div class="option">A. 退出信号，顾客准备离开</div>
+    <div class="option">B. 积极购买信号，应该适时推进成交</div>
+    <div class="option">C. 顾客只是随便问问，不代表有购买意向</div>
+    <div class="option">D. 顾客对价格有异议</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a5')">查看答案</button>
+    <div class="answer-box" id="a5">✅ <strong>答案：B</strong><br>"多久能取"是典型的积极购买信号，说明顾客已经在考虑购买后的安排，此时应该顺势推进："一般3个工作日就可以取，您方便哪天来？我帮您预约一下。"——把问题变为成交动作。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">6. 顾客进门第一件事是先看最贵的产品（2000元款），然后觉得800元的"好像还行"，这体现了什么消费心理？</div>
+    <div class="option">A. 从众心理</div>
+    <div class="option">B. 锚定效应</div>
+    <div class="option">C. 稀缺心理</div>
+    <div class="option">D. 互惠原则</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a6')">查看答案</button>
+    <div class="answer-box" id="a6">✅ <strong>答案：B</strong><br>锚定效应：消费者对价格的判断受"初始参考价格"（锚点）影响。看过2000元的，再看800元的会觉得"便宜多了，还可以接受"。门店陈列策略可以有意利用这一点。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">7. 顾客说"再考虑考虑"转身要走，你最不应该做的是？</div>
+    <div class="option">A. 礼貌表示欢迎随时回来，并给一张名片或加微信</div>
+    <div class="option">B. 主动追问"您是觉得价格问题还是不喜欢款式？"</div>
+    <div class="option">C. 拉住顾客的手臂，强行挽留</div>
+    <div class="option">D. 告知今日有活动，离开后可能不再享受</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a7')">查看答案</button>
+    <div class="answer-box" id="a7">✅ <strong>答案：C</strong><br>身体接触挽留顾客是绝对禁止的行为，会让顾客产生强烈反感，甚至引发纠纷。正确做法是礼貌放人（B和A都可以尝试），不给压迫感，反而更容易留下好印象，增加回头可能性。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">8. 面对"品质至上型"顾客，以下哪种做法最有效？</div>
+    <div class="option">A. 立即告诉他可以打折</div>
+    <div class="option">B. 展示品牌背书、技术参数，提供专属服务体验</div>
+    <div class="option">C. 向他介绍"大家都买这款"</div>
+    <div class="option">D. 快速推荐性价比最高的产品</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a8')">查看答案</button>
+    <div class="answer-box" id="a8">✅ <strong>答案：B</strong><br>品质至上型顾客购买的是"最好的"，他们不需要折扣（折扣反而可能降低品质感），需要的是专业深度和"专属感"。用品牌故事、技术参数、个性化服务打动他们，而非价格。</div>
+  </div>
+
+  <div class="question">
+    <div class="question-num">9. 顾客购买眼镜后三天来反映"戴了头晕"，这属于消费决策哪个阶段的问题？</div>
+    <div class="option">A. 需求觉醒阶段</div>
+    <div class="option">B. 方案评估阶段</div>
+    <div class="option">C. 购买决策阶段</div>
+    <div class="option">D. 购后评估阶段</div>
+    <button class="btn btn-show" onclick="toggleAnswer('a9')">查看答案</button>
+    <div class="answer-box" id="a9">✅ <strong>答案：D</strong><br>购买后使用中的体验反馈属于"购后评估阶段"。这个阶段处理得好（热情解释适应期、提供解决方案），顾客会转化为忠实客户；处理不当则会成为投诉来源。</div>
+  </div>
+
+  <h2><span class="section-tag">C</span>话术改写题（20分）</h2>
+
+  <div class="question">
+    <div class="question-num">10. 请将以下"低效话术"改写为"高效话术"（使用二选一或引导型提问）：</div>
+    <p>低效话术A：<em>"您要买这款吗？要的话我帮您开单。"</em></p>
+    <p>低效话术B：<em>"这两款你喜欢哪个就选哪个吧，都挺好的。"</em></p>
+    <textarea class="fill-input" rows="6" placeholder="请分别改写A和B，让它们更有引导力和成交感..."></textarea>
+    <button class="btn btn-show" onclick="toggleAnswer('a10')">查看参考答案</button>
+    <div class="answer-box" id="a10">
+      ✅ <strong>参考改写：</strong><br><br>
+      <strong>话术A改写：</strong>"我看您刚才试戴这款特别好看，气质和您很搭！您是今天就配，还是想先做个验光参考一下度数？"——不问"买不买"，而是推进"下一步"。<br><br>
+      <strong>话术B改写：</strong>"我帮您分析一下：这款金属细框更显精致，适合商务或约会场合；这款板材框更休闲时尚，日常戴更自然。您平时主要是上班戴还是日常戴？"——用场景区分两款差异，帮顾客做决定，而不是把决定权全扔给他。
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <button class="btn" onclick="showAllAnswers()">📖 展示全部答案</button>
+    <button class="btn" style="background:#e74c3c;" onclick="resetAll()">🔄 重置练习</button>
+  </div>
+
+  <div class="nav-footer">
+    <a href="Day_47_学习内容.html" class="nav-btn outline">← 返回学习内容</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a href="Day_48_学习内容.html" class="nav-btn">Day 48 学习内容 →</a>
+  </div>
+</div>
+
+<script>
+function toggleAnswer(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+function showAllAnswers() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'block');
+}
+function resetAll() {
+  document.querySelectorAll('.answer-box').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.fill-input').forEach(el => el.value = '');
+}
+</script>
+
+<script>
+/* interactive-options-type-d-js */
+(function(){
+  document.querySelectorAll('.question').forEach(function(qBlock){
+    // 收集该题所有 .option
+    var opts = Array.from(qBlock.querySelectorAll(':scope > .option, :scope > .options > .option'));
+    if(opts.length === 0) return;
+
+    // 找答案框：answer-box
+    var ansBox = qBlock.querySelector('.answer-box');
+    if(!ansBox) return;
+
+    // 从 answer-box 提取答案字母，支持多种格式：
+    // ✅ 正确答案：B / ✅ 答案：B / ✅ <strong>答案：B</strong>
+    var txt = ansBox.textContent || '';
+    var m = txt.match(/(?:\u6b63\u786e)?\u7b54\u6848[:\uff1a]\s*([A-Da-d])/i);
+    if(!m) return;
+    var correct = m[1].toUpperCase();
+    var answered = false;
+
+    opts.forEach(function(opt){
+      var letter = (opt.textContent.trim().match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+      opt.classList.add('opt-clickable');
+      opt.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        opts.forEach(function(o){ o.classList.add('answered'); });
+        if(letter === correct){
+          opt.classList.add('opt-correct');
+          opt.textContent = '\u2705 ' + opt.textContent;
+        } else {
+          opt.classList.add('opt-wrong');
+          opt.textContent = '\u274c ' + opt.textContent;
+          opts.forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c\ud83d\udc49]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.\uff0e\u3001\s]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){ o.classList.add('opt-reveal'); o.textContent = '\ud83d\udc49 ' + o.textContent; }
+          });
+        }
+        ansBox.style.display = 'block';
+        var btn = qBlock.querySelector('.btn-show, .show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
