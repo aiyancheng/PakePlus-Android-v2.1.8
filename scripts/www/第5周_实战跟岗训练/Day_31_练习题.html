@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 31 练习题 - FAB产品讲解训练</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 26px; margin-bottom: 8px; }
+  .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 18px; color: #333; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #11998e; }
+  .q-block { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px dashed #e8ecf0; }
+  .q-block:last-child { border-bottom: none; }
+  .q-num { display: inline-block; background: #11998e; color: white; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-size: 13px; margin-right: 8px; }
+  .q-title { font-size: 15px; color: #333; margin-bottom: 16px; line-height: 1.7; display: flex; align-items: flex-start; gap: 8px; }
+  .options { padding-left: 36px; }
+  
+  .option:hover { border-color: #11998e; background: #f0fdf9; }
+  .option input { margin-top: 2px; accent-color: #11998e; }
+  .option label { font-size: 14px; color: #555; cursor: pointer; line-height: 1.6; }
+  .answer-hint { display: none; border-radius: 8px; padding: 14px 18px; margin-top: 12px; border: 1px solid #a7f3d0; background: #f0fdf9; }
+  .answer-box { background: #f0fdf9; border: 1px solid #a7f3d0; border-radius: 8px; padding: 14px 18px; margin-top: 12px; display: none; }
+  .answer-box .label { color: #065f46; font-weight: bold; font-size: 13px; margin-bottom: 6px; }
+  .answer-box p { font-size: 14px; color: #444; line-height: 1.7; }
+  .show-answer-btn { background: none; border: 1px solid #11998e; color: #11998e; padding: 6px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; margin-top: 10px; }
+  .textarea-box { width: 100%; margin-top: 8px; padding: 12px 16px; border: 1px solid #e8ecf0; border-radius: 8px; font-size: 14px; font-family: 'Microsoft YaHei', sans-serif; resize: vertical; min-height: 100px; color: #444; line-height: 1.7; }
+  .textarea-box:focus { outline: none; border-color: #11998e; }
+  .fab-fill { display: grid; grid-template-columns: 80px 1fr; gap: 8px; align-items: start; margin: 10px 0; }
+  .fab-label { padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: bold; text-align: center; }
+  .fab-label.f { background: #dbeafe; color: #1d4ed8; }
+  .fab-label.a { background: #dcfce7; color: #15803d; }
+  .fab-label.b { background: #fef9c3; color: #a16207; }
+  .fill-input { padding: 8px 12px; border: 1px solid #e8ecf0; border-radius: 8px; font-size: 14px; font-family: 'Microsoft YaHei', sans-serif; width: 100%; line-height: 1.6; }
+  .fill-input:focus { outline: none; border-color: #11998e; }
+  .submit-btn { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; border: none; padding: 14px 48px; border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; }
+  .nav-bar { background: white; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e8ecf0; margin-top: 30px; }
+  .nav-btn { display: inline-block; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; }
+  .nav-btn.prev { background: #f0fdf9; color: #11998e; border: 1px solid #a7f3d0; }
+  .nav-btn.next { background: #11998e; color: white; }
+
+  
+
+
+  /* ── 交互式选项（Day01标准） ── */
+  .options { list-style: none; padding: 0; margin: 12px 0 0 0; }
+  .options li { padding: 10px 16px; border: 2px solid #e0e0e0; border-radius: 8px; margin-bottom: 8px; cursor: pointer; font-size: 0.93em; transition: all 0.2s; line-height: 1.6; }
+  .options li:hover:not(.answered) { border-color: var(--accent, #4CAF50); background: #f1f8e9; }
+  .options li.opt-correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; font-weight: 600; pointer-events: none; }
+  .options li.opt-wrong   { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; pointer-events: none; }
+  .options li.opt-reveal  { background: #fff3cd !important; border-color: #ffc107 !important; color: #856404 !important; pointer-events: none; }
+  .options li.answered    { pointer-events: none !important; cursor: default !important; }
+
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="week-badge">📝 第5周 · 练习题</div>
+  <h1>Day 31 练习题 · FAB产品讲解训练</h1>
+</div>
+<div class="container">
+  <div class="card">
+    <h2>🧠 判断与单选题</h2>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">1</span>以下产品介绍中，哪一句话属于"B（利益）"层次的表达？</div>
+          <ul class="options">
+      <li>A. "这款镜片折射率是1.74。"</li>
+      <li>B. "这款镜片比1.67的更薄。"</li>
+      <li>C. "您的度数高，戴这款显得好看，别人都看不出您近视那么深。"</li>
+      <li>D. "这款镜片双面镀膜。"</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a1')">查看答案</button>
+      <div class="answer-hint" id="a1"><div class="label">✅ 正确答案：C</div><p>C选项直接说明了顾客的实际获益——"显得好看，别人看不出近视那么深"，这是针对顾客心理需求（外观）的利益表达。A和D是Feature（特征），B是Advantage（优势）。</p></div>
+    </div>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">2</span>一位顾客说"我每天要开车，担心对面车灯太刺眼"，以下哪种产品推荐最符合FAB逻辑？</div>
+          <ul class="options">
+      <li>A. "我们这里有很多款镜片，您可以看看。"</li>
+      <li>B. "这款是偏光镜片，能消除水平方向的强反射光，驾驶时能有效减少对向车灯的眩光，让您行车更安全舒适。"</li>
+      <li>C. "我们的镜片都挺好的，您随便选。"</li>
+      <li>D. "要不您看看防蓝光镜片？很多人都在用。"</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a2')">查看答案</button>
+      <div class="answer-hint" id="a2"><div class="label">✅ 正确答案：B</div><p>B选项完整体现了FAB：F=偏光镜片，A=消除水平方向强反射光，B=减少驾驶时对向车灯眩光，行车更安全舒适。而且B利益精准对接了顾客的具体需求（开车担心车灯）。</p></div>
+    </div>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">3</span>FAB法则中，为什么"B（利益）"是最重要的部分？</div>
+          <ul class="options">
+      <li>A. 因为说B可以让顾客觉得你很专业</li>
+      <li>B. 因为顾客购买的本质是"获得好处/解决问题"，而非购买参数</li>
+      <li>C. 因为B最容易背，方便记忆</li>
+      <li>D. 因为老板要求必须说B</li>
+    </ul>
+      <button class="show-answer-btn" onclick="toggleAnswer('a3')">查看答案</button>
+      <div class="answer-hint" id="a3"><div class="label">✅ 正确答案：B</div><p>顾客购买决策的本质是"这个东西能不能帮我解决问题/让我获得好处"。F和A是产品属性，只有B才真正触动顾客的购买动机。所有的特征和优势，最终都要落脚到顾客的实际受益上。</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>✍️ FAB填写练习</h2>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">4</span>请为以下产品补充完整的FAB介绍：<br><em>产品：渐进多焦点镜片（适合45岁以上老花眼顾客）</em></div>
+      <div class="fab-fill">
+        <div class="fab-label f">F 特征</div>
+        <textarea class="textarea-box" style="min-height:60px;" placeholder="这款镜片在技术层面是什么？有什么参数？"></textarea>
+      </div>
+      <div class="fab-fill">
+        <div class="fab-label a">A 优势</div>
+        <textarea class="textarea-box" style="min-height:60px;" placeholder="跟普通镜片相比，有什么功能上的优势？"></textarea>
+      </div>
+      <div class="fab-fill">
+        <div class="fab-label b">B 利益</div>
+        <textarea class="textarea-box" style="min-height:80px;" placeholder="对于老花眼顾客来说，戴这款镜片有什么实际好处？结合顾客日常生活场景来说…"></textarea>
+      </div>
+      <button class="show-answer-btn" onclick="toggleAnswer('a4')">查看参考答案</button>
+      <div class="answer-hint" id="a4">
+        <div class="label">📌 参考答案</div>
+        <p><strong>F特征：</strong>渐进多焦点镜片，从镜片上方（看远）到下方（看近）度数连续渐变，一副镜片涵盖远、中、近三个距离的清晰视力需求。</p>
+        <p style="margin-top:8px;"><strong>A优势：</strong>无需在看远时摘下眼镜，或反复换戴老花镜；外观与普通近视镜相同，无明显分界线，不影响美观。</p>
+        <p style="margin-top:8px;"><strong>B利益：</strong>您只需要带这一副眼镜，无论是开车看路（远）、看电脑（中）、还是用手机看菜单（近），都能清晰舒适，再也不用随时在包里备着老花镜了，生活方便很多，而且外观完全看不出是老花镜。</p>
+      </div>
+    </div>
+    <div class="q-block">
+      <div class="q-title"><span class="q-num">5</span>今天实战中，你用FAB法则讲解了哪款产品？写下你讲解的内容，并评价效果（顾客的反应如何？）。</div>
+      <textarea class="textarea-box" placeholder="产品名称：&#10;F（特征）：&#10;A（优势）：&#10;B（利益）：&#10;顾客反应：&#10;自我评价："></textarea>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin: 20px 0 30px;">
+    <button class="submit-btn">提交练习</button>
+  </div>
+</div>
+<div class="nav-bar">
+  <a href="Day_31_学习内容.html" class="nav-btn prev">← 返回学习内容</a>
+    <a href="../index.html" class="nav-btn" style="background:#f0fdf9;color:#11998e;border:1px solid #a7f3d0;padding:8px 20px;border-radius:6px;text-decoration:none;font-size:14px;">🏠 首页</a>
+    
+  <span style="color:#999;font-size:13px;">Day 31 练习题</span>
+  <a href="Day_32_学习内容.html" class="nav-btn next">Day 32 →</a>
+</div>
+<script>
+function toggleAnswer(id) {
+  const box = document.getElementById(id);
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+</script>
+
+
+
+
+<script>
+/* interactive-options-type-a-js */
+(function(){
+  document.querySelectorAll('.question-card, .question, .q-block').forEach(function(card){
+    var hint = card.querySelector('.answer-hint, .answer-box');
+    var optsList = card.querySelector('ul.options');
+    if(!optsList || !hint) return;
+    var m = hint.innerHTML.match(/正确答案[:\uff1a]\s*(?:<[^>]+>)?([A-Da-d正确错误])/i);
+    if(!m) return;
+    var correctRaw = m[1];
+    // 支持汉字"正确"/"错误"和字母A/B/C/D
+    var correct = correctRaw.toUpperCase();
+    var answered = false;
+
+    optsList.querySelectorAll('li').forEach(function(li){
+      var txt = li.textContent.trim();
+      var letter = (txt.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+      if(!letter) return;
+      letter = letter.toUpperCase();
+
+      li.addEventListener('click', function(){
+        if(answered) return;
+        answered = true;
+        optsList.querySelectorAll('li').forEach(function(o){ o.classList.add('answered'); });
+
+        if(letter === correct){
+          li.classList.add('opt-correct');
+          li.textContent = '\u2705 ' + li.textContent;
+        } else {
+          li.classList.add('opt-wrong');
+          li.textContent = '\u274c ' + li.textContent;
+          optsList.querySelectorAll('li').forEach(function(o){
+            var raw = o.textContent.replace(/^[\u2705\u274c]\s*/,'');
+            var oL = (raw.match(/^([A-Da-d])[\.．\u3001\s\uff08]/) || [])[1];
+            if(oL && oL.toUpperCase() === correct){
+              o.classList.add('opt-reveal');
+              o.textContent = '\ud83d\udc49 ' + o.textContent;
+            }
+          });
+        }
+        hint.style.display = 'block';
+        var btn = card.querySelector('.show-answer-btn');
+        if(btn) btn.style.display = 'none';
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
