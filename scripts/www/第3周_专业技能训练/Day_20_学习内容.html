@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 20 - 综合技能实战演练</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Microsoft YaHei', sans-serif; background: #f5f7fa; color: #333; }
+  .header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 30px 40px; }
+  .header .week-badge { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-bottom: 10px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header .subtitle { opacity: 0.9; font-size: 15px; }
+  .meta-bar { background: white; padding: 15px 40px; display: flex; gap: 30px; border-bottom: 1px solid #e8ecf0; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+  .meta-item span.dot { width: 8px; height: 8px; border-radius: 50%; background: #4facfe; display: inline-block; }
+  .container { max-width: 960px; margin: 30px auto; padding: 0 20px; }
+  .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-size: 20px; color: #333; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #4facfe; display: flex; align-items: center; gap: 10px; }
+  .card h3 { font-size: 16px; color: #444; margin: 18px 0 10px; }
+  .card p { line-height: 1.8; color: #555; margin-bottom: 12px; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { line-height: 1.9; color: #555; margin-bottom: 4px; }
+  .highlight-box { background: #f0f8ff; border-left: 4px solid #4facfe; padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+  .highlight-box.green { background: #f0fdf4; border-color: #22c55e; }
+  .highlight-box.yellow { background: #fffbf0; border-color: #f59e0b; }
+  .table-wrap { overflow-x: auto; margin: 16px 0; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #4facfe; color: white; padding: 10px 14px; text-align: left; font-size: 14px; }
+  td { padding: 10px 14px; border-bottom: 1px solid #e8ecf0; font-size: 14px; color: #555; }
+  tr:nth-child(even) { background: #f8f9fc; }
+  .scenario-card { background: #f8faff; border: 2px solid #4facfe; border-radius: 10px; padding: 20px; margin: 16px 0; }
+  .scenario-card .sc-title { font-weight: bold; color: #4facfe; font-size: 15px; margin-bottom: 10px; }
+  .step-list { counter-reset: step; list-style: none; padding-left: 0; }
+  .step-list li { counter-increment: step; padding: 12px 16px 12px 52px; position: relative; margin-bottom: 10px; background: #f8f9fc; border-radius: 8px; }
+  .step-list li::before { content: counter(step); position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 26px; height: 26px; background: #4facfe; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; }
+  .skill-check { background: white; border: 1px solid #e8ecf0; border-radius: 10px; padding: 16px 20px; margin: 10px 0; }
+  .skill-check .skill-name { font-weight: bold; font-size: 15px; color: #333; margin-bottom: 8px; }
+  .check-items { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .check-item { background: #f0f8ff; color: #4facfe; padding: 4px 12px; border-radius: 20px; font-size: 13px; border: 1px solid #4facfe; }
+  .summary-box { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; border-radius: 12px; padding: 24px; margin-top: 8px; }
+  .summary-box h3 { font-size: 18px; margin-bottom: 14px; }
+  .summary-box ul { padding-left: 20px; }
+  .summary-box li { line-height: 2; opacity: 0.95; }
+  .footer { text-align: center; padding: 30px; color: #aaa; font-size: 13px; }
+  .nav-footer { display: flex; justify-content: space-between; margin: 20px 0 40px; gap: 12px; }
+  .nav-btn { background: linear-gradient(135deg, #f7971e, #ffd200); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+  .nav-btn:hover { opacity: 0.85; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .nav-btn.outline { background: white; color: #f7971e; border: 2px solid #f7971e; }
+  .nav-btn.outline:hover { background: #fffbf0; }
+  .star { color: #f59e0b; }
+  .structure-table,.rule-table{width:100%;border-collapse:collapse;margin:14px 0;}
+  .structure-table th,.rule-table th{background:#2196F3;color:white;padding:10px 14px;text-align:center;font-size:0.9em;}
+  .structure-table td,.rule-table td{padding:10px 14px;border-bottom:1px solid #f0f0f0;font-size:0.88em;}
+  .structure-table tr:nth-child(even) td,.rule-table tr:nth-child(even) td{background:#f9f9f9;}
+
+  /* ══════════════════════════════════════════════
+     红米平板响应式适配（横屏1100px / 竖屏900px）
+     ══════════════════════════════════════════════ */
+
+  /* 平板横屏：内容区微调 */
+  @media (max-width: 1100px) {
+    .container { padding: 28px 24px !important; }
+    .days-grid { grid-template-columns: repeat(4,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+  }
+
+  /* 平板竖屏：核心适配断点 */
+  @media (max-width: 900px) {
+    body { padding: 12px !important; font-size: 15px; }
+    .container { padding: 20px 16px !important; border-radius: 10px !important; }
+    /* 学习内容：各类2列/3列网格折叠为1列 */
+    .value-cards, .material-grid, .face-grid,
+    .norm-grid, .salary-grid, .do-dont, .image-standard,
+    .safety-grid, .role-cards, .review-grid, .equipment-grid,
+    .lens-grid, .coating-grid, .term-grid, .display-rules,
+    .problem-grid, .fabe-grid, .compare-grid, .signal-grid,
+    .review-grid, .zone-grid, .test-info, .method-grid,
+    .question-type, .fab-grid, .form-grid, .wrong-right,
+    .step-grid, .card-grid, .card-row, .grid2, .do-dont,
+    .achieve-grid, .product-card, .sign-area, .wish-cards,
+    .eval-row,
+    [class*="-grid"], [class*="grid-"],
+    .two-col { grid-template-columns: 1fr !important; }
+    /* 3列→2列特殊处理（不完全折叠，保留2列） */
+    .exam-info { grid-template-columns: repeat(2,1fr) !important; }
+    /* 导航按钮：允许换行，防止溢出 */
+    .nav-footer, .nav-bar {
+      flex-wrap: wrap !important;
+      gap: 10px !important;
+    }
+    .nav-btn {
+      font-size: 0.88em !important;
+      padding: 10px 18px !important;
+      text-align: center !important;
+    }
+    /* 标题字号适配 */
+    .header h1, h1 { font-size: 1.4em !important; }
+    .header .subtitle, .header .week-badge { font-size: 13px !important; }
+    /* 表格横向滚动（防溢出） */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    /* meta-bar 换行 */
+    .meta-bar { padding: 12px 16px !important; gap: 14px !important; flex-wrap: wrap !important; }
+    /* 首页时间轴横向滚动 */
+    .timeline { overflow-x: auto; }
+  }
+
+  /* 手机 / 平板极窄竖屏 */
+  @media (max-width: 600px) {
+    body { padding: 8px !important; }
+    .container { padding: 16px 12px !important; }
+    .header h1, h1 { font-size: 1.2em !important; }
+    .days-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+    .container { padding: 16px !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="week-badge">第3周 · 专业技能训练</div>
+  <h1>Day 20 — 综合技能实战演练</h1>
+  <div class="subtitle">技能模块 · 整合第3周所有技能，通过实战情景进行综合演练与自我检验</div>
+</div>
+
+<div class="meta-bar">
+  <div class="meta-item"><span class="dot"></span>学习时长：约4小时（以实操为主）</div>
+  <div class="meta-item"><span class="dot"></span>模块：综合技能（全模块整合）</div>
+  <div class="meta-item"><span class="dot"></span>重要性：⭐⭐⭐⭐⭐</div>
+  <div class="meta-item"><span class="dot"></span>形式：情景模拟 + 师傅现场考核</div>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h2><span>🎯</span>今日目标</h2>
+    <p>今天是第3周的倒数第二天，重点是通过实战情景演练，将本周学习的<strong>验光辅助、镜架调整、商品陈列、收银操作、售后维修</strong>五大技能整合运用，识别自己的薄弱点并重点加强。</p>
+    <div class="highlight-box green">
+      <strong>今日不是新知识学习，而是综合能力检验！</strong>能独立完成全部演练任务，说明技能已达到上岗基本标准。
+    </div>
+  </div>
+
+  <!-- 技能回顾 -->
+  <div class="card">
+    <h2><span>📚</span>一、本周技能清单回顾</h2>
+    <p>在进入演练前，先检查一下自己的技能掌握情况（给自己打分1-5分）：</p>
+
+    <div class="skill-check">
+      <div class="skill-name">Day 15 · 验光辅助操作</div>
+      <div class="check-items">
+        <span class="check-item">陪同顾客进入验光室</span>
+        <span class="check-item">解释验光流程</span>
+        <span class="check-item">辅助操作电脑验光仪</span>
+        <span class="check-item">整理验光数据</span>
+      </div>
+    </div>
+
+    <div class="skill-check">
+      <div class="skill-name">Day 16 · 镜架调整与整形</div>
+      <div class="check-items">
+        <span class="check-item">鼻托角度调整</span>
+        <span class="check-item">镜脚开合角度调整</span>
+        <span class="check-item">整体水平校正</span>
+        <span class="check-item">热整形操作</span>
+      </div>
+    </div>
+
+    <div class="skill-check">
+      <div class="skill-name">Day 17 · 商品陈列</div>
+      <div class="check-items">
+        <span class="check-item">五大陈列原则</span>
+        <span class="check-item">功能区识别</span>
+        <span class="check-item">日常维护三时段</span>
+        <span class="check-item">展柜整理标准</span>
+      </div>
+    </div>
+
+    <div class="skill-check">
+      <div class="skill-name">Day 18 · 收银操作</div>
+      <div class="check-items">
+        <span class="check-item">6步收银流程</span>
+        <span class="check-item">多种支付方式</span>
+        <span class="check-item">差错预防处理</span>
+        <span class="check-item">库存盘点</span>
+      </div>
+    </div>
+
+    <div class="skill-check">
+      <div class="skill-name">Day 19 · 售后维修服务</div>
+      <div class="check-items">
+        <span class="check-item">螺丝紧固</span>
+        <span class="check-item">鼻托更换</span>
+        <span class="check-item">超声波清洗</span>
+        <span class="check-item">投诉处理5步</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 演练任务 -->
+  <div class="card">
+    <h2><span>🎭</span>二、综合实战演练任务（共5个场景）</h2>
+
+    <div class="scenario-card">
+      <div class="sc-title">场景1：顾客进店接待 + 引导验光</div>
+      <p><strong>情景描述：</strong>一位中年女性顾客走进门店，看起来比较犹豫，在门口环顾四周。请演示：如何主动接待，如何了解她的需求，如何引导她去做验光。</p>
+      <p><strong>考核要点：</strong>主动热情但不过分热情、问到关键信息（是否做过验光/度数多少/来配什么）、引导语言自然</p>
+    </div>
+
+    <div class="scenario-card">
+      <div class="sc-title">场景2：镜架试戴 + 调整服务</div>
+      <p><strong>情景描述：</strong>顾客选中了一副镜架，戴上后说"感觉有点歪，而且鼻梁这里有点夹"。请演示如何为顾客调整镜架，并现场完成调整操作。</p>
+      <p><strong>考核要点：</strong>先观察问题再动手、调整动作轻柔准确、调整后让顾客确认佩戴感受</p>
+    </div>
+
+    <div class="scenario-card">
+      <div class="sc-title">场景3：收银结账流程</div>
+      <p><strong>情景描述：</strong>顾客确定购买一副镜架（680元）和一副树脂镜片（360元），共计1040元。顾客表示要用微信支付。请演示完整收银流程。</p>
+      <p><strong>考核要点：</strong>核对商品→开单→报告金额→确认到账→打小票→礼貌送别</p>
+    </div>
+
+    <div class="scenario-card">
+      <div class="sc-title">场景4：售后维修处理</div>
+      <p><strong>情景描述：</strong>一位老顾客进店，说一副两年前配的眼镜鼻托坏了，想来换一下。请演示完整的维修接待和操作流程。</p>
+      <p><strong>考核要点：</strong>热情接待老顾客、检查鼻托情况、选取合适配件、完成更换操作、询问顾客满意度</p>
+    </div>
+
+    <div class="scenario-card">
+      <div class="sc-title">场景5：展柜陈列整理</div>
+      <p><strong>情景描述：</strong>当日营业结束前，你负责整理一个女款板材镜架展柜（约25副镜架）。请实际完成整理操作并向师傅汇报整理情况。</p>
+      <p><strong>考核要点：</strong>整理前后对比、分类逻辑是否清晰、标签是否完整、镜架朝向是否统一</p>
+    </div>
+  </div>
+
+  <!-- 评分标准 -->
+  <div class="card">
+    <h2><span>📊</span>三、师傅评分标准</h2>
+    <div class="table-wrap">
+      <table class="structure-table">
+        <tr>
+          <th>演练场景</th>
+          <th>满分</th>
+          <th>优秀标准（90分+）</th>
+          <th>合格标准（60分）</th>
+        </tr>
+        <tr>
+          <td>场景1：接待引导</td>
+          <td>20分</td>
+          <td>主动热情，问清需求，引导自然流畅</td>
+          <td>能完成接待和引导，无明显遗漏</td>
+        </tr>
+        <tr>
+          <td>场景2：镜架调整</td>
+          <td>20分</td>
+          <td>准确判断问题，操作熟练，顾客满意</td>
+          <td>能完成调整操作，无损伤镜架</td>
+        </tr>
+        <tr>
+          <td>场景3：收银结账</td>
+          <td>20分</td>
+          <td>6步流程完整，话术规范，零差错</td>
+          <td>流程基本正确，能正确处理支付</td>
+        </tr>
+        <tr>
+          <td>场景4：售后维修</td>
+          <td>20分</td>
+          <td>操作熟练，顾客体验好，主动关怀</td>
+          <td>能完成维修，操作无明显错误</td>
+        </tr>
+        <tr>
+          <td>场景5：展柜整理</td>
+          <td>20分</td>
+          <td>分类清晰，陈列美观，效率高</td>
+          <td>整理后整洁，符合基本陈列规范</td>
+        </tr>
+      </table>
+    </div>
+    <div class="highlight-box yellow">
+      <strong>评分结果说明：</strong><br>
+      90-100分：优秀，可以提前参加第4周高级话术训练<br>
+      75-89分：良好，继续保持，第4周重点提升薄弱项<br>
+      60-74分：合格，需在师傅指导下针对薄弱场景再练习<br>
+      60分以下：不合格，需重新学习对应天数的内容，再次演练
+    </div>
+  </div>
+
+  <!-- 今日任务 -->
+  <div class="card">
+    <h2><span>✅</span>四、今日任务清单</h2>
+    <ol class="step-list">
+      <li>晨读：用15分钟快速过一遍本周5天的知识小结</li>
+      <li>演练场景1-2：上午在师傅观察下各演练2次</li>
+      <li>演练场景3：收银实操（至少完成2笔真实或模拟收银）</li>
+      <li>演练场景4：找到3副需要维修的展品或练习道具，完成实操</li>
+      <li>演练场景5：负责完成今日闭店前一个展柜的陈列整理</li>
+      <li>与师傅进行15分钟复盘，记录薄弱环节，制定加强计划</li>
+    </ol>
+  </div>
+
+  <div class="summary-box">
+    <h3>📋 Day 20 重点提示</h3>
+    <ul>
+      <li>今天是实战验证日，不要担心出错，出错才能发现问题</li>
+      <li>每完成一个场景后，主动向师傅要反馈，不要等师傅来找你</li>
+      <li>记录下自己表现最好和最需要改进的两个方面</li>
+      <li>明天是第3周周测，今晚做好总结复习</li>
+    </ul>
+  </div>
+
+  <div class="footer">Day 20 · 眼镜门店新员工8周成才培训计划 · 第3周 专业技能训练</div>
+
+  <div class="nav-footer">
+    <a class="nav-btn outline" href="Day_19_练习题.html">← Day 19 练习题</a>
+    <a class="nav-btn outline" href="../index.html">🏠 首页</a>
+    
+    <a class="nav-btn" href="Day_20_练习题.html">Day 20 练习题 →</a>
+  </div>
+</div>
+
+</body>
+</html>
